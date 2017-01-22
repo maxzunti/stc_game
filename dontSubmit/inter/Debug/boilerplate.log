@@ -1,0 +1,4 @@
+﻿  glad.c
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  boilerplate.vcxproj -> C:\CPSC\CPSC585\Git\stc_game\dontSubmit\bin\Debug\boilerplate.exe
+  boilerplate.vcxproj -> C:\CPSC\CPSC585\Git\stc_game\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

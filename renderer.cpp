@@ -19,6 +19,7 @@
 #include <cstdlib>
 #include <ctime>
 
+#include "renderer.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -549,79 +550,85 @@ void render(Camera* cam, mat4 perspectiveMatrix, mat4 modelview, int startElemen
 // ==========================================================================
 // PROGRAM ENTRY POINT
 
-int main(int argc, char *argv[])
+Renderer::Renderer(int index)
 {
-    // initialize the GLFW windowing system
-    if (!glfwInit()) {
-        cout << "ERROR: GLFW failed to initilize, TERMINATING" << endl;
-        return -1;
-    }
-    glfwSetErrorCallback(ErrorCallback);
+	Renderer::index = index;
+}
 
-    // attempt to create a window with an OpenGL 4.1 core profile context
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    window = glfwCreateWindow(1024, 768, "CPSC 585 OpenGL Boilerplate", 0, 0);
-    if (!window) {
-        cout << "Program failed to create GLFW window, TERMINATING" << endl;
-        glfwTerminate();
-        return -1;
-    }
+bool Renderer::initRenderer() {
+	// initialize the GLFW windowing system
+	if (!glfwInit()) {
+		cout << "ERROR: GLFW failed to initilize, TERMINATING" << endl;
+		return -1;
+	}
+	glfwSetErrorCallback(ErrorCallback);
+
+	// attempt to create a window with an OpenGL 4.1 core profile context
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	window = glfwCreateWindow(1024, 768, "CPSC 585 OpenGL Boilerplate", 0, 0);
+	if (!window) {
+		cout << "Program failed to create GLFW window, TERMINATING" << endl;
+		glfwTerminate();
+		return -1;
+	}
 
 
-    // set keyboard callback function and make our context current (active)
-    glfwSetKeyCallback(window, keyCallback);
-    glfwSetMouseButtonCallback(window, mouseButtonCallback);
-    glfwSetCursorPosCallback(window, mousePosCallback);
-    glfwSetWindowSizeCallback(window, resizeCallback);
-    glfwMakeContextCurrent(window);
+	// set keyboard callback function and make our context current (active)
+	glfwSetKeyCallback(window, keyCallback);
+	glfwSetMouseButtonCallback(window, mouseButtonCallback);
+	glfwSetCursorPosCallback(window, mousePosCallback);
+	glfwSetWindowSizeCallback(window, resizeCallback);
+	glfwMakeContextCurrent(window);
 
-    //Intialize GLAD
+	//Intialize GLAD
 #ifndef LAB_LINUX
-    if (!gladLoadGL())
-    {
-        cout << "GLAD init failed" << endl;
-        return -1;
-    }
+	if (!gladLoadGL())
+	{
+		cout << "GLAD init failed" << endl;
+		return -1;
+	}
 #endif
 
-    // query and print out information about our OpenGL environment
-    QueryGLVersion();
+	// query and print out information about our OpenGL environment
+	QueryGLVersion();
 
-    initGL();
+	initGL();
 
-    //SUN
-    // Radius: 3 root scale on radius (then divided them all by 100): 0.8862 
-    generatePSphere(points, normals, uvs, indices, .8862, vec3(0, 0, 0), 40, 40);
+	//SUN
+	// Radius: 3 root scale on radius (then divided them all by 100): 0.8862 
+	generatePSphere(points, normals, uvs, indices, .8862, vec3(0, 0, 0), 40, 40);
 
-    //EARTH
-    // Distance from the sun: 16 root scale: 3.24
-    // Radius: 3 root scale on radius (then divided them all by 100): 0.1855 
-    generatePSphere(points2, normals2, uvs2, indices2, .2404f, earthCenter, 20, 20);
+	//EARTH
+	// Distance from the sun: 16 root scale: 3.24
+	// Radius: 3 root scale on radius (then divided them all by 100): 0.1855 
+	generatePSphere(points2, normals2, uvs2, indices2, .2404f, earthCenter, 20, 20);
 
-    //MOON 
-    // Distance from the earth: 16 root scale: 2.42
-    // Radius 3 root scale on radius (then divided them all by 100): 0.1202
-    generatePSphere(points3, normals3, uvs3, indices3, .1202f, moonCenter, 20, 20);
+	//MOON 
+	// Distance from the earth: 16 root scale: 2.42
+	// Radius 3 root scale on radius (then divided them all by 100): 0.1202
+	generatePSphere(points3, normals3, uvs3, indices3, .1202f, moonCenter, 20, 20);
 
-    //STARS
-    generatePSphere(points4, normals4, uvs4, indices4, 400.f, vec3(0, 0, 0), 100, 100);
+	//STARS
+	generatePSphere(points4, normals4, uvs4, indices4, 400.f, vec3(0, 0, 0), 100, 100);
 
-    cam = Camera(vec3(0, 0, -1), vec3(0, 0, 5));
-    //float fovy, float aspect, float zNear, float zFar
-    mat4 perspectiveMatrix = perspective(radians(80.f), 1.f, 0.1f, 440.f);
+	cam = Camera(vec3(0, 0, -1), vec3(0, 0, 5));
+	
 
-    //Don't need to call these on every draw, so long as they don't change
-    glUseProgram(shader[SHADER::DEFAULT]);		//Use LINE program
-    glBindVertexArray(vao[VAO::GEOMETRY]);		//Use the LINES vertex array
+	//Don't need to call these on every draw, so long as they don't change
+	glUseProgram(shader[SHADER::DEFAULT]);		//Use LINE program
+	glBindVertexArray(vao[VAO::GEOMETRY]);		//Use the LINES vertex array
 
-    glUseProgram(shader[SHADER::DEFAULT]);
+	glUseProgram(shader[SHADER::DEFAULT]);
 
-    // run an event-triggered main loop
-    while (!glfwWindowShouldClose(window))
+}
+
+void Renderer::drawScene()
     {
+		//float fovy, float aspect, float zNear, float zFar
+		mat4 perspectiveMatrix = perspective(radians(80.f), 1.f, 0.1f, 440.f);
         glClearColor(0.f, 0.f, 0.f, 0.f);		//Color to clear the screen with (R, G, B, Alpha)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
 
@@ -648,14 +655,22 @@ int main(int argc, char *argv[])
 
         // sleep until next event before drawing again
         glfwWaitEvents();
-    }
+}
 
+Renderer::~Renderer()
+{
     // clean up allocated resources before exit
     deleteIDs();
     glfwDestroyWindow(window);
     glfwTerminate();
 
-    return 0;
+}
+
+bool Renderer::shouldClose()
+{
+	if (glfwWindowShouldClose(window))
+		return true;
+	else return false;
 }
 
 // ==========================================================================
