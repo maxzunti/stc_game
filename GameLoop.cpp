@@ -22,5 +22,7 @@ int main()
 		myRenderer->drawScene();
 	}
 
+	delete myRenderer;
+
 	return 0;
 }
