@@ -49,12 +49,12 @@ string LoadSource(const string &filename);
 GLuint CompileShader(GLenum shaderType, const string &source);
 GLuint LinkProgram(GLuint vertexShader, GLuint fragmentShader);
 
-char sun[] = "texture_sun.jpg";
-char earth[] = "texture_earth_surface.jpg";
-char moon[] = "texture_moon.jpg";
-char stars[] = "stars_milkyway.jpg";
+char sun[] = "assets/textures/texture_sun.jpg";
+char earth[] = "assets/textures/texture_earth_surface.jpg";
+char moon[] = "assets/textures/texture_moon.jpg";
+char stars[] = "assets/textures/stars_milkyway.jpg";
 
-char *imageNames[] = { sun,earth,moon,stars };
+char *imageNames[] = { sun, earth, moon, stars };
 
 GLuint textureIds[4];
 int shade = 0;
@@ -311,8 +311,8 @@ bool loadBuffer(const vector<vec3>& points, const vector<vec3> normals,
 //Compile and link shaders, storing the program ID in shader array
 bool initShader()
 {
-    string vertexSource = LoadSource("vertex.glsl");		//Put vertex file text into string
-    string fragmentSource = LoadSource("fragment.glsl");		//Put fragment file text into string
+    string vertexSource = LoadSource("src/renderer/shaders/vertex.glsl");		//Put vertex file text into string
+    string fragmentSource = LoadSource("src/renderer/shaders/fragment.glsl");		//Put fragment file text into string
 
     GLuint vertexID = CompileShader(GL_VERTEX_SHADER, vertexSource);
     GLuint fragmentID = CompileShader(GL_FRAGMENT_SHADER, fragmentSource);

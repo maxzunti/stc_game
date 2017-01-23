@@ -69,8 +69,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)dontSubmit\bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)dontSubmit\inter\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)bin\obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)dontSubmit\bin\$(Configuration)\</OutDir>
@@ -133,14 +133,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameLoop.cpp" />
-    <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="src\GameLoop.cpp" />
+    <ClCompile Include="src\renderer\renderer.cpp" />
+    <ClCompile Include="src\renderer\camera.cpp" />
     <ClCompile Include="middleware\glad\src\glad.c" />
     <ClCompile Include="middleware\glm\detail\glm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragment.glsl" />
+    <None Include="src\fragment.glsl" />
     <None Include="middleware\glm\detail\func_common.inl" />
     <None Include="middleware\glm\detail\func_common_simd.inl" />
     <None Include="middleware\glm\detail\func_exponential.inl" />
@@ -255,10 +255,10 @@
     <None Include="middleware\glm\gtx\vector_angle.inl" />
     <None Include="middleware\glm\gtx\vector_query.inl" />
     <None Include="middleware\glm\gtx\wrap.inl" />
-    <None Include="vertex.glsl" />
+    <None Include="src\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="camera.h" />
+    <ClInclude Include="src\renderer\camera.h" />
     <ClInclude Include="middleware\glad\include\glad\glad.h" />
     <ClInclude Include="middleware\glad\include\KHR\khrplatform.h" />
     <ClInclude Include="middleware\glfw\glfw3.h" />
@@ -412,13 +412,13 @@
     <ClInclude Include="middleware\glm\vector_relational.hpp" />
     <ClInclude Include="middleware\stb\stb_image.h" />
     <ClInclude Include="middleware\stb\stb_image_write.h" />
-    <ClInclude Include="renderer.h" />
+    <ClInclude Include="src\renderer\renderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="stars_milkyway.jpg" />
-    <Image Include="texture_earth_surface.jpg" />
-    <Image Include="texture_moon.jpg" />
-    <Image Include="texture_sun.jpg" />
+    <Image Include="src\stars_milkyway.jpg" />
+    <Image Include="src\texture_earth_surface.jpg" />
+    <Image Include="src\texture_moon.jpg" />
+    <Image Include="src\texture_sun.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="middleware\glfw\glfw3.lib" />
