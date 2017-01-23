@@ -39,22 +39,27 @@ void main(void)
 			
 	
 	
-vec3 h = reflect(-lightDir, FragNormal);
-if(shade == 0){
-	FragmentColour = texture(image, texture_coordinate);
-} else {
-
-	FragmentColour = texture(image, texture_coordinate);
-	vec4 ambient = intensity * ka * FragmentColour;
+	vec3 h = reflect(-lightDir, FragNormal);
 	
-	float sDotN = max( dot( s, n_normal ), 0.0 );
-	vec4 diffuse = intensity * kd * sDotN * FragmentColour;
+	FragmentColour = vec4(normalize(FragNormal), 1);
+	if(shade == 0){
+		FragmentColour = texture(image, texture_coordinate);
+		
+		FragmentColour = vec4(normalize(FragNormal), 1);
+	} else {
+	/*
+		FragmentColour = texture(image, texture_coordinate);
+		FragmentColour = vec4(normalize(FragNormal), 1);
+		vec4 ambient = intensity * ka * FragmentColour;
 	
-	// These guys really aren't that shiny so we'll give em a low exponent
-	vec4 specular = intensity * ks * pow(max(dot(n_normal,v), 0.0), 10.0f)*FragmentColour;
+		float sDotN = max( dot( s, n_normal ), 0.0 );
+		vec4 diffuse = intensity * kd * sDotN * FragmentColour;
 	
-	FragmentColour = ambient + diffuse + specular;
+		// These guys really aren't that shiny so we'll give em a low exponent
+		vec4 specular = intensity * ks * pow(max(dot(n_normal,v), 0.0), 10.0f)*FragmentColour;
 	
-
-}
+		FragmentColour = ambient + diffuse + specular;
+	*/
+	
+	}
 }

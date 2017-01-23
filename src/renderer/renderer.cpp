@@ -49,12 +49,12 @@ string LoadSource(const string &filename);
 GLuint CompileShader(GLenum shaderType, const string &source);
 GLuint LinkProgram(GLuint vertexShader, GLuint fragmentShader);
 
-char sun[] = "assets/textures/texture_sun.jpg";
-char earth[] = "assets/textures/texture_earth_surface.jpg";
-char moon[] = "assets/textures/texture_moon.jpg";
-char stars[] = "assets/textures/stars_milkyway.jpg";
+char sun[] = "texture_sun.jpg";
+char earth[] = "texture_earth_surface.jpg";
+char moon[] = "texture_moon.jpg";
+char stars[] = "stars_milkyway.jpg";
 
-char *imageNames[] = { sun, earth, moon, stars };
+char *imageNames[] = { sun,earth,moon,stars };
 
 GLuint textureIds[4];
 int shade = 0;
@@ -311,8 +311,8 @@ bool loadBuffer(const vector<vec3>& points, const vector<vec3> normals,
 //Compile and link shaders, storing the program ID in shader array
 bool initShader()
 {
-    string vertexSource = LoadSource("src/renderer/shaders/vertex.glsl");		//Put vertex file text into string
-    string fragmentSource = LoadSource("src/renderer/shaders/fragment.glsl");		//Put fragment file text into string
+    string vertexSource = LoadSource("vertex.glsl");		//Put vertex file text into string
+    string fragmentSource = LoadSource("fragment.glsl");		//Put fragment file text into string
 
     GLuint vertexID = CompileShader(GL_VERTEX_SHADER, vertexSource);
     GLuint fragmentID = CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
@@ -370,7 +370,7 @@ bool loadTexture(GLuint texID, GLuint texUnit, GLuint program, const char* unifo
 
     return !CheckGLErrors("loadTexture");
 }
-/*
+
 //u parameterizes in the big circle, v parameterizes in the little circle
 //c_r is the circle radius, t_r is the tube radius
 void generateTorus(vector<vec3>& positions, vector<vec3>& normals,
@@ -431,7 +431,7 @@ void generateTorus(vector<vec3>& positions, vector<vec3>& normals,
         }
     }
 }
-*/
+
 
 void generatePSphere(vector<vec3>& positions, vector<vec3>& normals,
     vector<vec2>& uvs, vector<unsigned int>& indices,
@@ -490,8 +490,8 @@ void generatePSphere(vector<vec3>& positions, vector<vec3>& normals,
 //Initialization
 void initGL()
 {
-    //COMMENT/UNCOMMENT
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //COMMENT/UNCOMMENT - essentially turns wire frames on and off
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     //Only call these once - don't call again every time you change geometry
     generateIDs();		//Create VertexArrayObjects and Vertex Buffer Objects and store their handles
@@ -599,20 +599,20 @@ bool Renderer::initRenderer() {
 
 	//SUN
 	// Radius: 3 root scale on radius (then divided them all by 100): 0.8862 
-	generatePSphere(points, normals, uvs, indices, .8862, vec3(0, 0, 0), 40, 40);
+	generatePSphere(points, normals, uvs, indices, .8862,earthCenter, 40, 40);
 
 	//EARTH
 	// Distance from the sun: 16 root scale: 3.24
 	// Radius: 3 root scale on radius (then divided them all by 100): 0.1855 
-	generatePSphere(points2, normals2, uvs2, indices2, .2404f, earthCenter, 20, 20);
-
+	//generatePSphere(points2, normals2, uvs2, indices2, .2404f, earthCenter, 20, 20);
+    generateTorus(points2, normals2, uvs2, indices2, .5404f, 0.3008f, 20, 20);
 	//MOON 
 	// Distance from the earth: 16 root scale: 2.42
 	// Radius 3 root scale on radius (then divided them all by 100): 0.1202
-	generatePSphere(points3, normals3, uvs3, indices3, .1202f, moonCenter, 20, 20);
+	//generatePSphere(points3, normals3, uvs3, indices3, .1202f, moonCenter, 20, 20);
 
 	//STARS
-	generatePSphere(points4, normals4, uvs4, indices4, 400.f, vec3(0, 0, 0), 100, 100);
+//	generatePSphere(points4, normals4, uvs4, indices4, 400.f, vec3(0, 0, 0), 100, 100);
 
 	cam = Camera(vec3(0, 0, -1), vec3(0, 0, 5));
 	
@@ -643,12 +643,12 @@ void Renderer::drawScene()
         loadBuffer(points2, normals2, uvs2, indices2);
         render(&cam, perspectiveMatrix, mat4(1.f), 0, indices2.size(), textureIds[1]);
 
-        loadBuffer(points3, normals3, uvs3, indices3);
-        render(&cam, perspectiveMatrix, mat4(1.f), 0, indices3.size(), textureIds[2]);
+       // loadBuffer(points3, normals3, uvs3, indices3);
+      //  render(&cam, perspectiveMatrix, mat4(1.f), 0, indices3.size(), textureIds[2]);
 
         shade = 0;
-        loadBuffer(points4, normals4, uvs4, indices4);
-        render(&cam, perspectiveMatrix, mat4(1.f), 0, indices4.size(), textureIds[3]);
+      //  loadBuffer(points4, normals4, uvs4, indices4);
+     //   render(&cam, perspectiveMatrix, mat4(1.f), 0, indices4.size(), textureIds[3]);
 
         // scene is rendered to the back buffer, so swap to front for display
         glfwSwapBuffers(window);
