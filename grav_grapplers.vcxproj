@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1E53CF5D-A9AC-4E15-9DCF-A237A7FCDC4D}</ProjectGuid>
-    <RootNamespace>boilerplate</RootNamespace>
+    <RootNamespace>grav_grapplers</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

@@ -1,2 +1,2 @@
 # stc_game
-Open 'boilerplate.sln' in Visual Studio to import the project.
+Open 'grav_grapplers.sln' in Visual Studio to import the project.
