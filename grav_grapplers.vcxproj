@@ -255,6 +255,8 @@
     <None Include="middleware\glm\gtx\vector_angle.inl" />
     <None Include="middleware\glm\gtx\vector_query.inl" />
     <None Include="middleware\glm\gtx\wrap.inl" />
+    <None Include="src\renderer\shaders\fragment.glsl" />
+    <None Include="src\renderer\shaders\vertex.glsl" />
     <None Include="src\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
@@ -415,6 +417,10 @@
     <ClInclude Include="src\renderer\renderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\textures\stars_milkyway.jpg" />
+    <Image Include="assets\textures\texture_earth_surface.jpg" />
+    <Image Include="assets\textures\texture_moon.jpg" />
+    <Image Include="assets\textures\texture_sun.jpg" />
     <Image Include="src\stars_milkyway.jpg" />
     <Image Include="src\texture_earth_surface.jpg" />
     <Image Include="src\texture_moon.jpg" />

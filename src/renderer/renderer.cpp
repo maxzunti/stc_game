@@ -311,8 +311,8 @@ bool loadBuffer(const vector<vec3>& points, const vector<vec3> normals,
 //Compile and link shaders, storing the program ID in shader array
 bool initShader()
 {
-    string vertexSource = LoadSource("vertex.glsl");		//Put vertex file text into string
-    string fragmentSource = LoadSource("fragment.glsl");		//Put fragment file text into string
+    string vertexSource = LoadSource("src\\renderer\\shaders\\vertex.glsl");		//Put vertex file text into string
+    string fragmentSource = LoadSource("src\\renderer\\shaders\\fragment.glsl");		//Put fragment file text into string
 
     GLuint vertexID = CompileShader(GL_VERTEX_SHADER, vertexSource);
     GLuint fragmentID = CompileShader(GL_FRAGMENT_SHADER, fragmentSource);

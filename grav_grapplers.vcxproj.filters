@@ -379,6 +379,8 @@
     </None>
     <None Include="src\fragment.glsl" />
     <None Include="src\vertex.glsl" />
+    <None Include="src\renderer\shaders\fragment.glsl" />
+    <None Include="src\renderer\shaders\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="middleware\glad\include\glad\glad.h">
@@ -858,6 +860,18 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="src\texture_sun.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\stars_milkyway.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\texture_earth_surface.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\texture_moon.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\texture_sun.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
