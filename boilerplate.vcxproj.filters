@@ -18,25 +18,23 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="middleware\glad\src\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="middleware\glm\detail\glm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="renderer.cpp">
+    <ClCompile Include="src\GameLoop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameLoop.cpp">
+    <ClCompile Include="src\renderer\renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragment.glsl" />
-    <None Include="vertex.glsl" />
     <None Include="middleware\glm\detail\func_common.inl">
       <Filter>Header Files</Filter>
     </None>
@@ -379,11 +377,10 @@
     <None Include="middleware\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="src\fragment.glsl" />
+    <None Include="src\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="middleware\glad\include\glad\glad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -843,21 +840,24 @@
     <ClInclude Include="middleware\glfw\glfw3native.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="renderer.h">
+    <ClInclude Include="src\renderer\renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="stars_milkyway.jpg">
+    <Image Include="src\stars_milkyway.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="texture_earth_surface.jpg">
+    <Image Include="src\texture_earth_surface.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="texture_moon.jpg">
+    <Image Include="src\texture_moon.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="texture_sun.jpg">
+    <Image Include="src\texture_sun.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
