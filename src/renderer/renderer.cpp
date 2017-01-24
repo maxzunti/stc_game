@@ -636,10 +636,10 @@ void Renderer::drawScene()
 
         // call function to draw our scene
 
-        shade = 0;
+        shade = 1;
         render(&cam, perspectiveMatrix, mat4(1.f), 0, indices.size(), textureIds[0]);
 
-        shade = 1;
+        shade = 0;
         loadBuffer(points2, normals2, uvs2, indices2);
         render(&cam, perspectiveMatrix, mat4(1.f), 0, indices2.size(), textureIds[1]);
 
