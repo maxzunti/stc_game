@@ -33,6 +33,9 @@
     <ClCompile Include="src\renderer\camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\input\input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="middleware\glm\detail\func_common.inl">
@@ -846,6 +849,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\renderer\camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\input\input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
