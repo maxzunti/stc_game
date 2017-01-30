@@ -654,7 +654,7 @@ void Renderer::drawScene()
         glfwSwapBuffers(window);
 
         // sleep until next event before drawing again
-        glfwWaitEvents();
+        glfwPollEvents();
 }
 
 Renderer::~Renderer()
