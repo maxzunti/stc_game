@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\entity\Entity.cpp" />
+    <ClCompile Include="src\entity\Renderable.cpp" />
     <ClCompile Include="src\GameLoop.cpp" />
     <ClCompile Include="src\input\input.cpp" />
     <ClCompile Include="src\renderer\util\GLUtil.cpp" />

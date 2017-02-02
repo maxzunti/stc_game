@@ -39,11 +39,13 @@ model_data::model_data(std::vector<glm::vec3> points,
                        std::vector<unsigned int> indices)
 {
     glGenBuffers(VBO::COUNT, vbo);
+    for (int i = 0; i < VBO::COUNT; i++) { std::cout << "vbo[" << i << "] = " << vbo[i] << std::endl; }
     this->points = points;
     this->normals = normals;
     this->uvs = uvs;
     this->indices = indices;
-    initVAO(vbo);
+    glGenVertexArrays(VAO::COUNT, vao);
+    initVAO(vao, vbo);
     loadBuffer(vbo, points, normals, uvs, indices);
 }
 
@@ -71,9 +73,9 @@ void deleteIDs()
 }
 
 //Describe the setup of the Vertex Array Object
-bool initVAO(GLuint vbo[VBO::COUNT]) // MAX: I think I need to pass a new 'vbo' object (w/ its own pointers) and call this multiple times
+bool initVAO(GLuint vao[VAO::COUNT], GLuint vbo[VBO::COUNT]) // MAX: I think I need to pass a new 'vbo' object (w/ its own pointers) and call this multiple times
 {
-	//glBindVertexArray(vao[VAO::GEOMETRY]);		//Set the active Vertex Array (should only have 1, right?)
+	glBindVertexArray(vao[VAO::GEOMETRY]);		//Set the active Vertex Array (should only have 1, right?)
 
 	glEnableVertexAttribArray(0);		//Tell opengl you're using layout attribute 0 (For shader input)
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[VBO::POINTS]);		//Set the active Vertex Buffer
@@ -86,7 +88,7 @@ bool initVAO(GLuint vbo[VBO::COUNT]) // MAX: I think I need to pass a new 'vbo' 
 		(void*)0			//Offset
 		);
 
-	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(1);       //Tell opengl you're using layout attribute 1
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[VBO::NORMALS]);
 	glVertexAttribPointer(
 		1,				//Attribute
@@ -97,7 +99,7 @@ bool initVAO(GLuint vbo[VBO::COUNT]) // MAX: I think I need to pass a new 'vbo' 
 		(void*)0			//Offset
 		);
 
-	glEnableVertexAttribArray(2);		//Tell opengl you're using layout attribute 1
+	glEnableVertexAttribArray(2);       //Tell opengl you're using layout attribute 2
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[VBO::UVS]);
 	glVertexAttribPointer(
 		2,
@@ -231,14 +233,14 @@ void initGL()
 	//Only call these once - don't call again every time you change geometry
 	//generateIDs();		//Create VertexArrayObjects and Vertex Buffer Objects and store their handles
 
-    glGenVertexArrays(VAO::COUNT, vao);		//Tells OpenGL to create VAO::COUNT many
+    //glGenVertexArrays(VAO::COUNT, vao);		//Tells OpenGL to create VAO::COUNT many
                                             // Vertex Array Objects, and store their
                                             // handles in vao array
 
 	initShader();		//Create shader and store program ID
 
 	//initVAO();			//Describe setup of Vertex Array Objects and Vertex Buffer Object
-    glBindVertexArray(vao[VAO::GEOMETRY]);		//Set the active Vertex Array (should only have 1, right?)
+   // glBindVertexArray(vao[VAO::GEOMETRY]);		//Set the active Vertex Array (should only have 1, right?)
 
 
 	glEnable(GL_DEPTH_TEST);
