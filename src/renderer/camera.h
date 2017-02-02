@@ -38,7 +38,7 @@ public:
 
 	mat4 getMatrix();
 
-	void rotateCamera(float x, float y);
+	//void rotateCamera(float x, float y);
 	void rotateAroundCenter(float x, float y, vec3 focus);
 };
 

@@ -69,8 +69,8 @@ void Camera::rotateAroundCenter(float x, float y, vec3 focus)
 	posRelOrigin += camFocus;
 	
 	vec3 normalized = normalize(posRelOrigin);
-	(normalized.y > 0.65)? normalized.y = 0.65:normalized.y;
-	(normalized.y < -0.65)? normalized.y = -0.65:normalized.y;
+//	(normalized.y > 0.65)? normalized.y = 0.65:normalized.y;
+//	(normalized.y < -0.65)? normalized.y = -0.65:normalized.y;
 
 	pos = normalized + dir*zoom;
 	dir = -1.f*normalize(camFocus);
@@ -78,7 +78,7 @@ void Camera::rotateAroundCenter(float x, float y, vec3 focus)
 	up = normalize(cross(right, dir));
 	
 }
-
+/*
 
 void Camera::rotateCamera(float x, float y)
 {
@@ -89,3 +89,4 @@ void Camera::rotateCamera(float x, float y)
 	right = normalize(cross(dir, vec3(0, 1, 0)));
 	up =  normalize(cross(right, dir));
 }
+*/
