@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include <cstring>
+
 Entity::Entity() { }
 
 void Entity::getPos(double buf[3]) {

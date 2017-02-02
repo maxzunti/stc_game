@@ -141,6 +141,7 @@
     <ClCompile Include="middleware\glm\detail\glm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="middleware\xinput\xinput1_3.dll" />
     <None Include="src\fragment.glsl" />
     <None Include="middleware\glm\detail\func_common.inl" />
     <None Include="middleware\glm\detail\func_common_simd.inl" />
@@ -261,6 +262,16 @@
     <None Include="src\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\entity\AICar.h" />
+    <ClInclude Include="src\entity\Car.h" />
+    <ClInclude Include="src\entity\DynamicPhysicsObject.h" />
+    <ClInclude Include="src\entity\Light.h" />
+    <ClInclude Include="src\entity\PhysicsManager" />
+    <ClInclude Include="src\entity\Hook.h" />
+    <ClInclude Include="src\entity\StaticPhysicsObject.h" />
+    <ClInclude Include="src\entity\PhysicsObject.h" />
+    <ClInclude Include="src\entity\Track.h" />
+    <ClInclude Include="src\entity\Trigger.h" />
     <ClInclude Include="src\input\input.h" />
     <ClInclude Include="src\renderer\camera.h" />
     <ClInclude Include="middleware\glad\include\glad\glad.h" />

@@ -384,6 +384,7 @@
     <None Include="src\vertex.glsl" />
     <None Include="src\renderer\shaders\fragment.glsl" />
     <None Include="src\renderer\shaders\vertex.glsl" />
+    <None Include="middleware\xinput\xinput1_3.dll" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="middleware\glad\include\glad\glad.h">
@@ -852,6 +853,36 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\input\input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\PhysicsObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\StaticPhysicsObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\DynamicPhysicsObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\Trigger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\Track.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\Car.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\Hook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\AICar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\PhysicsManager">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
