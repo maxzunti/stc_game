@@ -4,6 +4,7 @@
 
 class Renderer {
 	int index;
+    Model *testModel; // deleteme
 public:
 	Renderer(int);
 	~Renderer();

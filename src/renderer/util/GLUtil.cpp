@@ -1,7 +1,4 @@
 #include "GLUtil.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 // Not sure if all of these are necessary - potentially trim
 #include <iostream>
@@ -117,13 +114,15 @@ bool loadBuffer(GLuint vbo[VBO::COUNT],
 											//GL_STATIC_DRAW if you're changing seldomly
 		);
 
-	glBindBuffer(GL_ARRAY_BUFFER, vbo[VBO::UVS]);
-	glBufferData(
-		GL_ARRAY_BUFFER,
-		sizeof(vec2)*uvs.size(),
-		&uvs[0],
-		GL_STATIC_DRAW
-		);
+    if (uvs.size() > 0) { // eww.
+        glBindBuffer(GL_ARRAY_BUFFER, vbo[VBO::UVS]);
+        glBufferData(
+            GL_ARRAY_BUFFER,
+            sizeof(vec2)*uvs.size(),
+            &uvs[0],
+            GL_STATIC_DRAW
+            );
+    }
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[VBO::INDICES]);
 	glBufferData(

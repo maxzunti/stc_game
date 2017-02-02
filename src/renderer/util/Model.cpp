@@ -1,16 +1,25 @@
 #include "Model.h"
 #include <iostream>
 
-// Open Asset Import Library includes
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+Model::Model() { // delete me
+    std::cout << "in def? " << std::endl;
+}
 
+Model::Model(std::string fname) {
+    std::cout << "VBO::COUNT = " << VBO::COUNT << std::endl;
+
+    glGenBuffers(VBO::COUNT, vbo);
+    glGenBuffers(VBO::COUNT, vbo);
+
+    glGenVertexArrays(VAO::COUNT, vao);
+    initVAO(vao, vbo);
+    load_model_from_file(fname);
+}
 
 Model::Model(std::vector<glm::vec3> points,
-    std::vector<glm::vec2> uvs,
-    std::vector<glm::vec3> normals,
-    std::vector<unsigned int> indices)
+             std::vector<glm::vec2> uvs,
+             std::vector<glm::vec3> normals,
+             std::vector<unsigned int> indices)
 {
     this->points = points;
     this->normals = normals;
@@ -30,19 +39,71 @@ Model::~Model()
     glDeleteBuffers(VBO::COUNT, vbo);
 }
 
+void Model::copy_ai_data(const aiMesh* mesh, const std::string &fname)
+{
+    // Clear old data
+    points.clear();
+    normals.clear();
+    uvs.clear();
+    indices.clear();
+
+    // Load vertices
+    for (int i = 0; i < mesh->mNumVertices; i++) {
+        aiVector3D m_vec = mesh->mVertices[i];
+        points.push_back(glm::vec3(m_vec.x, m_vec.y, m_vec.z));
+    }
+
+    // Load normals
+    for (int i = 0; i < mesh->mNumVertices; i++) {
+        aiVector3D m_vec = mesh->mNormals[i];
+        normals.push_back(glm::vec3(m_vec.x, m_vec.y, m_vec.z));
+    }
+
+    std::cout << "mNumUVComponents = " << mesh->mNumUVComponents[0] << std::endl;
+    for (int i = 0; i < AI_MAX_NUMBER_OF_TEXTURECOORDS; i++) {
+        std::cout << "mNumUVComponents[" << i << "] = " << mesh->mNumUVComponents[i] << std::endl;
+    }
+
+    // (Try to ) load uvs
+    if (mesh->mNumUVComponents[0] > 0) {
+        for (int i = 0; i < mesh->mNumVertices; i++) {
+            aiVector3D m_vec = mesh->mTextureCoords[0][i];
+            uvs.push_back(glm::vec2(m_vec.x, m_vec.y));
+        }
+    } else {
+        std::cout << "Warning: " << fname << " has no UV coordinates." << std::endl;
+    }
+    std::cout << "make it this far?" << std::endl;
+    // Load indices
+    for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+        const aiFace& face = mesh->mFaces[i];
+        assert(face.mNumIndices == 3); // should've been taken care of by 'triangulate' in ReadFile macro arg
+        indices.push_back(face.mIndices[0]);
+        indices.push_back(face.mIndices[1]);
+        indices.push_back(face.mIndices[2]);
+    }
+}
 
 bool Model::load_model_from_file(const std::string& fname)
 {
-    // Create an instance of the Importer class
     Assimp::Importer importer;
-    return true;
 
-    // And have it read the given file with some example postprocessing
-    // Usually - if speed is not the most important aspect for you - you'll 
-    // propably to request more postprocessing than we do in this example.
-    const aiScene* scene = importer.ReadFile(fname,
-        aiProcess_CalcTangentSpace |
-        aiProcess_Triangulate |
-        aiProcess_JoinIdenticalVertices
-        );
+    // calcs tangents, joins vertices, triangulates, gens UVs and normals if necessary
+    // (see http://assimp.sourceforge.net/lib_html/postprocess_8h.html for reference)
+    const aiScene* scene = importer.ReadFile(fname, aiProcessPreset_TargetRealtime_Fast | aiProcess_GenUVCoords);
+
+    if (!scene) {
+        std::cout << "Error loading " << fname << ": \n" << importer.GetErrorString() << std::endl;
+        return false;
+    }
+
+    if (scene->mNumMeshes != 1) {
+        std::cout << "Error: file " << fname << " contains " << scene->mNumMeshes << " meshes.";
+        return false;
+    }
+
+    // Mesh successfully found
+    copy_ai_data(scene->mMeshes[0], fname);
+    loadBuffer(vbo, points, normals, uvs, indices);
+    return true;
 }

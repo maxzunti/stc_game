@@ -264,6 +264,8 @@ bool Renderer::initRenderer() {
 
 	glUseProgram(shader[SHADER::DEFAULT]);
 
+    testModel = new Model("assets/models/test/teapot.obj");
+
 }
 
 void Renderer::drawScene()
@@ -275,11 +277,15 @@ void Renderer::drawScene()
         Model sphere(points, uvs, normals, indices);
         Model torus(points2, uvs2, normals2, indices2);
 
-        shade = 1;
-        render(sphere.vao, &cam, perspectiveMatrix, mat4(1.f), 0, indices.size(), textureIds[0]);
+        shade = 0;
+
+        glm::mat4 scale = glm::scale(vec3(0.02f, 0.02f, 0.02f));
+        render(testModel->vao, &cam, perspectiveMatrix, scale, 0, testModel->indices.size(), textureIds[0]);
+        //render(torus.vao, &cam, perspectiveMatrix, mat4(1.f), 0, indices2.size(), textureIds[1]);
+
 
         shade = 0;
-        render(torus.vao, &cam, perspectiveMatrix, mat4(1.f), 0, indices2.size(), textureIds[1]);
+        render(sphere.vao, &cam, perspectiveMatrix, mat4(1.f), 0, indices.size(), textureIds[1]);
 
        // loadBuffer(points3, normals3, uvs3, indices3);
       //  render(&cam, perspectiveMatrix, mat4(1.f), 0, indices3.size(), textureIds[2]);
