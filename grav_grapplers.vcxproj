@@ -71,6 +71,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\obj\$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
@@ -81,23 +82,27 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\include;$(ProjectDir)middleware\glad\include;$(ProjectDir)middleware\stb;$(ProjectDir)middleware;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)middleware\assimp\include;$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\include;$(ProjectDir)middleware\glad\include;$(ProjectDir)middleware\stb;$(ProjectDir)middleware;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;Xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)middleware\assimp\lib32;$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp.lib;opengl32.lib;glfw3.lib;Xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command> xcopy /d /y "$(ProjectDir)middleware\assimp\lib32\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)middleware\assimp\include;$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\include;$(ProjectDir)middleware\glad\include;$(ProjectDir)middleware\stb;$(ProjectDir)middleware;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)middleware\assimp\lib32;$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp.lib;opengl32.lib;glfw3.lib;Xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -107,7 +112,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\middleware\assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -142,6 +147,7 @@
     <ClCompile Include="src\renderer\camera.cpp" />
     <ClCompile Include="middleware\glad\src\glad.c" />
     <ClCompile Include="middleware\glm\detail\glm.cpp" />
+    <ClCompile Include="src\renderer\util\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="middleware\xinput\xinput1_3.dll" />
@@ -434,6 +440,7 @@
     <ClInclude Include="middleware\stb\stb_image_write.h" />
     <ClInclude Include="src\renderer\util\GLUtil.h" />
     <ClInclude Include="src\renderer\renderer.h" />
+    <ClInclude Include="src\renderer\util\Model.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\stars_milkyway.jpg" />

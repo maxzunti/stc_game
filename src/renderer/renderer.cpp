@@ -152,7 +152,7 @@ void resizeCallback(GLFWwindow* window, int width, int height)
 }
 
 //Draws buffers to screen
-// TODO:  Simplify my signature to make better use of the model_data struct
+// TODO:  Simplify my signature to make better use of the Model struct
 void render(GLuint vao[VAO::COUNT], Camera* cam, mat4 perspectiveMatrix, mat4 modelview, int startElement, int numElements, GLuint texid)
 {
     // Set object-specific VAO
@@ -272,15 +272,13 @@ void Renderer::drawScene()
 		mat4 perspectiveMatrix = perspective(radians(80.f), 1.f, 0.1f, 440.f);
         glClearColor(0.f, 0.f, 0.f, 0.f);		//Color to clear the screen with (R, G, B, Alpha)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
-        model_data sphere(points, uvs, normals, indices);
-        model_data torus(points2, uvs2, normals2, indices2);
-
+        Model sphere(points, uvs, normals, indices);
+        Model torus(points2, uvs2, normals2, indices2);
 
         shade = 1;
         render(sphere.vao, &cam, perspectiveMatrix, mat4(1.f), 0, indices.size(), textureIds[0]);
 
         shade = 0;
-        //loadBuffer(points2, normals2, uvs2, indices2);
         render(torus.vao, &cam, perspectiveMatrix, mat4(1.f), 0, indices2.size(), textureIds[1]);
 
        // loadBuffer(points3, normals3, uvs3, indices3);
@@ -300,7 +298,6 @@ void Renderer::drawScene()
 Renderer::~Renderer()
 {
     // clean up allocated resources before exit
-    deleteIDs();
     glfwDestroyWindow(window);
     glfwTerminate();
 

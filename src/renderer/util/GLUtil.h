@@ -31,23 +31,6 @@ struct SHADER {
 	enum { DEFAULT = 0, COUNT };		// DEFAULT = 0, COUNT=1
 };
 
-// Struct to store the raw data (and vbo array, once initialized) of a loaded model
-struct model_data {
-    std::vector<glm::vec3> points;
-    std::vector<glm::vec3> normals;
-    std::vector<glm::vec2> uvs;
-    std::vector<unsigned int> indices;
-
-    // Stores internal OpenGL pointers to each section of GPU vertex memory
-    GLuint vbo[VBO::COUNT];
-    GLuint vao[VAO::COUNT];
-
-    model_data(std::vector<glm::vec3> points,
-               std::vector<glm::vec2> uvs,
-               std::vector<glm::vec3> normals,
-               std::vector<unsigned int> indices);
-};
-
 //GLuint vbo[];		//Array which stores OpenGL's vertex buffer object handles
 GLuint vao[];		//Array which stores Vertex Array Object handles
 GLuint shader[];		//Array which stores shader program handles
@@ -56,7 +39,7 @@ GLuint shader[];		//Array which stores shader program handles
 void generateIDs();
 
 //Clean up IDs when you're done using them
-void deleteIDs();
+void deleteIDs(GLuint vao[], GLuint vbo[]);
 
 //Describe the setup of the Vertex Array Object
 bool initVAO(GLuint vao[], GLuint vbo[]);

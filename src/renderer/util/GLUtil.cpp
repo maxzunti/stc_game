@@ -17,8 +17,8 @@ using namespace std;
 using namespace glm;
 #define PI 3.14159265359
 
-GLuint vbo[VBO::COUNT];		//Array which stores OpenGL's vertex buffer object handles
-GLuint vao[VAO::COUNT];		//Array which stores Vertex Array Object handles
+//GLuint vbo[VBO::COUNT];		//Array which stores OpenGL's vertex buffer object handles
+//GLuint vao[VAO::COUNT];		//Array which stores Vertex Array Object handles
 GLuint shader[SHADER::COUNT];		//Array which stores shader program handles
 
 // Specify that we want the OpenGL core profile before including GLFW headers
@@ -33,34 +33,9 @@ GLuint shader[SHADER::COUNT];		//Array which stores shader program handles
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-model_data::model_data(std::vector<glm::vec3> points,
-                       std::vector<glm::vec2> uvs,
-                       std::vector<glm::vec3> normals,
-                       std::vector<unsigned int> indices)
-{
-    glGenBuffers(VBO::COUNT, vbo);
-    for (int i = 0; i < VBO::COUNT; i++) { std::cout << "vbo[" << i << "] = " << vbo[i] << std::endl; }
-    this->points = points;
-    this->normals = normals;
-    this->uvs = uvs;
-    this->indices = indices;
-    glGenVertexArrays(VAO::COUNT, vao);
-    initVAO(vao, vbo);
-    loadBuffer(vbo, points, normals, uvs, indices);
-}
-
-//Gets handles from OpenGL
-void generateIDs()
-{
-	glGenVertexArrays(VAO::COUNT, vao);		//Tells OpenGL to create VAO::COUNT many
-											// Vertex Array Objects, and store their
-											// handles in vao array
-	glGenBuffers(VBO::COUNT, vbo);		//Tells OpenGL to create VBO::COUNT many
-										//Vertex Buffer Objects and store their
-										//handles in vbo array
-}
 
 //Clean up IDs when you're done using them
+/*
 void deleteIDs()
 {
 	for (int i = 0; i<SHADER::COUNT; i++)
@@ -71,6 +46,7 @@ void deleteIDs()
 	glDeleteVertexArrays(VAO::COUNT, vao);
 	glDeleteBuffers(VBO::COUNT, vbo);
 }
+*/
 
 //Describe the setup of the Vertex Array Object
 bool initVAO(GLuint vao[VAO::COUNT], GLuint vbo[VBO::COUNT]) // MAX: I think I need to pass a new 'vbo' object (w/ its own pointers) and call this multiple times

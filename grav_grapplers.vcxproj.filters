@@ -45,6 +45,9 @@
     <ClCompile Include="src\entity\Renderable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\renderer\util\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="middleware\glm\detail\func_common.inl">
@@ -901,6 +904,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\entity\Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\util\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
