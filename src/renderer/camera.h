@@ -42,13 +42,4 @@ public:
 	void rotateAroundCenter(float x, float y, vec3 focus);
 };
 
-
-
-
-
-
-
-
-
-
 #endif

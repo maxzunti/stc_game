@@ -19,19 +19,35 @@
 //Structs are simply acting as namespaces
 //Access the values like so: VAO::LINES
 struct VAO {
-	enum { GEOMETRY = 0, COUNT };		//Enumeration assigns each name a value going up
-										//LINES=0, COUNT=1
+	enum { GEOMETRY = 0, COUNT };		//Enumeration assigns each name a value going up (LINES=0, COUNT=1)
+										//
 };
 
 struct VBO {
-	enum { POINTS = 0, NORMALS, UVS, INDICES, COUNT };	//POINTS=0, COLOR=1, COUNT=2
+	enum { POINTS = 0, NORMALS, UVS, INDICES, COUNT };	//POINTS=0, COLOR=1, UVS=2, INDICES=3, COUNT=4
 };
 
 struct SHADER {
-	enum { DEFAULT = 0, COUNT };		//LINE=0, COUNT=1
+	enum { DEFAULT = 0, COUNT };		// DEFAULT = 0, COUNT=1
 };
 
-GLuint vbo[];		//Array which stores OpenGL's vertex buffer object handles
+// Struct to store the raw data (and vbo array, once initialized) of a loaded model
+struct model_data {
+    std::vector<glm::vec3> points;
+    std::vector<glm::vec3> normals;
+    std::vector<glm::vec2> uvs;
+    std::vector<unsigned int> indices;
+
+    // Stores internal OpenGL pointers to each section of GPU vertex memory
+    GLuint vbo[VBO::COUNT];
+
+    model_data(std::vector<glm::vec3> points,
+        std::vector<glm::vec2> uvs,
+        std::vector<glm::vec3> normals,
+        std::vector<unsigned int> indices);
+};
+
+//GLuint vbo[];		//Array which stores OpenGL's vertex buffer object handles
 GLuint vao[];		//Array which stores Vertex Array Object handles
 GLuint shader[];		//Array which stores shader program handles
 
@@ -42,10 +58,10 @@ void generateIDs();
 void deleteIDs();
 
 //Describe the setup of the Vertex Array Object
-bool initVAO(); // MAX: I think I need to pass a new 'vbo' object (w/ its own pointers) and call this multiple times
+bool initVAO(GLuint[]);
 
 //Loads buffers with data
-bool loadBuffer(const std::vector<glm::vec3>& points, const std::vector<glm::vec3> normals,
+bool loadBuffer(GLuint[], const std::vector<glm::vec3>& points, const std::vector<glm::vec3> normals,
 	const std::vector<glm::vec2>& uvs, const std::vector<unsigned int>& indices);
 
 //For reference:
@@ -74,5 +90,6 @@ GLuint CompileShader(GLenum shaderType, const std::string &source);
 
 // creates and returns a program object linked from vertex and fragment shaders
 GLuint LinkProgram(GLuint vertexShader, GLuint fragmentShader);
+
 
 #endif // GL_UTIL_H
