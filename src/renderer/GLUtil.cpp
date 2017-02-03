@@ -1,12 +1,8 @@
 #include "GLUtil.h"
-
-// Not sure if all of these are necessary - potentially trim
 #include <iostream>
 #include <fstream>
 #include <algorithm>
-#include <string>
 #include <iterator>
-#include <vector>
 #include <cstdlib>
 #include <ctime>
 
@@ -18,17 +14,6 @@ using namespace glm;
 //GLuint vao[VAO::COUNT];		//Array which stores Vertex Array Object handles
 GLuint shader[SHADER::COUNT];		//Array which stores shader program handles
 
-// Specify that we want the OpenGL core profile before including GLFW headers
-#ifndef LAB_LINUX
-#include <glad/glad.h>
-#else
-#define GLFW_INCLUDE_GLCOREARB
-#define GL_GLEXT_PROTOTYPES
-#endif
-#include <GLFW/glfw3.h>
-
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
 
 
 //Clean up IDs when you're done using them
@@ -149,54 +134,6 @@ bool initShader()
 	return !CheckGLErrors("initShader");
 }
 
-//For reference:
-//	https://open.gl/textures
-GLuint createTexture(const char* filename)
-{
-	int components;
-	GLuint texID;
-	int tWidth, tHeight;
-
-	//stbi_set_flip_vertically_on_load(true);
-	unsigned char* data = stbi_load(filename, &tWidth, &tHeight, &components, 0);
-
-	if (data != NULL)
-	{
-		glGenTextures(1, &texID);
-		glBindTexture(GL_TEXTURE_2D, texID);
-
-		if (components == 3)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, tWidth, tHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		else if (components == 4)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tWidth, tHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		//Clean up
-		glBindTexture(GL_TEXTURE_2D, 0);
-		stbi_image_free(data);
-
-		return texID;
-	}
-
-	return 0;	//Error
-}
-
-//Use program before loading texture
-//	texUnit can be - GL_TEXTURE0, GL_TEXTURE1, etc...
-bool loadTexture(GLuint texID, GLuint texUnit, GLuint program, const char* uniformName)
-{
-	glActiveTexture(texUnit);
-	glBindTexture(GL_TEXTURE_2D, texID);
-
-	GLuint uniformLocation = glGetUniformLocation(program, uniformName);
-	glUniform1i(uniformLocation, 0);
-
-	return !CheckGLErrors("loadTexture");
-}
 
 
 //Initialization

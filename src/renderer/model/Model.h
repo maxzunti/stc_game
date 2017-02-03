@@ -1,5 +1,5 @@
 #pragma once
-#include "GLUtil.h"
+#include "../GLUtil.h"
 // Open Asset Import Library includes
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

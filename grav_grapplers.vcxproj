@@ -142,12 +142,13 @@
     <ClCompile Include="src\entity\Renderable.cpp" />
     <ClCompile Include="src\GameLoop.cpp" />
     <ClCompile Include="src\input\input.cpp" />
-    <ClCompile Include="src\renderer\util\GLUtil.cpp" />
+    <ClCompile Include="src\renderer\GLUtil.cpp" />
+    <ClCompile Include="src\renderer\model\Texture.cpp" />
     <ClCompile Include="src\renderer\renderer.cpp" />
     <ClCompile Include="src\renderer\camera.cpp" />
     <ClCompile Include="middleware\glad\src\glad.c" />
     <ClCompile Include="middleware\glm\detail\glm.cpp" />
-    <ClCompile Include="src\renderer\util\Model.cpp" />
+    <ClCompile Include="src\renderer\model\Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="middleware\xinput\xinput1_3.dll" />
@@ -438,9 +439,10 @@
     <ClInclude Include="middleware\glm\vector_relational.hpp" />
     <ClInclude Include="middleware\stb\stb_image.h" />
     <ClInclude Include="middleware\stb\stb_image_write.h" />
-    <ClInclude Include="src\renderer\util\GLUtil.h" />
+    <ClInclude Include="src\renderer\GLUtil.h" />
+    <ClInclude Include="src\renderer\model\Texture.h" />
     <ClInclude Include="src\renderer\renderer.h" />
-    <ClInclude Include="src\renderer\util\Model.h" />
+    <ClInclude Include="src\renderer\model\Model.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\stars_milkyway.jpg" />

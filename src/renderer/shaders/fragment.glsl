@@ -43,12 +43,14 @@ void main(void)
 	
 	FragmentColour = vec4(normalize(FragNormal), 1);
 	if(shade == 0){
-		//FragmentColour = texture(image, texture_coordinate);
+		FragmentColour = texture(image, texture_coordinate);
 		
 		FragmentColour = vec4(normalize(FragNormal), 1);
+        //FragmentColour = vec4(1, 1, 1, 1);
+
 	} else {
 	
-		//FragmentColour = texture(image, texture_coordinate);
+		FragmentColour = texture(image, texture_coordinate);
 		FragmentColour = vec4(normalize(FragNormal), 1);
 		vec4 ambient = intensity * ka * FragmentColour;
 	
@@ -58,8 +60,8 @@ void main(void)
 		// These guys really aren't that shiny so we'll give em a low exponent
 		vec4 specular = intensity * ks * pow(max(dot(n_normal,v), 0.0), 10.0f)*FragmentColour;
 	
-		FragmentColour = ambient + diffuse + specular;
-	
+//		FragmentColour = ambient + diffuse + specular;
+
 	
 	}
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "Entity.h"
-#include "../renderer/util/GLUtil.h"
-#include "../renderer/util/Model.h"
+#include "../renderer/GLUtil.h"
+#include "../renderer/model/Model.h"
 
 
 // Ideally, also abstract, but currently being used to test VBO initialization

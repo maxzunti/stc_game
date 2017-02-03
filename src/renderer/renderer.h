@@ -1,6 +1,6 @@
 #pragma once
-#include "util/GLUtil.h"
-#include "util/Model.h"
+#include "GLUtil.h"
+#include "model/Model.h"
 
 class Renderer {
 	int index;

@@ -23,6 +23,8 @@
 
 using namespace std;
 using namespace glm;
+
+// TODO: Remove ALL these globals
 #define PI 3.14159265359
 
 char sun[] = "texture_sun.jpg";
@@ -178,7 +180,7 @@ void render(GLuint vao[VAO::COUNT], Camera* cam, mat4 perspectiveMatrix, mat4 mo
     GLint uniformLocation = glGetUniformLocation(shader[SHADER::DEFAULT], "shade");
     glUniform1i(uniformLocation, shade);	//Normalize coordinates between 0 and 1
 
-    loadTexture(texid, GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
+    // loadTexture(texid, GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
 
     CheckGLErrors("loadUniforms");
 
