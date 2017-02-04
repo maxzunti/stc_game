@@ -1,6 +1,7 @@
 #ifndef GL_UTIL_H
 #define GL_UTIL_H
 
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
@@ -8,20 +9,11 @@
 #include <vector>
 #include <string>
 
-// Specify that we want the OpenGL core profile before including GLFW headers
-#ifndef LAB_LINUX
-#include <glad/glad.h>
-#else
-#define GLFW_INCLUDE_GLCOREARB
-#define GL_GLEXT_PROTOTYPES
-#endif
-#include <GLFW/glfw3.h>
 
 //Structs are simply acting as namespaces
 //Access the values like so: VAO::LINES
 struct VAO {
 	enum { GEOMETRY = 0, COUNT };		//Enumeration assigns each name a value going up (LINES=0, COUNT=1)
-										//
 };
 
 struct VBO {
@@ -57,7 +49,7 @@ GLuint createTexture(const char* filename);
 //	texUnit can be - GL_TEXTURE0, GL_TEXTURE1, etc...
 bool loadTexture(GLuint texID, GLuint texUnit, GLuint program, const char* uniformName);
 
-void initGL();
+bool initGL();
 
 // OpenGL utility functions
 void QueryGLVersion();

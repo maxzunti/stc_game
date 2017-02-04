@@ -1,24 +1,21 @@
 #pragma once
 #include "GLUtil.h"
 #include "model/Model.h"
+#include "camera.h"
+#include "../entity/Renderable.h"
+#include <memory>
 
 class Renderer {
 	int index;
-    Model *testModel; // deleteme
+    Camera *cam; // 1 cam per renderer
+
+    void render(const GLuint vao[VAO::COUNT], glm::mat4 perspectiveMatrix, glm::mat4 modelview, int startElement, int numElements, GLuint texid);
+
 public:
 	Renderer(int);
 	~Renderer();
 	bool initRenderer();
-	void drawScene();
-	bool shouldClose();
-};
+	void drawScene(const std::vector<Entity*>& ents);
 
-// These really don't belong in renderer, but we should remove them eventually anyway
-void generateTorus(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals,
-	std::vector<glm::vec2>& uvs, std::vector<unsigned int>& indices,
-	float c_r, float t_r,
-	int uDivisions, int vDivisions);
-void generatePSphere(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals,
-	std::vector<glm::vec2>& uvs, std::vector<unsigned int>& indices,
-	float r, glm::vec3 center,
-	int uDivisions, int vDivisions);
+    Camera* getCam();
+};

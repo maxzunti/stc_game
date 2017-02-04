@@ -10,14 +10,11 @@ using namespace std;
 using namespace glm;
 #define PI 3.14159265359
 
-//GLuint vbo[VBO::COUNT];		//Array which stores OpenGL's vertex buffer object handles
-//GLuint vao[VAO::COUNT];		//Array which stores Vertex Array Object handles
 GLuint shader[SHADER::COUNT];		//Array which stores shader program handles
-
-
 
 //Clean up IDs when you're done using them
 /*
+TODO: replicate me within Renderer/Model classes as appropriate
 void deleteIDs()
 {
 	for (int i = 0; i<SHADER::COUNT; i++)
@@ -137,8 +134,18 @@ bool initShader()
 
 
 //Initialization
-void initGL()
+bool initGL()
 {
+    //Intialize GLAD
+    if (!gladLoadGL())
+    {
+        cout << "GLAD init failed" << endl;
+        return false;
+    }
+
+    // query and print out information about our OpenGL environment
+    QueryGLVersion();
+
 	//COMMENT/UNCOMMENT - essentially turns wire frames on and off
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -161,6 +168,7 @@ void initGL()
 	for (int i = 0; i < sizeof(*imageNames); i++) {
 	textureIds[i] = createTexture(imageNames[i]);
 	}*/
+    return true;
 }
 
 // ==========================================================================

@@ -2,12 +2,9 @@
 #include <iostream>
 
 Model::Model() { // delete me
-    std::cout << "in def? " << std::endl;
 }
 
 Model::Model(std::string fname) {
-    std::cout << "VBO::COUNT = " << VBO::COUNT << std::endl;
-
     glGenBuffers(VBO::COUNT, vbo);
     glGenBuffers(VBO::COUNT, vbo);
 
@@ -59,11 +56,6 @@ void Model::copy_ai_data(const aiMesh* mesh, const std::string &fname)
         normals.push_back(glm::vec3(m_vec.x, m_vec.y, m_vec.z));
     }
 
-    std::cout << "mNumUVComponents = " << mesh->mNumUVComponents[0] << std::endl;
-    for (int i = 0; i < AI_MAX_NUMBER_OF_TEXTURECOORDS; i++) {
-        std::cout << "mNumUVComponents[" << i << "] = " << mesh->mNumUVComponents[i] << std::endl;
-    }
-
     // (Try to ) load uvs
     if (mesh->mNumUVComponents[0] > 0) {
         for (int i = 0; i < mesh->mNumVertices; i++) {
@@ -73,7 +65,7 @@ void Model::copy_ai_data(const aiMesh* mesh, const std::string &fname)
     } else {
         std::cout << "Warning: " << fname << " has no UV coordinates." << std::endl;
     }
-    std::cout << "make it this far?" << std::endl;
+
     // Load indices
     for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
         const aiFace& face = mesh->mFaces[i];

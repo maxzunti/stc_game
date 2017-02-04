@@ -1,9 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
-
 #include "glm/glm.hpp"
 
-using namespace glm;
 /*
 mat4 rotateAbout(vec3 axis, float radians)
 {
@@ -27,19 +25,19 @@ mat4 rotateAbout(vec3 axis, float radians)
 
 class Camera{
 public:
-	vec3 dir;
-	vec3 up;
-	vec3 right;
-	vec3 pos;
+    glm::vec3 dir;
+    glm::vec3 up;
+    glm::vec3 right;
+    glm::vec3 pos;
 	float zoom;
 	
 	Camera();
-	Camera(vec3 _dir, vec3 _pos);
+	Camera(glm::vec3 _dir, glm::vec3 _pos);
 
-	mat4 getMatrix();
+    glm::mat4 getMatrix();
 
 	//void rotateCamera(float x, float y);
-	void rotateAroundCenter(float x, float y, vec3 focus);
+	void rotateAroundCenter(float x, float y, glm::vec3 focus);
 };
 
 #endif

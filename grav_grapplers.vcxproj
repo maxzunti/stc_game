@@ -143,12 +143,14 @@
     <ClCompile Include="src\GameLoop.cpp" />
     <ClCompile Include="src\input\input.cpp" />
     <ClCompile Include="src\renderer\GLUtil.cpp" />
+    <ClCompile Include="src\renderer\junk\junk.cpp" />
     <ClCompile Include="src\renderer\model\Texture.cpp" />
     <ClCompile Include="src\renderer\renderer.cpp" />
     <ClCompile Include="src\renderer\camera.cpp" />
     <ClCompile Include="middleware\glad\src\glad.c" />
     <ClCompile Include="middleware\glm\detail\glm.cpp" />
     <ClCompile Include="src\renderer\model\Model.cpp" />
+    <ClCompile Include="src\renderer\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="middleware\xinput\xinput1_3.dll" />
@@ -443,6 +445,7 @@
     <ClInclude Include="src\renderer\model\Texture.h" />
     <ClInclude Include="src\renderer\renderer.h" />
     <ClInclude Include="src\renderer\model\Model.h" />
+    <ClInclude Include="src\renderer\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\stars_milkyway.jpg" />

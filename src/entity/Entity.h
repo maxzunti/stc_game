@@ -8,7 +8,6 @@ protected:
 	double rot[3] = { 0, 0, 0 }; // rotation about x, y, z axes (degrees or rad? dep. on physX)
 
 public:
-	static const bool renderable = false;
 
 	Entity();
 	//~Entity(); currently have no specific behaviour
@@ -20,5 +19,6 @@ public:
 	double xRot();
 	double yRot();
 	double zRot();
+    virtual bool canRender();
 };
 #endif ENTITY_H

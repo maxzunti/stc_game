@@ -1,7 +1,9 @@
 #include "camera.h"
 #include <cstdio>
-
 #include <iostream>
+
+using namespace glm;
+
 mat4 rotateAbout(vec3 axis, float radians)
 {
 	mat4 matrix;

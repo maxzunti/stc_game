@@ -18,3 +18,5 @@ double Entity::xRot() { return rot[0]; }
 double Entity::yRot() { return rot[1]; }
 
 double Entity::zRot() { return rot[2]; }
+
+bool Entity::canRender() { return false; }
