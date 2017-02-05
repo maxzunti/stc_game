@@ -34,15 +34,18 @@ void main(void)
 	vec3 r = reflect( -s,n_normal);
 
     vec2 texture_coordinate;
-    texture_coordinate.x = (0.5 - atan(n_normal.z, n_normal.x) * M_1_2PI);
-    texture_coordinate.y = -1.f*(0.5 - asin(-n_normal.y) * M_1_PI);
-			
-	
+    //texture_coordinate.x = (0.5 - atan(n_normal.z, n_normal.x) * M_1_2PI);
+    //texture_coordinate.y = -1.f*(0.5 - asin(-n_normal.y) * M_1_PI);
+    texture_coordinate.x = FragUV[0];
+	texture_coordinate.y = -FragUV[1];
 	
 	vec3 h = reflect(-lightDir, FragNormal);
 	
-	FragmentColour = vec4(normalize(FragNormal), 1);
-	if(shade == 0){
+	//FragmentColour = vec4(normalize(FragNormal), 1);
+    FragmentColour = texture(image, texture_coordinate);
+
+    // Currently have all shading disabled
+/*	if(shade == 0){
 		FragmentColour = texture(image, texture_coordinate);
 		
 		FragmentColour = vec4(normalize(FragNormal), 1);
@@ -63,5 +66,5 @@ void main(void)
 //		FragmentColour = ambient + diffuse + specular;
 
 	
-	}
+	}*/
 }

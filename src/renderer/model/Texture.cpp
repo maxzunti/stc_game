@@ -37,9 +37,13 @@ Texture::Texture(const char* filename)
     }
 }
 
+Texture::~Texture() {
+    glDeleteTextures(1, &texID);
+}
+
 // Use program before loading texture
 // lexUnit can be - GL_TEXTURE0, GL_TEXTURE1, etc...
-bool Texture::load(GLuint texUnit, GLuint program, const char* uniformName)
+bool Texture::load(GLuint texUnit, GLuint program, const char* uniformName) const
 {
     glActiveTexture(texUnit);
     glBindTexture(GL_TEXTURE_2D, texID);
@@ -47,13 +51,13 @@ bool Texture::load(GLuint texUnit, GLuint program, const char* uniformName)
     GLuint uniformLocation = glGetUniformLocation(program, uniformName);
     glUniform1i(uniformLocation, 0);
 
-    return !CheckGLErrors("loadTexture");
+    return !CheckGLErrors("load");
 }
 
 const std::string Texture::getName() & {
     return filename;
 }
 
-GLuint Texture::getID() {
+GLuint Texture::getID() const {
     return texID;
 }

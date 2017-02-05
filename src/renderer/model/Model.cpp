@@ -4,13 +4,18 @@
 Model::Model() { // delete me
 }
 
-Model::Model(std::string fname) {
+Model::Model(std::string model_fname, std::string tex_fname) :
+    tex(new Texture(tex_fname.c_str())) {
     glGenBuffers(VBO::COUNT, vbo);
     glGenBuffers(VBO::COUNT, vbo);
 
     glGenVertexArrays(VAO::COUNT, vao);
     initVAO(vao, vbo);
-    load_model_from_file(fname);
+    load_model_from_file(model_fname);
+    is_loaded = true;
+    if (tex)
+        tex_loaded = true;
+    reset_scale();
 }
 
 Model::Model(std::vector<glm::vec3> points,
@@ -98,4 +103,34 @@ bool Model::load_model_from_file(const std::string& fname)
     copy_ai_data(scene->mMeshes[0], fname);
     loadBuffer(vbo, points, normals, uvs, indices);
     return true;
+}
+
+const int Model::num_indices() const {
+    return indices.size();
+}
+
+const Texture * Model::getTex() const {
+    return tex.get();
+}
+
+bool Model::is_tex_loaded() const { return tex_loaded; }
+
+const glm::mat4& Model::get_scaling() const {
+    return scaling;
+}
+
+void Model::reset_scale() {
+    scaling = glm::mat4(
+        glm::vec4(1, 0, 0, 0),
+        glm::vec4(0, 1, 0, 0),
+        glm::vec4(0, 0, 1, 0),
+        glm::vec4(0, 0, 0, 1));
+}
+void Model::scale(double &x_scl, double &y_scl, double &z_scl) {
+    scaling = scaling * glm::mat4(
+        glm::vec4(x_scl, 0, 0, 0),
+        glm::vec4(0, y_scl, 0, 0),
+        glm::vec4(0, 0, z_scl, 0),
+        glm::vec4(0, 0, 0, 1));
+    std::cout << "scaling = " << scaling[0][0] << std::endl;
 }

@@ -147,20 +147,9 @@ bool initGL()
     QueryGLVersion();
 
 	//COMMENT/UNCOMMENT - essentially turns wire frames on and off
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-	//Only call these once - don't call again every time you change geometry
-	//generateIDs();		//Create VertexArrayObjects and Vertex Buffer Objects and store their handles
-
-    //glGenVertexArrays(VAO::COUNT, vao);		//Tells OpenGL to create VAO::COUNT many
-                                            // Vertex Array Objects, and store their
-                                            // handles in vao array
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	initShader();		//Create shader and store program ID
-
-	//initVAO();			//Describe setup of Vertex Array Objects and Vertex Buffer Object
-   // glBindVertexArray(vao[VAO::GEOMETRY]);		//Set the active Vertex Array (should only have 1, right?)
-
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);

@@ -24,17 +24,14 @@
 using namespace std;
 using namespace glm;
 
-GLuint textureIds[4];
 int shade = 0;
 
-//Draws buffers to screen
-// TODO:  Simplify my signature to make better use of the Model struct
-void Renderer::render(const GLuint vao[VAO::COUNT], mat4 perspectiveMatrix, mat4 modelview, int startElement, int numElements, GLuint texid)
+void Renderer::render(const Model& model, mat4 perspectiveMatrix, int startElement)
 {
     // Set object-specific VAO
-    glBindVertexArray(vao[VAO::GEOMETRY]);
+    glBindVertexArray(model.vao[VAO::GEOMETRY]);
 
-    mat4 camMatrix = cam->getMatrix();
+    mat4 &camMatrix = cam->getMatrix();
 
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "cameraMatrix"),
         1,
@@ -49,18 +46,20 @@ void Renderer::render(const GLuint vao[VAO::COUNT], mat4 perspectiveMatrix, mat4
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "modelviewMatrix"),
         1,
         false,
-        &modelview[0][0]);
+        &model.get_scaling()[0][0]);
 
     GLint uniformLocation = glGetUniformLocation(shader[SHADER::DEFAULT], "shade");
     glUniform1i(uniformLocation, shade);	//Normalize coordinates between 0 and 1
 
-    // loadTexture(texid, GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
+                                            //loadTexture(texid, GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
+
+    model.getTex()->load(GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
 
     CheckGLErrors("loadUniforms");
 
     glDrawElements(
         GL_TRIANGLES,		//What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
-        numElements,		//How many indices
+        model.num_indices(),		//How many indices
         GL_UNSIGNED_INT,	//Type
         (void*)0			//Offset
         );
@@ -92,7 +91,6 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
 
     shade = 0;
-    glm::mat4 scale = glm::scale(vec3(0.5f, 0.5f, 0.5));     // Currently shrinking everything
 
     for (const auto& e : ents) {
         // This is virtual function lookup for each entity, might be slow
@@ -102,7 +100,7 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
             // hasn't been initialized properly
             const Renderable* r = static_cast<Renderable*>(e);
             if (r->is_model_loaded()) {
-                render(r->getModel()->vao, perspectiveMatrix, scale, 0, r->getModel()->indices.size(), textureIds[0]);
+                render(*r->getModel(), perspectiveMatrix, 0);
             }
         }
     }

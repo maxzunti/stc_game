@@ -9,7 +9,7 @@ class Renderer {
 	int index;
     Camera *cam; // 1 cam per renderer
 
-    void render(const GLuint vao[VAO::COUNT], glm::mat4 perspectiveMatrix, glm::mat4 modelview, int startElement, int numElements, GLuint texid);
+    void render(const Model& model, glm::mat4 perspectiveMatrix, int startElement);
 
 public:
 	Renderer(int);

@@ -3,17 +3,22 @@
 
 Renderable::Renderable() { }
 
-Renderable::Renderable(std::string filename) :
-    model(new Model(filename)) 
+Renderable::Renderable(std::string model_fname, std::string tex_fname) :
+    model(new Model(model_fname, tex_fname))
 {
-    model_loaded = true;
+    if (model)
+        model_loaded = true;
 }
+
+bool Renderable::canRender() { return true; }
 
 const Model * Renderable::getModel() const
 {
     return model.get();
 }
 
-bool Renderable::canRender() { return true; }
-
 bool Renderable::is_model_loaded() const { return model_loaded;  }
+
+void Renderable::scale(double x, double y, double z) {
+    model->scale(x, y, z);
+}
