@@ -26,7 +26,7 @@ using namespace glm;
 
 int shade = 0;
 
-void Renderer::render(const Model& model, mat4 perspectiveMatrix, int startElement)
+void Renderer::render(const Model& model, mat4 perspectiveMatrix, mat4 model_matrix, int startElement)
 {
     // Set object-specific VAO
     glBindVertexArray(model.vao[VAO::GEOMETRY]);
@@ -46,7 +46,7 @@ void Renderer::render(const Model& model, mat4 perspectiveMatrix, int startEleme
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "modelviewMatrix"),
         1,
         false,
-        &model.get_scaling()[0][0]);
+        &model_matrix[0][0]);
 
     GLint uniformLocation = glGetUniformLocation(shader[SHADER::DEFAULT], "shade");
     glUniform1i(uniformLocation, shade);	//Normalize coordinates between 0 and 1
@@ -99,8 +99,9 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
             // Careful here - static_cast is FAST, but potentially dangerous if an entity
             // hasn't been initialized properly
             const Renderable* r = static_cast<Renderable*>(e);
+			glm::mat4 mmatrix = glm::translate(r->getModel()->get_scaling(), r->getPos());     // Still need to add rotation
             if (r->is_model_loaded()) {
-                render(*r->getModel(), perspectiveMatrix, 0);
+                render(*r->getModel(), perspectiveMatrix, mmatrix, 0);
             }
         }
     }

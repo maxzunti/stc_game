@@ -126,6 +126,7 @@ void Model::reset_scale() {
         glm::vec4(0, 0, 1, 0),
         glm::vec4(0, 0, 0, 1));
 }
+
 void Model::scale(double &x_scl, double &y_scl, double &z_scl) {
     scaling = scaling * glm::mat4(
         glm::vec4(x_scl, 0, 0, 0),

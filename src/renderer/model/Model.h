@@ -21,7 +21,6 @@ class Model {
     void copy_ai_data(const aiMesh* mesh, const std::string &fname);
 
     glm::mat4 scaling;
-
 public:
     // Stores internal OpenGL pointers to each section of GPU vertex memory
     GLuint vbo[VBO::COUNT];

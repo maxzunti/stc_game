@@ -3,8 +3,24 @@
 
 Entity::Entity() { }
 
-void Entity::getPos(double buf[3]) {
-	memcpy(buf, pos, 3*sizeof(double));
+const glm::vec3& Entity::getPos() const {
+    return pos;
+}
+
+void Entity::setPos(double x, double y, double z) {
+    pos.x = x;
+    pos.y = y;
+    pos.z = z;
+}
+
+const glm::vec3& Entity::getRot() const {
+    return rot;
+}
+
+void Entity::setRot(double x, double y, double z) {
+    rot.x = x;
+    rot.y = y;
+    rot.z = z;
 }
 
 double Entity::xPos() { return pos[0]; }
