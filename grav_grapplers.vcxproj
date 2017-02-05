@@ -74,8 +74,8 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)\bin\obj\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)bin\obj\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -90,7 +90,8 @@
       <AdditionalDependencies>LowLevel.lib;PhysXProfileSDK.lib;PhysX3_x86.lib;PhysX3Extensions.lib;PhysX3Common_x86.lib;PhysX3Cooking_x86.lib;assimp.lib;opengl32.lib;glfw3.lib;Xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command> xcopy /d /y "$(ProjectDir)middleware\assimp\lib32\*.dll" "$(OutDir)"</Command>
+      <Command> xcopy /d /y "$(ProjectDir)middleware\PhysXSDK\DLL\*.dll" "$(OutDir)"
+ xcopy /d /y "$(ProjectDir)middleware\assimp\lib32\*.dll" "$(OutDir)" </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -122,6 +123,10 @@
       <AdditionalLibraryDirectories>$(ProjectDir)middleware\PhysXSDK\Lib\vc14win32;$(ProjectDir)middleware\assimp\lib32;$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>LowLevel.lib;PhysXProfileSDK.lib;PhysX3_x86.lib;PhysX3Extensions.lib;PhysX3Common_x86.lib;PhysX3Cooking_x86.lib;assimp.lib;opengl32.lib;glfw3.lib;Xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /d /y "$(ProjectDir)middleware\PhysXSDK\DLL\*.dll" "$(OutDir)"
+ xcopy /d /y "$(ProjectDir)middleware\assimp\lib32\*.dll" "$(OutDir)" </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

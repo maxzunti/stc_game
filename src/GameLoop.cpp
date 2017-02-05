@@ -28,12 +28,16 @@ int main(int argc, const char* argv[])
 
     // TODO: convert these to unique_ptrs
     std::vector<Entity*> entities(0);
-    //entities.push_back(new Renderable("assets/models/teapot/teapot.obj", "assets/models/teapot/teapot_tex.png"));
-    Renderable *teapot = new Renderable("assets/models/teapot/teapot.obj", "assets/models/teapot/teapot_tex.png");
-    teapot->scale(0.5, 0.5, 0.5);
-    entities.push_back(teapot);
-    entities.push_back(new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png"));
     entities.push_back(new PhysicsObject("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock()));
+
+    // Teapot test obj
+    //Renderable *teapot = new Renderable("assets/models/teapot/teapot.obj", "assets/models/teapot/teapot_tex.png");
+    //teapot->scale(0.5, 0.5, 0.5);
+    //entities.push_back(teapot);
+
+    Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
+    plane->setPos(0, -2, 0);
+    entities.push_back(plane);
 
     myPhysics->createGroundPlane();
 

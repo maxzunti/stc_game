@@ -52,7 +52,7 @@ PhysicsManager::~PhysicsManager()
 
 PxActor* PhysicsManager::createGroundPlane()
 {
-	PxRigidStatic* groundPlane = PxCreatePlane(*mPhysics, PxPlane(PxVec3(0,-5,0), PxVec3(0, 1, 0)), *mMaterial);
+	PxRigidStatic* groundPlane = PxCreatePlane(*mPhysics, PxPlane(PxVec3(0, -3, 0), PxVec3(0,1,0)), *mMaterial);
 	mScene->addActor(*groundPlane);
 	return groundPlane;
 }
