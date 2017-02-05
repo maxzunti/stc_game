@@ -1,0 +1,18 @@
+﻿  WindowsSampleAssetManager.cpp
+  nv_dds.cpp
+  ODBlock.cpp
+  SampleApplication.cpp
+  SampleAsset.cpp
+  SampleAssetManager.cpp
+  SampleCommandLine.cpp
+  SampleDirManager.cpp
+  SampleInputAsset.cpp
+  SampleLineDebugRender.cpp
+  SampleMaterialAsset.cpp
+  SamplePointDebugRender.cpp
+  SamplePxProfileZone.cpp
+  SampleTextureAsset.cpp
+  SampleTree.cpp
+  SampleTriangleDebugRender.cpp
+  targa.cpp
+  SampleFramework-MT.vcxproj -> C:\CPSC\CPSC585\PhysX3_3_4\PhysX-3.3\PhysXSDK\Samples\SampleFramework\framework\compiler\vc14win32\./../../lib/vc14win32\SampleFramework-MTDEBUG.lib

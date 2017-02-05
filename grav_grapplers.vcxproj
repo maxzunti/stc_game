@@ -82,12 +82,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)middleware\assimp\include;$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\include;$(ProjectDir)middleware\glad\include;$(ProjectDir)middleware\stb;$(ProjectDir)middleware;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)middleware\PhysXSDK\Include;$(ProjectDir)middleware\assimp\include;$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\include;$(ProjectDir)middleware\glad\include;$(ProjectDir)middleware\stb;$(ProjectDir)middleware;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(ProjectDir)middleware\assimp\lib32;$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp.lib;opengl32.lib;glfw3.lib;Xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)middleware\PhysXSDK\Lib\vc14win32;$(ProjectDir)middleware\assimp\lib32;$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LowLevel.lib;PhysXProfileSDK.lib;PhysX3_x86.lib;PhysX3Extensions.lib;PhysX3Common_x86.lib;PhysX3Cooking_x86.lib;assimp.lib;opengl32.lib;glfw3.lib;Xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command> xcopy /d /y "$(ProjectDir)middleware\assimp\lib32\*.dll" "$(OutDir)"</Command>
@@ -112,14 +112,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\middleware\assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)middleware\PhysXSDK\Include;$(ProjectDir)middleware\assimp\include;$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\include;$(ProjectDir)middleware\glad\include;$(ProjectDir)middleware\stb;$(ProjectDir)middleware;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\middleware\glfw\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)middleware\PhysXSDK\Lib\vc14win32;$(ProjectDir)middleware\assimp\lib32;$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LowLevel.lib;PhysXProfileSDK.lib;PhysX3_x86.lib;PhysX3Extensions.lib;PhysX3Common_x86.lib;PhysX3Cooking_x86.lib;assimp.lib;opengl32.lib;glfw3.lib;Xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -138,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\entity\PhysicsObject.cpp" />
+    <ClCompile Include="src\physics\PhysicsManager.cpp" />
     <ClCompile Include="src\entity\Entity.cpp" />
     <ClCompile Include="src\entity\Renderable.cpp" />
     <ClCompile Include="src\GameLoop.cpp" />
@@ -274,11 +277,11 @@
     <None Include="src\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\physics\PhysicsManager.h" />
     <ClInclude Include="src\entity\AICar.h" />
     <ClInclude Include="src\entity\Car.h" />
     <ClInclude Include="src\entity\DynamicPhysicsObject.h" />
     <ClInclude Include="src\entity\Light.h" />
-    <ClInclude Include="src\entity\PhysicsManager" />
     <ClInclude Include="src\entity\Hook.h" />
     <ClInclude Include="src\entity\StaticPhysicsObject.h" />
     <ClInclude Include="src\entity\PhysicsObject.h" />

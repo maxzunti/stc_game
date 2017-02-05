@@ -1,0 +1,5 @@
+﻿  PvdSceneVisualDebugger.cpp
+  PvdVisualDebugger.cpp
+  PxMetaDataPvdBinding.cpp
+LINK : warning LNK4044: unrecognized option '/INCREMENTAL:NO'; ignored
+  PvdRuntime.vcxproj -> C:\CPSC\CPSC585\PhysX3_3_4\PhysX-3.3\PhysXSDK\Source\compiler\vc14win32\./../../../Lib/vc14win32\PvdRuntime.lib

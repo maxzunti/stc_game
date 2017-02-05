@@ -1,0 +1,19 @@
+﻿  Building ..\..\LowLevelCloth\src\avx\SwSolveConstraints.cpp
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.00.24215.1 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  SwSolveConstraints.cpp
+  Allocator.cpp
+  Factory.cpp
+  PhaseConfig.cpp
+  SwCloth.cpp
+  SwClothData.cpp
+  SwCollision.cpp
+  SwFabric.cpp
+  SwFactory.cpp
+  SwInterCollision.cpp
+  SwSelfCollision.cpp
+  SwSolver.cpp
+  SwSolverKernel.cpp
+  TripletScheduler.cpp
+  LowLevelCloth.vcxproj -> C:\CPSC\CPSC585\PhysX3_3_4\PhysX-3.3\PhysXSDK\Source\compiler\vc14win32\./../../../Lib/vc14win32\LowLevelClothDEBUG.lib

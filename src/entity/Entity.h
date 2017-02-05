@@ -13,6 +13,7 @@ public:
 	//~Entity(); currently have no specific behaviour
 
 	void getPos(double buf[3]);
+	void setPos(double buf[3]);
 	double xPos();
 	double yPos();
 	double zPos();

@@ -1,0 +1,34 @@
+﻿  D3D9Renderer.cpp
+  D3D9RendererDirectionalLight.cpp
+  D3D9RendererIndexBuffer.cpp
+  D3D9RendererInstanceBuffer.cpp
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d9\D3D9Renderer.h(28): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory (compiling source file ..\..\src\d3d9\D3D9RendererDirectionalLight.cpp)
+  D3D9RendererMaterial.cpp
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d9\D3D9Renderer.h(28): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory (compiling source file ..\..\src\d3d9\D3D9Renderer.cpp)
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d9\D3D9Renderer.h(28): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory (compiling source file ..\..\src\d3d9\D3D9RendererInstanceBuffer.cpp)
+  D3D9RendererMesh.cpp
+  D3D9RendererSpotLight.cpp
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d9\D3D9Renderer.h(28): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory (compiling source file ..\..\src\d3d9\D3D9RendererIndexBuffer.cpp)
+  D3D9RendererTarget.cpp
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d9\D3D9Renderer.h(28): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory (compiling source file ..\..\src\d3d9\D3D9RendererMaterial.cpp)
+  D3D9RendererTexture2D.cpp
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d9\D3D9Renderer.h(28): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory (compiling source file ..\..\src\d3d9\D3D9RendererSpotLight.cpp)
+  D3D9RendererVertexBuffer.cpp
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d9\D3D9Renderer.h(28): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory (compiling source file ..\..\src\d3d9\D3D9RendererMesh.cpp)
+  D3D9WPFRenderer.cpp
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d9\D3D9Renderer.h(28): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory (compiling source file ..\..\src\d3d9\D3D9RendererTarget.cpp)
+  D3D11Renderer.cpp
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d9\D3D9Renderer.h(28): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory (compiling source file ..\..\src\d3d9\D3D9RendererVertexBuffer.cpp)
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d9\D3D9Renderer.h(28): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory (compiling source file ..\..\src\d3d9\D3D9RendererTexture2D.cpp)
+  D3D11RendererMaterial.cpp
+  D3D11RendererMesh.cpp
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d9\D3D9Renderer.h(28): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory (compiling source file ..\..\src\d3d9\D3D9WPFRenderer.cpp)
+  D3D11RendererUtils.cpp
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d11\D3D11RendererUtils.h(22): fatal error C1083: Cannot open include file: 'd3dx11tex.h': No such file or directory (compiling source file ..\..\src\d3d11\D3D11Renderer.cpp)
+  D3D11RendererVariableManager.cpp
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d11\D3D11RendererUtils.h(22): fatal error C1083: Cannot open include file: 'd3dx11tex.h': No such file or directory (compiling source file ..\..\src\d3d11\D3D11RendererMaterial.cpp)
+  Renderer.cpp
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d11\D3D11RendererUtils.h(22): fatal error C1083: Cannot open include file: 'd3dx11tex.h': No such file or directory (compiling source file ..\..\src\d3d11\D3D11RendererUtils.cpp)
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d11\D3D11RendererUtils.h(22): fatal error C1083: Cannot open include file: 'd3dx11tex.h': No such file or directory (compiling source file ..\..\src\d3d11\D3D11RendererMesh.cpp)
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d11\D3D11RendererUtils.h(22): fatal error C1083: Cannot open include file: 'd3dx11tex.h': No such file or directory (compiling source file ..\..\src\d3d11\D3D11RendererVariableManager.cpp)
+c:\cpsc\cpsc585\physx3_3_4\physx-3.3\physxsdk\samples\sampleframework\renderer\src\d3d9/D3D9Renderer.h(28): fatal error C1083: Cannot open include file: 'd3dx9.h': No such file or directory (compiling source file ..\..\src\Renderer.cpp)

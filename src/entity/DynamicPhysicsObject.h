@@ -5,5 +5,6 @@ class DynamicPhysicsObject : public PhysicsObject {
 protected:
 
 public:
-    void applyForce(vec3 direction, double magnitude);
+	
+    //void applyForce(vec3 direction, double magnitude);
 };

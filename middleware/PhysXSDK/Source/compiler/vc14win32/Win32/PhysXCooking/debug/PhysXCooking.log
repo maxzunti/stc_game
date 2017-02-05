@@ -1,0 +1,4 @@
+﻿  WindowsCookingDelayLoadHook.cpp
+     Creating library ./../../../Lib/vc14win32/PhysX3CookingDEBUG_x86.lib and object ./../../../Lib/vc14win32/PhysX3CookingDEBUG_x86.exp
+  PhysXCooking.vcxproj -> C:\CPSC\CPSC585\PhysX3_3_4\PhysX-3.3\PhysXSDK\Source\compiler\vc14win32\./../../../bin/vc14win32\PhysX3CookingDEBUG_x86.dll
+  PhysXCooking.vcxproj -> C:\CPSC\CPSC585\PhysX3_3_4\PhysX-3.3\PhysXSDK\bin\vc14win32\\PhysX3CookingDEBUG_x86.pdb (Full PDB)

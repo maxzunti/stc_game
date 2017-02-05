@@ -4,7 +4,11 @@
 Entity::Entity() { }
 
 void Entity::getPos(double buf[3]) {
-	memcpy(buf, pos, 3*sizeof(double));
+	memcpy(buf, pos, 3 * sizeof(double));
+}
+
+void Entity::setPos(double buf[3]) {
+	memcpy(pos, buf, 3 * sizeof(double));	
 }
 
 double Entity::xPos() { return pos[0]; }

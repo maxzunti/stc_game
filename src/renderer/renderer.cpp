@@ -92,7 +92,7 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
 
     shade = 0;
-    glm::mat4 scale = glm::scale(vec3(0.5f, 0.5f, 0.5));     // Currently shrinking everything
+    
 
     for (const auto& e : ents) {
         // This is virtual function lookup for each entity, might be slow
@@ -101,6 +101,7 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
             // Careful here - static_cast is FAST, but potentially dangerous if an entity
             // hasn't been initialized properly
             const Renderable* r = static_cast<Renderable*>(e);
+			glm::mat4 scale = glm::translate(glm::scale(vec3(0.5f, 0.5f, 0.5)),vec3(e->xPos(), e->yPos(), e->zPos()));     // Currently shrinking everything (I added translation here)
             if (r->is_model_loaded()) {
                 render(r->getModel()->vao, perspectiveMatrix, scale, 0, r->getModel()->indices.size(), textureIds[0]);
             }

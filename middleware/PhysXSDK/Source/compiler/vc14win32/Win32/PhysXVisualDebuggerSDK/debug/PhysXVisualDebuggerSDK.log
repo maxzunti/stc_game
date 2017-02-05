@@ -1,0 +1,7 @@
+﻿  PvdConnection.cpp
+  PvdConnectionManager.cpp
+  PvdDataStream.cpp
+  PvdNetworkStreams.cpp
+  PvdObjectModelMetaData.cpp
+  PvdUserRenderer.cpp
+  PhysXVisualDebuggerSDK.vcxproj -> C:\CPSC\CPSC585\PhysX3_3_4\PhysX-3.3\PhysXSDK\Source\compiler\vc14win32\./../../../Lib/vc14win32\PhysXVisualDebuggerSDKDEBUG.lib
