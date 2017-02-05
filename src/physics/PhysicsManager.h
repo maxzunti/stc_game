@@ -20,7 +20,7 @@ public:
 	PhysicsManager();
 	~PhysicsManager();
 	PxActor* PhysicsManager::createGroundPlane();
-	PxActor* PhysicsManager::createBlock();
+	PxRigidBody* PhysicsManager::createBlock();
 	void PhysicsManager::stepPhysics();
 };
 

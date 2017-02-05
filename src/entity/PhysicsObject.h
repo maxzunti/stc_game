@@ -6,8 +6,8 @@ class PhysicsObject : public Renderable {
 protected:
 
 public:
-	PhysicsObject(std::string model_fname, std::string tex_fname, PxActor* actor);
+	PhysicsObject(std::string model_fname, std::string tex_fname, PxRigidBody* actor);
 	~PhysicsObject();
-	void updatePos();
-	PxActor* mActor;
+	void updatePosandRot();
+	PxRigidBody* mActor;
 };
