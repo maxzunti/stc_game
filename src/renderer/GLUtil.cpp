@@ -143,6 +143,9 @@ bool initGL()
         return false;
     }
 
+    std::cout << GLVersion.major << "   " << GLVersion.minor << std::endl;
+
+
     // query and print out information about our OpenGL environment
     QueryGLVersion();
 

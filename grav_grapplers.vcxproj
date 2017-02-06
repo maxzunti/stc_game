@@ -453,6 +453,7 @@
     <ClInclude Include="src\renderer\model\Texture.h" />
     <ClInclude Include="src\renderer\renderer.h" />
     <ClInclude Include="src\renderer\model\Model.h" />
+    <ClInclude Include="src\renderer\skybox\Skybox.h" />
     <ClInclude Include="src\renderer\Window.h" />
   </ItemGroup>
   <ItemGroup>
