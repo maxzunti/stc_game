@@ -17,6 +17,7 @@ public:
 	void setPos(double x, double y, double z);
     const glm::vec3& getRot() const;
     void setRot(double x, double y, double z);
+    void setRot(glm::vec3 &newRot);
 	double xPos();
 	double yPos();
 	double zPos();

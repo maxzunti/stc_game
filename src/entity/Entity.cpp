@@ -23,6 +23,11 @@ void Entity::setRot(double x, double y, double z) {
     rot.z = z;
 }
 
+void Entity::setRot(glm::vec3 &newRot) {
+    rot = std::move(newRot); // yoink
+}
+
+
 double Entity::xPos() { return pos[0]; }
 
 double Entity::yPos() { return pos[1]; }

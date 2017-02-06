@@ -47,15 +47,18 @@ int main(int argc, const char* argv[])
 		// myAI->getState();
 		myPhysics->stepPhysics();
 		
-		
-		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(-0.9, -0.9, 0.9));
+		// FYI: dynamic casts have a lot of run-time checking involved and are pretty expensive
+        // so we should avoid using them as much as possible
+	/*	PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(-0.9, -0.9, 0.9));
 		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(-0.9, -0.9, -0.9));
 		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(0.9, -0.9, -0.9));
-		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(0.9, -0.9, 0.9));
+		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(0.9, -0.9, 0.9)); */
 		
 		
 		//Watch here when you run. Applying a torque about Y (up) axis and it doesn't spin about it properly... why?
-		dynamic_cast<PhysicsObject*>(entities.front())->mActor->addTorque(PxVec3(0, 1, 0));
+		dynamic_cast<PhysicsObject*>(entities.front())->mActor->addTorque(PxVec3(0, 3000, 0)); // mad torques tho
+        //dynamic_cast<PhysicsObject*>(entities.front())->mActor->addTorque(PxVec3(0., 0., 1.0));
+
 
 		dynamic_cast<PhysicsObject*>(entities.front())->updatePosandRot(); // We'll eventually have a function here that updates all positions
 		// mySound->updateSound();
