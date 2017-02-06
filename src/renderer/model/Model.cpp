@@ -133,5 +133,4 @@ void Model::scale(double &x_scl, double &y_scl, double &z_scl) {
         glm::vec4(0, y_scl, 0, 0),
         glm::vec4(0, 0, z_scl, 0),
         glm::vec4(0, 0, 0, 1));
-    std::cout << "scaling = " << scaling[0][0] << std::endl;
 }
