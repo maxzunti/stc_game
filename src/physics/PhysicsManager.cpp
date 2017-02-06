@@ -61,7 +61,7 @@ PxRigidBody* PhysicsManager::createBlock()
 {
 	PxShape* shape = mPhysics->createShape(PxBoxGeometry(2.0f, 2.0f, 2.0f), *mMaterial);
 	
-	PxTransform localTm(PxVec3(0, 0, 0) * 2.0f);
+	PxTransform localTm(PxVec3(0., 0., 0.) * 2.0f);
 	PxRigidDynamic* body = mPhysics->createRigidDynamic(localTm);
 	body->attachShape(*shape);
 	body->setLinearDamping(1.0f);
