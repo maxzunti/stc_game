@@ -99,7 +99,20 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
             // Careful here - static_cast is FAST, but potentially dangerous if an entity
             // hasn't been initialized properly
             const Renderable* r = static_cast<Renderable*>(e);
-			glm::mat4 mmatrix = glm::translate(r->getModel()->get_scaling(), r->getPos());     // Still need to add rotation
+			
+			// This one seems to rotate globally, not locally... but haven't tested enough
+		/*	glm::mat4 mmatrix = glm::translate(glm::rotate(glm::rotate(glm::rotate(r->getModel()->get_scaling(),
+				r->getRot().x, vec3(1, 0, 0)),
+				r->getRot().y, vec3(0, 1, 0)),
+				r->getRot().z, vec3(0, 0, 1)), 
+				r->getPos());  */
+
+			// This one seems to rotate locally (properly)
+			glm::mat4 mmatrix = glm::rotate(glm::rotate(glm::rotate(glm::translate(r->getModel()->get_scaling(), r->getPos()),
+				r->getRot().x, vec3(1, 0, 0)),
+				r->getRot().y, vec3(0, 1, 0)),
+				r->getRot().z, vec3(0, 0, 1));
+
             if (r->is_model_loaded()) {
                 render(*r->getModel(), perspectiveMatrix, mmatrix, 0);
             }

@@ -40,14 +40,24 @@ int main(int argc, const char* argv[])
     entities.push_back(plane);
 
     myPhysics->createGroundPlane();
-
+	
 	while (!myWindow->shouldClose())
 	{
 		// myInput->getState();
 		// myAI->getState();
 		myPhysics->stepPhysics();
-		dynamic_cast<PhysicsObject*>(entities.front())->updatePos(); // We'll eventually have a function here that updates all positions
+		
+		
+		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(-0.9, -0.9, 0.9));
+		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(-0.9, -0.9, -0.9));
+		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(0.9, -0.9, -0.9));
+		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(0.9, -0.9, 0.9));
+		
+		
+		//Watch here when you run. Applying a torque about Y (up) axis and it doesn't spin about it properly... why?
+		dynamic_cast<PhysicsObject*>(entities.front())->mActor->addTorque(PxVec3(0, 1, 0));
 
+		dynamic_cast<PhysicsObject*>(entities.front())->updatePosandRot(); // We'll eventually have a function here that updates all positions
 		// mySound->updateSound();
 		myWindow->draw(entities);
 		input->Update();
