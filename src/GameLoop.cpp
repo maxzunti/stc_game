@@ -8,6 +8,7 @@
 #include "entity/Entity.h"
 #include "entity/Renderable.h"
 #include "entity/PhysicsObject.h"
+#include "entity/ProtoCar.h"
 #include "renderer/skybox/Skybox.h"
 
 using namespace std;
@@ -29,10 +30,14 @@ int main(int argc, const char* argv[])
 
     // TODO: convert these to unique_ptrs
     std::vector<Entity*> entities(0);
-    PhysicsObject * tCrate = new PhysicsObject("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock());
+    ProtoCar * tCrate = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(), input.get());
     entities.push_back(tCrate);
-    tCrate->setPos(0, 0, -5);
+   // tCrate->setPos(0, 0, -5);
    // tCrate->setRot(0, 0, 1.56);
+   // tCrate->setRot(0, 3.14 / 4., 0);
+   //  tCrate->setRot(glm::vec3(0, 3.14/2., 0));
+
+
 
     // Teapot test obj
     //Renderable *teapot = new Renderable("assets/models/teapot/teapot.obj", "assets/models/teapot/teapot_tex.png");
@@ -45,7 +50,6 @@ int main(int argc, const char* argv[])
     entities.push_back(plane);
 
     myPhysics->createGroundPlane();
-	
 	while (!window->shouldClose())
 	{
         input->Update();
@@ -61,18 +65,21 @@ int main(int argc, const char* argv[])
 		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(0.9, -0.9, -0.9));
 		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(0.9, -0.9, 0.9)); */
         //PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 640, 0), PxVec3(0, 0, 0));
-        PxRigidBodyExt::addForceAtLocalPos(*tCrate->mActor, PxVec3(0, 640, 0), PxVec3(0, 0, 0));
+        //PxRigidBodyExt::addForceAtLocalPos(*tCrate->mActor, PxVec3(0, 640, 0), PxVec3(0, 0, 0));
 		
 		//Watch here when you run. Applying a torque about Y (up) axis and it doesn't spin about it properly... why?
-		tCrate->mActor->addTorque(PxVec3(0., -50, 0.)); // mad torques tho
+		//tCrate->mActor->addTorque(PxVec3(0., -50, 0.)); // mad torques tho
 
         //dynamic_cast<PhysicsObject*>(entities.front())->mActor->addTorque(PxVec3(0., 0., 100.0));
-
-
-		dynamic_cast<PhysicsObject*>(entities.front())->updatePosandRot(); // We'll eventually have a function here that updates all positions
+      //  tCrate->applyLocalForce(0, 0, 500);
+        tCrate->update();
+		//dynamic_cast<PhysicsObject*>(entities.front())->updatePosandRot(); // We'll eventually have a function here that updates all positions
 		// mySound->updateSound();
 		window->draw(entities);
-		//std::cout << "LS_X: " << input->LeftStick_X() << "  LS_Y: " << input->LeftStick_Y() << "  RS_X: " << input->RightStick_X() << "  RS_Y: " << input->RightStick_Y() << std::endl;
+      //  std::cout << "rot x = " << tCrate->xRot() << "  y_rot = " << tCrate->yRot() << "  z_rot = " << tCrate->zRot() << std::endl;
+	//	std::cout << "LS_X: " << input->LeftStick_X() << "  LS_Y: " << input->LeftStick_Y() << "  RS_X: " << input->RightStick_X() << "  RS_Y: " << input->RightStick_Y() << std::endl;
+       // std::cout << "RT = " << input->RightTrigger() << "    LT = " << input->LeftTrigger() << std::endl;
+        std::cout << "y pos = " << tCrate->yPos() << std::endl;
 	}
 	
 	delete myPhysics;

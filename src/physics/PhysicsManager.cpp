@@ -35,7 +35,7 @@ PhysicsManager::PhysicsManager()
 	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
 	mScene = mPhysics->createScene(sceneDesc);
 
-	mMaterial = mPhysics->createMaterial(0.5f, 0.5f, 0.6f);
+	mMaterial = mPhysics->createMaterial(0.1f, 0.1f, 0.6f);
 
 }
 

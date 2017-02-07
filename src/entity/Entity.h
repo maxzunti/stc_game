@@ -6,7 +6,7 @@
 class Entity {
 protected:
 	glm::vec3 pos = { 0, 0, 0 }; // x, y, z
-    glm::vec3 rot = { 0, 0, 0 };; // rotation about x, y, z axes (degrees or rad? dep. on physX)
+    glm::vec3 rot = { 0, 0, 0 }; // rotation about x, y, z axes (degrees or rad? dep. on physX)
 
 public:
 

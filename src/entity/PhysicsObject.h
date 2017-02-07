@@ -9,6 +9,7 @@ public:
 	PhysicsObject(std::string model_fname, std::string tex_fname, PxRigidBody* actor);
 	~PhysicsObject();
 	void updatePosandRot();
+    virtual void update();
 	PxRigidBody* mActor;
 
     // Overrides to interact with PhysX

@@ -12,6 +12,10 @@ PhysicsObject::~PhysicsObject()
 {
 }
 
+void PhysicsObject::update() {
+    updatePosandRot();
+}
+
 void PhysicsObject::updatePosandRot()
 {
     setPos(mActor->getGlobalPose().p.x,
@@ -37,14 +41,14 @@ void PhysicsObject::setPos(glm::vec3 &nPos) {
 
 void PhysicsObject::setRot(double x, double y, double z) {
     rot = glm::vec3(x, y, z);
-    glm::quat nquat(rot);
+    glm::tquat<double> nquat(rot);
     PxQuat newRot(nquat.x, nquat.y, nquat.z, nquat.w);
     mActor->setGlobalPose(PxTransform(mActor->getGlobalPose().p, newRot));
 }
 
 void PhysicsObject::setRot(glm::vec3 &nRot) {
     rot = nRot;
-    glm::quat nquat(rot);
+    glm::tquat<double> nquat(rot);
     PxQuat newRot(nquat.x, nquat.y, nquat.z, nquat.w);
     mActor->setGlobalPose(PxTransform(mActor->getGlobalPose().p, newRot));
 }

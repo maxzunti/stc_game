@@ -145,6 +145,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\entity\PhysicsObject.cpp" />
+    <ClCompile Include="src\entity\ProtoCar.cpp" />
     <ClCompile Include="src\physics\PhysicsManager.cpp" />
     <ClCompile Include="src\entity\Entity.cpp" />
     <ClCompile Include="src\entity\Renderable.cpp" />
@@ -285,6 +286,7 @@
     <None Include="src\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\entity\ProtoCar.h" />
     <ClInclude Include="src\physics\PhysicsManager.h" />
     <ClInclude Include="src\entity\AICar.h" />
     <ClInclude Include="src\entity\Car.h" />
