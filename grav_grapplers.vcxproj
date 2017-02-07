@@ -158,6 +158,7 @@
     <ClCompile Include="middleware\glad\src\glad.c" />
     <ClCompile Include="middleware\glm\detail\glm.cpp" />
     <ClCompile Include="src\renderer\model\Model.cpp" />
+    <ClCompile Include="src\renderer\skybox\Skybox.cpp" />
     <ClCompile Include="src\renderer\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +279,8 @@
     <None Include="middleware\glm\gtx\vector_query.inl" />
     <None Include="middleware\glm\gtx\wrap.inl" />
     <None Include="src\renderer\shaders\fragment.glsl" />
+    <None Include="src\renderer\shaders\skybox_frag.glsl" />
+    <None Include="src\renderer\shaders\skybox_vert.glsl" />
     <None Include="src\renderer\shaders\vertex.glsl" />
     <None Include="src\vertex.glsl" />
   </ItemGroup>

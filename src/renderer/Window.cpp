@@ -37,7 +37,7 @@ Window::Window() {
             done_init = true;
         }
     }
-    renderer->initRenderer(); // can probably kill this after shader handling is generalized
+    renderer->initSkybox();
 }
 
 Window::~Window() {

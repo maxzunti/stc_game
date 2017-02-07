@@ -8,22 +8,21 @@
 #include "entity/Entity.h"
 #include "entity/Renderable.h"
 #include "entity/PhysicsObject.h"
+#include "renderer/skybox/Skybox.h"
 
 using namespace std;
 
 int main(int argc, const char* argv[])
 {
+
 	std::cout << argv[0] << std::endl;
     Window * myWindow = new Window();
 
-	//exit(0);
-//	Renderer* myRenderer = new Renderer(0);
 	// Input* myInput = new Input();
 	PhysicsManager* myPhysics = new PhysicsManager();
 	// Sound* mySound = new Sound();
 	// OpponentAI* myAI = new OpponentAI();
 
-//	myRenderer->initRenderer();
 	Input *input = new Input(0);
 
     // TODO: convert these to unique_ptrs
@@ -37,6 +36,7 @@ int main(int argc, const char* argv[])
     //entities.push_back(teapot);
 
     Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
+
     plane->setPos(0, -2, 0);
     entities.push_back(plane);
 
@@ -68,7 +68,6 @@ int main(int argc, const char* argv[])
 		myWindow->draw(entities);
 		input->Update();
 		//std::cout << "LS_X: " << input->LeftStick_X() << "  LS_Y: " << input->LeftStick_Y() << "  RS_X: " << input->RightStick_X() << "  RS_Y: " << input->RightStick_Y() << std::endl;
-        std::cout << dynamic_cast<PhysicsObject*>(entities.front())->mActor->getAngularVelocity().y << std::endl;
 	}
 	
 	delete myWindow;

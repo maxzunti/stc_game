@@ -26,7 +26,7 @@ using namespace glm;
 
 int shade = 0;
 
-void Renderer::render(const Model& model, mat4 perspectiveMatrix, mat4 model_matrix, int startElement)
+void Renderer::render(const Model& model, mat4 &perspectiveMatrix, mat4 model_matrix, int startElement)
 {
     // Set object-specific VAO
     glBindVertexArray(model.vao[VAO::GEOMETRY]);
@@ -51,8 +51,6 @@ void Renderer::render(const Model& model, mat4 perspectiveMatrix, mat4 model_mat
     GLint uniformLocation = glGetUniformLocation(shader[SHADER::DEFAULT], "shade");
     glUniform1i(uniformLocation, shade);	//Normalize coordinates between 0 and 1
 
-                                            //loadTexture(texid, GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
-
     model.getTex()->load(GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
 
     CheckGLErrors("loadUniforms");
@@ -65,7 +63,42 @@ void Renderer::render(const Model& model, mat4 perspectiveMatrix, mat4 model_mat
         );
 
     CheckGLErrors("render");
+    glBindVertexArray(0);
 }
+
+void Renderer::drawSkybox(const Skybox* sb, glm::mat4 &perspectiveMatrix)
+{
+    glDepthMask(GL_FALSE);
+
+    // Set object-specific VAO
+    glBindVertexArray(sb->vao);
+
+    glm::mat4 view = glm::mat4(glm::mat3(cam->getMatrix())); // Convert to 3x3 to remove translation components
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SKYBOX], "view"),
+        1,
+        false,
+        &view[0][0]);
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SKYBOX], "projection"),
+        1,
+        false,
+        &perspectiveMatrix[0][0]);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, sb->tex_id);
+
+ //   GLuint uniformLocation = glGetUniformLocation(shader[SHADER::SKYBOX], skybox);
+ //   glUniform1i(uniformLocation, 0);
+    CheckGLErrors("loadUniforms");
+
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    CheckGLErrors("drawSkybox");
+    glBindVertexArray(0);
+    glDepthMask(GL_TRUE);
+}
+
 
 Renderer::Renderer(int index) :
     cam(new Camera(vec3(0, 0, -1), vec3(0, 0, 5)))
@@ -73,14 +106,18 @@ Renderer::Renderer(int index) :
 	Renderer::index = index;
 }
 
-bool Renderer::initRenderer() {
-	//Don't need to call these on every draw, so long as they don't change
-	glUseProgram(shader[SHADER::DEFAULT]);		//Use LINE program
-	//glBindVertexArray(vao[VAO::GEOMETRY]);		//Use the LINES vertex array
-
-	glUseProgram(shader[SHADER::DEFAULT]);
-
-    return 0;
+void Renderer::initSkybox() {
+    // Maybe generalize this at some point, but hard-coding it should be okay for now
+    std::string skybox_dir = "assets\\skybox\\miramar\\";
+    std::string filenames[6] = {
+        skybox_dir + "miramar_rt.tga",
+        skybox_dir + "miramar_lf.tga",
+        skybox_dir + "miramar_up.tga",
+        skybox_dir + "miramar_dn.tga",
+        skybox_dir + "miramar_bk.tga",
+        skybox_dir + "miramar_ft.tga",
+    };
+    skybox = new Skybox(filenames);
 }
 
 void Renderer::drawScene(const std::vector<Entity*>& ents)
@@ -91,7 +128,13 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
 
     shade = 0;
+    if (skybox) { // kill me - ifs are expensive
+        std::cout << "drawing skybox?" << std::endl;
+        glUseProgram(shader[SHADER::SKYBOX]);
+        drawSkybox(this->skybox, perspectiveMatrix);
+    }
 
+    glUseProgram(shader[SHADER::DEFAULT]);
     for (const auto& e : ents) {
         // This is virtual function lookup for each entity, might be slow
         // Potentially optimize by using a single vec of Renderables

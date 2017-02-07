@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 
+#include <stb_image.h>
 
 //Structs are simply acting as namespaces
 //Access the values like so: VAO::LINES
@@ -20,9 +21,7 @@ struct VBO {
 	enum { POINTS = 0, NORMALS, UVS, INDICES, COUNT };	//POINTS=0, COLOR=1, UVS=2, INDICES=3, COUNT=4
 };
 
-struct SHADER {
-	enum { DEFAULT = 0, COUNT };		// DEFAULT = 0, COUNT=1
-};
+enum SHADER { DEFAULT = 0, SKYBOX, SHADER_COUNT };
 
 //GLuint vbo[];		//Array which stores OpenGL's vertex buffer object handles
 GLuint vao[];		//Array which stores Vertex Array Object handles
@@ -60,7 +59,7 @@ bool CheckGLErrors(std::string location);
 std::string LoadSource(const std::string &filename);
 
 //Compile and link shaders, storing the program ID in shader array
-bool initShader();
+bool initShader(SHADER shad, std::string vs, std::string fs);
 
 // creates and returns a shader object compiled from the given source
 GLuint CompileShader(GLenum shaderType, const std::string &source);

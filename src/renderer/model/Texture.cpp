@@ -1,9 +1,6 @@
 #include "Texture.h"
 #include <iostream>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-
 //For reference:
 //	https://open.gl/textures
 Texture::Texture(const char* filename)
@@ -32,7 +29,6 @@ Texture::Texture(const char* filename)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, 4.0f); // 4x filtering
 
-
         //Clean up
         glBindTexture(GL_TEXTURE_2D, 0);
         stbi_image_free(data);
@@ -46,7 +42,7 @@ Texture::~Texture() {
 }
 
 // Use program before loading texture
-// lexUnit can be - GL_TEXTURE0, GL_TEXTURE1, etc...
+// texUnit can be - GL_TEXTURE0, GL_TEXTURE1, etc...
 bool Texture::load(GLuint texUnit, GLuint program, const char* uniformName) const
 {
     glActiveTexture(texUnit);

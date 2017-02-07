@@ -9,8 +9,10 @@
 using namespace std;
 using namespace glm;
 #define PI 3.14159265359
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
-GLuint shader[SHADER::COUNT];		//Array which stores shader program handles
+GLuint shader[SHADER::SHADER_COUNT];		//Array which stores shader program handles
 
 //Clean up IDs when you're done using them
 /*
@@ -28,7 +30,7 @@ void deleteIDs()
 */
 
 //Describe the setup of the Vertex Array Object
-bool initVAO(GLuint vao[VAO::COUNT], GLuint vbo[VBO::COUNT]) // MAX: I think I need to pass a new 'vbo' object (w/ its own pointers) and call this multiple times
+bool initVAO(GLuint vao[VAO::COUNT], GLuint vbo[VBO::COUNT])
 {
 	glBindVertexArray(vao[VAO::GEOMETRY]);		//Set the active Vertex Array (should only have 1, right?)
 
@@ -118,19 +120,18 @@ bool loadBuffer(GLuint vbo[VBO::COUNT],
 }
 
 //Compile and link shaders, storing the program ID in shader array
-bool initShader()
+bool initShader(SHADER shad, std::string vs, std::string fs)
 {
-	string vertexSource = LoadSource("src\\renderer\\shaders\\vertex.glsl");		//Put vertex file text into string
-	string fragmentSource = LoadSource("src\\renderer\\shaders\\fragment.glsl");		//Put fragment file text into string
+	string vertexSource = LoadSource(vs);		//Put vertex file text into string
+	string fragmentSource = LoadSource(fs);		//Put fragment file text into string
 
 	GLuint vertexID = CompileShader(GL_VERTEX_SHADER, vertexSource);
 	GLuint fragmentID = CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
 
-	shader[SHADER::DEFAULT] = LinkProgram(vertexID, fragmentID);	//Link and store program ID in shader array
+	shader[shad] = LinkProgram(vertexID, fragmentID);	//Link and store program ID in shader array
 
 	return !CheckGLErrors("initShader");
 }
-
 
 
 //Initialization
@@ -152,7 +153,8 @@ bool initGL()
 	//COMMENT/UNCOMMENT - essentially turns wire frames on and off
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	initShader();		//Create shader and store program ID
+    initShader(SHADER::DEFAULT, "src\\renderer\\shaders\\vertex.glsl", "src\\renderer\\shaders\\fragment.glsl");
+    initShader(SHADER::SKYBOX, "src\\renderer\\shaders\\skybox_vert.glsl", "src\\renderer\\shaders\\skybox_frag.glsl");
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);

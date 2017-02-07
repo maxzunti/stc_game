@@ -63,6 +63,9 @@
     <ClCompile Include="src\entity\PhysicsObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\renderer\skybox\Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="middleware\glm\detail\func_common.inl">
@@ -412,6 +415,8 @@
     <None Include="src\renderer\shaders\fragment.glsl" />
     <None Include="src\renderer\shaders\vertex.glsl" />
     <None Include="middleware\xinput\xinput1_3.dll" />
+    <None Include="src\renderer\shaders\skybox_frag.glsl" />
+    <None Include="src\renderer\shaders\skybox_vert.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="middleware\glad\include\glad\glad.h">
