@@ -122,6 +122,7 @@ void Renderer::render(const Model& model, mat4 &perspectiveMatrix, mat4 model_ma
 
 void Renderer::drawScene(const std::vector<Entity*>& ents)
 {
+    updateCamera();
 	//float fovy, float aspect, float zNear, float zFar
 	mat4 perspectiveMatrix = perspective(radians(80.f), 1.f, 0.1f, 440.f);
     glClearColor(0.f, 0.f, 0.f, 0.f);		//Color to clear the screen with (R, G, B, Alpha)
@@ -166,6 +167,26 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     }
 }
 
+void Renderer::updateCamera() {
+    if (controller) {
+        if (!controller->RStick_InDeadzone()) {
+            cam->rotateCamera(-controller->RightStick_X() * XBOX_X_CAM_ROT_SPEED,
+                controller->RightStick_Y() * XBOX_Y_CAM_ROT_SPEED);
+        }
+
+        if (!controller->LStick_InDeadzone()) {
+            cam->movePosition((cam->right * (controller->LeftStick_X() * XBOX_X_CAM_MOVE_SPEED)) +
+                (cam->dir * (controller->LeftStick_Y() * XBOX_Y_CAM_MOVE_SPEED)));
+        }
+        if (controller->GetButtonDown(XButtonIDs::L_Shoulder)) {
+            cam->movePosition(cam->up * -XBOX_Z_CAM_MOVE_SPEED);
+        }
+        if (controller->GetButtonDown(XButtonIDs::R_Shoulder)) {
+            cam->movePosition(cam->up * XBOX_Z_CAM_MOVE_SPEED);
+        }
+    }
+}
+
 Renderer::~Renderer()
 {
     delete cam;
@@ -174,4 +195,8 @@ Renderer::~Renderer()
 // This seems kinda dangerous
 Camera* Renderer::getCam() {
     return cam;
+}
+
+void Renderer::registerController(Input * newCont) {
+    controller = newCont;
 }

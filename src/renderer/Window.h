@@ -38,4 +38,5 @@ public:
 
     void Window::draw(const std::vector<Entity*>& ents);
     bool Window::shouldClose();
+    static Renderer* getRenderer(); // delete once renderer is non-static
 };

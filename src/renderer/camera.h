@@ -36,8 +36,9 @@ public:
 
     glm::mat4 getMatrix();
 
-	//void rotateCamera(float x, float y);
+	void rotateCamera(float x, float y);
 	void rotateAroundCenter(float x, float y, glm::vec3 focus);
+    void movePosition(glm::vec3 delta);
 };
 
 #endif

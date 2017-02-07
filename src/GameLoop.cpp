@@ -14,21 +14,25 @@ using namespace std;
 
 int main(int argc, const char* argv[])
 {
+    std::unique_ptr<Window> window(new Window());
 
-	std::cout << argv[0] << std::endl;
-    Window * myWindow = new Window();
+    // Set up input
+    std::unique_ptr<Input> input(new Input(0));
+    window->getRenderer()->registerController(input.get());
+
 
 	// Input* myInput = new Input();
 	PhysicsManager* myPhysics = new PhysicsManager();
 	// Sound* mySound = new Sound();
 	// OpponentAI* myAI = new OpponentAI();
 
-	Input *input = new Input(0);
 
     // TODO: convert these to unique_ptrs
     std::vector<Entity*> entities(0);
     PhysicsObject * tCrate = new PhysicsObject("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock());
     entities.push_back(tCrate);
+    tCrate->setPos(0, 0, -5);
+   // tCrate->setRot(0, 0, 1.56);
 
     // Teapot test obj
     //Renderable *teapot = new Renderable("assets/models/teapot/teapot.obj", "assets/models/teapot/teapot_tex.png");
@@ -42,8 +46,10 @@ int main(int argc, const char* argv[])
 
     myPhysics->createGroundPlane();
 	
-	while (!myWindow->shouldClose())
+	while (!window->shouldClose())
 	{
+        input->Update();
+
 		// myInput->getState();
 		// myAI->getState();
 		myPhysics->stepPhysics();
@@ -65,13 +71,10 @@ int main(int argc, const char* argv[])
 
 		dynamic_cast<PhysicsObject*>(entities.front())->updatePosandRot(); // We'll eventually have a function here that updates all positions
 		// mySound->updateSound();
-		myWindow->draw(entities);
-		input->Update();
+		window->draw(entities);
 		//std::cout << "LS_X: " << input->LeftStick_X() << "  LS_Y: " << input->LeftStick_Y() << "  RS_X: " << input->RightStick_X() << "  RS_Y: " << input->RightStick_Y() << std::endl;
 	}
 	
-	delete myWindow;
-    delete input;
 	delete myPhysics;
 	return 0;
 }

@@ -78,17 +78,19 @@ void Camera::rotateAroundCenter(float x, float y, vec3 focus)
 	dir = -1.f*normalize(camFocus);
 	right = normalize(cross(dir, vec3(0,1,0)));
 	up = normalize(cross(right, dir));
-	
 }
-/*
+
 
 void Camera::rotateCamera(float x, float y)
 {
 	mat4 rotateAroundY = rotateAbout(vec3(0, 1, 0), x);
 	mat4 rotateAroundX = rotateAbout(right, y);
 
-	dir = normalize(rotateAroundX*rotateAroundY*vec4(dir, 0));
+	dir = normalize(rotateAroundX * rotateAroundY * vec4(dir, 0));
 	right = normalize(cross(dir, vec3(0, 1, 0)));
 	up =  normalize(cross(right, dir));
 }
-*/
+
+void Camera::movePosition(glm::vec3 delta) {
+    pos += delta;
+}

@@ -59,7 +59,7 @@ int Window::initGLFW() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    window = glfwCreateWindow(1024, 768, "CPSC 585 OpenGL Boilerplate", 0, 0);
+    window = glfwCreateWindow(1024, 768, "GRAV GRAPPLERS", 0, 0);
     if (!window) {
         std::cout << "Program failed to create GLFW window, TERMINATING" << std::endl;
         glfwTerminate();
@@ -162,3 +162,5 @@ void Window::resizeCallback(GLFWwindow* window, int width, int height)
 
     glViewport(0, 0, width, height);
 }
+
+Renderer* Window::getRenderer() { return renderer;  }

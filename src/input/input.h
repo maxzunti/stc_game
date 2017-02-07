@@ -26,9 +26,9 @@ static const WORD XINPUT_Buttons[] = {
       XINPUT_GAMEPAD_START,
       XINPUT_GAMEPAD_BACK
 };
- 
+ /*
 // XInput Button IDs
-struct XButtonIDs
+static struct XButtonIDs
 {
       // Function prototypes
       //---------------------//
@@ -52,7 +52,13 @@ struct XButtonIDs
       int Start; // 'START' button
       int Back;  // 'BACK' button
 };
- 
+ */
+
+// as in GLUtil.h, use the struct as a namespace
+struct XButtonIDs {
+    enum { A = 0, B, X, Y, DPad_Up, DPad_Down, DPad_Left, DPad_Right, L_Shoulder, R_Shoulder, L_Thumbstick, R_Thumbstick, Start, Back };
+};
+
 class Input
 {
 public:

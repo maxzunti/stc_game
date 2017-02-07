@@ -5,6 +5,7 @@ https://lcmccauley.wordpress.com/2014/01/05/gamepad-input-tutorial/
 
 #include "Input.h"
  
+/*
 // Define the 'XButtonIDs' struct as 'XButtons'
 XButtonIDs XButtons;
 
@@ -32,7 +33,7 @@ XButtonIDs::XButtonIDs()
  
       Start = 12;
       Back  = 13;
-}
+}*/
  
 Input::Input() {}
  
