@@ -20,11 +20,65 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <glm//gtx/euler_angles.hpp>
 
 using namespace std;
 using namespace glm;
 
 int shade = 0;
+
+Renderer::Renderer(int index) :
+    cam(new Camera(vec3(0, 0, -1), vec3(0, 0, 5)))
+{
+	Renderer::index = index;
+}
+
+void Renderer::initSkybox() {
+    // Maybe generalize this at some point, but hard-coding it should be okay for now
+    std::string skybox_dir = "assets\\skybox\\miramar\\";
+    std::string filenames[6] = {
+        skybox_dir + "miramar_rt.tga",
+        skybox_dir + "miramar_lf.tga",
+        skybox_dir + "miramar_up.tga",
+        skybox_dir + "miramar_dn.tga",
+        skybox_dir + "miramar_bk.tga",
+        skybox_dir + "miramar_ft.tga",
+    };
+    skybox = new Skybox(filenames);
+}
+
+void Renderer::drawSkybox(const Skybox* sb, glm::mat4 &perspectiveMatrix)
+{
+    glDepthMask(GL_FALSE);
+
+    // Set object-specific VAO
+    glBindVertexArray(sb->vao);
+
+    glm::mat4 view = glm::mat4(glm::mat3(cam->getMatrix())); // Convert to 3x3 to remove translation components
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SKYBOX], "view"),
+        1,
+        false,
+        &view[0][0]);
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SKYBOX], "projection"),
+        1,
+        false,
+        &perspectiveMatrix[0][0]);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, sb->tex_id);
+
+    //   GLuint uniformLocation = glGetUniformLocation(shader[SHADER::SKYBOX], skybox);
+    //   glUniform1i(uniformLocation, 0);
+    CheckGLErrors("loadUniforms");
+
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    CheckGLErrors("drawSkybox");
+    glBindVertexArray(0);
+    glDepthMask(GL_TRUE);
+}
 
 void Renderer::render(const Model& model, mat4 &perspectiveMatrix, mat4 model_matrix, int startElement)
 {
@@ -66,60 +120,6 @@ void Renderer::render(const Model& model, mat4 &perspectiveMatrix, mat4 model_ma
     glBindVertexArray(0);
 }
 
-void Renderer::drawSkybox(const Skybox* sb, glm::mat4 &perspectiveMatrix)
-{
-    glDepthMask(GL_FALSE);
-
-    // Set object-specific VAO
-    glBindVertexArray(sb->vao);
-
-    glm::mat4 view = glm::mat4(glm::mat3(cam->getMatrix())); // Convert to 3x3 to remove translation components
-
-    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SKYBOX], "view"),
-        1,
-        false,
-        &view[0][0]);
-
-    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SKYBOX], "projection"),
-        1,
-        false,
-        &perspectiveMatrix[0][0]);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, sb->tex_id);
-
- //   GLuint uniformLocation = glGetUniformLocation(shader[SHADER::SKYBOX], skybox);
- //   glUniform1i(uniformLocation, 0);
-    CheckGLErrors("loadUniforms");
-
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-
-    CheckGLErrors("drawSkybox");
-    glBindVertexArray(0);
-    glDepthMask(GL_TRUE);
-}
-
-
-Renderer::Renderer(int index) :
-    cam(new Camera(vec3(0, 0, -1), vec3(0, 0, 5)))
-{
-	Renderer::index = index;
-}
-
-void Renderer::initSkybox() {
-    // Maybe generalize this at some point, but hard-coding it should be okay for now
-    std::string skybox_dir = "assets\\skybox\\miramar\\";
-    std::string filenames[6] = {
-        skybox_dir + "miramar_rt.tga",
-        skybox_dir + "miramar_lf.tga",
-        skybox_dir + "miramar_up.tga",
-        skybox_dir + "miramar_dn.tga",
-        skybox_dir + "miramar_bk.tga",
-        skybox_dir + "miramar_ft.tga",
-    };
-    skybox = new Skybox(filenames);
-}
-
 void Renderer::drawScene(const std::vector<Entity*>& ents)
 {
 	//float fovy, float aspect, float zNear, float zFar
@@ -148,10 +148,16 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
 				r->getPos());  */
 
 			// This one seems to rotate locally (properly)
-			glm::mat4 mmatrix = glm::rotate(glm::rotate(glm::rotate(glm::translate(r->getModel()->get_scaling(), r->getPos()),
+	/*		glm::mat4 mmatrix = glm::rotate(glm::rotate(glm::rotate(glm::translate(r->getModel()->get_scaling(), r->getPos()),
 				r->getRot().x, vec3(1, 0, 0)),
 				r->getRot().y, vec3(0, 1, 0)),
 				r->getRot().z, vec3(0, 0, 1));
+            std::cout << "xpos = " << r->xPos() << "  ypos = " << r->yPos() << "  zpos = " << r->zPos() << std::endl; */
+
+            mat4 scale = r->getModel()->get_scaling();
+            mat4 rot = glm::eulerAngleXYZ(r->xRot(), r->yRot(), r->zRot());
+            mat4 trans = glm::translate(mat4(), r->getPos());
+            mat4 mmatrix = trans * rot * scale;
 
             if (r->is_model_loaded()) {
                 render(*r->getModel(), perspectiveMatrix, mmatrix, 0);
