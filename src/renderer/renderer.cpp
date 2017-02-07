@@ -128,12 +128,9 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
 
     shade = 0;
-    if (skybox) { // kill me - ifs are expensive
-        std::cout << "drawing skybox?" << std::endl;
-        glUseProgram(shader[SHADER::SKYBOX]);
-        drawSkybox(this->skybox, perspectiveMatrix);
-    }
-
+    glUseProgram(shader[SHADER::SKYBOX]);
+    drawSkybox(this->skybox, perspectiveMatrix);
+    
     glUseProgram(shader[SHADER::DEFAULT]);
     for (const auto& e : ents) {
         // This is virtual function lookup for each entity, might be slow

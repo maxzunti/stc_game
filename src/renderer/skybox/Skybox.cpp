@@ -47,8 +47,6 @@ GLfloat skyboxVertices[] = {
 };
 
 Skybox::Skybox(std::string files[6]) {
-    for (int i = 0; i < 6; i++) std::cout << files[i] << std::endl;
-
     glGenTextures(1, &tex_id);
     glActiveTexture(GL_TEXTURE0);
     int components, tWidth, tHeight;
@@ -56,7 +54,6 @@ Skybox::Skybox(std::string files[6]) {
     glBindTexture(GL_TEXTURE_CUBE_MAP, tex_id);
     for (int i = 0; i < 6; i++) {
         face_names[i] = files[i];
-        //stbi_set_flip_vertically_on_load(true);
         unsigned char* data = stbi_load(face_names[i].c_str(), &tWidth, &tHeight, &components, 0);
 
         if (data != NULL)
