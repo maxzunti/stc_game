@@ -14,16 +14,17 @@ public:
 	//~Entity(); currently have no specific behaviour
 
 	const glm::vec3& getPos() const;
-	void setPos(double x, double y, double z);
+    virtual void setPos(double x, double y, double z);
+    virtual void setPos(glm::vec3 &newPos);
     const glm::vec3& getRot() const;
-    void setRot(double x, double y, double z);
-    void setRot(glm::vec3 &newRot);
-	double xPos();
-	double yPos();
-	double zPos();
-	double xRot();
-	double yRot();
-	double zRot();
+    virtual void setRot(double x, double y, double z);
+    virtual void setRot(glm::vec3 &newRot);
+	double xPos() const;
+	double yPos() const;
+	double zPos() const;
+	double xRot() const;
+	double yRot() const;
+	double zRot() const;
     virtual bool canRender();
 };
 #endif ENTITY_H
