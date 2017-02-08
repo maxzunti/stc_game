@@ -9,6 +9,7 @@
 #include "entity/Renderable.h"
 #include "entity/PhysicsObject.h"
 #include "entity/ProtoCar.h"
+#include "entity/Hook.h"
 #include "renderer/skybox/Skybox.h"
 
 using namespace std;
@@ -31,10 +32,13 @@ int main(int argc, const char* argv[])
     // TODO: convert these to unique_ptrs
     std::vector<Entity*> entities(0);
     ProtoCar * tCrate = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(), input.get());
-    PhysicsObject * crate2 = new PhysicsObject("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock());
+   // ProtoCar * crate2 = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(), input.get());
+
+	Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(), 0.f);
 
     entities.push_back(tCrate);
-    entities.push_back(crate2);
+    //entities.push_back(crate2);
+	entities.push_back(tHook);
    // tCrate->setPos(0, 0, -5);
    // tCrate->setRot(0, 0, 1.56);
    // tCrate->setRot(0, 3.14 / 4., 0);
@@ -46,12 +50,18 @@ int main(int argc, const char* argv[])
     //Renderable *teapot = new Renderable("assets/models/teapot/teapot.obj", "assets/models/teapot/teapot_tex.png");
     //teapot->scale(0.5, 0.5, 0.5);
     //entities.push_back(teapot);
-    crate2->setPos(0, 10, 0);
+    //crate2->setPos(10, 0, 0);
 
     Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
+	Renderable* wall = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
 
     plane->setPos(0, 0, 0);
+
+	wall->setPos(0, 5, -10);
+	wall->setRot(1.57, 0, 0);
+
     entities.push_back(plane);
+	entities.push_back(wall);
 
     myPhysics->createGroundPlane();
 	while (!window->shouldClose())
@@ -77,7 +87,8 @@ int main(int argc, const char* argv[])
         //dynamic_cast<PhysicsObject*>(entities.front())->mActor->addTorque(PxVec3(0., 0., 100.0));
       //  tCrate->applyLocalForce(0, 0, 500);
         tCrate->update();
-        crate2->update();
+        //crate2->update();
+		tHook->update();
 		//dynamic_cast<PhysicsObject*>(entities.front())->updatePosandRot(); // We'll eventually have a function here that updates all positions
 		// mySound->updateSound();
 		window->draw(entities);
