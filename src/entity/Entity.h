@@ -15,10 +15,10 @@ public:
 
 	const glm::vec3& getPos() const;
     virtual void setPos(double x, double y, double z);
-    virtual void setPos(glm::vec3 &newPos);
+    virtual void setPos(glm::vec3 newPos);
     const glm::vec3& getRot() const;
     virtual void setRot(double x, double y, double z);
-    virtual void setRot(glm::vec3 &newRot);
+    virtual void setRot(glm::vec3 newRot);
 	double xPos() const;
 	double yPos() const;
 	double zPos() const;
