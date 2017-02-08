@@ -31,7 +31,10 @@ int main(int argc, const char* argv[])
     // TODO: convert these to unique_ptrs
     std::vector<Entity*> entities(0);
     ProtoCar * tCrate = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(), input.get());
+    PhysicsObject * crate2 = new PhysicsObject("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock());
+
     entities.push_back(tCrate);
+    entities.push_back(crate2);
    // tCrate->setPos(0, 0, -5);
    // tCrate->setRot(0, 0, 1.56);
    // tCrate->setRot(0, 3.14 / 4., 0);
@@ -43,10 +46,11 @@ int main(int argc, const char* argv[])
     //Renderable *teapot = new Renderable("assets/models/teapot/teapot.obj", "assets/models/teapot/teapot_tex.png");
     //teapot->scale(0.5, 0.5, 0.5);
     //entities.push_back(teapot);
+    crate2->setPos(0, 10, 0);
 
     Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
 
-    plane->setPos(0, -2, 0);
+    plane->setPos(0, 0, 0);
     entities.push_back(plane);
 
     myPhysics->createGroundPlane();
@@ -73,13 +77,13 @@ int main(int argc, const char* argv[])
         //dynamic_cast<PhysicsObject*>(entities.front())->mActor->addTorque(PxVec3(0., 0., 100.0));
       //  tCrate->applyLocalForce(0, 0, 500);
         tCrate->update();
+        crate2->update();
 		//dynamic_cast<PhysicsObject*>(entities.front())->updatePosandRot(); // We'll eventually have a function here that updates all positions
 		// mySound->updateSound();
 		window->draw(entities);
       //  std::cout << "rot x = " << tCrate->xRot() << "  y_rot = " << tCrate->yRot() << "  z_rot = " << tCrate->zRot() << std::endl;
 	//	std::cout << "LS_X: " << input->LeftStick_X() << "  LS_Y: " << input->LeftStick_Y() << "  RS_X: " << input->RightStick_X() << "  RS_Y: " << input->RightStick_Y() << std::endl;
        // std::cout << "RT = " << input->RightTrigger() << "    LT = " << input->LeftTrigger() << std::endl;
-        std::cout << "y pos = " << tCrate->yPos() << std::endl;
 	}
 	
 	delete myPhysics;

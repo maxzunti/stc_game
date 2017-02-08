@@ -13,8 +13,8 @@ void Entity::setPos(double x, double y, double z) {
     pos.z = z;
 }
 
-void Entity::setPos(glm::vec3 &newPos) {
-    rot = std::move(newPos); // yoink
+void Entity::setPos(glm::vec3 newPos) {
+    rot = newPos;
 }
 
 const glm::vec3& Entity::getRot() const {
@@ -27,8 +27,8 @@ void Entity::setRot(double x, double y, double z) {
     rot.z = z;
 }
 
-void Entity::setRot(glm::vec3 &newRot) {
-    rot = std::move(newRot); // yoink
+void Entity::setRot(glm::vec3 newRot) {
+    rot = newRot;
 }
 
 double Entity::xPos() const { return pos[0]; }

@@ -52,16 +52,15 @@ PhysicsManager::~PhysicsManager()
 
 PxActor* PhysicsManager::createGroundPlane()
 {
-	PxRigidStatic* groundPlane = PxCreatePlane(*mPhysics, PxPlane(PxVec3(0, -3, 0), PxVec3(0,1,0)), *mMaterial);
+	PxRigidStatic* groundPlane = PxCreatePlane(*mPhysics, PxPlane(PxVec3(0, 0, 0), PxVec3(0,1,0)), *mMaterial);
 	mScene->addActor(*groundPlane);
 	return groundPlane;
 }
 
 PxRigidBody* PhysicsManager::createBlock()
 {
-	PxShape* shape = mPhysics->createShape(PxBoxGeometry(2.0f, 2.0f, 2.0f), *mMaterial);
-	
-	PxTransform localTm(PxVec3(0., 0., 0.) * 2.0f);
+	PxShape* shape = mPhysics->createShape(PxBoxGeometry(1.0f, 1.0f, 1.0f), *mMaterial);
+	PxTransform localTm(PxVec3(0., 1., 0.) * 2.0f);
 	PxRigidDynamic* body = mPhysics->createRigidDynamic(localTm);
 	body->attachShape(*shape);
 	body->setLinearDamping(1.0f);
