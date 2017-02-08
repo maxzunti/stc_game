@@ -210,6 +210,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\entity\Hook.cpp" />
     <ClCompile Include="src\entity\PhysicsObject.cpp" />
     <ClCompile Include="src\entity\ProtoCar.cpp" />
     <ClCompile Include="src\physics\PhysicsManager.cpp" />

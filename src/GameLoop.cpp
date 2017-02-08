@@ -31,10 +31,10 @@ int main(int argc, const char* argv[])
 
     // TODO: convert these to unique_ptrs
     std::vector<Entity*> entities(0);
-    ProtoCar * tCrate = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(), input.get());
+    ProtoCar * tCrate = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(-5,5,0), input.get());
    // ProtoCar * crate2 = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(), input.get());
 
-	Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(), 0.f);
+	Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(5,5,0), 0.f);
 
     entities.push_back(tCrate);
     //entities.push_back(crate2);
