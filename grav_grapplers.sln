@@ -7,12 +7,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grav_grapplers", "grav_grap
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		checked|x64 = checked|x64
+		checked|x86 = checked|x86
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E53CF5D-A9AC-4E15-9DCF-A237A7FCDC4D}.checked|x64.ActiveCfg = checked|x64
+		{1E53CF5D-A9AC-4E15-9DCF-A237A7FCDC4D}.checked|x64.Build.0 = checked|x64
+		{1E53CF5D-A9AC-4E15-9DCF-A237A7FCDC4D}.checked|x86.ActiveCfg = checked|Win32
+		{1E53CF5D-A9AC-4E15-9DCF-A237A7FCDC4D}.checked|x86.Build.0 = checked|Win32
 		{1E53CF5D-A9AC-4E15-9DCF-A237A7FCDC4D}.Debug|x64.ActiveCfg = Debug|x64
 		{1E53CF5D-A9AC-4E15-9DCF-A237A7FCDC4D}.Debug|x64.Build.0 = Debug|x64
 		{1E53CF5D-A9AC-4E15-9DCF-A237A7FCDC4D}.Debug|x86.ActiveCfg = Debug|Win32
