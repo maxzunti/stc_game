@@ -31,6 +31,7 @@ Renderer::Renderer(int index) :
     cam(new Camera(vec3(0, 0, -1), vec3(0, 0, 5)))
 {
 	Renderer::index = index;
+    mode = camMode::FOLLOW;
 }
 
 void Renderer::initSkybox() {
@@ -141,22 +142,8 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
             // hasn't been initialized properly
             const Renderable* r = static_cast<Renderable*>(e);
 			
-			// This one seems to rotate globally, not locally... but haven't tested enough
-		/*	glm::mat4 mmatrix = glm::translate(glm::rotate(glm::rotate(glm::rotate(r->getModel()->get_scaling(),
-				r->getRot().x, vec3(1, 0, 0)),
-				r->getRot().y, vec3(0, 1, 0)),
-				r->getRot().z, vec3(0, 0, 1)), 
-				r->getPos());  */
-
-			// This one seems to rotate locally (properly)
-	/*		glm::mat4 mmatrix = glm::rotate(glm::rotate(glm::rotate(glm::translate(r->getModel()->get_scaling(), r->getPos()),
-				r->getRot().x, vec3(1, 0, 0)),
-				r->getRot().y, vec3(0, 1, 0)),
-				r->getRot().z, vec3(0, 0, 1));
-            std::cout << "xpos = " << r->xPos() << "  ypos = " << r->yPos() << "  zpos = " << r->zPos() << std::endl; */
-
             mat4 scale = r->getModel()->get_scaling();
-            mat4 rot = glm::eulerAngleXYZ(r->xRot(), r->yRot(), r->zRot());
+            mat4 rot = glm::mat4_cast(r->getQRot());
             mat4 trans = glm::translate(mat4(), r->getPos());
             mat4 mmatrix = trans * rot * scale;
 
@@ -168,21 +155,36 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
 }
 
 void Renderer::updateCamera() {
+    static int framecount = 0; // hacky workaround - remove me at some point
+    framecount++;
     if (controller) {
+        // Toggle camera mode
+        if (controller->GetButtonPressed(XButtonIDs::Y) && framecount >= 30) {
+            framecount = 0;
+            if (mode == camMode::FOLLOW) {
+                mode = camMode::FREE;
+            }
+            else if (mode == camMode::FREE) {
+                mode = camMode::FOLLOW;
+            }
+        }
+
         if (!controller->RStick_InDeadzone()) {
             cam->rotateCamera(-controller->RightStick_X() * XBOX_X_CAM_ROT_SPEED,
                 controller->RightStick_Y() * XBOX_Y_CAM_ROT_SPEED);
         }
 
-        if (!controller->LStick_InDeadzone()) {
-            cam->movePosition((cam->right * (controller->LeftStick_X() * XBOX_X_CAM_MOVE_SPEED)) +
-                (cam->dir * (controller->LeftStick_Y() * XBOX_Y_CAM_MOVE_SPEED)));
-        }
-        if (controller->GetButtonDown(XButtonIDs::L_Shoulder)) {
-            cam->movePosition(cam->up * -XBOX_Z_CAM_MOVE_SPEED);
-        }
-        if (controller->GetButtonDown(XButtonIDs::R_Shoulder)) {
-            cam->movePosition(cam->up * XBOX_Z_CAM_MOVE_SPEED);
+        if (mode == camMode::FREE) {
+            if (!controller->LStick_InDeadzone()) {
+                cam->movePosition((cam->right * (controller->LeftStick_X() * XBOX_X_CAM_MOVE_SPEED)) +
+                    (cam->dir * (controller->LeftStick_Y() * XBOX_Y_CAM_MOVE_SPEED)));
+            }
+            if (controller->GetButtonDown(XButtonIDs::L_Shoulder)) {
+                cam->movePosition(cam->up * -XBOX_Z_CAM_MOVE_SPEED);
+            }
+            if (controller->GetButtonDown(XButtonIDs::R_Shoulder)) {
+                cam->movePosition(cam->up * XBOX_Z_CAM_MOVE_SPEED);
+            }
         }
     }
 }

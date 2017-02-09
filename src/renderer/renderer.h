@@ -13,6 +13,7 @@ class Renderer {
     Skybox * skybox;
     Input * controller;
     const enum camMode { FREE = 0, FOLLOW };
+    camMode mode;
 
     void render(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 model_matrix, int startElement);
     void drawSkybox(const Skybox* sb, glm::mat4 &perspectiveMatrix);

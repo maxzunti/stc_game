@@ -17,4 +17,5 @@ public:
     virtual void setPos(glm::vec3 &newPos);
     virtual void setRot(double x, double y, double z);
     virtual void setRot(glm::vec3 &newRot);
+    virtual void rotate(double x, double y, double z);
 };

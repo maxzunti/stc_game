@@ -2,6 +2,8 @@
 #include <iostream>
 #include "glm/gtc/quaternion.hpp"
 
+#define M_PI 3.14159265358979323846
+
 PhysicsObject::PhysicsObject(std::string model_fname, std::string tex_fname, PxRigidBody* act)
 	: Renderable(model_fname, tex_fname)
 {
@@ -25,6 +27,7 @@ void PhysicsObject::updatePosandRot()
     PxQuat &pQuat = mActor->getGlobalPose().q;
     glm::vec3 rot = glm::eulerAngles(glm::tquat<double>(pQuat.w, pQuat.x, pQuat.y, pQuat.z));
     setRot(rot);
+    qrot = glm::tquat<double>(pQuat.w, pQuat.x, pQuat.y, pQuat.z);
 }
 
 void PhysicsObject::setPos(double x, double y, double z) {
@@ -40,15 +43,25 @@ void PhysicsObject::setPos(glm::vec3 &nPos) {
 }
 
 void PhysicsObject::setRot(double x, double y, double z) {
-    rot = glm::vec3(x, y, z);
-    glm::tquat<double> nquat(rot);
-    PxQuat newRot(nquat.x, nquat.y, nquat.z, nquat.w);
+    glm::vec3 euler(x, y, z);
+
+    qrot = glm::tquat<double>(euler);
+    PxQuat newRot(qrot.x, qrot.y, qrot.z, qrot.w);
     mActor->setGlobalPose(PxTransform(mActor->getGlobalPose().p, newRot));
 }
 
 void PhysicsObject::setRot(glm::vec3 &nRot) {
-    rot = nRot;
-    glm::tquat<double> nquat(rot);
-    PxQuat newRot(nquat.x, nquat.y, nquat.z, nquat.w);
+    qrot = glm::tquat<double>(nRot);
+    PxQuat newRot(qrot.x, qrot.y, qrot.z, qrot.w);
+    mActor->setGlobalPose(PxTransform(mActor->getGlobalPose().p, newRot));
+}
+
+// Apply rotations in radians
+void PhysicsObject::rotate(double x, double y, double z) {
+    glm::vec3 euler(x, y, z);
+    glm::tquat<double> nquat(euler);
+
+    qrot = nquat * qrot;
+    PxQuat newRot(qrot.x, qrot.y, qrot.z, qrot.w);
     mActor->setGlobalPose(PxTransform(mActor->getGlobalPose().p, newRot));
 }

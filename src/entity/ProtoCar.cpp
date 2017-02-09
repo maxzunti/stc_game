@@ -20,5 +20,12 @@ void ProtoCar::update() {
     if (pos.y <= -0.999 && controller->GetButtonPressed(XButtonIDs::A)) {
         applyLocalForce(0, 0, 10000);
     }
+    if (controller->GetButtonPressed(XButtonIDs::L_Shoulder)) {
+        rotate(0., 0.05, 0.);
+    }
+    if (controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
+        rotate(0., -0.05, 0.);
+    }
+
     updatePosandRot();
 }

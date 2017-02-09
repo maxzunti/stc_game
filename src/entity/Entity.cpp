@@ -14,21 +14,20 @@ void Entity::setPos(double x, double y, double z) {
 }
 
 void Entity::setPos(glm::vec3 newPos) {
-    rot = newPos;
+    pos = newPos;
 }
 
-const glm::vec3& Entity::getRot() const {
-    return rot;
+glm::tquat<double> Entity::getQRot() const {
+    return qrot;
 }
 
 void Entity::setRot(double x, double y, double z) {
-    rot.x = x;
-    rot.y = y;
-    rot.z = z;
+    glm::vec3 euler(x, y, z);
+    qrot = glm::tquat<double>(euler);
 }
 
 void Entity::setRot(glm::vec3 newRot) {
-    rot = newRot;
+    qrot = glm::tquat<double>(newRot);
 }
 
 double Entity::xPos() const { return pos[0]; }
@@ -36,11 +35,5 @@ double Entity::xPos() const { return pos[0]; }
 double Entity::yPos() const { return pos[1]; }
 
 double Entity::zPos() const { return pos[2]; }
-
-double Entity::xRot() const { return rot[0]; }
-
-double Entity::yRot() const { return rot[1]; }
-
-double Entity::zRot() const { return rot[2]; }
 
 bool Entity::canRender() { return false; }
