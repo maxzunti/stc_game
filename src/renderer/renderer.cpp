@@ -28,7 +28,7 @@ using namespace glm;
 int shade = 0;
 
 Renderer::Renderer(int index) :
-    cam(new Camera(vec3(0, 0, -1), vec3(0, 0, 5)))
+    cam(new Camera(vec3(0, -1, -1), vec3(0, 10, 10)))
 {
 	Renderer::index = index;
     mode = camMode::FOLLOW;

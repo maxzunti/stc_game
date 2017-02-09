@@ -9,6 +9,7 @@
 #include "entity/Renderable.h"
 #include "entity/PhysicsObject.h"
 #include "entity/ProtoCar.h"
+#include "entity/Hook.h"
 #include "renderer/skybox/Skybox.h"
 
 using namespace std;
@@ -31,12 +32,17 @@ int main(int argc, const char* argv[])
 
     // TODO: convert these to unique_ptrs
     std::vector<Entity*> entities(0);
-    ProtoCar * tCrate = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(), input.get());
+    ProtoCar * tCrate = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(0, 5, 0), input.get());
    // ProtoCar * crate2 = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(), input2.get());
 
     entities.push_back(tCrate);
 //    entities.push_back(crate2);
     tCrate->setPos(0, 7, 0);
+
+    Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(5, 5, 0), 0.f);
+
+    entities.push_back(tHook);
+
    // tCrate->setRot(0, 3.14 / 4., 0);
    //  tCrate->setRot(glm::vec3(0, 3.14/2., 0));
 
@@ -47,12 +53,18 @@ int main(int argc, const char* argv[])
     //Renderable *teapot = new Renderable("assets/models/teapot/teapot.obj", "assets/models/teapot/teapot_tex.png");
     //teapot->scale(0.5, 0.5, 0.5);
     //entities.push_back(teapot);
-//    crate2->setPos(0, 10, 0);
+
 
     Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
+	Renderable* wall = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
 
     plane->setPos(0, 0, 0);
+
+	wall->setPos(0, 5, -10);
+	wall->setRot(1.57, 0, 0);
+
     entities.push_back(plane);
+	entities.push_back(wall);
 
     myPhysics->createGroundPlane();
 	while (!window->shouldClose())
@@ -91,9 +103,8 @@ int main(int argc, const char* argv[])
         tCrate->rotate(0., 0.01, 0.);
 
 
-
-       // crate2->update();
-		//dynamic_cast<PhysicsObject*>(entities.front())->updatePosandRot(); // We'll eventually have a function here that updates all positions
+        //crate2->update();
+		tHook->update();
 		// mySound->updateSound();
 		window->draw(entities);
        // std::cout << "rot x = " << tCrate->xRot() << "  y_rot = " << tCrate->yRot() << "  z_rot = " << tCrate->zRot() << std::endl;
