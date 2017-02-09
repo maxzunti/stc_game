@@ -59,6 +59,7 @@ int main(int argc, const char* argv[])
 	Renderable* wall = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
 
     plane->setPos(0, 0, 0);
+    plane->scale(50, 50, 50);
 
 	wall->setPos(0, 5, -10);
 	wall->setRot(1.57, 0, 0);

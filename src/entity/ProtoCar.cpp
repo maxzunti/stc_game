@@ -6,7 +6,7 @@ using namespace glm;
 
 ProtoCar::ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Input* cont, std::vector<Entity*> &ents) :
     PhysicsObject(model_fname, tex_fname, actor),
-    arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/red.png"))
+    arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png"))
 {
     controller = cont;
     ents.push_back(arrow.get());
