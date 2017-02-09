@@ -17,8 +17,8 @@ void ProtoCar::applyLocalForce(float forward, float right, float up) {
 
 void ProtoCar::update() {
     applyLocalForce(0, -(controller->RightTrigger() - controller->LeftTrigger()) * FORCE_FACTOR, 0);
-    if (pos.y <= -0.999 && controller->GetButtonPressed(XButtonIDs::A)) {
-        applyLocalForce(0, 0, 10000);
+    if (pos.y <= 1.01 && controller->GetButtonPressed(XButtonIDs::A)) {
+        applyLocalForce(0, 0, 2000);
     }
     if (controller->GetButtonPressed(XButtonIDs::L_Shoulder)) {
         rotate(0., 0.05, 0.);

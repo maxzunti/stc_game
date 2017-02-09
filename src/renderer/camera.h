@@ -1,6 +1,10 @@
 #ifndef CAMERA_H
 #define CAMERA_H
+#include "../entity/ProtoCar.h"
+#include "../input/input.h"
 #include "glm/glm.hpp"
+#include "glm/gtc/quaternion.hpp"
+
 
 /*
 mat4 rotateAbout(vec3 axis, float radians)
@@ -24,7 +28,34 @@ mat4 rotateAbout(vec3 axis, float radians)
 */
 
 class Camera{
+    ProtoCar * car;
+    Input * controller;
+
+    void setMode();
+    void freeLook();
+    void followLook();
+
 public:
+    const enum camMode { FREE = 0, FOLLOW };
+    camMode mode = FOLLOW;
+
+    // Camera tweaking parameters:
+    // Freelook
+    const float FREE_X_CAM_ROT_SPEED = 0.05;
+    const float FREE_Y_CAM_ROT_SPEED = 0.05;
+    const float FREE_X_CAM_MOVE_SPEED = 0.2;
+    const float FREE_Y_CAM_MOVE_SPEED = 0.2;
+    const float FREE_Z_CAM_MOVE_SPEED = 0.2;
+
+    // Follow cam
+    const float FOLLOW_X_CAM_ROT_SPEED = 0.5;
+    const float FOLLOW_Y_CAM_ROT_SPEED = 0.5;
+
+    const float FOLLOW_DISTANCE = 8.0;
+    const float FOLLOW_HEIGHT = 2.0;
+    const float BASE_ANGLE = -0.5;
+
+
     glm::vec3 dir;
     glm::vec3 up;
     glm::vec3 right;
@@ -34,11 +65,16 @@ public:
 	Camera();
 	Camera(glm::vec3 _dir, glm::vec3 _pos);
 
-    glm::mat4 getMatrix();
+    void registerController(Input *);
+    void registerCar(ProtoCar *);
 
+    void update();
 	void rotateCamera(float x, float y);
 	void rotateAroundCenter(float x, float y, glm::vec3 focus);
     void movePosition(glm::vec3 delta);
+    void quatRot(glm::tquat<double> q);
+    glm::mat4 getMatrix();
+
 };
 
 #endif

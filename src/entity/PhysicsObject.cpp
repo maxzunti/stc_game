@@ -1,6 +1,6 @@
 #include "PhysicsObject.h"
 #include <iostream>
-#include "glm/gtc/quaternion.hpp"
+#include "glm/gtx/quaternion.hpp"
 
 #define M_PI 3.14159265358979323846
 
@@ -46,22 +46,29 @@ void PhysicsObject::setRot(double x, double y, double z) {
     glm::vec3 euler(x, y, z);
 
     qrot = glm::tquat<double>(euler);
+    dir = glm::rotate(qrot, glm::vec3(0, 0, -1));
+
     PxQuat newRot(qrot.x, qrot.y, qrot.z, qrot.w);
     mActor->setGlobalPose(PxTransform(mActor->getGlobalPose().p, newRot));
 }
 
 void PhysicsObject::setRot(glm::vec3 &nRot) {
-    qrot = glm::tquat<double>(nRot);
+    qrot = glm::quat(nRot);
+    dir = glm::rotate(qrot, glm::vec3(0, 0, -1));
+
     PxQuat newRot(qrot.x, qrot.y, qrot.z, qrot.w);
     mActor->setGlobalPose(PxTransform(mActor->getGlobalPose().p, newRot));
+
 }
 
 // Apply rotations in radians
 void PhysicsObject::rotate(double x, double y, double z) {
     glm::vec3 euler(x, y, z);
-    glm::tquat<double> nquat(euler);
+    glm::quat nquat(euler);
 
     qrot = nquat * qrot;
+    dir = glm::rotate(qrot, glm::vec3(0, 0, -1));
+
     PxQuat newRot(qrot.x, qrot.y, qrot.z, qrot.w);
     mActor->setGlobalPose(PxTransform(mActor->getGlobalPose().p, newRot));
 }

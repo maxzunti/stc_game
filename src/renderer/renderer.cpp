@@ -20,7 +20,9 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
-#include <glm//gtx/euler_angles.hpp>
+#include <math.h>
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 using namespace std;
 using namespace glm;
@@ -31,7 +33,6 @@ Renderer::Renderer(int index) :
     cam(new Camera(vec3(0, -1, -1), vec3(0, 10, 10)))
 {
 	Renderer::index = index;
-    mode = camMode::FOLLOW;
 }
 
 void Renderer::initSkybox() {
@@ -123,7 +124,7 @@ void Renderer::render(const Model& model, mat4 &perspectiveMatrix, mat4 model_ma
 
 void Renderer::drawScene(const std::vector<Entity*>& ents)
 {
-    updateCamera();
+    cam->update();
 	//float fovy, float aspect, float zNear, float zFar
 	mat4 perspectiveMatrix = perspective(radians(80.f), 1.f, 0.1f, 440.f);
     glClearColor(0.f, 0.f, 0.f, 0.f);		//Color to clear the screen with (R, G, B, Alpha)
@@ -154,41 +155,6 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     }
 }
 
-void Renderer::updateCamera() {
-    static int framecount = 0; // hacky workaround - remove me at some point
-    framecount++;
-    if (controller) {
-        // Toggle camera mode
-        if (controller->GetButtonPressed(XButtonIDs::Y) && framecount >= 30) {
-            framecount = 0;
-            if (mode == camMode::FOLLOW) {
-                mode = camMode::FREE;
-            }
-            else if (mode == camMode::FREE) {
-                mode = camMode::FOLLOW;
-            }
-        }
-
-        if (!controller->RStick_InDeadzone()) {
-            cam->rotateCamera(-controller->RightStick_X() * XBOX_X_CAM_ROT_SPEED,
-                controller->RightStick_Y() * XBOX_Y_CAM_ROT_SPEED);
-        }
-
-        if (mode == camMode::FREE) {
-            if (!controller->LStick_InDeadzone()) {
-                cam->movePosition((cam->right * (controller->LeftStick_X() * XBOX_X_CAM_MOVE_SPEED)) +
-                    (cam->dir * (controller->LeftStick_Y() * XBOX_Y_CAM_MOVE_SPEED)));
-            }
-            if (controller->GetButtonDown(XButtonIDs::L_Shoulder)) {
-                cam->movePosition(cam->up * -XBOX_Z_CAM_MOVE_SPEED);
-            }
-            if (controller->GetButtonDown(XButtonIDs::R_Shoulder)) {
-                cam->movePosition(cam->up * XBOX_Z_CAM_MOVE_SPEED);
-            }
-        }
-    }
-}
-
 Renderer::~Renderer()
 {
     delete cam;
@@ -197,8 +163,4 @@ Renderer::~Renderer()
 // This seems kinda dangerous
 Camera* Renderer::getCam() {
     return cam;
-}
-
-void Renderer::registerController(Input * newCont) {
-    controller = newCont;
 }

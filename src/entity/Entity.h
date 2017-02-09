@@ -7,7 +7,8 @@
 class Entity {
 protected:
 	glm::vec3 pos = { 0, 0, 0 }; // x, y, z
-    glm::tquat<double> qrot;
+    glm::quat qrot;
+    glm::vec3 dir; // forward-facing direction
 
 public:
 
@@ -15,12 +16,14 @@ public:
 	//~Entity(); currently have no specific behaviour
 
 	const glm::vec3& getPos() const;
+    glm::quat getQRot() const;
+    glm::vec3 getDir() const;
+
     virtual void setPos(double x, double y, double z);
     virtual void setPos(glm::vec3 newPos);
     virtual void setRot(double x, double y, double z);
     virtual void setRot(glm::vec3 newRot);
 
-    glm::tquat<double> getQRot() const;
 
 	double xPos() const;
 	double yPos() const;
