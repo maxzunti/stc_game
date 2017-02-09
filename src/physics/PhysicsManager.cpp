@@ -6,6 +6,9 @@ PhysicsManager::PhysicsManager()
 {
 	static PxDefaultErrorCallback gDefaultErrorCallback;
 	static PxDefaultAllocator gDefaultAllocatorCallback;
+    
+
+
 
 	mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback,
 		gDefaultErrorCallback);
@@ -23,7 +26,15 @@ PhysicsManager::PhysicsManager()
 		mTolerancesScale, recordMemoryAllocations, mProfileZoneManager);
 	if (!mPhysics)
 		std::cout << "PxCreatePhysics failed!" << std::endl;
-
+    
+    if (mPhysics->getPvdConnectionManager())
+    {
+        mPhysics->getVisualDebugger()->setVisualizeConstraints(true);
+        mPhysics->getVisualDebugger()->setVisualDebuggerFlag(PxVisualDebuggerFlag::eTRANSMIT_CONTACTS, true);
+        mPhysics->getVisualDebugger()->setVisualDebuggerFlag(PxVisualDebuggerFlag::eTRANSMIT_SCENEQUERIES, true);
+        gConnection = PxVisualDebuggerExt::createConnection(mPhysics->getPvdConnectionManager(), "127.0.0.1", 5425, 10);
+    }
+    
 	mCooking = PxCreateCooking(PX_PHYSICS_VERSION, *mFoundation, PxCookingParams(mTolerancesScale));
 	if (!mCooking)
 		std::cout << "PxCreateCooking failed!" << std::endl;
@@ -36,6 +47,21 @@ PhysicsManager::PhysicsManager()
 	mScene = mPhysics->createScene(sceneDesc);
 
 	mMaterial = mPhysics->createMaterial(0.1f, 0.1f, 0.6f);
+
+    /////////////////////////////////////////////
+
+    PxInitVehicleSDK(*mPhysics);
+    PxVehicleSetBasisVectors(PxVec3(0, 1, 0), PxVec3(0, 0, 1));
+    PxVehicleSetUpdateMode(PxVehicleUpdateMode::eVELOCITY_CHANGE);
+
+    //Create the batched scene queries for the suspension raycasts.
+    mVehicleSceneQueryData = VehicleSceneQueryData::allocate(1, PX_MAX_NB_WHEELS, 1, gDefaultAllocatorCallback);
+    mBatchQuery = VehicleSceneQueryData::setUpBatchedSceneQuery(0, *mVehicleSceneQueryData, mScene);
+
+    //Create the friction table for each combination of tire and surface type.
+    mFrictionPairs = createFrictionPairs(mMaterial);
+
+
 
 }
 

@@ -141,7 +141,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(ProjectDir)middleware\PhysXSDK\Lib\vc14win32;$(ProjectDir)middleware\assimp\lib32;$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LowLevelCHECKED.lib;PhysXProfileSDKCHECKED.lib;PhysX3CHECKED_x86.lib;PhysX3ExtensionsCHECKED.lib;PhysX3CommonCHECKED_x86.lib;PhysX3CookingCHECKED_x86.lib;assimp.lib;opengl32.lib;glfw3.lib;Xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>PhysXVisualDebuggerSDKCHECKED.lib;PvdRuntimeCHECKED.lib;LowLevelCHECKED.lib;PhysXProfileSDKCHECKED.lib;PhysX3CHECKED_x86.lib;PhysX3ExtensionsCHECKED.lib;PhysX3CommonCHECKED_x86.lib;PhysX3CookingCHECKED_x86.lib;assimp.lib;opengl32.lib;glfw3.lib;Xinput.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command> xcopy /d /y "$(ProjectDir)middleware\PhysXSDK\DLL\*.dll" "$(OutDir)"
