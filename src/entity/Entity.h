@@ -24,7 +24,6 @@ public:
     virtual void setRot(double x, double y, double z);
     virtual void setRot(glm::vec3 newRot);
 
-
 	double xPos() const;
 	double yPos() const;
 	double zPos() const;

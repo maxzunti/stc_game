@@ -5,6 +5,8 @@
 #include "../renderer/model/Texture.h"
 #include <memory>
 
+#define M_PI 3.14159265358979323846
+
 // Ideally, also abstract, but currently being used to test VBO initialization
 class Renderable : public Entity {
 protected:
