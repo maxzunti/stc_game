@@ -23,7 +23,7 @@ mat4 rotateAbout(vec3 axis, float radians)
 
 	return matrix;
 }
-
+/*
 Camera::Camera():	dir(vec3(0, 0, -1)), 
 					right(vec3(1, 0, 0)), 
 					up(vec3(0, 1, 0)),
@@ -31,13 +31,19 @@ Camera::Camera():	dir(vec3(0, 0, -1)),
 					zoom(0.f)
 {
 
-}
+}*/
 
 Camera::Camera(vec3 _dir, vec3 _pos):dir(normalize(_dir)), pos(_pos)
 {
 	right = normalize(cross(_dir, vec3(0, 1, 0)));
 	up =  normalize(cross(right, _dir));
 	zoom = -4.0f;
+    
+    // Initialize follow-cam delay buffers
+    for (int i = 0; i < FOLLOW_DELAY_SIZE; i++) {
+        prev_rot[i] = glm::quat();
+        prev_pos[i] = glm::vec3();
+    }
 }
 
 /*
@@ -85,6 +91,7 @@ void Camera::freeLook() {
 }
 
 void Camera::followLook() {
+
     // Calculate camera rotation
     glm::quat camQ(glm::vec3(0.0f, 0.0f, 0.0f));
     glm::quat base(glm::vec3(BASE_ANGLE, 0.0f, 0.0f));
@@ -96,19 +103,21 @@ void Camera::followLook() {
                                    0.0f));
     }
     // Rotate the cars' direction by the camera offset
-    camQ = car->getQRot() * base * camQ;
+    // camQ = car->getQRot() * base * camQ; 
+    camQ = prev_rot[frame_counter % FOLLOW_DELAY_ROT] * base * camQ;
     glm::vec3 newDir = glm::rotate(camQ, vec3(0, 0, -1)); // calc new direction vector
 
     // Offset camera based on given direction; update cam direction
-    pos = car->getPos() - (FOLLOW_DISTANCE * newDir);
+    // pos = car->getPos() - (FOLLOW_DISTANCE * newDir);
+    pos = prev_pos[frame_counter % FOLLOW_DELAY_POS] - (FOLLOW_DISTANCE * newDir);
     pos.y += FOLLOW_HEIGHT;
     quatRot(camQ);
 }
 
 void Camera::update() {
+    // Update camera position
     if (controller) {
         setMode();
-
         if (mode == camMode::FREE) {
             freeLook();
         }
@@ -116,6 +125,11 @@ void Camera::update() {
             followLook();
         }
     }
+
+    // Fill follow-cam delay buffers
+    prev_rot[frame_counter % FOLLOW_DELAY_ROT] = car->getQRot();
+    prev_pos[frame_counter % FOLLOW_DELAY_POS] = car->getPos();
+    frame_counter++;
 }
 
 mat4 Camera::getMatrix()

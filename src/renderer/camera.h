@@ -28,13 +28,6 @@ mat4 rotateAbout(vec3 axis, float radians)
 */
 
 class Camera{
-    ProtoCar * car;
-    Input * controller;
-
-    void setMode();
-    void freeLook();
-    void followLook();
-
 public:
     const enum camMode { FREE = 0, FOLLOW };
     camMode mode = FOLLOW;
@@ -51,14 +44,14 @@ public:
     const float FOLLOW_X_CAM_ROT_SPEED = 0.4;
     const float FOLLOW_Y_CAM_ROT_SPEED = 0.2;
 
-    const float FOLLOW_DISTANCE = 8.0;
+    const float FOLLOW_DISTANCE = 6.0;
     const float FOLLOW_HEIGHT = 2.0;
     const float BASE_ANGLE = -0.2;
 
-  /*  const int FOLLOW_DELAY_POS = 8;
-    const int FOLLOW_DELAY_ROT = 8;
-    glm::vec3 prev_pos[8];
-    glm::quat prev_rot[8]; */
+    // Frame counts for the follow-cam delay
+    static const int FOLLOW_DELAY_POS = 6;
+    static const int FOLLOW_DELAY_ROT = 4;
+    static const int FOLLOW_DELAY_SIZE = 16;
 
     glm::vec3 dir;
     glm::vec3 up;
@@ -66,7 +59,7 @@ public:
     glm::vec3 pos;
 	float zoom;
 	
-	Camera();
+	//Camera();
 	Camera(glm::vec3 _dir, glm::vec3 _pos);
 
     void registerController(Input *);
@@ -79,6 +72,17 @@ public:
     void quatRot(glm::tquat<double> q);
     glm::mat4 getMatrix();
 
+private:
+    ProtoCar * car;
+    Input * controller;
+
+    void setMode();
+    void freeLook();
+    void followLook();
+
+    glm::vec3 prev_pos[FOLLOW_DELAY_SIZE];
+    glm::quat prev_rot[FOLLOW_DELAY_SIZE];
+    int frame_counter = 0;
 };
 
 #endif
