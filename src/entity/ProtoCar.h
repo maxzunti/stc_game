@@ -12,9 +12,10 @@ protected:
     std::unique_ptr<AimArrow> arrow;
     glm::quat aim_rot;
     glm::vec3 aim;
+    glm::vec3 up;
 
     // Calculate an aim rotation using an xbox controller
-    glm::quat& calcAim();
+    void calcAim();
 
 public:
     ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Input * cont, std::vector<Entity*> &ents);

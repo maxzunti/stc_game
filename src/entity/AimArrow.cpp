@@ -5,8 +5,8 @@ AimArrow::AimArrow(std::string model_fname, std::string tex_fname) :
     scale(SCALE, SCALE, SCALE);
 }
 
-void AimArrow::reposition(glm::vec3 pos, glm::quat aim) {
-    this->pos = pos;
-    this->pos.y += 2.0;
-    this->qrot = aim;
+void AimArrow::reposition(glm::vec3 up, glm::vec3 pos, glm::vec3 aim_vec, glm::quat aim_rot) {
+    this->pos = pos + (BASE_RAD * aim_vec) + (HEIGHT_MOD * up);
+    this->qrot = glm::rotate(aim_rot, BASE_ROT, up);
+    int x = 5;
 }

@@ -1,4 +1,5 @@
 #include "ProtoCar.h"
+#include <glm/gtx/quaternion.hpp>
 #include <math.h>
 
 using namespace glm;
@@ -21,25 +22,19 @@ void ProtoCar::applyLocalForce(float forward, float right, float up) {
     PxRigidBodyExt::addLocalForceAtLocalPos(*mActor, physVec, PxVec3(0, 0, 0));
 }
 
-glm::quat& ProtoCar::calcAim() {
-    glm::tvec3<double> base(0, 0, -1);
-
-    // Don't need to calculate right - fix this after
-    //d0ir = glm::rotate(q, base);
+void ProtoCar::calcAim() {
     vec3 right = normalize(cross(dir, vec3(0, 1, 0)));
-    vec3 up = normalize(cross(right, dir));
+    up = normalize(cross(right, dir));
     float angle = 0.0f;
     if (!controller->RStick_InDeadzone()) {
         angle = atan(controller->RightStick_Y() /
-            controller->RightStick_X());
-        if (controller->RightStick_X() < 0) { // Stick in left position
-            angle += M_PI;
+                     controller->RightStick_X()) - (M_PI / 2);
+        if (controller->RightStick_X() < 0) { // Stick in left half
+            angle -= M_PI;
         }
     }
-    std::cout << "angle = " << angle << std::endl;
-    quat nRot = glm::rotate(qrot, angle, up);
-    arrow->reposition(pos, nRot);
-    return nRot;
+    aim_rot = glm::rotate(qrot, angle, up);
+    aim = glm::rotate(aim_rot, vec3(0, 0, -1));
 }
 
 void ProtoCar::update() {
@@ -55,18 +50,12 @@ void ProtoCar::update() {
         rotate(0., -0.05, 0.);
     }
 
-    // Update aim
-//    glm::quat stick_rot =
-//        ((controller->RightStick_X() + controller->RightStick_Y()) / 2.0f) * M_PI;
-
     // Perform physX update
     updatePosandRot();
 
-  /*  glm::vec3 retPos = pos;
-    retPos.y = pos.y + 2.0;
-    arrow->setPos(retPos);*/
+    // Update aim (after PhysX!)
     calcAim();
-
+    arrow->reposition(up, pos, aim, aim_rot);
 }
 
 glm::vec3 ProtoCar::getAim() const {

@@ -91,7 +91,7 @@ void Camera::followLook() {
 
     // Calculate RightStick direction in quaternion form
     if (!controller->RStick_InDeadzone()) {
-        camQ = glm::quat(glm::vec3(-controller->RightStick_Y() * FOLLOW_Y_CAM_ROT_SPEED,
+        camQ = glm::quat(glm::vec3(-controller->RightStick_Y() * FOLLOW_Y_CAM_ROT_SPEED, // maybe negate this in the future
                                    -controller->RightStick_X() * FOLLOW_X_CAM_ROT_SPEED,
                                    0.0f));
     }
