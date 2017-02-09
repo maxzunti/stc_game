@@ -106,7 +106,7 @@ int main(int argc, const char* argv[])
 		// mySound->updateSound();
 		window->draw(entities);
        // std::cout << "rot x = " << tCrate->xRot() << "  y_rot = " << tCrate->yRot() << "  z_rot = " << tCrate->zRot() << std::endl;
-	//	std::cout << "LS_X: " << input->LeftStick_X() << "  LS_Y: " << input->LeftStick_Y() << "  RS_X: " << input->RightStick_X() << "  RS_Y: " << input->RightStick_Y() << std::endl;
+		// std::cout << "LS_X: " << input->LeftStick_X() << "  LS_Y: " << input->LeftStick_Y() << "  RS_X: " << input->RightStick_X() << "  RS_Y: " << input->RightStick_Y() << std::endl;
        // std::cout << "RT = " << input->RightTrigger() << "    LT = " << input->LeftTrigger() << std::endl;
 	}
 	
