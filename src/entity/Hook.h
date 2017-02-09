@@ -5,7 +5,7 @@ class Hook : public PhysicsObject {
 protected:
 
 public:
-	Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, float angle);
+	Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, float angle);
 
 	virtual void update();
 

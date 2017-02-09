@@ -6,11 +6,12 @@ class PhysicsObject : public Renderable {
 protected:
 
 public:
-	PhysicsObject(std::string model_fname, std::string tex_fname, PxRigidBody* actor);
+	PhysicsObject(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager);
 	~PhysicsObject();
 	void updatePosandRot();
     virtual void update();
 	PxRigidBody* mActor;
+    PhysicsManager* mPhysicsManager;
 
     // Overrides to interact with PhysX
     virtual void setPos(double x, double y, double z);

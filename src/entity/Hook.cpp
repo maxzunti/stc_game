@@ -1,7 +1,7 @@
 #include "Hook.h"
 
-Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, float angle) :
-	PhysicsObject(model_fname, tex_fname, actor) {
+Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, float angle) :
+	PhysicsObject(model_fname, tex_fname, actor, physicsManager) {
 	//Record the angle of shot
 }
 

@@ -4,10 +4,11 @@
 
 #define M_PI 3.14159265358979323846
 
-PhysicsObject::PhysicsObject(std::string model_fname, std::string tex_fname, PxRigidBody* act)
+PhysicsObject::PhysicsObject(std::string model_fname, std::string tex_fname, PxRigidBody* act, PhysicsManager* physicsManager)
 	: Renderable(model_fname, tex_fname)
 {
 	mActor = act;
+    mPhysicsManager = physicsManager;
 }
 
 PhysicsObject::~PhysicsObject()
