@@ -1,8 +1,12 @@
 #include "ProtoCar.h"
 
-ProtoCar::ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Input* cont) :
-    PhysicsObject(model_fname, tex_fname, actor) {
+ProtoCar::ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Input* cont, std::vector<Entity*> &ents) :
+    PhysicsObject(model_fname, tex_fname, actor),
+    reticle(new Renderable("assets/models/reticle/reticle.obj", "assets/models/Crate/crate_1.jpg"))
+{
     controller = cont;
+    ents.push_back(reticle.get());
+    reticle->scale(2.5, 2.5, 2.5);
 }
 
 void ProtoCar::applyGlobalForce(glm::vec3 direction, double magnitude) {
@@ -28,4 +32,8 @@ void ProtoCar::update() {
     }
 
     updatePosandRot();
+
+    glm::vec3 retPos = pos;
+    retPos.y = pos.y - 1.0;
+    reticle->setPos(retPos);
 }

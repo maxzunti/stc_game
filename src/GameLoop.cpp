@@ -31,14 +31,14 @@ int main(int argc, const char* argv[])
 
     // TODO: convert these to unique_ptrs
     std::vector<Entity*> entities(0);
-    ProtoCar * tCrate = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(0, 5, 0), input.get());
+    ProtoCar * car = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(0, 5, 0), input.get(), entities);
     window->getRenderer()->getCam()->registerController(input.get());
-    window->getRenderer()->getCam()->registerCar(tCrate);
+    window->getRenderer()->getCam()->registerCar(car);
    // ProtoCar * crate2 = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(), input2.get());
 
-    entities.push_back(tCrate);
+    entities.push_back(car);
 //    entities.push_back(crate2);
-    tCrate->setPos(0, 7, 0);
+    car->setPos(0, 7, 0);
 
     Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(5, 5, 0), 0.f);
     entities.push_back(tHook);
@@ -99,7 +99,7 @@ int main(int argc, const char* argv[])
         //dynamic_cast<PhysicsObject*>(entities.front())->mActor->addTorque(PxVec3(0., 0., 100.0));
       //  tCrate->applyLocalForce(0, 0, 500);
         //tCrate->rotate(0.0, 0.01, 0.0);
-        tCrate->update();
+        car->update();
 
         //crate2->update();
 		tHook->update();

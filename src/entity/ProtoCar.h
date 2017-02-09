@@ -8,9 +8,10 @@ class ProtoCar : public PhysicsObject {
 
 protected:
     Input * controller;
+    std::unique_ptr<Renderable> reticle;
 
 public:
-    ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Input * cont);
+    ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Input * cont, std::vector<Entity*> &ents);
 
     virtual void update();
 

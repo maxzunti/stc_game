@@ -48,13 +48,17 @@ public:
     const float FREE_Z_CAM_MOVE_SPEED = 0.2;
 
     // Follow cam
-    const float FOLLOW_X_CAM_ROT_SPEED = 0.5;
-    const float FOLLOW_Y_CAM_ROT_SPEED = 0.5;
+    const float FOLLOW_X_CAM_ROT_SPEED = 0.4;
+    const float FOLLOW_Y_CAM_ROT_SPEED = 0.2;
 
     const float FOLLOW_DISTANCE = 8.0;
     const float FOLLOW_HEIGHT = 2.0;
-    const float BASE_ANGLE = -0.5;
+    const float BASE_ANGLE = -0.2;
 
+  /*  const int FOLLOW_DELAY_POS = 8;
+    const int FOLLOW_DELAY_ROT = 8;
+    glm::vec3 prev_pos[8];
+    glm::quat prev_rot[8]; */
 
     glm::vec3 dir;
     glm::vec3 up;
