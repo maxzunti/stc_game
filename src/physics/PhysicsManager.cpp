@@ -68,7 +68,7 @@ PhysicsManager::PhysicsManager()
 
 PhysicsManager::~PhysicsManager()
 {
-
+    PxCloseVehicleSDK();
 	mScene->release();
 	mDispatcher->release();
 	mPhysics->release();

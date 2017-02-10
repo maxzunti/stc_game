@@ -117,10 +117,9 @@ VehicleDesc ProtoCar::initVehicleDesc()
 
 void ProtoCar::startAccelerateForwardsMode()
 {
-    this->mVehicleNoDrive->setDriveTorque(0, 15.0f);
-    this->mVehicleNoDrive->setDriveTorque(1, 15.0f);
-    this->mVehicleNoDrive->setDriveTorque(2, 15.0f);
-    this->mVehicleNoDrive->setDriveTorque(3, 15.0f);
+    this->mVehicleNoDrive->setDriveTorque(0, 1000.0f);
+    this->mVehicleNoDrive->setDriveTorque(1, 1000.0f);
+
 }
 
 void ProtoCar::startAccelerateReverseMode()
