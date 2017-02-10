@@ -42,7 +42,7 @@ int main(int argc, const char* argv[])
 //    entities.push_back(crate2);
     car->setPos(0, 7, 0);
 
-    Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(5, 5, 0), myPhysics, 0.f);
+    Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(0, 0, 0), myPhysics, 0.f);
     entities.push_back(tHook);
 
    // tCrate->setRot(0, 3.14 / 4., 0);
@@ -70,6 +70,7 @@ int main(int argc, const char* argv[])
 	entities.push_back(wall);
 
     myPhysics->createGroundPlane();
+	myPhysics->createWallPlane(0, 5, -10, 0, 1);
 	while (!window->shouldClose())
 	{
    //     tCrate->setRot(0, 0.745, 0);
@@ -94,7 +95,7 @@ int main(int argc, const char* argv[])
 		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(0.9, -0.9, -0.9));
 		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(0.9, -0.9, 0.9)); */
         //PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 640, 0), PxVec3(0, 0, 0));
-        //PxRigidBodyExt::addForceAtLocalPos(*tCrate->mActor, PxVec3(0, 640, 0), PxVec3(0, 0, 0));
+        PxRigidBodyExt::addForceAtLocalPos(*car->mActor, PxVec3(0, 0, -40), PxVec3(0, 0, 0));
 		
 		//Watch here when you run. Applying a torque about Y (up) axis and it doesn't spin about it properly... why?
 		//tCrate->mActor->addTorque(PxVec3(0., -50, 0.)); // mad torques tho

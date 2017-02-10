@@ -33,6 +33,7 @@ public:
 	PhysicsManager();
 	~PhysicsManager();
 	PxActor* PhysicsManager::createGroundPlane();
+	PxActor* PhysicsManager::createWallPlane(int, int, int, int, int);
 	PxRigidBody* PhysicsManager::createBlock(float,float,float);
 	void PhysicsManager::stepPhysics();
 };
