@@ -1,11 +1,11 @@
 #pragma once
 #include "PxPhysicsAPI.h"
 #include <iostream>
+#include <memory>
 #include "vehicle/PxVehicleUtil.h"
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleRaycast.h"
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleTireFriction.h"
 
-using namespace physx;
 
 class PhysicsManager
 {
@@ -14,14 +14,9 @@ class PhysicsManager
 	PxProfileZoneManager* mProfileZoneManager;
 	PxTolerancesScale mTolerancesScale;
 	PxDefaultCpuDispatcher* mDispatcher;
-	
     PxVisualDebuggerConnection* gConnection = NULL;
-    VehicleSceneQueryData*	mVehicleSceneQueryData = NULL;
-    PxBatchQuery*			mBatchQuery = NULL;
 
-    PxVehicleDrivableSurfaceToTireFrictionPairs* mFrictionPairs = NULL;
-
-    bool					mIsVehicleInAir = true;
+    bool mIsVehicleInAir = true;
 
 public:
 
@@ -29,6 +24,9 @@ public:
     PxPhysics* mPhysics;
     PxCooking* mCooking;
     PxMaterial* mMaterial;
+    VehicleSceneQueryData*	mVehicleSceneQueryData = NULL;
+    PxBatchQuery*			mBatchQuery = NULL;
+    PxVehicleDrivableSurfaceToTireFrictionPairs* mFrictionPairs = NULL;
 
 	PhysicsManager();
 	~PhysicsManager();

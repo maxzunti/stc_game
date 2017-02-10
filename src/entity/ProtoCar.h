@@ -5,6 +5,8 @@
 #include "PxPhysicsAPI.h"
 #include "vehicle/PxVehicleUtil.h"
 #include "vehicle/PxVehicleNoDrive.h"
+
+
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleCreate.h"
 
 // Prototype for a car class - mostly used for testing some basic controller input,
@@ -21,7 +23,7 @@ protected:
     // Calculate an aim rotation using an xbox controller
     void calcAim();
 
-    PxVehicleNoDrive*		mVehicleNoDrive = NULL;
+    PxVehicleNoDrive*	mVehicleNoDrive = NULL;
 
 public:
     ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents);
@@ -33,8 +35,19 @@ public:
 
     virtual void applyGlobalForce(glm::vec3 direction, double magnitude);
     virtual void applyLocalForce(float forward, float right, float up);
+    
+    void ProtoCar::startAccelerateForwardsMode();
+    void ProtoCar::startAccelerateReverseMode();
+    void ProtoCar::startBrakeMode();
+    void ProtoCar::startTurnHardLeftMode();
+    void ProtoCar::startTurnHardRightMode();
+    void ProtoCar::startHandbrakeTurnLeftMode();
+    void ProtoCar::startHandbrakeTurnRightMode();
+    void ProtoCar::releaseAllControls();
 
-    const double FORCE_FACTOR = 500.;
+    const double FORCE_FACTOR = 5000000.;
 
     glm::vec3 getAim() const;
+
+    void ProtoCar::stepForPhysics();
 };

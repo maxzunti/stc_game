@@ -31,13 +31,14 @@ int main(int argc, const char* argv[])
 
     // TODO: convert these to unique_ptrs
     std::vector<Entity*> entities(0);
+    std::vector<ProtoCar*> cars(0);
 
-    ProtoCar * car = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(0, 5, 0), myPhysics, input.get(), entities);
+    ProtoCar * car = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", nullptr, myPhysics, input.get(), entities);
 
     window->getRenderer()->getCam()->registerController(input.get());
     window->getRenderer()->getCam()->registerCar(car);
    // ProtoCar * crate2 = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(), input2.get());
-
+    cars.push_back(car);
     entities.push_back(car);
 //    entities.push_back(crate2);
     car->setPos(0, 7, 0);
@@ -69,7 +70,9 @@ int main(int argc, const char* argv[])
     entities.push_back(plane);
 	entities.push_back(wall);
 
-    myPhysics->createGroundPlane();
+    //myPhysics->createGroundPlane();
+    myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
+
 	while (!window->shouldClose())
 	{
    //     tCrate->setRot(0, 0.745, 0);
@@ -85,6 +88,8 @@ int main(int argc, const char* argv[])
 
 		// myInput->getState();
 		// myAI->getState();
+        for (const auto& c : cars)
+            c->stepForPhysics();
 		myPhysics->stepPhysics();
 		
 		// FYI: dynamic casts have a lot of run-time checking involved and are pretty expensive

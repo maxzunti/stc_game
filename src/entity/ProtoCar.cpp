@@ -5,22 +5,24 @@
 
 using namespace glm;
 
-ProtoCar::ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents) :
+ ProtoCar::ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents) :
     PhysicsObject(model_fname, tex_fname, actor, physicsManager),
     arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")) 
 {
-
+    
     controller = cont;
     ents.push_back(arrow.get());
+
     //Create a vehicle that will drive on the plane.
     VehicleDesc vehicleDesc = initVehicleDesc();
     mVehicleNoDrive = createVehicleNoDrive(vehicleDesc, physicsManager->mPhysics, physicsManager->mCooking);
     PxTransform startTransform(PxVec3(0, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f), 0), PxQuat(PxIdentity));
     mVehicleNoDrive->getRigidDynamicActor()->setGlobalPose(startTransform);
-    //TODO: implement car vs simple box
-   // physicsManager->mScene->addActor(*mVehicleNoDrive->getRigidDynamicActor());
+   
+    physicsManager->mScene->addActor(*mVehicleNoDrive->getRigidDynamicActor());
+    this->mActor = mVehicleNoDrive->getRigidDynamicActor();
 
-    mVehicleNoDrive->setToRestState();
+   // mVehicleNoDrive->setToRestState();
 }
 
 void ProtoCar::applyGlobalForce(glm::vec3 direction, double magnitude) {
@@ -49,9 +51,12 @@ void ProtoCar::calcAim() {
 }
 
 void ProtoCar::update() {
+    
+
     // Basic movement and rotation - this'll be heavily modified in the real car
-    applyLocalForce(0, -(controller->RightTrigger() - controller->LeftTrigger()) * FORCE_FACTOR, 0);
-    if (pos.y <= 1.01 && controller->GetButtonPressed(XButtonIDs::A)) {
+    startAccelerateForwardsMode();
+    //applyLocalForce(0, -(controller->RightTrigger() - controller->LeftTrigger()) * FORCE_FACTOR, 0);
+    if (pos.y <= 5.01 && controller->GetButtonPressed(XButtonIDs::A)) {
         applyLocalForce(0, 0, 2000);
     }
     if (controller->GetButtonPressed(XButtonIDs::L_Shoulder)) {
@@ -79,7 +84,7 @@ VehicleDesc ProtoCar::initVehicleDesc()
     //Set up the chassis mass, dimensions, moment of inertia, and center of mass offset.
     //The moment of inertia is just the moment of inertia of a cuboid but modified for easier steering.
     //Center of mass offset is 0.65m above the base of the chassis and 0.25m towards the front.
-    const PxF32 chassisMass = 1500.0f;
+    const PxF32 chassisMass = 100.0f;
     const PxVec3 chassisDims(2.5f, 2.0f, 5.0f);
     const PxVec3 chassisMOI
         ((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
@@ -89,7 +94,7 @@ VehicleDesc ProtoCar::initVehicleDesc()
 
     //Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
     //Moment of inertia is just the moment of inertia of a cylinder.
-    const PxF32 wheelMass = 20.0f;
+    const PxF32 wheelMass = 10.0f;
     const PxF32 wheelRadius = 0.5f;
     const PxF32 wheelWidth = 0.4f;
     const PxF32 wheelMOI = 0.5f*wheelMass*wheelRadius*wheelRadius;
@@ -108,4 +113,94 @@ VehicleDesc ProtoCar::initVehicleDesc()
     vehicleDesc.numWheels = nbWheels;
     vehicleDesc.wheelMaterial = this->mPhysicsManager->mMaterial;
     return vehicleDesc;
+}
+
+void ProtoCar::startAccelerateForwardsMode()
+{
+    this->mVehicleNoDrive->setDriveTorque(0, 15.0f);
+    this->mVehicleNoDrive->setDriveTorque(1, 15.0f);
+    this->mVehicleNoDrive->setDriveTorque(2, 15.0f);
+    this->mVehicleNoDrive->setDriveTorque(3, 15.0f);
+}
+
+void ProtoCar::startAccelerateReverseMode()
+{
+    this->mVehicleNoDrive->setDriveTorque(0, -1000.0f);
+    this->mVehicleNoDrive->setDriveTorque(1, -1000.0f);
+}
+
+void ProtoCar::startBrakeMode()
+{
+    this->mVehicleNoDrive->setBrakeTorque(0, 1000.0f);
+    this->mVehicleNoDrive->setBrakeTorque(1, 1000.0f);
+    this->mVehicleNoDrive->setBrakeTorque(2, 1000.0f);
+    this->mVehicleNoDrive->setBrakeTorque(3, 1000.0f);
+}
+
+void ProtoCar::startTurnHardLeftMode()
+{
+    this->mVehicleNoDrive->setDriveTorque(0, 1000.0f);
+    this->mVehicleNoDrive->setDriveTorque(1, 1000.0f);
+    this->mVehicleNoDrive->setSteerAngle(0, 1.0f);
+    this->mVehicleNoDrive->setSteerAngle(1, 1.0f);
+}
+
+void ProtoCar::startTurnHardRightMode()
+{
+    this->mVehicleNoDrive->setDriveTorque(0, 1000.0f);
+    this->mVehicleNoDrive->setDriveTorque(1, 1000.0f);
+    this->mVehicleNoDrive->setSteerAngle(0, -1.0f);
+    this->mVehicleNoDrive->setSteerAngle(1, -1.0f);
+}
+
+void ProtoCar::startHandbrakeTurnLeftMode()
+{
+    this->mVehicleNoDrive->setBrakeTorque(2, 1000.0f);
+    this->mVehicleNoDrive->setBrakeTorque(3, 1000.0f);
+    this->mVehicleNoDrive->setDriveTorque(0, 1000.0f);
+    this->mVehicleNoDrive->setDriveTorque(1, 1000.0f);
+    this->mVehicleNoDrive->setSteerAngle(0, 1.0f);
+    this->mVehicleNoDrive->setSteerAngle(1, 1.0f);
+}
+
+void ProtoCar::startHandbrakeTurnRightMode()
+{
+    this->mVehicleNoDrive->setBrakeTorque(2, 1000.0f);
+    this->mVehicleNoDrive->setBrakeTorque(3, 1000.0f);
+    this->mVehicleNoDrive->setDriveTorque(0, 1000.0f);
+    this->mVehicleNoDrive->setDriveTorque(1, 1000.0f);
+    this->mVehicleNoDrive->setSteerAngle(0, -1.0f);
+    this->mVehicleNoDrive->setSteerAngle(1, -1.0f);
+}
+
+void ProtoCar::releaseAllControls()
+{
+    this->mVehicleNoDrive->setDriveTorque(0, 0.0f);
+    this->mVehicleNoDrive->setDriveTorque(1, 0.0f);
+    this->mVehicleNoDrive->setDriveTorque(2, 0.0f);
+    this->mVehicleNoDrive->setDriveTorque(3, 0.0f);
+
+    this->mVehicleNoDrive->setBrakeTorque(0, 0.0f);
+    this->mVehicleNoDrive->setBrakeTorque(1, 0.0f);
+    this->mVehicleNoDrive->setBrakeTorque(2, 0.0f);
+    this->mVehicleNoDrive->setBrakeTorque(3, 0.0f);
+
+    this->mVehicleNoDrive->setSteerAngle(0, 0.0f);
+    this->mVehicleNoDrive->setSteerAngle(1, 0.0f);
+    this->mVehicleNoDrive->setSteerAngle(2, 0.0f);
+    this->mVehicleNoDrive->setSteerAngle(3, 0.0f);
+}
+
+void ProtoCar::stepForPhysics() {
+    //Raycasts.
+    PxVehicleWheels* vehicles[1] = { this->mVehicleNoDrive };
+    PxRaycastQueryResult* raycastResults = this->mPhysicsManager->mVehicleSceneQueryData->getRaycastQueryResultBuffer(0);
+    const PxU32 raycastResultsSize = this->mPhysicsManager->mVehicleSceneQueryData->getRaycastQueryResultBufferSize();
+    PxVehicleSuspensionRaycasts(this->mPhysicsManager->mBatchQuery, 1, vehicles, raycastResultsSize, raycastResults);
+
+    //Vehicle update.
+    const PxVec3 grav = this->mPhysicsManager->mScene->getGravity();
+    PxWheelQueryResult wheelQueryResults[PX_MAX_NB_WHEELS];
+    PxVehicleWheelQueryResult vehicleQueryResults[1] = { { wheelQueryResults, this->mVehicleNoDrive->mWheelsSimData.getNbWheels() } };
+    PxVehicleUpdates(1.0f / 60.0f, grav, *this->mPhysicsManager->mFrictionPairs, 1, vehicles, vehicleQueryResults);
 }
