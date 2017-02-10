@@ -83,13 +83,6 @@ PxActor* PhysicsManager::createGroundPlane()
 	return groundPlane;
 }
 
-PxActor* PhysicsManager::createWallPlane(int x, int y, int z, int a, int b)
-{
-	PxRigidStatic* wallPlane = PxCreatePlane(*mPhysics, PxPlane(PxVec3(x, y, z), PxVec3(a, 0, b)), *mMaterial);
-	mScene->addActor(*wallPlane);
-	return wallPlane;
-}
-
 PxRigidBody* PhysicsManager::createBlock(float x, float y, float z)
 {
 	PxShape* shape = mPhysics->createShape(PxBoxGeometry(1.0f, 1.0f, 1.0f), *mMaterial);
