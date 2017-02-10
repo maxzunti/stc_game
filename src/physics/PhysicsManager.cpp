@@ -46,7 +46,7 @@ PhysicsManager::PhysicsManager()
 	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
 	mScene = mPhysics->createScene(sceneDesc);
 
-	mMaterial = mPhysics->createMaterial(0.1f, 0.1f, 0.6f);
+	mMaterial = mPhysics->createMaterial(0.5f, 0.5f, 0.1f);
 
     /////////////////////////////////////////////
 
@@ -99,7 +99,8 @@ PxRigidBody* PhysicsManager::createBlock(float x, float y, float z)
 
 void PhysicsManager::stepPhysics()
 {
-	PX_UNUSED(false);
+    PX_UNUSED(false);
+
 	mScene->simulate(1.0f / 60.0f);
 	mScene->fetchResults(true);
 }
