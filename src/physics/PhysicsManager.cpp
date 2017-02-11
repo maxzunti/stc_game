@@ -49,7 +49,7 @@ PhysicsManager::PhysicsManager()
 	sceneDesc.filterShader = VehicleFilterShader;
 	mScene = mPhysics->createScene(sceneDesc);
 
-	mMaterial = mPhysics->createMaterial(.5f, .5f, 0.1f);
+	mMaterial = mPhysics->createMaterial(650000.5f, 650000.5f, 0.6f);
 
     /////////////////////////////////////////////
 
