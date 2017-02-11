@@ -33,8 +33,8 @@ int main(int argc, const char* argv[])
     std::vector<Entity*> entities(0);
     std::vector<ProtoCar*> cars(0);
 
-    ProtoCar * car = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", nullptr, myPhysics, input.get(), entities);
-
+    //ProtoCar * car = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", nullptr, myPhysics, input.get(), entities);
+    ProtoCar *car = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(0, 4, 0), myPhysics, input.get(), entities);
     window->getRenderer()->getCam()->registerController(input.get());
     window->getRenderer()->getCam()->registerCar(car);
    // ProtoCar * crate2 = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(), input2.get());
@@ -43,8 +43,8 @@ int main(int argc, const char* argv[])
 //    entities.push_back(crate2);
     car->setPos(0, 7, 0);
 
-    Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(0, 10, 0), myPhysics, 0.f);
-    entities.push_back(tHook);
+  //  Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(0, 10, 0), myPhysics, 0.f);
+   // entities.push_back(tHook);
 
    // tCrate->setRot(0, 3.14 / 4., 0);
    //  tCrate->setRot(glm::vec3(0, 3.14/2., 0));
@@ -89,8 +89,8 @@ int main(int argc, const char* argv[])
 
 		// myInput->getState();
 		// myAI->getState();
-        for (const auto& c : cars)
-            c->stepForPhysics();
+        //for (const auto& c : cars)
+        //    c->stepForPhysics();
 		myPhysics->stepPhysics();
 		
 		// FYI: dynamic casts have a lot of run-time checking involved and are pretty expensive
@@ -110,7 +110,7 @@ int main(int argc, const char* argv[])
         car->update();
 
         //crate2->update();
-		tHook->update();
+		//tHook->update();
 		// mySound->updateSound();
 		window->draw(entities);
        // std::cout << "rot x = " << tCrate->xRot() << "  y_rot = " << tCrate->yRot() << "  z_rot = " << tCrate->zRot() << std::endl;

@@ -35,7 +35,7 @@ public:
 	PxActor* PhysicsManager::createWallPlane(int, int, int, int, int);
 	PxRigidBody* PhysicsManager::createBlock(float,float,float);
 	void PhysicsManager::stepPhysics();
-	void setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask)
+    void setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask);
 };
 
 struct FilterGroup
