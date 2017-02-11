@@ -113,7 +113,7 @@ void PhysicsManager::stepPhysics()
 	mScene->fetchResults(true);
 }
 
-PxFilterFlags filterShader(
+/*PxFilterFlags filterShader(
 	PxFilterObjectAttributes a0, PxFilterData d0,
 	PxFilterObjectAttributes a1, PxFilterData d1,
 	PxPairFlags& pairFlags, const void* constantBlock, PxU32 cosntantBlockSize)
@@ -146,4 +146,4 @@ void setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask)
 		shape->setSimulationFilterData(filterData);
 	}
 	free(shapes);
-}
+}*/
