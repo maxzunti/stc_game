@@ -39,14 +39,17 @@ PhysicsManager::PhysicsManager()
 	if (!mCooking)
 		std::cout << "PxCreateCooking failed!" << std::endl;
 
+    PxU32 numWorkers =2;
+
 	PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
-	mDispatcher = PxDefaultCpuDispatcherCreate(2);
+
+	mDispatcher = PxDefaultCpuDispatcherCreate(numWorkers);
 	sceneDesc.cpuDispatcher = mDispatcher;
-	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+	sceneDesc.filterShader = VehicleFilterShader;
 	mScene = mPhysics->createScene(sceneDesc);
 
-	mMaterial = mPhysics->createMaterial(0.5f, 0.5f, 0.1f);
+	mMaterial = mPhysics->createMaterial(.5f, .5f, 0.1f);
 
     /////////////////////////////////////////////
 
@@ -60,15 +63,12 @@ PhysicsManager::PhysicsManager()
 
     //Create the friction table for each combination of tire and surface type.
     mFrictionPairs = createFrictionPairs(mMaterial);
-
-
-
 }
 
 
 PhysicsManager::~PhysicsManager()
 {
-
+    PxCloseVehicleSDK();
 	mScene->release();
 	mDispatcher->release();
 	mPhysics->release();

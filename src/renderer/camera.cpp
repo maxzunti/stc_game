@@ -93,18 +93,20 @@ void Camera::freeLook() {
 void Camera::followLook() {
 
     // Calculate camera rotation
-    glm::quat camQ(glm::vec3(0.0f, 0.0f, 0.0f));
+    glm::quat camQ(glm::vec3(x_cam_rot, y_cam_rot, 0.0f));
     glm::quat base(glm::vec3(BASE_ANGLE, 0.0f, 0.0f));
 
     // Calculate RightStick direction in quaternion form
     if (!controller->RStick_InDeadzone()) {
-        camQ = glm::quat(glm::vec3(-controller->RightStick_Y() * FOLLOW_Y_CAM_ROT_SPEED, // maybe negate this in the future
+       /* camQ = glm::quat(glm::vec3(-controller->RightStick_Y() * FOLLOW_Y_CAM_ROT_SPEED, // maybe negate this in the future
                                    -controller->RightStick_X() * FOLLOW_X_CAM_ROT_SPEED,
-                                   0.0f));
+                                   0.0f)); */
     }
     // Rotate the cars' direction by the camera offset
     // camQ = car->getQRot() * base * camQ; 
-    camQ = prev_rot[frame_counter % FOLLOW_DELAY_ROT] * base * camQ;
+    // camQ = prev_rot[frame_counter % FOLLOW_DELAY_ROT] * base * camQ;
+     camQ = car->getQRot() * camQ * base;
+
     glm::vec3 newDir = glm::rotate(camQ, vec3(0, 0, -1)); // calc new direction vector
 
     // Offset camera based on given direction; update cam direction
@@ -125,12 +127,113 @@ void Camera::update() {
             followLook();
         }
     }
+    calcFollowSpeeds();
 
-    // Fill follow-cam delay buffers
+
     prev_rot[frame_counter % FOLLOW_DELAY_ROT] = car->getQRot();
     prev_pos[frame_counter % FOLLOW_DELAY_POS] = car->getPos();
+
+//    std::cout << "prev y = " << prev_x << std::endl;
+   // std::cout << "diff: " << glm::rotate(car->getQRot() * glm::inverse(prot), 0.0f, up).y << std::endl;
+
+  //  glm::inverse(car->getQRot));
+  //  prev_x = (car->getQRot() * glm::rotate(car->getQRot(), 0.0f, up)).y;
+    p_rot = car->getQRot();
     frame_counter++;
 }
+
+// Clamps a given speed to a max value
+void Camera::clamp_speed(float &input, float abs_max) {
+    if (input >= abs_max) {
+        input = abs_max;
+    }
+    else if (input <= -abs_max) {
+        input = -abs_max;
+    }
+}
+
+// Brings values close to the target by 'step'
+void Camera::converge(float &input, float target, float step) {
+    if (input > target) {
+        input -= step;
+        if (input <= target) {
+            input = target;
+        }
+    } else if (input < target) {
+        input += step;
+        if (input >= target) {
+            input = target;
+        }
+    }
+}
+
+void Camera::calcFollowSpeeds() {
+    // Reset speeds if the RS direction changes
+    if (y_xbox_speed * controller->RightStick_X() >= 0)
+        y_xbox_speed = 0;
+    if (x_xbox_speed * controller->RightStick_Y() >= 0)
+        x_xbox_speed = 0;
+
+    // Read Xbox controller input; update follow speeds
+    if (!controller->RStick_InDeadzone()) {
+        x_xbox_speed -= controller->RightStick_Y() * FOLLOW_X_CAM_XBOX_SPEED;
+        y_xbox_speed -= controller->RightStick_X() * FOLLOW_Y_CAM_XBOX_SPEED;
+
+        clamp_speed(x_xbox_speed, FOLLOW_X_MAX_XBOX_SPEED);
+        clamp_speed(y_xbox_speed, FOLLOW_Y_MAX_XBOX_SPEED);
+    } else {
+        converge(x_xbox_speed, 0.0f, 0.1); // TODO: add a param for this step?
+        converge(y_xbox_speed, 0.0f, 0.1);
+    }
+
+    // Change follow speeds based on car rotation
+    glm::quat diff = glm::rotate(car->getQRot() * glm::inverse(p_rot), 0.0f, up);
+    float delta = 0.001;
+    if (diff.y >= delta || diff.y <= -delta) {
+        // Update speeds
+        y_rot_speed += diff.y * FOLLOW_Y_CAM_ROT_SPEED;
+        clamp_speed(y_rot_speed, FOLLOW_Y_MAX_ROT_SPEED);
+        y_resetting = false;
+    } else {
+        if (!y_resetting) {
+            y_resetting = true;
+            y_rot_speed = 0; // reset cam speed
+        }
+
+        // TODO: Copy this for X
+        // Return to chase
+        if (y_xbox_speed <= delta && y_xbox_speed >= -delta) { // If no cam-axis input:
+            if (y_cam_rot <= 0.05 && y_cam_rot >= -0.05) { // TODO: Find a suitable general value
+                y_cam_rot = 0;
+                y_rot_speed = 0;
+            } else if (y_cam_rot < 0) {
+                y_rot_speed += FOLLOW_Y_CAM_RETURN_SPEED;
+            } else if (y_cam_rot > 0) {
+                y_rot_speed -= FOLLOW_Y_CAM_RETURN_SPEED;
+            }
+        }
+   
+        clamp_speed(y_rot_speed, FOLLOW_Y_MAX_ROT_SPEED);
+    }
+
+    if (diff.x >= delta || diff.x <= -delta) {
+        // Update speeds
+        x_rot_speed += diff.x * FOLLOW_X_CAM_ROT_SPEED;
+        clamp_speed(x_rot_speed, FOLLOW_X_MAX_ROT_SPEED);
+    } else {
+        converge(x_rot_speed, 0.0f, 0.05);
+    }
+
+    // MAX: Potentially clamp the sum of the individual speeds, too
+    std::cout << "X rot cam speed: " << x_rot_speed << "  X xbox cam speed: " << x_xbox_speed << "  Y rot cam speed: " <<  y_rot_speed << "  Y  xboxcam speed: " << y_xbox_speed << std::endl;
+
+    // Update camera rotation angles
+    x_cam_rot += (x_rot_speed + x_xbox_speed);
+    clamp_speed(x_cam_rot, FOLLOW_X_MAX_ROT);
+    y_cam_rot += (y_rot_speed + y_xbox_speed);
+    clamp_speed(y_cam_rot, FOLLOW_Y_MAX_ROT);
+}
+
 
 mat4 Camera::getMatrix()
 {

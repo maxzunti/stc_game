@@ -70,8 +70,8 @@ int main(int argc, const char* argv[])
     entities.push_back(plane);
 	entities.push_back(wall);
 
-    myPhysics->createGroundPlane();
-    //myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
+    //myPhysics->createGroundPlane();
+    myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
 	myPhysics->createWallPlane(0,5,-10,0,1);
 
 	while (!window->shouldClose())
@@ -100,7 +100,11 @@ int main(int argc, const char* argv[])
 		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(0.9, -0.9, -0.9));
 		PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(0.9, -0.9, 0.9)); */
         //PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 640, 0), PxVec3(0, 0, 0));
+<<<<<<< HEAD
         PxRigidBodyExt::addForceAtLocalPos(*tHook->mActor, PxVec3(0, 0, -500), PxVec3(0, 0, 0));
+=======
+        PxRigidBodyExt::addForceAtLocalPos(*car->mActor, PxVec3(0, 0, -50), PxVec3(0, 0, 0));
+>>>>>>> origin/master
 		
 		//Watch here when you run. Applying a torque about Y (up) axis and it doesn't spin about it properly... why?
 		//tCrate->mActor->addTorque(PxVec3(0., -50, 0.)); // mad torques tho
