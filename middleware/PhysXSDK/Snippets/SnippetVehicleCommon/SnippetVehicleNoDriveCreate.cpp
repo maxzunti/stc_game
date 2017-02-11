@@ -77,9 +77,9 @@ void setupWheelsSimulationData
 		for(PxU32 i = 0; i < numWheels; i++)
 		{
 			suspensions[i].mMaxCompression = 0.3f;
-			suspensions[i].mMaxDroop = 0.1f;
-			suspensions[i].mSpringStrength = 35000.0f;	
-			suspensions[i].mSpringDamperRate = 4500.0f;
+			suspensions[i].mMaxDroop = 0.3f;
+			suspensions[i].mSpringStrength = 35.0f;	
+			suspensions[i].mSpringDamperRate = 45.0f;
 			suspensions[i].mSprungMass = suspSprungMasses[i];
 		}
 
