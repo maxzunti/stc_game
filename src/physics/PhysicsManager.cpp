@@ -49,7 +49,7 @@ PhysicsManager::PhysicsManager()
 	mMaterial = mPhysics->createMaterial(0.1f, 0.1f, 0.6f);
 
     /////////////////////////////////////////////
-
+    /*
     PxInitVehicleSDK(*mPhysics);
     PxVehicleSetBasisVectors(PxVec3(0, 1, 0), PxVec3(0, 0, 1));
     PxVehicleSetUpdateMode(PxVehicleUpdateMode::eVELOCITY_CHANGE);
@@ -59,7 +59,7 @@ PhysicsManager::PhysicsManager()
     mBatchQuery = VehicleSceneQueryData::setUpBatchedSceneQuery(0, *mVehicleSceneQueryData, mScene);
 
     //Create the friction table for each combination of tire and surface type.
-    mFrictionPairs = createFrictionPairs(mMaterial);
+    mFrictionPairs = createFrictionPairs(mMaterial);*/
 
 
 
