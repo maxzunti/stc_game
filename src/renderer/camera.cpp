@@ -164,8 +164,8 @@ void Camera::followLook() {
     glm::quat base(glm::vec3(BASE_ANGLE, 0.0f, 0.0f));
 
     // Rotate the cars' direction by the camera offset
-    camQ = car->getQRot() * base * camQ; 
-    // camQ = prev_rot[frame_counter % FOLLOW_DELAY_ROT] * base * camQ;
+   // camQ = car->getQRot() * base * camQ; 
+     camQ = prev_rot[frame_counter % FOLLOW_DELAY_ROT] * base * camQ;
 
     glm::vec3 newDir = glm::rotate(camQ, vec3(0, 0, -1)); // calc new direction vector
 
