@@ -47,7 +47,10 @@ public:
     void ProtoCar::applyWheelTorque(float factor);
     void ProtoCar::applyWheelTurn(float factor);
 
+
     const double FORCE_FACTOR = 10000.;
+
+    const float MAX_SPEED = 80.f;
 
     glm::vec3 getAim() const;
 

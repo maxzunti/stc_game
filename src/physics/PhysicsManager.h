@@ -15,25 +15,37 @@ class PhysicsManager
 	PxProfileZoneManager* mProfileZoneManager;
 	PxTolerancesScale mTolerancesScale;
 	PxDefaultCpuDispatcher* mDispatcher;
-    PxVisualDebuggerConnection* gConnection = NULL;
+	PxVisualDebuggerConnection* gConnection = NULL;
 
-    bool mIsVehicleInAir = true;
+	bool mIsVehicleInAir = true;
 
 public:
 
-    PxScene* mScene;
-    PxPhysics* mPhysics;
-    PxCooking* mCooking;
-    PxMaterial* mMaterial;
-    VehicleSceneQueryData*	mVehicleSceneQueryData = NULL;
-    PxBatchQuery*			mBatchQuery = NULL;
-    PxVehicleDrivableSurfaceToTireFrictionPairs* mFrictionPairs = NULL;
+	PxScene* mScene;
+	PxPhysics* mPhysics;
+	PxCooking* mCooking;
+	PxMaterial* mMaterial;
+	VehicleSceneQueryData*	mVehicleSceneQueryData = NULL;
+	PxBatchQuery*			mBatchQuery = NULL;
+	PxVehicleDrivableSurfaceToTireFrictionPairs* mFrictionPairs = NULL;
 
 	PhysicsManager();
 	~PhysicsManager();
 	PxActor* PhysicsManager::createGroundPlane();
 	PxActor* PhysicsManager::createWallPlane(int, int, int, int, int);
-	PxRigidBody* PhysicsManager::createBlock(float,float,float);
+	PxRigidBody* PhysicsManager::createBlock(float, float, float);
 	void PhysicsManager::stepPhysics();
+
+    //void setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask);
 };
 
+struct FilterGroup
+{
+	enum Enum
+	{
+		eCAR = (1 << 0),
+		eHOOK = (1 << 1),
+		eWALL = (1 << 2),
+	};
+
+};
