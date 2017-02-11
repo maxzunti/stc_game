@@ -72,6 +72,18 @@
     <ClCompile Include="src\entity\Hook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleRaycast.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleNoDriveCreate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleCreate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\entity\AimArrow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -948,6 +960,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\entity\ProtoCar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleRaycast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleCreate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\entity\AimArrow.h">

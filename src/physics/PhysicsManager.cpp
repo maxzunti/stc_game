@@ -46,7 +46,7 @@ PhysicsManager::PhysicsManager()
 	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
 	mScene = mPhysics->createScene(sceneDesc);
 
-	mMaterial = mPhysics->createMaterial(0.1f, 0.1f, 0.6f);
+	mMaterial = mPhysics->createMaterial(0.5f, 0.5f, 0.1f);
 
     /////////////////////////////////////////////
 
@@ -68,7 +68,7 @@ PhysicsManager::PhysicsManager()
 
 PhysicsManager::~PhysicsManager()
 {
-
+    PxCloseVehicleSDK();
 	mScene->release();
 	mDispatcher->release();
 	mPhysics->release();
@@ -81,6 +81,13 @@ PxActor* PhysicsManager::createGroundPlane()
 	PxRigidStatic* groundPlane = PxCreatePlane(*mPhysics, PxPlane(PxVec3(0, 0, 0), PxVec3(0,1,0)), *mMaterial);
 	mScene->addActor(*groundPlane);
 	return groundPlane;
+}
+
+PxActor* PhysicsManager::createWallPlane(int x, int y, int z, int a, int b)
+{
+	PxRigidStatic* wallPlane = PxCreatePlane(*mPhysics, PxPlane(PxVec3(x, y, z), PxVec3(a, 0, b)), *mMaterial);
+	mScene->addActor(*wallPlane);
+	return wallPlane;
 }
 
 PxRigidBody* PhysicsManager::createBlock(float x, float y, float z)
@@ -99,7 +106,8 @@ PxRigidBody* PhysicsManager::createBlock(float x, float y, float z)
 
 void PhysicsManager::stepPhysics()
 {
-	PX_UNUSED(false);
+    PX_UNUSED(false);
+
 	mScene->simulate(1.0f / 60.0f);
 	mScene->fetchResults(true);
 }
