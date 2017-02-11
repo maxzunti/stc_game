@@ -1,5 +1,6 @@
 #pragma once
 #include "PhysicsObject.h"
+#include "../Snippets/SnippetVehicleCommon/SnippetVehicleFilterShader.h"
 
 class Hook : public PhysicsObject {
 protected:

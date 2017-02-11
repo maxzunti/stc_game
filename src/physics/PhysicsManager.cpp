@@ -87,6 +87,10 @@ PxActor* PhysicsManager::createWallPlane(int x, int y, int z, int a, int b)
 {
 	PxRigidStatic* wallPlane = PxCreatePlane(*mPhysics, PxPlane(PxVec3(x, y, z), PxVec3(a, 0, b)), *mMaterial);
 	mScene->addActor(*wallPlane);
+
+	//TODO:Link this to COLLISION_FLAG_OBSTACLE
+	setupFiltering(wallPlane, COLLISION_FLAG_OBSTACLE, COLLISION_FLAG_OBSTACLE_AGAINST);
+
 	return wallPlane;
 }
 
@@ -128,9 +132,9 @@ void PhysicsManager::stepPhysics()
 		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
 	}
 	return PxFilterFlag::eDEFAULT;
-}
+}*/
 
-void setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask)
+void PhysicsManager::setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask)
 {
 	PxFilterData filterData;
 	filterData.word0 = group;
@@ -145,4 +149,4 @@ void setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask)
 		shape->setSimulationFilterData(filterData);
 	}
 	free(shapes);
-}*/
+}
