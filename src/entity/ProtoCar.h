@@ -44,8 +44,10 @@ public:
     void ProtoCar::startHandbrakeTurnLeftMode();
     void ProtoCar::startHandbrakeTurnRightMode();
     void ProtoCar::releaseAllControls();
+    void ProtoCar::applyWheelTorque(float factor);
+    void ProtoCar::applyWheelTurn(float factor);
 
-    const double FORCE_FACTOR = 5000000.;
+    const double FORCE_FACTOR = 1000.;
 
     glm::vec3 getAim() const;
 

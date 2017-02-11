@@ -54,8 +54,23 @@ void ProtoCar::update() {
     
 
     // Basic movement and rotation - this'll be heavily modified in the real car
-    startAccelerateForwardsMode();
-    //applyLocalForce(0, -(controller->RightTrigger() - controller->LeftTrigger()) * FORCE_FACTOR, 0);
+   // startAccelerateForwardsMode();
+    if ((controller->RightTrigger() - controller->LeftTrigger()) > 0) {
+        this->mVehicleNoDrive->setBrakeTorque(0, 0);
+        this->mVehicleNoDrive->setBrakeTorque(1, 0);
+        this->mVehicleNoDrive->setBrakeTorque(2, 0);
+        this->mVehicleNoDrive->setBrakeTorque(3, 0);
+        applyWheelTorque((controller->RightTrigger() - controller->LeftTrigger()));
+    } else {
+        applyWheelTorque(0);
+        this->mVehicleNoDrive->setBrakeTorque(0, FORCE_FACTOR*100000);
+        this->mVehicleNoDrive->setBrakeTorque(1, FORCE_FACTOR * 1000000);
+        this->mVehicleNoDrive->setBrakeTorque(2, FORCE_FACTOR * 1000000);
+        this->mVehicleNoDrive->setBrakeTorque(3, FORCE_FACTOR * 1000000);
+    }
+    
+    applyWheelTurn(controller->LStick_InDeadzone()?0.f:controller->LeftStick_X());
+        
     if (pos.y <= 5.01 && controller->GetButtonPressed(XButtonIDs::A)) {
         applyLocalForce(0, 0, 2000);
     }
@@ -74,6 +89,18 @@ void ProtoCar::update() {
     arrow->reposition(up, pos, aim, aim_rot);
 }
 
+void ProtoCar::applyWheelTurn(float factor) {
+    this->mVehicleNoDrive->setSteerAngle(2,factor/8.f);
+    this->mVehicleNoDrive->setSteerAngle(3,factor/8.f);
+}
+
+void ProtoCar::applyWheelTorque(float factor) {
+
+
+    this->mVehicleNoDrive->setDriveTorque(2, -FORCE_FACTOR*factor);
+    this->mVehicleNoDrive->setDriveTorque(3, -FORCE_FACTOR*factor);
+}
+
 glm::vec3 ProtoCar::getAim() const {
     return aim;
 }
@@ -84,7 +111,7 @@ VehicleDesc ProtoCar::initVehicleDesc()
     //Set up the chassis mass, dimensions, moment of inertia, and center of mass offset.
     //The moment of inertia is just the moment of inertia of a cuboid but modified for easier steering.
     //Center of mass offset is 0.65m above the base of the chassis and 0.25m towards the front.
-    const PxF32 chassisMass = 100.0f;
+    const PxF32 chassisMass = 1500.0f;
     const PxVec3 chassisDims(2.5f, 2.0f, 5.0f);
     const PxVec3 chassisMOI
         ((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
@@ -94,7 +121,7 @@ VehicleDesc ProtoCar::initVehicleDesc()
 
     //Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
     //Moment of inertia is just the moment of inertia of a cylinder.
-    const PxF32 wheelMass = 10.0f;
+    const PxF32 wheelMass = 20.f;
     const PxF32 wheelRadius = 0.5f;
     const PxF32 wheelWidth = 0.4f;
     const PxF32 wheelMOI = 0.5f*wheelMass*wheelRadius*wheelRadius;
@@ -117,8 +144,8 @@ VehicleDesc ProtoCar::initVehicleDesc()
 
 void ProtoCar::startAccelerateForwardsMode()
 {
-    this->mVehicleNoDrive->setDriveTorque(0, 1000.0f);
-    this->mVehicleNoDrive->setDriveTorque(1, 1000.0f);
+    this->mVehicleNoDrive->setDriveTorque(0, -100000.0f);
+    this->mVehicleNoDrive->setDriveTorque(1, -100000.0f);
 
 }
 
