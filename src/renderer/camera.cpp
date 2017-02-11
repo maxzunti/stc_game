@@ -310,7 +310,7 @@ void Camera::calcCarRotSpeeds() {
 
         // Slowly return to re-center on car...
         if (!RS_X) { // ...if no RS-induced camera speed
-            if (x_cam_rot <= SNAP_X && x_cam_rot >= -SNAP_X) { // TODO: Find a suitable general value
+            if (x_cam_rot <= SNAP_X && x_cam_rot >= -SNAP_X) {
                 x_cam_rot = 0;
                 x_car_rot_speed = 0;
             }

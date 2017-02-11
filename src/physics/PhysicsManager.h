@@ -1,39 +1,51 @@
 #pragma once
 #include "PxPhysicsAPI.h"
 #include <iostream>
+#include <memory>
 #include "vehicle/PxVehicleUtil.h"
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleRaycast.h"
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleTireFriction.h"
+#include "../Snippets/SnippetVehicleCommon/SnippetVehicleFilterShader.h"
 
-using namespace physx;
 
 class PhysicsManager
 {
 
 	PxFoundation* mFoundation;
 	PxProfileZoneManager* mProfileZoneManager;
-	PxPhysics* mPhysics;
-	PxCooking* mCooking;
 	PxTolerancesScale mTolerancesScale;
 	PxDefaultCpuDispatcher* mDispatcher;
-	PxScene* mScene;
-	PxMaterial* mMaterial;
-    PxVisualDebuggerConnection* gConnection = NULL;
-    VehicleSceneQueryData*	mVehicleSceneQueryData = NULL;
-    PxBatchQuery*			mBatchQuery = NULL;
+	PxVisualDebuggerConnection* gConnection = NULL;
 
-    PxVehicleDrivableSurfaceToTireFrictionPairs* mFrictionPairs = NULL;
-
-    PxRigidStatic*			mGroundPlane = NULL;
-    PxVehicleDrive4W*		mVehicle4W = NULL;
-
-    bool					mIsVehicleInAir = true;
+	bool mIsVehicleInAir = true;
 
 public:
+
+	PxScene* mScene;
+	PxPhysics* mPhysics;
+	PxCooking* mCooking;
+	PxMaterial* mMaterial;
+	VehicleSceneQueryData*	mVehicleSceneQueryData = NULL;
+	PxBatchQuery*			mBatchQuery = NULL;
+	PxVehicleDrivableSurfaceToTireFrictionPairs* mFrictionPairs = NULL;
+
 	PhysicsManager();
 	~PhysicsManager();
 	PxActor* PhysicsManager::createGroundPlane();
-	PxRigidBody* PhysicsManager::createBlock(float,float,float);
+	PxActor* PhysicsManager::createWallPlane(int, int, int, int, int);
+	PxRigidBody* PhysicsManager::createBlock(float, float, float);
 	void PhysicsManager::stepPhysics();
+
+    //void setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask);
 };
 
+struct FilterGroup
+{
+	enum Enum
+	{
+		eCAR = (1 << 0),
+		eHOOK = (1 << 1),
+		eWALL = (1 << 2),
+	};
+
+};

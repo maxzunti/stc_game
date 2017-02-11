@@ -39,17 +39,21 @@ PhysicsManager::PhysicsManager()
 	if (!mCooking)
 		std::cout << "PxCreateCooking failed!" << std::endl;
 
+    PxU32 numWorkers =2;
+
 	PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
-	mDispatcher = PxDefaultCpuDispatcherCreate(2);
+
+	mDispatcher = PxDefaultCpuDispatcherCreate(numWorkers);
 	sceneDesc.cpuDispatcher = mDispatcher;
-	sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+	//sceneDesc.filterShader = VehicleFilterShader;
+    sceneDesc.filterShader = PxDefaultSimulationFilterShader;
 	mScene = mPhysics->createScene(sceneDesc);
 
-	mMaterial = mPhysics->createMaterial(0.1f, 0.1f, 0.6f);
+	mMaterial = mPhysics->createMaterial(.3f, .3f, 0.1f);
 
     /////////////////////////////////////////////
-    /*
+    
     PxInitVehicleSDK(*mPhysics);
     PxVehicleSetBasisVectors(PxVec3(0, 1, 0), PxVec3(0, 0, 1));
     PxVehicleSetUpdateMode(PxVehicleUpdateMode::eVELOCITY_CHANGE);
@@ -59,16 +63,13 @@ PhysicsManager::PhysicsManager()
     mBatchQuery = VehicleSceneQueryData::setUpBatchedSceneQuery(0, *mVehicleSceneQueryData, mScene);
 
     //Create the friction table for each combination of tire and surface type.
-    mFrictionPairs = createFrictionPairs(mMaterial);*/
-
-
-
+    mFrictionPairs = createFrictionPairs(mMaterial);
 }
 
 
 PhysicsManager::~PhysicsManager()
 {
-
+    PxCloseVehicleSDK();
 	mScene->release();
 	mDispatcher->release();
 	mPhysics->release();
@@ -81,6 +82,13 @@ PxActor* PhysicsManager::createGroundPlane()
 	PxRigidStatic* groundPlane = PxCreatePlane(*mPhysics, PxPlane(PxVec3(0, 0, 0), PxVec3(0,1,0)), *mMaterial);
 	mScene->addActor(*groundPlane);
 	return groundPlane;
+}
+
+PxActor* PhysicsManager::createWallPlane(int x, int y, int z, int a, int b)
+{
+	PxRigidStatic* wallPlane = PxCreatePlane(*mPhysics, PxPlane(PxVec3(x, y, z), PxVec3(a, 0, b)), *mMaterial);
+	mScene->addActor(*wallPlane);
+	return wallPlane;
 }
 
 PxRigidBody* PhysicsManager::createBlock(float x, float y, float z)
@@ -99,7 +107,43 @@ PxRigidBody* PhysicsManager::createBlock(float x, float y, float z)
 
 void PhysicsManager::stepPhysics()
 {
-	PX_UNUSED(false);
+    PX_UNUSED(false);
+
 	mScene->simulate(1.0f / 60.0f);
 	mScene->fetchResults(true);
 }
+
+/*PxFilterFlags filterShader(
+	PxFilterObjectAttributes a0, PxFilterData d0,
+	PxFilterObjectAttributes a1, PxFilterData d1,
+	PxPairFlags& pairFlags, const void* constantBlock, PxU32 cosntantBlockSize)
+{
+	if (PxFilterObjectIsTrigger(a0) || PxFilterObjectIsTrigger(a1))
+	{
+		pairFlags = PxPairFlag::eTRIGGER_DEFAULT;
+		return PxFilterFlag::eDEFAULT;
+	}
+	pairFlags = PxPairFlag::eCONTACT_DEFAULT;
+	if ((d0.word0 & d1.word1) && (d1.word0 & d0.word1))
+	{
+		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
+	}
+	return PxFilterFlag::eDEFAULT;
+}
+
+void setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask)
+{
+	PxFilterData filterData;
+	filterData.word0 = group;
+	filterData.word1 = mask;
+
+	const PxU32 num = actor->getNbShapes();
+	PxShape** shapes = (PxShape**)malloc(sizeof(PxShape*)*num);
+	actor->getShapes(shapes, num);
+	for (PxU32 i = 0; i < num; i++)
+	{
+		PxShape* shape = shapes[i];
+		shape->setSimulationFilterData(filterData);
+	}
+	free(shapes);
+}*/
