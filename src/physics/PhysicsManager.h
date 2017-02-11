@@ -36,12 +36,3 @@ public:
 	void PhysicsManager::stepPhysics();
 };
 
-struct FilterGroup
-{
-	enum Enum
-	{
-		eCAR = (1 << 0),
-		eHOOK = (1 << 1),
-		eWALL = (1 << 2),
-	};
-};

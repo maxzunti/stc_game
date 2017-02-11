@@ -111,38 +111,3 @@ void PhysicsManager::stepPhysics()
 	mScene->simulate(1.0f / 60.0f);
 	mScene->fetchResults(true);
 }
-
-PxFilterFlags filterShader(
-	PxFilterObjectAttributes a0, PxFilterData d0,
-	PxFilterObjectAttributes a1, PxFilterData d1,
-	PxPairFlags& pairFlags, const void* constantBlock, PxU32 cosntantBlockSize)
-{
-	if (PxFilterObjectIsTrigger(a0) || PxFilterObjectIsTrigger(a1))
-	{
-		pairFlags = PxPairFlag::eTRIGGER_DEFAULT;
-		return PxFilterFlag::eDEFAULT;
-	}
-	pairFlags = PxPairFlag::eCONTACT_DEFAULT;
-	if ((d0.word0 & d1.word1) && (d1.word0 & d0.word1))
-	{
-		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
-	}
-	return PxFilterFlag::eDEFAULT;
-}
-
-void setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask)
-{
-	PxFilterData filterData;
-	filterData.word0 = group;
-	filterData.word1 = mask;
-
-	const PxU32 num = actor->getNbShapes();
-	PxShape** shapes = (PxShape**)malloc(sizeof(PxShape*)*num);
-	actor->getShapes(shapes, num);
-	for (PxU32 i = 0; i < num; i++)
-	{
-		PxShape* shape = shapes[i];
-		shape->setSimulationFilterData(filterData);
-	}
-	free(shapes);
-}
