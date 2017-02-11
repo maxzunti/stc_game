@@ -59,6 +59,7 @@ class stick : public PxContactModifyCallback
 		for (PxU32 i = 0; i < count; i++)
 		{
 			//TODO: make them stick
+			//pairs.actor[0]->getScene()->removeActor(pairs.actor[0]);
 		}
 	}
 };
