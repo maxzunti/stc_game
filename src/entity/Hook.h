@@ -10,6 +10,7 @@ public:
 	Hook(std::string model_fname, std::string tex_fname, physx::PxRigidBody* actor, PhysicsManager* physicsManager, ProtoCar* parentCar);
     ProtoCar* mParentCar;
     bool mStuck;
+
 	virtual void update();
 
 	virtual void applyGlobalForce(glm::vec3 direction, double magnitude);
