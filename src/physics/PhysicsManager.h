@@ -31,7 +31,7 @@ public:
 	PhysicsManager(PxContactModifyCallback* callBack);
 	~PhysicsManager();
 	PxActor* PhysicsManager::createGroundPlane();
-	PxActor* PhysicsManager::createWallPlane(int, int, int, int, int);
+    PxActor* PhysicsManager::createWallPlane(float xpos, float ypos, float zpos, float xnorm, float znorm);
 	PxRigidBody* PhysicsManager::createBlock(float, float, float);
 	void PhysicsManager::stepPhysics();
 };

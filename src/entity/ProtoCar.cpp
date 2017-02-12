@@ -8,12 +8,11 @@ using namespace glm;
  ProtoCar::ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents) :
     PhysicsObject(model_fname, tex_fname, actor, physicsManager),
     arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
-	myHook(new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", physicsManager->createBlock(0, 0, 0), physicsManager))
+	myHook(new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", physicsManager->createBlock(0.f, 100.0f, 0.0f), physicsManager))
 {
     controller = cont;
     ents.push_back(arrow.get());
 	ents.push_back(myHook.get());
-    
     //Create a vehicle that will drive on the plane.
     VehicleDesc vehicleDesc = initVehicleDesc();
     mVehicleNoDrive = createVehicleNoDrive(vehicleDesc, physicsManager->mPhysics, physicsManager->mCooking);
@@ -54,7 +53,9 @@ void ProtoCar::calcAim() {
 }
 
 void ProtoCar::update() {
-    //Apply turn according to the left stick angle
+
+    //Apply turn according to the left stick angle 
+    this->myHook->update();
     applyWheelTurn(controller->LStick_InDeadzone() ? 0.f : controller->LeftStick_X());
    
     // Use the triggers to accelerate(Right Trigger) or reverse (Left Trigger)
@@ -78,24 +79,29 @@ void ProtoCar::update() {
     }
 
     //Handbrake - Possibly remove in future
-    if (pos.y <= 5.01 && controller->GetButtonPressed(XButtonIDs::A)) {
+    if (controller->GetButtonPressed(XButtonIDs::A)) {
         //applyLocalForce(0, 0, 2000);
         startBrakeMode();
+    }
+    if (this->myHook->mShot && controller->GetButtonPressed(XButtonIDs::B)) {
+        this->cancelHook();
     }
     if (controller->GetButtonPressed(XButtonIDs::L_Shoulder)) {
         rotate(0., 0.05, 0.);
     }
-    if (controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
-        //rotate(0., -0.05, 0.);
-		//fireHook();
-    }
-    
+  
     // Perform physX update
     updatePosandRot();
 
     // Update aim (after PhysX!)
     calcAim();
     arrow->reposition(up, pos, aim, aim_rot);
+
+    // Must fire after calc aim
+    if (controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
+        fireHook();
+    }
+
 }
 
 
@@ -264,9 +270,18 @@ void ProtoCar::stepForPhysics() {
 
 void ProtoCar::fireHook() {
 	//Fires the hook
-	glm::vec3 a = this->getAim();
-	glm::vec3 b = arrow->getPos();
-	myHook->setPos(b.x, b.y, b.z);
-	//ents.push_back(myHook.get());
-	myHook->applyGlobalForce(a, 50);
+    myHook->mShot = true;
+	//glm::vec3 a = this->getAim();
+	
+    myHook->reposition(up, pos, aim, aim_rot);
+
+    glm::vec3 b = arrow->getPos();
+    myHook->setPos(b.x, b.y + 2.0f, b.z);
+}
+
+void ProtoCar::cancelHook() {
+    myHook->mShot = false;
+    myHook->mStuck = false;
+    myHook->setPos(0.0, 200.0, 0.0);
+    myHook->mActor->setLinearVelocity(PxVec3(0.f, 0.f, 0.f));
 }
