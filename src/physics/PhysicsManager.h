@@ -38,3 +38,14 @@ public:
 	void PhysicsManager::stepPhysics();
 	void PhysicsManager::setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask);
 };
+
+struct FilterGroup
+{
+	enum Enum
+	{
+		eCAR = (1 << 0),
+		eHOOK = (1 << 1),
+		eWALL = (1 << 2),
+	};
+
+};

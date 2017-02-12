@@ -4,6 +4,7 @@
 #include "../input/input.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/quaternion.hpp"
+#include "../util/ConfigParser.h"
 
 
 /*
@@ -29,46 +30,58 @@ mat4 rotateAbout(vec3 axis, float radians)
 
 class Camera{
 public:
-    const enum camMode { FREE = 0, FOLLOW };
+    enum camMode { FREE = 0, FOLLOW };
     camMode mode = FOLLOW;
 
     // Camera tweaking parameters:
     // Freelook variables
-    const float FREE_X_CAM_ROT_SPEED = 0.05;
-    const float FREE_Y_CAM_ROT_SPEED = 0.05;
-    const float FREE_X_CAM_MOVE_SPEED = 0.2;
-    const float FREE_Y_CAM_MOVE_SPEED = 0.2;
-    const float FREE_Z_CAM_MOVE_SPEED = 0.2;
+    float FREE_X_CAM_ROT_SPEED = 0.05;
+    float FREE_Y_CAM_ROT_SPEED = 0.05;
+    float FREE_X_CAM_MOVE_SPEED = 0.2;
+    float FREE_Y_CAM_MOVE_SPEED = 0.2;
+    float FREE_Z_CAM_MOVE_SPEED = 0.2;
 
     // Follow cam variables
-    const float FOLLOW_X_CAM_ROT_SPEED = 0.03;
-    const float FOLLOW_Y_CAM_ROT_SPEED = 0.005;
-    const float FOLLOW_X_CAM_XBOX_SPEED = 0.005;
-    const float FOLLOW_Y_CAM_XBOX_SPEED = 0.005;
+    fp_vars follow_vars;
+
+    float FOLLOW_X_CAM_ROT_SPEED = 0.03;
+    float FOLLOW_Y_CAM_ROT_SPEED = 0.05;
+    float FOLLOW_X_CAM_XBOX_SPEED = 0.003;
+    float FOLLOW_Y_CAM_XBOX_SPEED = 0.003;
 
     // max allowed (+/-) rotation angle, in radians
-    const float FOLLOW_X_MAX_ROT = 0.3;
-    const float FOLLOW_Y_MAX_ROT = 0.5;
+    float FOLLOW_X_MAX_ROT = 0.3;
+    float FOLLOW_Y_MAX_ROT = 0.5;
+
+    // small threshold values which determine when we automatically set the cam speeds and rot to 0
+    float SNAP_X = 0.003;
+    float SNAP_Y = 0.01;
 
     // max allowed (+/-) rotation speeds
-    const float FOLLOW_X_MAX_ROT_SPEED = 1.0;
-    const float FOLLOW_Y_MAX_ROT_SPEED = 1.0;
-    const float FOLLOW_X_MAX_XBOX_SPEED = 1.0;
-    const float FOLLOW_Y_MAX_XBOX_SPEED = 1.0;
+    float FOLLOW_X_MAX_ROT_SPEED = 1.0;
+    float FOLLOW_Y_MAX_ROT_SPEED = 1.0;
+    float FOLLOW_X_MAX_XBOX_SPEED = 1.0;
+    float FOLLOW_Y_MAX_XBOX_SPEED = 1.0;
 
     // Speeds to "return" to the normal orientation
-    const float FOLLOW_X_CAM_RETURN_SPEED = 0.001;
-    const float FOLLOW_Y_CAM_RETURN_SPEED = 0.001;
+    float FOLLOW_X_CAM_RETURN_SPEED = 0.0005;
+    float FOLLOW_Y_CAM_RETURN_SPEED = 0.001;
 
+    // Scaling factors which determine the cam-speeds near the angle boundaries
+    float X_ASYMP_FACTOR = 3.0;
+    float Y_ASYMP_FACTOR = 3.0;
+    float X_ASYMP_RET_FACTOR = 0.5;
+    float Y_ASYMP_RET_FACTOR = 0.5;
 
-    const float FOLLOW_DISTANCE = 6.0;
-    const float FOLLOW_HEIGHT = 2.0;
-    const float BASE_ANGLE = -0.2;
+    float FOLLOW_DISTANCE = 6.0;
+    float FOLLOW_HEIGHT = 2.0;
+    float BASE_ANGLE = -0.2;
+    float DELTA = 0.001;
 
     // Frame counts for the follow-cam delay
-    static const int FOLLOW_DELAY_POS = 3;
-    static const int FOLLOW_DELAY_ROT = 4;
-    static const int FOLLOW_DELAY_SIZE = 16;
+    const static int FOLLOW_DELAY_POS = 3;
+    const static int FOLLOW_DELAY_ROT = 4;
+    const static int FOLLOW_DELAY_SIZE = 16;
 
     glm::vec3 dir;
     glm::vec3 up;
@@ -87,22 +100,40 @@ public:
 	void rotateAroundCenter(float x, float y, glm::vec3 focus);
     void movePosition(glm::vec3 delta);
     void quatRot(glm::tquat<double> q);
+
+    // Functions for calculating follow cam speeds and position
     void calcFollowSpeeds();
-    void clamp_speed(float &input, float abs_max);
+    void calcXboxRotSpeeds();
+    void calcCarRotSpeeds();
+    void calcAsympSpeeds(); // asymptotically lower rotation speed as the camera returns to 0 or reaches its boundaries
+    void clamp(float &input, float abs_max);
+    void soft_clamp_speed(const float &curr, float &speed, float max, float min, float factor); // asymptotically lower speeds towards certain thresholds
     void converge(float &input, float target, float step);
+
     glm::mat4 getMatrix();
 
 private:
     ProtoCar * car;
     Input * controller;
+    ConfigParser fc_parser;
 
     float x_cam_rot = 0;
     float y_cam_rot = 0;
-    float x_xbox_speed = 0;
-    float y_xbox_speed = 0;
-    float x_rot_speed = 0;
-    float y_rot_speed = 0;
+
+    // Follow-cam speeds induced by RS movement
+    float x_xbox_rot_speed = 0;
+    float y_xbox_rot_speed = 0;
+
+    // Follow-cam speeds induced by car rotation
+    float x_car_rot_speed = 0;
+    float y_car_rot_speed = 0;
+
+    // Total x/y follow-cam speeds
+    float x_rot_speed;
+    float y_rot_speed;
+
     bool y_resetting = false;
+    bool x_resetting = false;
 
     void setMode();
     void freeLook();
@@ -114,8 +145,9 @@ private:
 
     int frame_counter = 0;
     
-    bool RS_released = false; // tracks whether we've recently released the right stick
-                              // used to tell whether we should track slowly back to center
+    // tracks whether the right stick is currently in use
+    bool RS_Y = false;
+    bool RS_X = false;
 };
 
 #endif

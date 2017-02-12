@@ -11,11 +11,15 @@
 #include "entity/ProtoCar.h"
 #include "entity/Hook.h"
 #include "renderer/skybox/Skybox.h"
+#include <ctime>
+
+#include "util/ConfigParser.h"
 
 using namespace std;
 
 int main(int argc, const char* argv[])
 {
+
     std::unique_ptr<Window> window(new Window());
 
     // Set up input
@@ -33,8 +37,8 @@ int main(int argc, const char* argv[])
     std::vector<Entity*> entities(0);
     std::vector<ProtoCar*> cars(0);
 
-    ProtoCar * car = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", nullptr, myPhysics, input.get(), entities);
-
+    //ProtoCar * car = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", nullptr, myPhysics, input.get(), entities);
+    ProtoCar *car = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", nullptr, myPhysics, input.get(), entities);
     window->getRenderer()->getCam()->registerController(input.get());
     window->getRenderer()->getCam()->registerCar(car);
    // ProtoCar * crate2 = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(), input2.get());
@@ -43,8 +47,8 @@ int main(int argc, const char* argv[])
 //    entities.push_back(crate2);
     car->setPos(0, 7, 0);
 
-    Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(0, 10, 0), myPhysics, 0.f);
-    entities.push_back(tHook);
+  //  Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(0, 10, 0), myPhysics, 0.f);
+   // entities.push_back(tHook);
 
    // tCrate->setRot(0, 3.14 / 4., 0);
    //  tCrate->setRot(glm::vec3(0, 3.14/2., 0));
@@ -73,26 +77,43 @@ int main(int argc, const char* argv[])
     //myPhysics->createGroundPlane();
     myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
 	myPhysics->createWallPlane(0,5,-10,0,1);
+    
+    //Timing stuff
+  /*  SYSTEMTIME st;
 
-	while (!window->shouldClose())
+    GetSystemTime(&st);
+
+    float time = st.wMilliseconds + st.wSecond*1000.f + st.wMinute*60.f*1000.f + st.wHour*3600.f*1000.f;
+    float now = 0.f;
+    float timeStep = 0.f;
+
+  */
+    while (!window->shouldClose())
 	{
+
+   //     GetSystemTime(&st);
+   //     now = st.wMilliseconds + st.wSecond*1000.f + st.wMinute*60.f*1000.f + st.wHour*3600.f*1000.f;
+   //     timeStep += (now - time)/1000.0f;
+   //     cout << "now: " << now << endl << "t: " << time << endl << "timeStep: "<<timeStep <<endl;
+   //     time = now;
+
    //     tCrate->setRot(0, 0.745, 0);
-    //    tCrate->setRot(0.785, 0., 0.785);
-      //  tCrate->setRot(0.785, 0.785, 0.0);
-      //  tCrate->setRot(0.0, 0.785, 0.0);
-
-
-
+   //     tCrate->setRot(0.785, 0., 0.785);
+   //     tCrate->setRot(0.785, 0.785, 0.0);
+   //     tCrate->setRot(0.0, 0.785, 0.0);
    //     tCrate->setPos(0, 2, 0);
 
         input->Update();
 
-		// myInput->getState();
-		// myAI->getState();
+    // myInput->getState();
+    // myAI->getState();
+    // while(timeStep >= (1/60.f))
+    // {
         for (const auto& c : cars)
             c->stepForPhysics();
 		myPhysics->stepPhysics();
-		
+    //  timeStep -= (1 / 60.f);
+	//	}
 		// FYI: dynamic casts have a lot of run-time checking involved and are pretty expensive
         // so we should avoid using them as much as possible
 	/*	PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(-0.9, -0.9, 0.9));
@@ -110,7 +131,7 @@ int main(int argc, const char* argv[])
         car->update();
 
         //crate2->update();
-		tHook->update();
+		//tHook->update();
 		// mySound->updateSound();
 		window->draw(entities);
        // std::cout << "rot x = " << tCrate->xRot() << "  y_rot = " << tCrate->yRot() << "  z_rot = " << tCrate->zRot() << std::endl;

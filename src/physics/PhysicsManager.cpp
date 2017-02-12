@@ -49,10 +49,10 @@ PhysicsManager::PhysicsManager()
 	sceneDesc.filterShader = VehicleFilterShader;
 	mScene = mPhysics->createScene(sceneDesc);
 
-	mMaterial = mPhysics->createMaterial(.5f, .5f, 0.1f);
+	mMaterial = mPhysics->createMaterial(.3f, .3f, 0.1f);
 
     /////////////////////////////////////////////
-
+    
     PxInitVehicleSDK(*mPhysics);
     PxVehicleSetBasisVectors(PxVec3(0, 1, 0), PxVec3(0, 0, 1));
     PxVehicleSetUpdateMode(PxVehicleUpdateMode::eVELOCITY_CHANGE);
@@ -122,7 +122,7 @@ void PhysicsManager::stepPhysics()
 {
     PX_UNUSED(false);
 
-	mScene->simulate(1.0f / 60.0f);
+	mScene->simulate(1/60.f);
 	mScene->fetchResults(true);
 }
 
