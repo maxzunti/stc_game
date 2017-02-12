@@ -64,7 +64,7 @@ PhysicsManager::PhysicsManager()
     //Create the friction table for each combination of tire and surface type.
     mFrictionPairs = createFrictionPairs(mMaterial);
 	
-	StickListener* sticklisten;
+	StickListener* sticklisten = new StickListener();
 	mScene->setContactModifyCallback(sticklisten);
 }
 

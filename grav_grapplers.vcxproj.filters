@@ -91,7 +91,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\physics\StickListener.cpp">
-	  <Filter>Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\util\ConfigParser.cpp">
       <Filter>Source Files</Filter>
@@ -989,10 +989,10 @@
     <ClInclude Include="src\physics\StickListener.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="middleware\PhysXSDK\Include\PxContactModifyCallback.h">
-	  <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\util\ConfigParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="middleware\PhysXSDK\Include\PxContactModifyCallback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

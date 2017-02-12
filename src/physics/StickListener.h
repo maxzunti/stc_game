@@ -3,12 +3,12 @@
 #include "PxPhysicsAPI.h"
 #include "PxContactModifyCallback.h"
 
-class StickListener : public PxContactModifyCallback
+class StickListener : public physx::PxContactModifyCallback
 {
 public:
 	StickListener();
 	~StickListener();
-	void StickListener::onContactModify(PxContactModifyPair *const pairs, PxU32 count);
+	void StickListener::onContactModify(physx::PxContactModifyPair *const pairs, physx::PxU32 count);
 };
 
 

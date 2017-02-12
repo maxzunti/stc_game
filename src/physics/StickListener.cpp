@@ -1,6 +1,6 @@
 #include "StickListener.h"
 
-
+using namespace physx;
 
 StickListener::StickListener()
 {
