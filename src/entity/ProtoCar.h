@@ -5,6 +5,7 @@
 #include "PxPhysicsAPI.h"
 #include "vehicle/PxVehicleUtil.h"
 #include "vehicle/PxVehicleNoDrive.h"
+#include "Hook.h"
 
 
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleCreate.h"
@@ -19,6 +20,7 @@ protected:
     glm::quat aim_rot;
     glm::vec3 aim;
     glm::vec3 up;
+	std::unique_ptr<Hook> myHook;
 
     // Calculate an aim rotation using an xbox controller
     void calcAim();
@@ -55,4 +57,6 @@ public:
     glm::vec3 getAim() const;
 
     void ProtoCar::stepForPhysics();
+
+	void ProtoCar::fireHook();
 };
