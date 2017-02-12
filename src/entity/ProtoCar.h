@@ -59,4 +59,5 @@ public:
     void ProtoCar::stepForPhysics();
 
 	void ProtoCar::fireHook();
+    void ProtoCar::cancelHook();
 };
