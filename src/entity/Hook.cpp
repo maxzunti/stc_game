@@ -6,7 +6,8 @@ Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, P
 	PhysicsObject(model_fname, tex_fname, actor, physicsManager) {
 	//Record the angle of shot?
 
-	
+	actor->setName("Hook");
+	//TODO: Link the hook to COLLISION_FLAG_HOOK
 	physicsManager->setupFiltering(actor, COLLISION_FLAG_HOOK, COLLISION_FLAG_HOOK_AGAINST);
 }
 

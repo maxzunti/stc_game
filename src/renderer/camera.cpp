@@ -225,7 +225,7 @@ void Camera::calcFollowSpeeds() {
     }
 
     // MAX: Potentially clamp the sum of the individual speeds, too
-    std::cout << "X rot cam speed: " << x_rot_speed << "  X xbox cam speed: " << x_xbox_speed << "  Y rot cam speed: " <<  y_rot_speed << "  Y  xboxcam speed: " << y_xbox_speed << std::endl;
+    //std::cout << "X rot cam speed: " << x_rot_speed << "  X xbox cam speed: " << x_xbox_speed << "  Y rot cam speed: " <<  y_rot_speed << "  Y  xboxcam speed: " << y_xbox_speed << std::endl;
 
     // Update camera rotation angles
     x_cam_rot += (x_rot_speed + x_xbox_speed);

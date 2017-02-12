@@ -234,6 +234,7 @@
     <ClCompile Include="src\renderer\model\Model.cpp" />
     <ClCompile Include="src\renderer\skybox\Skybox.cpp" />
     <ClCompile Include="src\renderer\Window.cpp" />
+    <ClCompile Include="src\physics\StickListener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="middleware\xinput\xinput1_3.dll" />
@@ -359,6 +360,7 @@
     <None Include="src\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="middleware\PhysXSDK\Include\PxContactModifyCallback.h" />
     <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleCreate.h" />
     <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleFilterShader.h" />
     <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleRaycast.h" />
@@ -538,6 +540,7 @@
     <ClInclude Include="src\renderer\model\Model.h" />
     <ClInclude Include="src\renderer\skybox\Skybox.h" />
     <ClInclude Include="src\renderer\Window.h" />
+    <ClInclude Include="src\physics\StickListener.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\stars_milkyway.jpg" />

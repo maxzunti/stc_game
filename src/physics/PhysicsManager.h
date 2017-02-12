@@ -6,6 +6,7 @@
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleRaycast.h"
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleTireFriction.h"
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleFilterShader.h"
+#include "StickListener.h"
 
 
 class PhysicsManager

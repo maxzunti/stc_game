@@ -14,6 +14,7 @@
 #include "SnippetVehicleFilterShader.h"
 #include "PxPhysicsAPI.h"
 #include <PxFiltering.h>
+#include <iostream>
 
 using namespace physx;
 
@@ -27,10 +28,16 @@ PxFilterFlags VehicleFilterShader
 	PX_UNUSED(constantBlock);
 	PX_UNUSED(constantBlockSize);
 
-	if ((filterData0.word0 & filterData1.word1) && (filterData1.word0 & filterData0.word1))
+	if (((filterData0.word0 & filterData1.word1)>0) && ((filterData1.word0 & filterData0.word1)>0))
 	{
-		pairFlags = PxPairFlag::eMODIFY_CONTACTS;
-		return PxFilterFlag::eDEFAULT;
+		std::cout << "collision accepted" << std::endl;
+		if (filterData0.word0 == COLLISION_FLAG_HOOK || filterData1.word0 == COLLISION_FLAG_HOOK)
+		{
+			std::cout << "collision is hooked" << std::endl;
+			pairFlags = PxPairFlag::eMODIFY_CONTACTS;
+			
+			return PxFilterFlag::eSUPPRESS;
+		}
 	}
 
 	if( (0 == (filterData0.word0 & filterData1.word1)) && (0 == (filterData1.word0 & filterData0.word1)) )
@@ -40,26 +47,3 @@ PxFilterFlags VehicleFilterShader
 
 	return PxFilterFlags();
 }
-
-/*PxFilterFlags PxSimulationFilterCallback::pairFound
-(PxU32 pair,
-	PxFilterObjectAttributes attributes0, PxFilterData d0,
-	const PxActor * a0, const PxShape * s0,
-	PxFilterObjectAttributes attributes1, PxFilterData d1,
-	const PxActor * a1, const PxShape * s1,
-	PxPairFlags & pairFlags)
-{
-	
-}*/
-
-class stick : public PxContactModifyCallback
-{
-	void onContactModify(PxContactModifyPair& pairs, PxU32 count)
-	{
-		for (PxU32 i = 0; i < count; i++)
-		{
-			//TODO: make them stick
-			//pairs.actor[0]->getScene()->removeActor(pairs.actor[0]);
-		}
-	}
-};

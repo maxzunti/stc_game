@@ -63,6 +63,9 @@ PhysicsManager::PhysicsManager()
 
     //Create the friction table for each combination of tire and surface type.
     mFrictionPairs = createFrictionPairs(mMaterial);
+	
+	StickListener* sticklisten;
+	mScene->setContactModifyCallback(sticklisten);
 }
 
 
@@ -96,15 +99,22 @@ PxActor* PhysicsManager::createWallPlane(int x, int y, int z, int a, int b)
 
 PxRigidBody* PhysicsManager::createBlock(float x, float y, float z)
 {
-	PxShape* shape = mPhysics->createShape(PxBoxGeometry(1.0f, 1.0f, 1.0f), *mMaterial);
+	//PxShape* shape = mPhysics->createShape(PxBoxGeometry(1.0f, 1.0f, 1.0f), *mMaterial);
 	PxTransform localTm(PxVec3(x, y, z));
 	PxRigidDynamic* body = mPhysics->createRigidDynamic(localTm);
-	body->attachShape(*shape);
+	PxShape* shape = body->createShape(PxBoxGeometry(1.0f, 1.0f, 1.0f), *mMaterial);
+	//body->attachShape(*shape);
 	body->setLinearDamping(1.0f);
 	body->setAngularDamping(1.0f);
 	PxRigidBodyExt::updateMassAndInertia(*body, 1.0f);
 	mScene->addActor(*body);
-	shape->release();
+	//////////////////////////
+	PxFilterData filterData;
+	filterData.word0 = COLLISION_FLAG_HOOK;
+	filterData.word1 = COLLISION_FLAG_HOOK_AGAINST;
+
+	shape->setSimulationFilterData(filterData);
+	///////////////////////////
 	return body;
 }
 
@@ -116,37 +126,7 @@ void PhysicsManager::stepPhysics()
 	mScene->fetchResults(true);
 }
 
-/*PxFilterFlags filterShader(
-	PxFilterObjectAttributes a0, PxFilterData d0,
-	PxFilterObjectAttributes a1, PxFilterData d1,
-	PxPairFlags& pairFlags, const void* constantBlock, PxU32 cosntantBlockSize)
-{
-	if (PxFilterObjectIsTrigger(a0) || PxFilterObjectIsTrigger(a1))
-	{
-		pairFlags = PxPairFlag::eTRIGGER_DEFAULT;
-		return PxFilterFlag::eDEFAULT;
-	}
-	pairFlags = PxPairFlag::eCONTACT_DEFAULT;
-	if ((d0.word0 & d1.word1) && (d1.word0 & d0.word1))
-	{
-		pairFlags |= PxPairFlag::eNOTIFY_TOUCH_FOUND;
-	}
-	return PxFilterFlag::eDEFAULT;
-}*/
-
 void PhysicsManager::setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask)
 {
-	PxFilterData filterData;
-	filterData.word0 = group;
-	filterData.word1 = mask;
-
-	const PxU32 num = actor->getNbShapes();
-	PxShape** shapes = (PxShape**)malloc(sizeof(PxShape*)*num);
-	actor->getShapes(shapes, num);
-	for (PxU32 i = 0; i < num; i++)
-	{
-		PxShape* shape = shapes[i];
-		shape->setSimulationFilterData(filterData);
-	}
-	free(shapes);
+	
 }
