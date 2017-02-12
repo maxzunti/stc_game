@@ -2,7 +2,7 @@
 
 using namespace physx;
 
-PhysicsManager::PhysicsManager()
+PhysicsManager::PhysicsManager(PxContactModifyCallback* callBack)
 {
 	static PxDefaultErrorCallback gDefaultErrorCallback;
 	static PxDefaultAllocator gDefaultAllocatorCallback;
@@ -46,7 +46,7 @@ PhysicsManager::PhysicsManager()
 	mDispatcher = PxDefaultCpuDispatcherCreate(numWorkers);
 	sceneDesc.cpuDispatcher = mDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;
-    sceneDesc.contactModifyCallback = &mSticklisten;
+    sceneDesc.contactModifyCallback = callBack;
 	mScene = mPhysics->createScene(sceneDesc);
 
 	mMaterial = mPhysics->createMaterial(.3f, .3f, 0.1f);
@@ -91,9 +91,6 @@ PxActor* PhysicsManager::createWallPlane(int x, int y, int z, int a, int b)
 	PxRigidStatic* wallPlane = PxCreatePlane(*mPhysics, PxPlane(PxVec3(x, y, z), PxVec3(a, 0, b)), *mMaterial);
 	mScene->addActor(*wallPlane);
 
-	//TODO:Link this to COLLISION_FLAG_OBSTACLE
-	setupFiltering(wallPlane, COLLISION_FLAG_OBSTACLE, COLLISION_FLAG_OBSTACLE_AGAINST);
-
 	return wallPlane;
 }
 
@@ -124,9 +121,4 @@ void PhysicsManager::stepPhysics()
 
 	mScene->simulate(1/60.f);
 	mScene->fetchResults(true);
-}
-
-void PhysicsManager::setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask)
-{
-	
 }

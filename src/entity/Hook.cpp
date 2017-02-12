@@ -2,13 +2,15 @@
 
 using namespace physx;
 
-Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, float angle) :
+
+Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, ProtoCar* parentCar) :
 	PhysicsObject(model_fname, tex_fname, actor, physicsManager) {
 	//Record the angle of shot?
-
+    actor->userData = this;
 	actor->setName("Hook");
-	//TODO: Link the hook to COLLISION_FLAG_HOOK
-	physicsManager->setupFiltering(actor, COLLISION_FLAG_HOOK, COLLISION_FLAG_HOOK_AGAINST);
+    mParentCar = parentCar;
+    mStuck = false;
+
 }
 
 void Hook::applyGlobalForce(glm::vec3 direction, double magnitude) {

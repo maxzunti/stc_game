@@ -7,11 +7,12 @@ using namespace glm;
 
  ProtoCar::ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents) :
     PhysicsObject(model_fname, tex_fname, actor, physicsManager),
-    arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")) 
+    arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
+	myHook(new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", physicsManager->createBlock(0, 0, 0), physicsManager))
 {
-    
     controller = cont;
     ents.push_back(arrow.get());
+	ents.push_back(myHook.get());
     
     //Create a vehicle that will drive on the plane.
     VehicleDesc vehicleDesc = initVehicleDesc();
@@ -85,7 +86,8 @@ void ProtoCar::update() {
         rotate(0., 0.05, 0.);
     }
     if (controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
-        rotate(0., -0.05, 0.);
+        //rotate(0., -0.05, 0.);
+		//fireHook();
     }
     
     // Perform physX update
@@ -258,4 +260,13 @@ void ProtoCar::stepForPhysics() {
     PxWheelQueryResult wheelQueryResults[PX_MAX_NB_WHEELS];
     PxVehicleWheelQueryResult vehicleQueryResults[1] = { { wheelQueryResults, this->mVehicleNoDrive->mWheelsSimData.getNbWheels() } };
     PxVehicleUpdates(1/60.f, grav, *this->mPhysicsManager->mFrictionPairs, 1, vehicles, vehicleQueryResults);
+}
+
+void ProtoCar::fireHook() {
+	//Fires the hook
+	glm::vec3 a = this->getAim();
+	glm::vec3 b = arrow->getPos();
+	myHook->setPos(b.x, b.y, b.z);
+	//ents.push_back(myHook.get());
+	myHook->applyGlobalForce(a, 50);
 }

@@ -10,6 +10,7 @@
 #include "entity/PhysicsObject.h"
 #include "entity/ProtoCar.h"
 #include "entity/Hook.h"
+#include "physics/StickListener.h"
 #include "renderer/skybox/Skybox.h"
 #include <ctime>
 
@@ -28,7 +29,8 @@ int main(int argc, const char* argv[])
 
 
 	// Input* myInput = new Input();
-	PhysicsManager* myPhysics = new PhysicsManager();
+    StickListener stickListener;
+	PhysicsManager* myPhysics = new PhysicsManager(&stickListener);
 	// Sound* mySound = new Sound();
 	// OpponentAI* myAI = new OpponentAI();
 
@@ -46,8 +48,9 @@ int main(int argc, const char* argv[])
 //    entities.push_back(crate2);
     car->setPos(0, 7, 0);
 
-    Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(0, 10, 0), myPhysics, 0.f);
-    entities.push_back(tHook);
+
+    //Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(0, 10, 0), myPhysics);
+    //entities.push_back(tHook);
 
    // tCrate->setRot(0, 3.14 / 4., 0);
    //  tCrate->setRot(glm::vec3(0, 3.14/2., 0));
@@ -76,7 +79,6 @@ int main(int argc, const char* argv[])
 
     while (!window->shouldClose())
 	{
-
         input->Update();
     // myInput->getState();
     // myAI->getState();
@@ -102,7 +104,7 @@ int main(int argc, const char* argv[])
         car->update();
 
         //crate2->update();
-		tHook->update();
+		//tHook->update();
 		// mySound->updateSound();
 		window->draw(entities);
        // std::cout << "rot x = " << tCrate->xRot() << "  y_rot = " << tCrate->yRot() << "  z_rot = " << tCrate->zRot() << std::endl;

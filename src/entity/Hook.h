@@ -1,12 +1,15 @@
 #pragma once
 #include "PhysicsObject.h"
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleFilterShader.h"
+#include "../entity/ProtoCar.h"
 
 class Hook : public PhysicsObject {
 protected:
 
 public:
-	Hook(std::string model_fname, std::string tex_fname, physx::PxRigidBody* actor, PhysicsManager* physicsManager, float angle);
+	Hook(std::string model_fname, std::string tex_fname, physx::PxRigidBody* actor, PhysicsManager* physicsManager, ProtoCar* parentCar);
+    ProtoCar* mParentCar;
+    bool mStuck;
 
 	virtual void update();
 
