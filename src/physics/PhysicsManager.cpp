@@ -104,12 +104,12 @@ PxActor* PhysicsManager::createWallPlane(float xpos, float ypos, float zpos, flo
 
 }
 
-PxRigidBody* PhysicsManager::createBlock(float x, float y, float z)
+PxRigidBody* PhysicsManager::createBlock(float x, float y, float z, float xdim, float ydim, float zdim)
 {
 	//PxShape* shape = mPhysics->createShape(PxBoxGeometry(1.0f, 1.0f, 1.0f), *mMaterial);
 	PxTransform localTm(PxVec3(x, y, z));
 	PxRigidDynamic* body = mPhysics->createRigidDynamic(localTm);
-	PxShape* shape = body->createShape(PxBoxGeometry(0.25f, 0.25f, 0.25f), *mMaterial);
+	PxShape* shape = body->createShape(PxBoxGeometry(xdim, ydim, zdim), *mMaterial);
 	//body->attachShape(*shape);
 	body->setLinearDamping(1.0f);
 	body->setAngularDamping(1.0f);
