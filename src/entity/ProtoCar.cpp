@@ -159,6 +159,10 @@ glm::vec3 ProtoCar::getAim() const {
     return aim;
 }
 
+glm::quat ProtoCar::getAimRot() const {
+    return aim_rot;
+}
+
 VehicleDesc ProtoCar::initVehicleDesc()
 {
     //Set up the chassis mass, dimensions, moment of inertia, and center of mass offset.
@@ -215,16 +219,14 @@ void ProtoCar::stepForPhysics() {
     PxVehicleUpdates(1/60.f, grav, *this->mPhysicsManager->mFrictionPairs, 1, vehicles, vehicleQueryResults);
 }
 
+//Fires the hook
 void ProtoCar::fireHook() {
-	//Fires the hook
     this->mPhysicsManager->mScene->addActor(*myHook->mActor);
     myHook->mShot = true;
-	//glm::vec3 a = this->getAim();
-	
-    myHook->reposition(up, pos, aim, aim_rot);
+    myHook->setRot(aim_rot);
 
-    glm::vec3 b = arrow->getPos();
-    myHook->setPos(b.x, b.y + 2.0f, b.z);
+    glm::vec3 a_pos = arrow->getPos();
+    myHook->setPos(a_pos.x, a_pos.y + 2.0f, a_pos.z);
 }
 
 void ProtoCar::cancelHook() {

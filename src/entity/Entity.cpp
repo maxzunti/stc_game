@@ -38,6 +38,10 @@ void Entity::setRot(glm::vec3 newRot) {
     dir = glm::rotate(qrot, glm::vec3(0, 0, -1));
 }
 
+void Entity::setRot(glm::quat newRot) {
+    qrot = newRot;
+}
+
 double Entity::xPos() const { return pos[0]; }
 
 double Entity::yPos() const { return pos[1]; }

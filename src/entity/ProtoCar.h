@@ -57,6 +57,7 @@ public:
     bool retracting;
 
     glm::vec3 getAim() const;
+    glm::quat getAimRot() const;
 
     void ProtoCar::stepForPhysics();
 

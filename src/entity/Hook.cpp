@@ -33,19 +33,8 @@ void Hook::applyLocalForce(float forward, float right, float up) {
 void Hook::update() {
     if (mShot && !mStuck)
     {
-        this->mActor->setLinearVelocity(30.f*PxVec3(this->getDir().x, this->getDir().y, this->getDir().z));
-        
+        mActor->setLinearVelocity(30.f*PxVec3(this->getDir().x, this->getDir().y, this->getDir().z));
     }
 
     updatePosandRot();
-}
-
-void Hook::reposition(glm::vec3 up, glm::vec3 pos, glm::vec3 aim_vec, glm::quat aim_rot) {
-    this->pos = pos + (BASE_RAD * aim_vec) + (HEIGHT_MOD * up);
-    this->qrot = glm::rotate(aim_rot, BASE_ROT, up);
-    int x = 5;
-    
-    dir = glm::rotate(this->qrot, glm::vec3(0, 0, -1));
-    PxQuat newRot(this->qrot.x, this->qrot.y, this->qrot.z, this->qrot.w);
-    mActor->setGlobalPose(PxTransform(mActor->getGlobalPose().p, newRot));
 }
