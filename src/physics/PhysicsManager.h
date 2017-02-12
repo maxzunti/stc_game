@@ -29,6 +29,7 @@ public:
 	VehicleSceneQueryData*	mVehicleSceneQueryData = NULL;
 	PxBatchQuery*			mBatchQuery = NULL;
 	PxVehicleDrivableSurfaceToTireFrictionPairs* mFrictionPairs = NULL;
+    StickListener mSticklisten;
 
 	PhysicsManager();
 	~PhysicsManager();

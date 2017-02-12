@@ -43,10 +43,10 @@ PhysicsManager::PhysicsManager()
 
 	PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
-
 	mDispatcher = PxDefaultCpuDispatcherCreate(numWorkers);
 	sceneDesc.cpuDispatcher = mDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;
+    sceneDesc.contactModifyCallback = &mSticklisten;
 	mScene = mPhysics->createScene(sceneDesc);
 
 	mMaterial = mPhysics->createMaterial(.3f, .3f, 0.1f);
@@ -64,8 +64,8 @@ PhysicsManager::PhysicsManager()
     //Create the friction table for each combination of tire and surface type.
     mFrictionPairs = createFrictionPairs(mMaterial);
 	
-	StickListener* sticklisten = new StickListener();
-	mScene->setContactModifyCallback(sticklisten);
+	
+	
 }
 
 

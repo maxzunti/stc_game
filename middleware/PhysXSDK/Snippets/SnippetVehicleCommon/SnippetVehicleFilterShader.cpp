@@ -25,6 +25,8 @@ PxFilterFlags VehicleFilterShader
 {
 	PX_UNUSED(attributes0);
 	PX_UNUSED(attributes1);
+    PX_UNUSED(filterData0);
+    PX_UNUSED(filterData1);
 	PX_UNUSED(constantBlock);
 	PX_UNUSED(constantBlockSize);
 
@@ -34,9 +36,9 @@ PxFilterFlags VehicleFilterShader
 		if (filterData0.word0 == COLLISION_FLAG_HOOK || filterData1.word0 == COLLISION_FLAG_HOOK)
 		{
 			std::cout << "collision is hooked" << std::endl;
-			pairFlags = PxPairFlag::eMODIFY_CONTACTS;
+			pairFlags = PxPairFlag::eMODIFY_CONTACTS | PxPairFlag::eRESOLVE_CONTACTS;
 			
-			return PxFilterFlag::eSUPPRESS;
+			return PxFilterFlag::eDEFAULT;
 		}
 	}
 
