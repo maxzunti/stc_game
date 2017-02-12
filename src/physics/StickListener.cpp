@@ -23,7 +23,7 @@ void StickListener::onContactModify(PxContactModifyPair *const pairs, PxU32 coun
 		{
             // Set velocity to ZERO!!!!!!
             for (PxU32 i = 0; i < pairs->contacts.size(); ++i) {
-                pairs->contacts.setTargetVelocity(i, PxVec3(0, 0, -10));
+                pairs->contacts.setTargetVelocity(i, PxVec3(0, 0, 0));
             }
             //PxRigidBody *temp = pairs->actor[0];
             //pairs->contacts.ignore(// ->actor[0]->setActorFlags(PxActorFlag::eDISABLE_SIMULATION);
