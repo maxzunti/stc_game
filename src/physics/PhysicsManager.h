@@ -6,8 +6,6 @@
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleRaycast.h"
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleTireFriction.h"
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleFilterShader.h"
-#include "StickListener.h"
-
 
 class PhysicsManager
 {
@@ -29,15 +27,13 @@ public:
 	VehicleSceneQueryData*	mVehicleSceneQueryData = NULL;
 	PxBatchQuery*			mBatchQuery = NULL;
 	PxVehicleDrivableSurfaceToTireFrictionPairs* mFrictionPairs = NULL;
-    StickListener mSticklisten;
 
-	PhysicsManager();
+	PhysicsManager(PxContactModifyCallback* callBack);
 	~PhysicsManager();
 	PxActor* PhysicsManager::createGroundPlane();
 	PxActor* PhysicsManager::createWallPlane(int, int, int, int, int);
 	PxRigidBody* PhysicsManager::createBlock(float, float, float);
 	void PhysicsManager::stepPhysics();
-	void PhysicsManager::setupFiltering(PxRigidActor* actor, PxU32 group, PxU32 mask);
 };
 
 struct FilterGroup

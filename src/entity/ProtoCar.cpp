@@ -65,7 +65,7 @@ void ProtoCar::update() {
         applyWheelTorque((controller->RightTrigger() - controller->LeftTrigger()));
     } else {
         applyWheelTorque(0);
-        this->mVehicleNoDrive->setBrakeTorque(0, FORCE_FACTOR*100000);
+        this->mVehicleNoDrive->setBrakeTorque(0, FORCE_FACTOR * 100000);
         this->mVehicleNoDrive->setBrakeTorque(1, FORCE_FACTOR * 1000000);
         this->mVehicleNoDrive->setBrakeTorque(2, FORCE_FACTOR * 1000000);
         this->mVehicleNoDrive->setBrakeTorque(3, FORCE_FACTOR * 1000000);

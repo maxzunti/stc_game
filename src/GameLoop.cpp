@@ -10,6 +10,7 @@
 #include "entity/PhysicsObject.h"
 #include "entity/ProtoCar.h"
 #include "entity/Hook.h"
+#include "physics/StickListener.h"
 #include "renderer/skybox/Skybox.h"
 #include <ctime>
 
@@ -28,7 +29,8 @@ int main(int argc, const char* argv[])
 
 
 	// Input* myInput = new Input();
-	PhysicsManager* myPhysics = new PhysicsManager();
+    StickListener stickListener;
+	PhysicsManager* myPhysics = new PhysicsManager(&stickListener);
 	// Sound* mySound = new Sound();
 	// OpponentAI* myAI = new OpponentAI();
 
@@ -47,7 +49,7 @@ int main(int argc, const char* argv[])
 //    entities.push_back(crate2);
     car->setPos(0, 7, 0);
 
-    Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(0, 10, 0), myPhysics, 0.f);
+    Hook * tHook = new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(0, 10, 0), myPhysics, car);
     entities.push_back(tHook);
 
    // tCrate->setRot(0, 3.14 / 4., 0);
@@ -102,7 +104,6 @@ int main(int argc, const char* argv[])
    //     tCrate->setRot(0.785, 0.785, 0.0);
    //     tCrate->setRot(0.0, 0.785, 0.0);
    //     tCrate->setPos(0, 2, 0);
-
         input->Update();
 
     // myInput->getState();

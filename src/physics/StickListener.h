@@ -2,6 +2,7 @@
 #include <iostream>
 #include "PxPhysicsAPI.h"
 #include "PxContactModifyCallback.h"
+#include "../entity/Hook.h"
 
 class StickListener : public physx::PxContactModifyCallback
 {
