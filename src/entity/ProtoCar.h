@@ -54,10 +54,13 @@ public:
 
     const float MAX_SPEED = 80.f;
 
+    bool retracting;
+
     glm::vec3 getAim() const;
 
     void ProtoCar::stepForPhysics();
 
 	void ProtoCar::fireHook();
     void ProtoCar::cancelHook();
+    void ProtoCar::retractHook();
 };

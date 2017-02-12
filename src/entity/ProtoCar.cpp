@@ -21,7 +21,7 @@ using namespace glm;
    
     physicsManager->mScene->addActor(*mVehicleNoDrive->getRigidDynamicActor());
     this->mActor = mVehicleNoDrive->getRigidDynamicActor();
-    
+    this->retracting = false;
    // mVehicleNoDrive->setToRestState();
 }
 
@@ -56,6 +56,8 @@ void ProtoCar::update() {
 
     //Apply turn according to the left stick angle 
     this->myHook->update();
+
+
     applyWheelTurn(controller->LStick_InDeadzone() ? 0.f : controller->LeftStick_X());
    
     // Use the triggers to accelerate(Right Trigger) or reverse (Left Trigger)
@@ -83,7 +85,7 @@ void ProtoCar::update() {
         //applyLocalForce(0, 0, 2000);
         startBrakeMode();
     }
-    if (this->myHook->mShot && controller->GetButtonPressed(XButtonIDs::B)) {
+    if (this->myHook->mStuck && controller->GetButtonPressed(XButtonIDs::B)) {
         this->cancelHook();
     }
     if (controller->GetButtonPressed(XButtonIDs::L_Shoulder)) {
@@ -98,8 +100,17 @@ void ProtoCar::update() {
     arrow->reposition(up, pos, aim, aim_rot);
 
     // Must fire after calc aim
-    if (controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
+    if ((!this->myHook->mShot && !this->myHook->mStuck) && controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
         fireHook();
+    }
+
+    if (this->myHook->mStuck && controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
+        this->retracting = true;
+    }
+
+    if (this->retracting)
+    {
+        this->retractHook();
     }
 
 }
@@ -125,6 +136,23 @@ void ProtoCar::applyWheelTorque(float factor) {
     this->mVehicleNoDrive->setDriveTorque(1, -FORCE_FACTOR*factor);
     this->mVehicleNoDrive->setDriveTorque(2, -FORCE_FACTOR*factor);
     this->mVehicleNoDrive->setDriveTorque(3, -FORCE_FACTOR*factor);
+}
+
+
+void ProtoCar::resetBrakes()
+{
+    this->mVehicleNoDrive->setBrakeTorque(0, 0);
+    this->mVehicleNoDrive->setBrakeTorque(1, 0);
+    this->mVehicleNoDrive->setBrakeTorque(2, 0);
+    this->mVehicleNoDrive->setBrakeTorque(3, 0);
+}
+
+void ProtoCar::startBrakeMode()
+{
+    this->mVehicleNoDrive->setBrakeTorque(0, FORCE_FACTOR*100000.0f);
+    this->mVehicleNoDrive->setBrakeTorque(1, FORCE_FACTOR*100000.0f);
+    this->mVehicleNoDrive->setBrakeTorque(2, FORCE_FACTOR*100000.0f);
+    this->mVehicleNoDrive->setBrakeTorque(3, FORCE_FACTOR*100000.0f);
 }
 
 glm::vec3 ProtoCar::getAim() const {
@@ -172,87 +200,6 @@ VehicleDesc ProtoCar::initVehicleDesc()
 }
 
 
-void ProtoCar::resetBrakes() 
-{
-    this->mVehicleNoDrive->setBrakeTorque(0, 0);
-    this->mVehicleNoDrive->setBrakeTorque(1, 0);
-    this->mVehicleNoDrive->setBrakeTorque(2, 0);
-    this->mVehicleNoDrive->setBrakeTorque(3, 0);
-}
-
-void ProtoCar::startAccelerateForwardsMode()
-{
-    this->mVehicleNoDrive->setDriveTorque(0, -100000.0f);
-    this->mVehicleNoDrive->setDriveTorque(1, -100000.0f);
-}
-
-void ProtoCar::startAccelerateReverseMode()
-{
-    this->mVehicleNoDrive->setDriveTorque(0, -1000.0f);
-    this->mVehicleNoDrive->setDriveTorque(1, -1000.0f);
-}
-
-void ProtoCar::startBrakeMode()
-{
-    this->mVehicleNoDrive->setBrakeTorque(0, FORCE_FACTOR*100000.0f);
-    this->mVehicleNoDrive->setBrakeTorque(1, FORCE_FACTOR*100000.0f);
-    this->mVehicleNoDrive->setBrakeTorque(2, FORCE_FACTOR*100000.0f);
-    this->mVehicleNoDrive->setBrakeTorque(3, FORCE_FACTOR*100000.0f);
-}
-
-void ProtoCar::startTurnHardLeftMode()
-{
-    this->mVehicleNoDrive->setDriveTorque(0, 1000.0f);
-    this->mVehicleNoDrive->setDriveTorque(1, 1000.0f);
-    this->mVehicleNoDrive->setSteerAngle(0, 1.0f);
-    this->mVehicleNoDrive->setSteerAngle(1, 1.0f);
-}
-
-void ProtoCar::startTurnHardRightMode()
-{
-    this->mVehicleNoDrive->setDriveTorque(0, 1000.0f);
-    this->mVehicleNoDrive->setDriveTorque(1, 1000.0f);
-    this->mVehicleNoDrive->setSteerAngle(0, -1.0f);
-    this->mVehicleNoDrive->setSteerAngle(1, -1.0f);
-}
-
-void ProtoCar::startHandbrakeTurnLeftMode()
-{
-    this->mVehicleNoDrive->setBrakeTorque(2, 1000.0f);
-    this->mVehicleNoDrive->setBrakeTorque(3, 1000.0f);
-    this->mVehicleNoDrive->setDriveTorque(0, 1000.0f);
-    this->mVehicleNoDrive->setDriveTorque(1, 1000.0f);
-    this->mVehicleNoDrive->setSteerAngle(0, 1.0f);
-    this->mVehicleNoDrive->setSteerAngle(1, 1.0f);
-}
-
-void ProtoCar::startHandbrakeTurnRightMode()
-{
-    this->mVehicleNoDrive->setBrakeTorque(2, 1000.0f);
-    this->mVehicleNoDrive->setBrakeTorque(3, 1000.0f);
-    this->mVehicleNoDrive->setDriveTorque(0, 1000.0f);
-    this->mVehicleNoDrive->setDriveTorque(1, 1000.0f);
-    this->mVehicleNoDrive->setSteerAngle(0, -1.0f);
-    this->mVehicleNoDrive->setSteerAngle(1, -1.0f);
-}
-
-void ProtoCar::releaseAllControls()
-{
-    this->mVehicleNoDrive->setDriveTorque(0, 0.0f);
-    this->mVehicleNoDrive->setDriveTorque(1, 0.0f);
-    this->mVehicleNoDrive->setDriveTorque(2, 0.0f);
-    this->mVehicleNoDrive->setDriveTorque(3, 0.0f);
-
-    this->mVehicleNoDrive->setBrakeTorque(0, 0.0f);
-    this->mVehicleNoDrive->setBrakeTorque(1, 0.0f);
-    this->mVehicleNoDrive->setBrakeTorque(2, 0.0f);
-    this->mVehicleNoDrive->setBrakeTorque(3, 0.0f);
-
-    this->mVehicleNoDrive->setSteerAngle(0, 0.0f);
-    this->mVehicleNoDrive->setSteerAngle(1, 0.0f);
-    this->mVehicleNoDrive->setSteerAngle(2, 0.0f);
-    this->mVehicleNoDrive->setSteerAngle(3, 0.0f);
-}
 
 void ProtoCar::stepForPhysics() {
     //Raycasts.
@@ -270,6 +217,7 @@ void ProtoCar::stepForPhysics() {
 
 void ProtoCar::fireHook() {
 	//Fires the hook
+    this->mPhysicsManager->mScene->addActor(*myHook->mActor);
     myHook->mShot = true;
 	//glm::vec3 a = this->getAim();
 	
@@ -280,8 +228,23 @@ void ProtoCar::fireHook() {
 }
 
 void ProtoCar::cancelHook() {
+    if (!this->myHook->mStuck)
+        this->mPhysicsManager->mScene->removeActor(*myHook->mActor);
     myHook->mShot = false;
     myHook->mStuck = false;
     myHook->setPos(0.0, 200.0, 0.0);
     myHook->mActor->setLinearVelocity(PxVec3(0.f, 0.f, 0.f));
+    this->retracting = false;
+}
+
+void ProtoCar::retractHook() {
+
+    PxVec3 launchDir = PxVec3(this->myHook->getPos().x, this->myHook->getPos().y, this->myHook->getPos().z) -
+        PxVec3(this->getPos().x, this->getPos().y, this->getPos().z);
+
+    launchDir.normalize();
+
+    this->mActor->setLinearVelocity(this->mActor->getLinearVelocity() + launchDir*10.f);
+
+
 }

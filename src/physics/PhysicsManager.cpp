@@ -88,13 +88,9 @@ PxActor* PhysicsManager::createGroundPlane()
 
 PxActor* PhysicsManager::createWallPlane(float xpos, float ypos, float zpos, float xnorm, float znorm)
 {
-    /*PxTransform localTm(PxVec3(xpos, ypos, zpos));
-    localTm.q.
-    PxRigidStatic* wallPlane = mPhysics->createRigidStatic(localTm);
-    PxPlaneGeometry planegeo;
-    PxShape* shape = wallPlane->createShape(PxPlaneGeometry(),*mMaterial);
-    wallPlane->createShape(PxPlane(), *mMaterial);
-    
+	PxRigidStatic* wallPlane = PxCreatePlane(*mPhysics, PxPlane(PxVec3(xpos, ypos, zpos), PxVec3(xnorm, 0, znorm)), *mMaterial);
+    PxShape* shapes[1];
+    wallPlane->getShapes(shapes, 1);
     mScene->addActor(*wallPlane);
 
 
@@ -102,13 +98,15 @@ PxActor* PhysicsManager::createWallPlane(float xpos, float ypos, float zpos, flo
     filterData.word0 = COLLISION_FLAG_OBSTACLE;
     filterData.word1 = COLLISION_FLAG_OBSTACLE_AGAINST;
 
-    shape->setSimulationFilterData(filterData);
+    shapes[0]->setSimulationFilterData(filterData);
 
-	return wallPlane;*/
+	return wallPlane;
+
 }
 
 PxRigidBody* PhysicsManager::createBlock(float x, float y, float z)
 {
+	//PxShape* shape = mPhysics->createShape(PxBoxGeometry(1.0f, 1.0f, 1.0f), *mMaterial);
 	PxTransform localTm(PxVec3(x, y, z));
 	PxRigidDynamic* body = mPhysics->createRigidDynamic(localTm);
 	PxShape* shape = body->createShape(PxBoxGeometry(0.25f, 0.25f, 0.25f), *mMaterial);
@@ -116,7 +114,7 @@ PxRigidBody* PhysicsManager::createBlock(float x, float y, float z)
 	body->setLinearDamping(1.0f);
 	body->setAngularDamping(1.0f);
 	PxRigidBodyExt::updateMassAndInertia(*body, 1.0f);
-	mScene->addActor(*body);
+	//mScene->addActor(*body);
 	//////////////////////////
 	PxFilterData filterData;
 	filterData.word0 = COLLISION_FLAG_HOOK;

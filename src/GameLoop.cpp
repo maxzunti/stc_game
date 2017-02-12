@@ -67,15 +67,16 @@ int main(int argc, const char* argv[])
     plane->setPos(0, 0, 0);
     plane->scale(50, 50, 50);
 
-	wall->setPos(0, 5, -10);
+	wall->setPos(0, 5, -50);
 	wall->setRot(1.57, 0, 0);
+    wall->scale(50, 50, 50);
 
     entities.push_back(plane);
 	entities.push_back(wall);
 
     //myPhysics->createGroundPlane();
     myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
-	myPhysics->createWallPlane(0,5,-10,0,1);
+	myPhysics->createWallPlane(0,5,-50,0,1);
 
     while (!window->shouldClose())
 	{

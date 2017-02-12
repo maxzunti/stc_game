@@ -36,6 +36,7 @@ void Hook::update() {
         this->mActor->setLinearVelocity(30.f*PxVec3(this->getDir().x, this->getDir().y, this->getDir().z));
         
     }
+
     updatePosandRot();
 }
 
