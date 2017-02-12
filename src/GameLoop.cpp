@@ -12,10 +12,13 @@
 #include "entity/Hook.h"
 #include "renderer/skybox/Skybox.h"
 
+#include "util/ConfigParser.h"
+
 using namespace std;
 
 int main(int argc, const char* argv[])
 {
+
     std::unique_ptr<Window> window(new Window());
 
     // Set up input

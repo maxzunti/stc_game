@@ -4,6 +4,7 @@
 #include "../input/input.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/quaternion.hpp"
+#include "../util/ConfigParser.h"
 
 
 /*
@@ -29,56 +30,58 @@ mat4 rotateAbout(vec3 axis, float radians)
 
 class Camera{
 public:
-    const enum camMode { FREE = 0, FOLLOW };
+    enum camMode { FREE = 0, FOLLOW };
     camMode mode = FOLLOW;
 
     // Camera tweaking parameters:
     // Freelook variables
-    const float FREE_X_CAM_ROT_SPEED = 0.05;
-    const float FREE_Y_CAM_ROT_SPEED = 0.05;
-    const float FREE_X_CAM_MOVE_SPEED = 0.2;
-    const float FREE_Y_CAM_MOVE_SPEED = 0.2;
-    const float FREE_Z_CAM_MOVE_SPEED = 0.2;
+    float FREE_X_CAM_ROT_SPEED = 0.05;
+    float FREE_Y_CAM_ROT_SPEED = 0.05;
+    float FREE_X_CAM_MOVE_SPEED = 0.2;
+    float FREE_Y_CAM_MOVE_SPEED = 0.2;
+    float FREE_Z_CAM_MOVE_SPEED = 0.2;
 
     // Follow cam variables
-    const float FOLLOW_X_CAM_ROT_SPEED = 0.03;
-    const float FOLLOW_Y_CAM_ROT_SPEED = 0.05;
-    const float FOLLOW_X_CAM_XBOX_SPEED = 0.003;
-    const float FOLLOW_Y_CAM_XBOX_SPEED = 0.003;
+    fp_vars follow_vars;
+
+    float FOLLOW_X_CAM_ROT_SPEED = 0.03;
+    float FOLLOW_Y_CAM_ROT_SPEED = 0.05;
+    float FOLLOW_X_CAM_XBOX_SPEED = 0.003;
+    float FOLLOW_Y_CAM_XBOX_SPEED = 0.003;
 
     // max allowed (+/-) rotation angle, in radians
-    const float FOLLOW_X_MAX_ROT = 0.3;
-    const float FOLLOW_Y_MAX_ROT = 0.5;
+    float FOLLOW_X_MAX_ROT = 0.3;
+    float FOLLOW_Y_MAX_ROT = 0.5;
 
     // small threshold values which determine when we automatically set the cam speeds and rot to 0
-    const float SNAP_X = 0.003;
-    const float SNAP_Y = 0.01;
+    float SNAP_X = 0.003;
+    float SNAP_Y = 0.01;
 
     // max allowed (+/-) rotation speeds
-    const float FOLLOW_X_MAX_ROT_SPEED = 1.0;
-    const float FOLLOW_Y_MAX_ROT_SPEED = 1.0;
-    const float FOLLOW_X_MAX_XBOX_SPEED = 1.0;
-    const float FOLLOW_Y_MAX_XBOX_SPEED = 1.0;
+    float FOLLOW_X_MAX_ROT_SPEED = 1.0;
+    float FOLLOW_Y_MAX_ROT_SPEED = 1.0;
+    float FOLLOW_X_MAX_XBOX_SPEED = 1.0;
+    float FOLLOW_Y_MAX_XBOX_SPEED = 1.0;
 
     // Speeds to "return" to the normal orientation
-    const float FOLLOW_X_CAM_RETURN_SPEED = 0.0005;
-    const float FOLLOW_Y_CAM_RETURN_SPEED = 0.001;
+    float FOLLOW_X_CAM_RETURN_SPEED = 0.0005;
+    float FOLLOW_Y_CAM_RETURN_SPEED = 0.001;
 
     // Scaling factors which determine the cam-speeds near the angle boundaries
-    const float X_ASYMP_FACTOR = 3.0;
-    const float Y_ASYMP_FACTOR = 3.0;
-    const float X_ASYMP_RET_FACTOR = 0.5;
-    const float Y_ASYMP_RET_FACTOR = 0.5;
+    float X_ASYMP_FACTOR = 3.0;
+    float Y_ASYMP_FACTOR = 3.0;
+    float X_ASYMP_RET_FACTOR = 0.5;
+    float Y_ASYMP_RET_FACTOR = 0.5;
 
-    const float FOLLOW_DISTANCE = 6.0;
-    const float FOLLOW_HEIGHT = 2.0;
-    const float BASE_ANGLE = -0.2;
-    const float DELTA = 0.001;
+    float FOLLOW_DISTANCE = 6.0;
+    float FOLLOW_HEIGHT = 2.0;
+    float BASE_ANGLE = -0.2;
+    float DELTA = 0.001;
 
     // Frame counts for the follow-cam delay
-    static const int FOLLOW_DELAY_POS = 3;
-    static const int FOLLOW_DELAY_ROT = 4;
-    static const int FOLLOW_DELAY_SIZE = 16;
+    const static int FOLLOW_DELAY_POS = 3;
+    const static int FOLLOW_DELAY_ROT = 4;
+    const static int FOLLOW_DELAY_SIZE = 16;
 
     glm::vec3 dir;
     glm::vec3 up;
@@ -112,6 +115,7 @@ public:
 private:
     ProtoCar * car;
     Input * controller;
+    ConfigParser fc_parser;
 
     float x_cam_rot = 0;
     float y_cam_rot = 0;
