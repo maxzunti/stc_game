@@ -46,8 +46,7 @@ PhysicsManager::PhysicsManager()
 
 	mDispatcher = PxDefaultCpuDispatcherCreate(numWorkers);
 	sceneDesc.cpuDispatcher = mDispatcher;
-	//sceneDesc.filterShader = VehicleFilterShader;
-    sceneDesc.filterShader = PxDefaultSimulationFilterShader;
+	sceneDesc.filterShader = VehicleFilterShader;
 	mScene = mPhysics->createScene(sceneDesc);
 
 	mMaterial = mPhysics->createMaterial(.3f, .3f, 0.1f);

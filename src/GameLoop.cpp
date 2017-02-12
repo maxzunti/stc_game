@@ -37,7 +37,7 @@ int main(int argc, const char* argv[])
     std::vector<ProtoCar*> cars(0);
 
     //ProtoCar * car = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", nullptr, myPhysics, input.get(), entities);
-    ProtoCar *car = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(0, 4, 0), myPhysics, input.get(), entities);
+    ProtoCar *car = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", nullptr, myPhysics, input.get(), entities);
     window->getRenderer()->getCam()->registerController(input.get());
     window->getRenderer()->getCam()->registerCar(car);
    // ProtoCar * crate2 = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", myPhysics->createBlock(), input2.get());
@@ -92,8 +92,8 @@ int main(int argc, const char* argv[])
 
 		// myInput->getState();
 		// myAI->getState();
-        //for (const auto& c : cars)
-        //    c->stepForPhysics();
+        for (const auto& c : cars)
+            c->stepForPhysics();
 		myPhysics->stepPhysics();
 		
 		// FYI: dynamic casts have a lot of run-time checking involved and are pretty expensive
