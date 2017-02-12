@@ -64,7 +64,7 @@ int Window::initGLFW() {
         std::cout << "Program failed to create GLFW window, TERMINATING" << std::endl;
         glfwTerminate();
     }
-
+    glfwSwapInterval(1);
     // set keyboard callback function and make our context current (active)
     glfwSetKeyCallback(window, this->keyCallback);
     glfwSetMouseButtonCallback(window, this->mouseButtonCallback);

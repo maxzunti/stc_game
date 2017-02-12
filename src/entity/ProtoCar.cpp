@@ -53,31 +53,33 @@ void ProtoCar::calcAim() {
 }
 
 void ProtoCar::update() {
+    //Apply turn according to the left stick angle
     applyWheelTurn(controller->LStick_InDeadzone() ? 0.f : controller->LeftStick_X());
-
-    // Basic movement and rotation - this'll be heavily modified in the real car
-  
+   
+    // Use the triggers to accelerate(Right Trigger) or reverse (Left Trigger)
     if ((controller->RightTrigger() - controller->LeftTrigger()) > 0) {
-        this->mVehicleNoDrive->setBrakeTorque(0, 0);
-        this->mVehicleNoDrive->setBrakeTorque(1, 0);
-        this->mVehicleNoDrive->setBrakeTorque(2, 0);
-        this->mVehicleNoDrive->setBrakeTorque(3, 0);
+        resetBrakes();
         applyWheelTorque((controller->RightTrigger() - controller->LeftTrigger()));
+    } else if ((controller->LeftTrigger() - controller->RightTrigger()) > 0) {
+        resetBrakes();
+        applyWheelTorque(-1.f*(controller->LeftTrigger() - controller->RightTrigger()));
     } else {
         applyWheelTorque(0);
-        this->mVehicleNoDrive->setBrakeTorque(0, FORCE_FACTOR*100000);
-        this->mVehicleNoDrive->setBrakeTorque(1, FORCE_FACTOR * 1000000);
-        this->mVehicleNoDrive->setBrakeTorque(2, FORCE_FACTOR * 1000000);
-        this->mVehicleNoDrive->setBrakeTorque(3, FORCE_FACTOR * 1000000);
+        startBrakeMode();
     }
+
+    //Cap the max velocity of the car to 80
     if (this->mActor->getLinearVelocity().magnitude() > MAX_SPEED)
     {
         PxVec3 temp = this->mActor->getLinearVelocity();
         temp.normalize();
         this->mActor->setLinearVelocity(MAX_SPEED*temp);
     }
+
+    //Handbrake - Possibly remove in future
     if (pos.y <= 5.01 && controller->GetButtonPressed(XButtonIDs::A)) {
-        applyLocalForce(0, 0, 2000);
+        //applyLocalForce(0, 0, 2000);
+        startBrakeMode();
     }
     if (controller->GetButtonPressed(XButtonIDs::L_Shoulder)) {
         rotate(0., 0.05, 0.);
@@ -85,8 +87,6 @@ void ProtoCar::update() {
     if (controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
         rotate(0., -0.05, 0.);
     }
-
-
     
     // Perform physX update
     updatePosandRot();
@@ -96,14 +96,23 @@ void ProtoCar::update() {
     arrow->reposition(up, pos, aim, aim_rot);
 }
 
+
+
+/*
+       ^^
+(0)|  ----  |(1)
+       ||
+       ||
+       ||
+(2)|  ----  |(3)
+
+*/
 void ProtoCar::applyWheelTurn(float factor) {
     this->mVehicleNoDrive->setSteerAngle(2,factor/20.f);
     this->mVehicleNoDrive->setSteerAngle(3,factor/20.f);
 }
 
 void ProtoCar::applyWheelTorque(float factor) {
-
-
     this->mVehicleNoDrive->setDriveTorque(0, -FORCE_FACTOR*factor);
     this->mVehicleNoDrive->setDriveTorque(1, -FORCE_FACTOR*factor);
     this->mVehicleNoDrive->setDriveTorque(2, -FORCE_FACTOR*factor);
@@ -122,19 +131,20 @@ VehicleDesc ProtoCar::initVehicleDesc()
 
     const PxF32 chassisMass = 1500.0f; //10 - too low may cause vibration/jitter
 
+    //TODO: must change the MOI of the chassis once we add multi-level tracks (ie ramps)
     const PxVec3 chassisDims(2.5f, 2.0f, 5.0f);
     const PxVec3 chassisMOI
         (10000.f*(chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
             (chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)*0.8f*chassisMass / 12.0f,
             10000.f*(chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / 12.0f);
-    const PxVec3 chassisCMOffset(0.0f, -chassisDims.y*0.5f + 0.65f-0.0f, 0.25f);
+    const PxVec3 chassisCMOffset(0.0f, -chassisDims.y*0.5f + 0.65f-0.f, 0.25f);
 
     //Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
     //Moment of inertia is just the moment of inertia of a cylinder.
     const PxF32 wheelMass = 20.f;//100
     const PxF32 wheelRadius = 0.5f;
     const PxF32 wheelWidth = 0.4f;
-    const PxF32 wheelMOI = 0.1f*wheelRadius*wheelRadius;//0.1f*wheelRadius*wheelRadius;
+    const PxF32 wheelMOI = 0.1f*wheelRadius*wheelRadius*wheelMass;//0.1f*wheelRadius*wheelRadius;
 
     const PxU32 nbWheels = 4;
 
@@ -153,11 +163,19 @@ VehicleDesc ProtoCar::initVehicleDesc()
     return vehicleDesc;
 }
 
+
+void ProtoCar::resetBrakes() 
+{
+    this->mVehicleNoDrive->setBrakeTorque(0, 0);
+    this->mVehicleNoDrive->setBrakeTorque(1, 0);
+    this->mVehicleNoDrive->setBrakeTorque(2, 0);
+    this->mVehicleNoDrive->setBrakeTorque(3, 0);
+}
+
 void ProtoCar::startAccelerateForwardsMode()
 {
     this->mVehicleNoDrive->setDriveTorque(0, -100000.0f);
     this->mVehicleNoDrive->setDriveTorque(1, -100000.0f);
-
 }
 
 void ProtoCar::startAccelerateReverseMode()
@@ -168,10 +186,10 @@ void ProtoCar::startAccelerateReverseMode()
 
 void ProtoCar::startBrakeMode()
 {
-    this->mVehicleNoDrive->setBrakeTorque(0, 1000.0f);
-    this->mVehicleNoDrive->setBrakeTorque(1, 1000.0f);
-    this->mVehicleNoDrive->setBrakeTorque(2, 1000.0f);
-    this->mVehicleNoDrive->setBrakeTorque(3, 1000.0f);
+    this->mVehicleNoDrive->setBrakeTorque(0, FORCE_FACTOR*100000.0f);
+    this->mVehicleNoDrive->setBrakeTorque(1, FORCE_FACTOR*100000.0f);
+    this->mVehicleNoDrive->setBrakeTorque(2, FORCE_FACTOR*100000.0f);
+    this->mVehicleNoDrive->setBrakeTorque(3, FORCE_FACTOR*100000.0f);
 }
 
 void ProtoCar::startTurnHardLeftMode()

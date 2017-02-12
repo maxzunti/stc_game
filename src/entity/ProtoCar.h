@@ -46,7 +46,7 @@ public:
     void ProtoCar::releaseAllControls();
     void ProtoCar::applyWheelTorque(float factor);
     void ProtoCar::applyWheelTurn(float factor);
-
+    void ProtoCar::resetBrakes();
 
     const double FORCE_FACTOR = 10000.;
 
