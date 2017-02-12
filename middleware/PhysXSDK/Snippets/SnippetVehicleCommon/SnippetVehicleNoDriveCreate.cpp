@@ -79,7 +79,7 @@ void setupWheelsSimulationData
 			suspensions[i].mMaxCompression = 0.3f;//0.3
 			suspensions[i].mMaxDroop = 0.1f;//0.1
 			suspensions[i].mSpringStrength = 3500.f; //13	
-			suspensions[i].mSpringDamperRate =450.f;//15
+			suspensions[i].mSpringDamperRate =4500.f;//15
 			suspensions[i].mSprungMass = suspSprungMasses[i];
 		}
 

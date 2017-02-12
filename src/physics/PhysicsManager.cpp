@@ -108,7 +108,7 @@ void PhysicsManager::stepPhysics()
 {
     PX_UNUSED(false);
 
-	mScene->simulate(1.0f / 60.0f);
+	mScene->simulate(1/60.f);
 	mScene->fetchResults(true);
 }
 

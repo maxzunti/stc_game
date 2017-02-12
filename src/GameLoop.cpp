@@ -11,6 +11,7 @@
 #include "entity/ProtoCar.h"
 #include "entity/Hook.h"
 #include "renderer/skybox/Skybox.h"
+#include <ctime>
 
 using namespace std;
 
@@ -73,26 +74,43 @@ int main(int argc, const char* argv[])
     //myPhysics->createGroundPlane();
     myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
 	myPhysics->createWallPlane(0,5,-10,0,1);
+    
+    //Timing stuff
+  /*  SYSTEMTIME st;
 
-	while (!window->shouldClose())
+    GetSystemTime(&st);
+
+    float time = st.wMilliseconds + st.wSecond*1000.f + st.wMinute*60.f*1000.f + st.wHour*3600.f*1000.f;
+    float now = 0.f;
+    float timeStep = 0.f;
+
+  */
+    while (!window->shouldClose())
 	{
+
+   //     GetSystemTime(&st);
+   //     now = st.wMilliseconds + st.wSecond*1000.f + st.wMinute*60.f*1000.f + st.wHour*3600.f*1000.f;
+   //     timeStep += (now - time)/1000.0f;
+   //     cout << "now: " << now << endl << "t: " << time << endl << "timeStep: "<<timeStep <<endl;
+   //     time = now;
+
    //     tCrate->setRot(0, 0.745, 0);
-    //    tCrate->setRot(0.785, 0., 0.785);
-      //  tCrate->setRot(0.785, 0.785, 0.0);
-      //  tCrate->setRot(0.0, 0.785, 0.0);
-
-
-
+   //     tCrate->setRot(0.785, 0., 0.785);
+   //     tCrate->setRot(0.785, 0.785, 0.0);
+   //     tCrate->setRot(0.0, 0.785, 0.0);
    //     tCrate->setPos(0, 2, 0);
 
         input->Update();
 
-		// myInput->getState();
-		// myAI->getState();
+    // myInput->getState();
+    // myAI->getState();
+    // while(timeStep >= (1/60.f))
+    // {
         for (const auto& c : cars)
             c->stepForPhysics();
 		myPhysics->stepPhysics();
-		
+    //  timeStep -= (1 / 60.f);
+	//	}
 		// FYI: dynamic casts have a lot of run-time checking involved and are pretty expensive
         // so we should avoid using them as much as possible
 	/*	PxRigidBodyExt::addForceAtLocalPos(*dynamic_cast<PhysicsObject*>(entities.front())->mActor, PxVec3(0, 160, 0), PxVec3(-0.9, -0.9, 0.9));
