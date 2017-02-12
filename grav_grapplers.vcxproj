@@ -234,6 +234,7 @@
     <ClCompile Include="src\renderer\model\Model.cpp" />
     <ClCompile Include="src\renderer\skybox\Skybox.cpp" />
     <ClCompile Include="src\renderer\Window.cpp" />
+    <ClCompile Include="src\util\ConfigParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="middleware\xinput\xinput1_3.dll" />
@@ -363,6 +364,7 @@
     <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleFilterShader.h" />
     <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleRaycast.h" />
     <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.h" />
+    <ClInclude Include="src\util\ConfigParser.h" />
     <ClInclude Include="src\entity\AimArrow.h" />
     <ClInclude Include="src\entity\ProtoCar.h" />
     <ClInclude Include="src\physics\PhysicsManager.h" />

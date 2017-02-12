@@ -33,7 +33,9 @@ Camera::Camera():	dir(vec3(0, 0, -1)),
 
 }*/
 
-Camera::Camera(vec3 _dir, vec3 _pos):dir(normalize(_dir)), pos(_pos)
+Camera::Camera(vec3 _dir, vec3 _pos) 
+    : dir(normalize(_dir)), pos(_pos),
+      fc_parser("config/follow_cam", &follow_vars)
 {
 	right = normalize(cross(_dir, vec3(0, 1, 0)));
 	up =  normalize(cross(right, _dir));
@@ -44,6 +46,30 @@ Camera::Camera(vec3 _dir, vec3 _pos):dir(normalize(_dir)), pos(_pos)
         prev_rot[i] = glm::quat();
         prev_pos[i] = glm::vec3();
     }
+
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_CAM_ROT_SPEED"), &FOLLOW_X_CAM_ROT_SPEED));
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_CAM_ROT_SPEED"), &FOLLOW_Y_CAM_ROT_SPEED));
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_CAM_XBOX_SPEED"), &FOLLOW_X_CAM_XBOX_SPEED));
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_CAM_XBOX_SPEED"), &FOLLOW_Y_CAM_XBOX_SPEED));
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_MAX_ROT"), &FOLLOW_X_MAX_ROT));
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_MAX_ROT"), &FOLLOW_Y_MAX_ROT));
+    follow_vars.push_back(std::make_pair(std::string("SNAP_X"), &SNAP_X));
+    follow_vars.push_back(std::make_pair(std::string("SNAP_Y"), &SNAP_Y));
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_MAX_ROT_SPEED"), &FOLLOW_X_MAX_ROT_SPEED));
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_MAX_ROT_SPEED"), &FOLLOW_Y_MAX_ROT_SPEED));
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_MAX_XBOX_SPEED"), &FOLLOW_X_MAX_XBOX_SPEED));
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_MAX_XBOX_SPEED"), &FOLLOW_Y_MAX_XBOX_SPEED));
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_CAM_RETURN_SPEED"), &FOLLOW_X_CAM_RETURN_SPEED));
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_CAM_RETURN_SPEED"), &FOLLOW_Y_CAM_RETURN_SPEED));
+    follow_vars.push_back(std::make_pair(std::string("X_ASYMP_FACTOR"), &X_ASYMP_FACTOR));
+    follow_vars.push_back(std::make_pair(std::string("Y_ASYMP_FACTOR"), &Y_ASYMP_FACTOR));
+    follow_vars.push_back(std::make_pair(std::string("X_ASYMP_RET_FACTOR"), &X_ASYMP_RET_FACTOR));
+    follow_vars.push_back(std::make_pair(std::string("Y_ASYMP_RET_FACTOR"), &Y_ASYMP_RET_FACTOR));
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_DISTANCE"), &FOLLOW_DISTANCE));
+    follow_vars.push_back(std::make_pair(std::string("FOLLOW_HEIGHT"), &FOLLOW_HEIGHT));
+    follow_vars.push_back(std::make_pair(std::string("BASE_ANGLE"), &BASE_ANGLE));
+    follow_vars.push_back(std::make_pair(std::string("DELTA"), &DELTA));
+    fc_parser.updateFromFile();
 }
 
 /*
@@ -179,6 +205,10 @@ void Camera::followLook() {
 void Camera::update() {
     // Update camera position
     if (controller) {
+        if (controller->GetButtonPressed(XButtonIDs::X)) {
+            fc_parser.updateFromFile();
+        }
+
         setMode();
         if (mode == camMode::FREE) {
             freeLook();
