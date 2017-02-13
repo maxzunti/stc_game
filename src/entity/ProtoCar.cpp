@@ -22,7 +22,7 @@ using namespace glm;
     physicsManager->mScene->addActor(*mVehicleNoDrive->getRigidDynamicActor());
     this->mActor = mVehicleNoDrive->getRigidDynamicActor();
     this->retracting = false;
-   // mVehicleNoDrive->setToRestState();
+ 
 }
 
 void ProtoCar::applyGlobalForce(glm::vec3 direction, double magnitude) {
@@ -253,11 +253,17 @@ void ProtoCar::retractHook() {
 
     PxVec3 launchDir = PxVec3(this->myHook->getPos().x, this->myHook->getPos().y, this->myHook->getPos().z) -
         PxVec3(this->getPos().x, this->getPos().y, this->getPos().z);
-
+    // Implement this again when cooldown is working
+    /*if (launchDir.magnitude() < 30.f)
+    {
+        this->cancelHook();
+    }*/
     launchDir.normalize();
 
     this->mActor->setLinearVelocity(this->mActor->getLinearVelocity() + launchDir*10.f);
     this->mActor->setAngularVelocity(PxVec3(0.f, 0.f, 0.f));
+
+   
 
 
 }

@@ -32,7 +32,7 @@ PxFilterFlags VehicleFilterShader
 
 	if (((filterData0.word0 & filterData1.word1)>0) && ((filterData1.word0 & filterData0.word1)>0))
 	{
-		std::cout << "collision accepted" << std::endl;
+		
 		if (filterData0.word0 == COLLISION_FLAG_HOOK || filterData1.word0 == COLLISION_FLAG_HOOK)
 		{
 			std::cout << "collision is hooked" << std::endl;
