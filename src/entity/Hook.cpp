@@ -33,7 +33,7 @@ void Hook::applyLocalForce(float forward, float right, float up) {
 void Hook::update() {
     if (mShot && !mStuck)
     {
-        this->mActor->setLinearVelocity(30.f*PxVec3(this->getDir().x, this->getDir().y, this->getDir().z));
+        this->mActor->setLinearVelocity(200.f*PxVec3(this->getDir().x, this->getDir().y, this->getDir().z));
         
     }
 

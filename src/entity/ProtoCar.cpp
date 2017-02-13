@@ -67,17 +67,24 @@ void ProtoCar::update() {
     } else if ((controller->LeftTrigger() - controller->RightTrigger()) > 0) {
         resetBrakes();
         applyWheelTorque(-1.f*(controller->LeftTrigger() - controller->RightTrigger()));
+        
     } else {
         applyWheelTorque(0);
         startBrakeMode();
     }
-
+    
     //Cap the max velocity of the car to 80
-    if (this->mActor->getLinearVelocity().magnitude() > MAX_SPEED)
+    if (this->mActor->getLinearVelocity().magnitude() > MAX_SPEED && !this->retracting)
     {
         PxVec3 temp = this->mActor->getLinearVelocity();
         temp.normalize();
         this->mActor->setLinearVelocity(MAX_SPEED*temp);
+    }
+    else if (this->mActor->getLinearVelocity().magnitude() > MAX_SPEED*1.5f && this->retracting)
+    {
+        PxVec3 temp = this->mActor->getLinearVelocity();
+        temp.normalize();
+        this->mActor->setLinearVelocity(MAX_SPEED*1.5f*temp);
     }
 
     //Handbrake - Possibly remove in future
@@ -127,8 +134,8 @@ void ProtoCar::update() {
 
 */
 void ProtoCar::applyWheelTurn(float factor) {
-    this->mVehicleNoDrive->setSteerAngle(2,factor/20.f);
-    this->mVehicleNoDrive->setSteerAngle(3,factor/20.f);
+    this->mVehicleNoDrive->setSteerAngle(2,factor/(15.f*(this->mActor->getLinearVelocity().magnitude()/MAX_SPEED)+1.0f));
+    this->mVehicleNoDrive->setSteerAngle(3,factor/15.f);
 }
 
 void ProtoCar::applyWheelTorque(float factor) {
@@ -170,10 +177,10 @@ VehicleDesc ProtoCar::initVehicleDesc()
     //TODO: must change the MOI of the chassis once we add multi-level tracks (ie ramps)
     const PxVec3 chassisDims(2.5f, 2.0f, 5.0f);
     const PxVec3 chassisMOI
-        (10000.f*(chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
+        ((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
             (chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)*0.8f*chassisMass / 12.0f,
-            10000.f*(chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / 12.0f);
-    const PxVec3 chassisCMOffset(0.0f, -chassisDims.y*0.5f + 0.65f-0.f, 0.25f);
+            (chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / 12.0f);
+    const PxVec3 chassisCMOffset(0.0f, -chassisDims.y*0.5f + 0.65f-1.5f, 0.25f); // COG -1
 
     //Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
     //Moment of inertia is just the moment of inertia of a cylinder.
@@ -224,7 +231,7 @@ void ProtoCar::fireHook() {
     myHook->reposition(up, pos, aim, aim_rot);
 
     glm::vec3 b = arrow->getPos();
-    myHook->setPos(b.x, b.y + 2.0f, b.z);
+    myHook->setPos(b.x+(2.0f*aim.x), b.y + 2.0f, b.z+(2.0f*aim.z));
 }
 
 void ProtoCar::cancelHook() {
@@ -245,6 +252,7 @@ void ProtoCar::retractHook() {
     launchDir.normalize();
 
     this->mActor->setLinearVelocity(this->mActor->getLinearVelocity() + launchDir*10.f);
+    this->mActor->setAngularVelocity(PxVec3(0.f, 0.f, 0.f));
 
 
 }

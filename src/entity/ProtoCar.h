@@ -38,21 +38,14 @@ public:
     virtual void applyGlobalForce(glm::vec3 direction, double magnitude);
     virtual void applyLocalForce(float forward, float right, float up);
     
-    void ProtoCar::startAccelerateForwardsMode();
-    void ProtoCar::startAccelerateReverseMode();
     void ProtoCar::startBrakeMode();
-    void ProtoCar::startTurnHardLeftMode();
-    void ProtoCar::startTurnHardRightMode();
-    void ProtoCar::startHandbrakeTurnLeftMode();
-    void ProtoCar::startHandbrakeTurnRightMode();
-    void ProtoCar::releaseAllControls();
     void ProtoCar::applyWheelTorque(float factor);
     void ProtoCar::applyWheelTurn(float factor);
     void ProtoCar::resetBrakes();
 
     const double FORCE_FACTOR = 10000.;
 
-    const float MAX_SPEED = 80.f;
+    const float MAX_SPEED = 60.f;
 
     bool retracting;
 

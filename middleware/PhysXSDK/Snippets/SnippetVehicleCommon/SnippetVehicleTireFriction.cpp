@@ -20,7 +20,7 @@ using namespace physx;
 static PxF32 gTireFrictionMultipliers[MAX_NUM_SURFACE_TYPES][MAX_NUM_TIRE_TYPES]=
 {
 	//NORMAL,	WORN
-	{30.00f,		0.1f}//TARMAC
+	{10.00f,		0.1f}//TARMAC
 };
 
 PxVehicleDrivableSurfaceToTireFrictionPairs* createFrictionPairs(const PxMaterial* defaultMaterial)

@@ -52,7 +52,6 @@ PhysicsManager::PhysicsManager(PxContactModifyCallback* callBack)
 	mMaterial = mPhysics->createMaterial(.3f, .3f, 0.1f);
 
     /////////////////////////////////////////////
-    
     PxInitVehicleSDK(*mPhysics);
     PxVehicleSetBasisVectors(PxVec3(0, 1, 0), PxVec3(0, 0, 1));
     PxVehicleSetUpdateMode(PxVehicleUpdateMode::eVELOCITY_CHANGE);
