@@ -8,7 +8,7 @@ using namespace glm;
  ProtoCar::ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents) :
     PhysicsObject(model_fname, tex_fname, actor, physicsManager),
     arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
-	myHook(new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", physicsManager->createBlock(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager))
+	myHook(new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", physicsManager->createHook(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager))
 {
     controller = cont;
     ents.push_back(arrow.get());
@@ -166,6 +166,10 @@ glm::vec3 ProtoCar::getAim() const {
     return aim;
 }
 
+glm::quat ProtoCar::getAimRot() const {
+    return aim_rot;
+}
+
 VehicleDesc ProtoCar::initVehicleDesc()
 {
     //Set up the chassis mass, dimensions, moment of inertia, and center of mass offset.
@@ -222,16 +226,17 @@ void ProtoCar::stepForPhysics() {
     PxVehicleUpdates(1/60.f, grav, *this->mPhysicsManager->mFrictionPairs, 1, vehicles, vehicleQueryResults);
 }
 
+//Fires the hook
 void ProtoCar::fireHook() {
-	//Fires the hook
     this->mPhysicsManager->mScene->addActor(*myHook->mActor);
     myHook->mShot = true;
-	//glm::vec3 a = this->getAim();
-	
-    myHook->reposition(up, pos, aim, aim_rot);
+    myHook->setRot(aim_rot);
 
     glm::vec3 b = arrow->getPos();
     myHook->setPos(b.x+(2.0f*aim.x), b.y + 2.0f, b.z+(2.0f*aim.z));
+    //glm::vec3 a_pos = arrow->getPos();
+    //myHook->setPos(a_pos.x, a_pos.y + 2.0f, a_pos.z);
+
 }
 
 void ProtoCar::cancelHook() {

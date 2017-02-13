@@ -126,7 +126,7 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
 {
     cam->update();
 	//float fovy, float aspect, float zNear, float zFar
-	mat4 perspectiveMatrix = perspective(radians(80.f), 1.f, 0.1f, 440.f);
+	mat4 perspectiveMatrix = perspective(radians(80.f), 1.f, 0.1f, 3000.f);
     glClearColor(0.f, 0.f, 0.f, 0.f);		//Color to clear the screen with (R, G, B, Alpha)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
 

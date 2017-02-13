@@ -62,8 +62,16 @@ void PhysicsObject::setRot(glm::vec3 &nRot) {
 
     PxQuat newRot(qrot.x, qrot.y, qrot.z, qrot.w);
     mActor->setGlobalPose(PxTransform(mActor->getGlobalPose().p, newRot));
-
 }
+
+void PhysicsObject::setRot(glm::quat &nRot) {
+    qrot = nRot;
+    dir = glm::rotate(qrot, glm::vec3(0, 0, -1));
+
+    PxQuat newRot(qrot.x, qrot.y, qrot.z, qrot.w);
+    mActor->setGlobalPose(PxTransform(mActor->getGlobalPose().p, newRot));
+}
+
 
 // Apply rotations in radians
 void PhysicsObject::rotate(double x, double y, double z) {

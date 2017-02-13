@@ -14,5 +14,4 @@ public:
 
 	virtual void applyGlobalForce(glm::vec3 direction, double magnitude);
 	virtual void applyLocalForce(float forward, float right, float up);
-    void Hook::reposition(glm::vec3 up, glm::vec3 pos, glm::vec3 aim_vec, glm::quat aim_rot);
 };
