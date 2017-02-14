@@ -4,7 +4,7 @@
 class HookChain : public Renderable {
     glm::quat base_rot = glm::quat(glm::vec3(M_PI/2.0f, 0.0f, 0.0f));
     const float X_SCALE = 0.3;
-    const float Y_SCALE = 0.211;
+    const float Y_SCALE = 0.2155181703369411; // calculated from cylinder vertex distance
     const float Z_SCALE = 0.3;
     bool enabled = false;
 
