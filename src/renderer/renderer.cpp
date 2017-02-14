@@ -135,13 +135,13 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     drawSkybox(this->skybox, perspectiveMatrix);
     
     glUseProgram(shader[SHADER::DEFAULT]);
-    for (const auto& e : ents) {
+    for (auto& e : ents) {
         // This is virtual function lookup for each entity, might be slow
         // Potentially optimize by using a single vec of Renderables
         if (e->canRender()) {
             // Careful here - static_cast is FAST, but potentially dangerous if an entity
             // hasn't been initialized properly
-            const Renderable* r = static_cast<Renderable*>(e);
+            Renderable* r = static_cast<Renderable*>(e);
 			
             mat4 scale = r->getModel()->get_scaling();
             mat4 rot = glm::mat4_cast(r->getQRot());

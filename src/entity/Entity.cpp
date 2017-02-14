@@ -42,6 +42,14 @@ void Entity::setRot(glm::quat newRot) {
     qrot = newRot;
 }
 
+void Entity::rotate(double x, double y, double z) {
+    glm::vec3 euler(x, y, z);
+    glm::quat nquat(euler);
+
+    qrot = nquat * qrot;
+    dir = glm::rotate(qrot, glm::vec3(0, 0, -1));
+}
+
 double Entity::xPos() const { return pos[0]; }
 
 double Entity::yPos() const { return pos[1]; }

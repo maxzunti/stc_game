@@ -10,9 +10,9 @@ Renderable::Renderable(std::string model_fname, std::string tex_fname) :
         model_loaded = true;
 }
 
-bool Renderable::canRender() { return true; }
+bool Renderable::canRender() { return renderable; }
 
-const Model * Renderable::getModel() const
+Model * Renderable::getModel()
 {
     return model.get();
 }

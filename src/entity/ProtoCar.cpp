@@ -8,8 +8,9 @@ using namespace glm;
  ProtoCar::ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents) :
     PhysicsObject(model_fname, tex_fname, actor, physicsManager),
     arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
-	myHook(new Hook("assets/models/Crate/Crate1.obj", "assets/models/teapot/teapot_tex.png", physicsManager->createHook(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager))
+	myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents))
 {
+    myHook->scale(2.0, 2.0, 2.0);
     controller = cont;
     ents.push_back(arrow.get());
 	ents.push_back(myHook.get());
@@ -36,7 +37,6 @@ void ProtoCar::applyLocalForce(float forward, float right, float up) {
     
 }
 
-
 void ProtoCar::calcAim() {
     vec3 right = normalize(cross(dir, vec3(0, 1, 0)));
     up = normalize(cross(right, dir));
@@ -55,9 +55,6 @@ void ProtoCar::calcAim() {
 void ProtoCar::update() {
 
     //Apply turn according to the left stick angle 
-    this->myHook->update();
-
-
     applyWheelTurn(controller->LStick_InDeadzone() ? 0.f : controller->LeftStick_X());
    
     // Use the triggers to accelerate(Right Trigger) or reverse (Left Trigger)
@@ -120,6 +117,7 @@ void ProtoCar::update() {
         this->retractHook();
     }
 
+    this->myHook->update(pos);
 }
 
 
@@ -252,18 +250,16 @@ void ProtoCar::cancelHook() {
 void ProtoCar::retractHook() {
 
     PxVec3 launchDir = PxVec3(this->myHook->getPos().x, this->myHook->getPos().y, this->myHook->getPos().z) -
-        PxVec3(this->getPos().x, this->getPos().y, this->getPos().z);
+        PxVec3(pos.x, pos.y, pos.z);
+
     // Implement this again when cooldown is working
     /*if (launchDir.magnitude() < 30.f)
     {
-        this->cancelHook();
+    this->cancelHook();
     }*/
+
     launchDir.normalize();
 
     this->mActor->setLinearVelocity(this->mActor->getLinearVelocity() + launchDir*10.f);
     this->mActor->setAngularVelocity(PxVec3(0.f, 0.f, 0.f));
-
-   
-
-
 }

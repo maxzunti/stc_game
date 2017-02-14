@@ -218,6 +218,7 @@
     <ClCompile Include="src\entity\AimArrow.cpp" />
     <ClCompile Include="src\entity\Hook.cpp" />
     <ClCompile Include="src\entity\Obstacle.cpp" />
+    <ClCompile Include="src\entity\HookChain.cpp" />
     <ClCompile Include="src\entity\PhysicsObject.cpp" />
     <ClCompile Include="src\entity\ProtoCar.cpp" />
     <ClCompile Include="src\physics\PhysicsManager.cpp" />
@@ -368,6 +369,7 @@
     <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleRaycast.h" />
     <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.h" />
     <ClInclude Include="src\entity\Obstacle.h" />
+    <ClInclude Include="src\entity\HookChain.h" />
     <ClInclude Include="src\util\ConfigParser.h" />
     <ClInclude Include="src\entity\AimArrow.h" />
     <ClInclude Include="src\entity\ProtoCar.h" />
