@@ -26,7 +26,7 @@ void StickListener::onContactModify(PxContactModifyPair *const pairs, PxU32 coun
                 pairs->contacts.setTargetVelocity(i, PxVec3(0, 0, 0));
             }
             Hook* temp = static_cast<Hook*>(pairs->actor[0]->userData);
-            temp->mStuck = true;
+            temp->setStuck(true);
 
             temp->mActor->setLinearVelocity(PxVec3(0, 0, 0));
             temp->mActor->setAngularVelocity(PxVec3(0, 0, 0));
@@ -43,7 +43,7 @@ void StickListener::onContactModify(PxContactModifyPair *const pairs, PxU32 coun
             }
             Hook* temp = static_cast<Hook*>(pairs->actor[1]->userData);
                 
-            temp->mStuck = true;
+            temp->setStuck(true);
 
             temp->mActor->setLinearVelocity(PxVec3(0, 0, 0));
             temp->mActor->setAngularVelocity(PxVec3(0, 0, 0));

@@ -88,7 +88,7 @@ void ProtoCar::update() {
         //applyLocalForce(0, 0, 2000);
         startBrakeMode();
     }
-    if (this->myHook->mStuck && controller->GetButtonPressed(XButtonIDs::B)) {
+    if (this->myHook->getStuck() && controller->GetButtonPressed(XButtonIDs::B)) {
         this->cancelHook();
     }
   /*  
@@ -105,11 +105,11 @@ void ProtoCar::update() {
     arrow->reposition(up, pos, aim, aim_rot);
 
     // Must fire after calc aim
-    if ((!this->myHook->mShot && !this->myHook->mStuck) && controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
+    if ((!this->myHook->getShot() && !this->myHook->getStuck()) && controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
         fireHook();
     }
 
-    if (this->myHook->mStuck && controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
+    if (this->myHook->getStuck() && controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
         this->retracting = true;
     }
 
@@ -228,7 +228,7 @@ void ProtoCar::stepForPhysics() {
 //Fires the hook
 void ProtoCar::fireHook() {
     this->mPhysicsManager->mScene->addActor(*myHook->mActor);
-    myHook->mShot = true;
+    myHook->setShot(true);
     myHook->setRot(aim_rot);
 
     glm::vec3 b = arrow->getPos();
@@ -239,10 +239,10 @@ void ProtoCar::fireHook() {
 }
 
 void ProtoCar::cancelHook() {
-    if (!this->myHook->mStuck)
+    if (!this->myHook->getStuck())
         this->mPhysicsManager->mScene->removeActor(*myHook->mActor);
-    myHook->mShot = false;
-    myHook->mStuck = false;
+    myHook->setShot(false);
+    myHook->setStuck(false);
     myHook->setPos(0.0, 200.0, 0.0);
     myHook->mActor->setLinearVelocity(PxVec3(0.f, 0.f, 0.f));
     this->retracting = false;

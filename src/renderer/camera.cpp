@@ -394,7 +394,7 @@ void Camera::calcFollowSpeeds() {
     x_rot_speed = (x_car_rot_speed + x_xbox_rot_speed);
     y_rot_speed = (y_car_rot_speed + y_xbox_rot_speed);
 
-    std::cout << "y_car_rot_speed = " << y_car_rot_speed << "    y_xbox_rot_speed" << y_xbox_rot_speed << "     y_rot_speed = " << y_rot_speed << std::endl;
+  //  std::cout << "y_car_rot_speed = " << y_car_rot_speed << "    y_xbox_rot_speed" << y_xbox_rot_speed << "     y_rot_speed = " << y_rot_speed << std::endl;
 
     calcAsympSpeeds();
 

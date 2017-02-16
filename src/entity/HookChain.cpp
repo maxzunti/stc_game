@@ -9,9 +9,23 @@ using namespace glm;
 
 HookChain::HookChain(std::string model_fname, std::string tex_fname) :
     Renderable(model_fname, tex_fname) {
+
+    // At this point, we've loaded a single hook model using the PhysicsObject constructor
+    assert(models.size() == 1);
+    unattached = models[0];
+    attached = new Model(model_fname, "assets/models/AimArrow/red.png");
+
     scale(X_SCALE, Y_SCALE, Z_SCALE);
     rotate(base_rot.x, base_rot.y, base_rot.z);
     renderable = false;
+}
+
+HookChain::~HookChain() {
+    // Delete whichever model isn't in 'models' (since Renderable's destructor will catch anything that is)
+    if (mStuck)
+        delete unattached;
+    else
+        delete attached;
 }
 
 void HookChain::reposition(glm::vec3 carPos, glm::vec3 hookPos) {
@@ -37,4 +51,17 @@ void HookChain::reposition(glm::vec3 carPos, glm::vec3 hookPos) {
     }
 }
 
-void HookChain::enable(bool val) { enabled = val; renderable = val; }
+void HookChain::enable(bool val) {
+    enabled = val;
+    renderable = val;
+}
+
+void HookChain::setStuck(bool val) {
+    mStuck = val;
+    if (mStuck) {
+        models[0] = attached;
+    }
+    else {
+        models[0] = unattached;
+    }
+}

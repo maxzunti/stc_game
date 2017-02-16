@@ -11,8 +11,14 @@ const float HEIGHT_MOD = -0.8;
 
 Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents) :
 	PhysicsObject(model_fname, tex_fname, actor, physicsManager),
-    chain(new HookChain("assets/models/cylinder/cylinder.obj", "assets/models/sphere/blue.png")) {
+    chain(new HookChain("assets/models/cylinder/cylinder.obj", "assets/models/sphere/blue.png"))
+{
     ents.push_back(chain.get());
+
+    // At this point, we've loaded a single hook model using the PhysicsObject constructor
+    assert(models.size() == 1);
+    unattached = models[0];
+    attached = new Model(model_fname, "assets/models/AimArrow/red.png");
 
 	//Record the angle of shot?
     actor->userData = this;
@@ -21,6 +27,13 @@ Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, P
     mShot = false;
     actor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
     this->scale(0.5, 0.5, 0.5);
+}
+Hook::~Hook() {
+    // Delete whichever model isn't in 'models' (since Renderable's destructor will catch anything that is)
+    if (mStuck)
+        delete unattached;
+    else
+        delete attached;
 }
 
 void Hook::applyGlobalForce(glm::vec3 direction, double magnitude) {
@@ -48,4 +61,29 @@ void Hook::update(glm::vec3 carPos) {
     else {
         chain->enable(false);
     }
+}
+
+void Hook::setStuck(bool val) {
+    mStuck = val;
+    chain->setStuck(mStuck);
+
+    // Update active model
+    if (mStuck) {
+        models[0] = attached;
+    }
+    else {
+        models[0] = unattached;
+    }
+}
+
+void Hook::setShot(bool val) {
+    mShot = val;
+}
+
+bool Hook::getStuck() {
+    return mStuck;
+}
+
+bool Hook::getShot() {
+    return mShot;
 }
