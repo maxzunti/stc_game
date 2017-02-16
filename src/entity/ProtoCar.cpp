@@ -118,7 +118,7 @@ void ProtoCar::update() {
         this->retractHook();
     }
 
-    this->myHook->update(pos);
+    this->myHook->update(pos + (HOOK_FORWARD_OFFSET*dir) + (HOOK_UP_OFFSET*up));
 }
 
 

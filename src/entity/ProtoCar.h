@@ -27,6 +27,10 @@ protected:
 
     PxVehicleNoDrive*	mVehicleNoDrive = NULL;
 
+    // Used to position the origin of the hook when fired from the car
+    const float HOOK_FORWARD_OFFSET = 1.5;
+    const float HOOK_UP_OFFSET = 0.8;
+
 public:
     ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents);
 
