@@ -31,6 +31,9 @@ void main()
 	FragUV = UV;
 
 	gl_Position = perspectiveMatrix*cameraMatrix*modelviewMatrix*vec4(VertexPosition, 1.0);
-	lightDir = normalize( vec3(0,0,0) - VertexPosition);
-	vecPos = VertexPosition;
+	lightDir = normalize( vec3(100,500,0) - VertexPosition);
+	//vecPos = VertexPosition;
+
+	vec4 temp = modelviewMatrix*vec4(VertexPosition, 1.0);
+	vecPos = vec3 ( temp.x, temp.y, temp.z);
 }
