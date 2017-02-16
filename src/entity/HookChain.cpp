@@ -17,7 +17,7 @@ HookChain::HookChain(std::string model_fname, std::string tex_fname) :
 void HookChain::reposition(glm::vec3 carPos, glm::vec3 hookPos) {
     if (enabled) {
         // Rescale to length
-        getModel()->reset_scale();
+        reset_scale();
         float len = glm::distance(hookPos, carPos);
         scale(X_SCALE, Y_SCALE * len, Z_SCALE);
 

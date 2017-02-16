@@ -143,13 +143,13 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
             // hasn't been initialized properly
             Renderable* r = static_cast<Renderable*>(e);
 			
-            mat4 scale = r->getModel()->get_scaling();
-            mat4 rot = glm::mat4_cast(r->getQRot());
-            mat4 trans = glm::translate(mat4(), r->getPos());
-            mat4 mmatrix = trans * rot * scale;
+            for (Model* model : r->getModels()) {
+                mat4 scale = model->get_scaling();
+                mat4 rot = glm::mat4_cast(r->getQRot());
+                mat4 trans = glm::translate(mat4(), r->getPos());
+                mat4 mmatrix = trans * rot * scale;
 
-            if (r->is_model_loaded()) {
-                render(*r->getModel(), perspectiveMatrix, mmatrix, 0);
+                render(*model, perspectiveMatrix, mmatrix, 0);
             }
         }
     }

@@ -23,7 +23,6 @@ using namespace glm;
     physicsManager->mScene->addActor(*mVehicleNoDrive->getRigidDynamicActor());
     this->mActor = mVehicleNoDrive->getRigidDynamicActor();
     this->retracting = false;
- 
 }
 
 void ProtoCar::applyGlobalForce(glm::vec3 direction, double magnitude) {
@@ -92,9 +91,11 @@ void ProtoCar::update() {
     if (this->myHook->mStuck && controller->GetButtonPressed(XButtonIDs::B)) {
         this->cancelHook();
     }
+  /*  
+    Debug rotations - don't really need this anymore
     if (controller->GetButtonPressed(XButtonIDs::L_Shoulder)) {
         rotate(0., 0.05, 0.);
-    }
+    }*/
   
     // Perform physX update
     updatePosandRot();

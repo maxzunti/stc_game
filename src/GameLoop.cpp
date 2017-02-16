@@ -37,7 +37,7 @@ int main(int argc, const char* argv[])
     std::vector<Entity*> entities(0);
     std::vector<ProtoCar*> cars(0);
 
-    ProtoCar *car = new ProtoCar("assets/models/Crate/Crate1.obj", "assets/models/Crate/crate_1.jpg", nullptr, myPhysics, input.get(), entities);
+    ProtoCar *car = new ProtoCar("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, input.get(), entities);
 
     window->getRenderer()->getCam()->registerController(input.get());
     window->getRenderer()->getCam()->registerCar(car);

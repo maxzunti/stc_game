@@ -27,7 +27,7 @@ public:
     GLuint vao[VAO::COUNT];
 
     Model();
-    Model(std::string model_fname, std::string tex_fname);
+    Model(std::string model_fname, std::string tex_fname, int mesh_id = 0);
     Model(std::vector<glm::vec3> points,
         std::vector<glm::vec2> uvs,
         std::vector<glm::vec3> normals,
@@ -35,7 +35,7 @@ public:
 
     ~Model();
 
-    bool load_model_from_file(const std::string &fname);
+    bool load_model_from_file(const std::string &fname, int mesh_id);
     const Texture * getTex() const;
     bool is_tex_loaded() const;
     const int num_indices() const;
@@ -43,4 +43,7 @@ public:
     const glm::mat4& get_scaling() const;
     void reset_scale();
     void scale(double &x_scl, double &y_scl, double &z_scl);
+
+    // model_fname is expected to contain multiple meshes, but still correspond to a single UV-mapped texture (used for all meshes)
+    static std::vector<Model*> load_multimesh_models(std::string model_fname, std::string tex_fname);
 };

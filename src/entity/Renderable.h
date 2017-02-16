@@ -10,16 +10,19 @@
 // Ideally, also abstract, but currently being used to test VBO initialization
 class Renderable : public Entity {
 protected:
-    std::unique_ptr<Model> model;
+    std::vector<Model*> models;
     bool model_loaded = false;
     bool renderable = true;
 
 public:
     Renderable();
+    ~Renderable();
     Renderable(std::string model_fname, std::string tex_fname);
 
     virtual bool canRender();
-    Model * getModel();
-    bool is_model_loaded() const;
+    std::vector<Model*>& getModels();
+    // bool is_model_loaded() const { return model_loaded; }
+    void setRenderable(bool);
     void scale(double x, double y, double z);
+    void reset_scale();
 };

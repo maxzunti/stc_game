@@ -4,14 +4,14 @@
 Model::Model() { // delete me
 }
 
-Model::Model(std::string model_fname, std::string tex_fname) :
+Model::Model(std::string model_fname, std::string tex_fname, int mesh_id) :
     tex(new Texture(tex_fname.c_str())) {
     glGenBuffers(VBO::COUNT, vbo);
     glGenBuffers(VBO::COUNT, vbo);
 
     glGenVertexArrays(VAO::COUNT, vao);
     initVAO(vao, vbo);
-    load_model_from_file(model_fname);
+    load_model_from_file(model_fname, mesh_id);
     is_loaded = true;
     if (tex)
         tex_loaded = true;
@@ -81,7 +81,7 @@ void Model::copy_ai_data(const aiMesh* mesh, const std::string &fname)
     }
 }
 
-bool Model::load_model_from_file(const std::string& fname)
+bool Model::load_model_from_file(const std::string& fname, int mesh_id = 0)
 {
     Assimp::Importer importer;
 
@@ -94,13 +94,8 @@ bool Model::load_model_from_file(const std::string& fname)
         return false;
     }
 
-    if (scene->mNumMeshes != 1) {
-        std::cout << "Error: file " << fname << " contains " << scene->mNumMeshes << " meshes.";
-        return false;
-    }
-
     // Mesh successfully found
-    copy_ai_data(scene->mMeshes[0], fname);
+    copy_ai_data(scene->mMeshes[mesh_id], fname);
     loadBuffer(vbo, points, normals, uvs, indices);
     return true;
 }
@@ -133,4 +128,26 @@ void Model::scale(double &x_scl, double &y_scl, double &z_scl) {
         glm::vec4(0, y_scl, 0, 0),
         glm::vec4(0, 0, z_scl, 0),
         glm::vec4(0, 0, 0, 1));
+}
+
+// Generalized static function which loads multi-mesh models sharing a texture (e.g. 'testcar.obj')
+std::vector<Model*> Model::load_multimesh_models(std::string model_fname, std::string tex_fname) {
+
+    Assimp::Importer importer;
+    std::vector<Model*> loaded_models;
+
+    // calcs tangents, joins vertices, triangulates, gens UVs and normals if necessary
+    // (see http://assimp.sourceforge.net/lib_html/postprocess_8h.html for reference)
+    const aiScene* scene = importer.ReadFile(model_fname, aiProcessPreset_TargetRealtime_Fast | aiProcess_GenUVCoords);
+
+    if (!scene) {
+        std::cout << "Error loading " << model_fname << ": \n" << importer.GetErrorString() << std::endl;
+        return loaded_models;
+    }
+    
+    for (int i = 0; i < scene->mNumMeshes; i++) {
+        loaded_models.emplace_back(new Model(model_fname, tex_fname, i));
+    }
+    std::cout << "returning here; models.size = " << loaded_models.size() << std::endl;
+    return loaded_models;
 }
