@@ -17,6 +17,22 @@ class ProtoCar : public PhysicsObject {
 protected:
     Input * controller;
     std::unique_ptr<AimArrow> arrow;
+
+    /* (rendered) wheel array + index mappings
+    (0)|  ----  |(1)
+           ||
+           ||
+           ||
+    (2)|  ----  |(3)
+    */
+
+    static const int NUM_WHEELS = 4;
+    Renderable* wheels[NUM_WHEELS];
+    static const int FL = 0;
+    static const int FR = 1;
+    static const int BL = 2;
+    static const int BR = 3;
+
     glm::quat aim_rot;
     glm::vec3 aim;
     glm::vec3 up;
@@ -31,8 +47,20 @@ protected:
     const float HOOK_FORWARD_OFFSET = 1.5;
     const float HOOK_UP_OFFSET = 0.8;
 
+    // PhysX Wheel initializers
+    // Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
+    // Moment of inertia is just the moment of inertia of a cylinder.
+    float WHEEL_MASS = 20.f; // 100
+    float WHEEL_RAD = 0.5f;
+    float WHEEL_WIDTH = 0.4f;
+    float WHEEL_MOI = 0.1f * WHEEL_MASS * WHEEL_MASS * WHEEL_WIDTH; //0.1f*wheelRadius*wheelRadius;
+
+    void initWheels(std::string model_fname, std::string tex_fname);
+    void updateWheels(PxWheelQueryResult wheelQueryResults[NUM_WHEELS]);
+
 public:
     ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents);
+    ~ProtoCar();
 
     VehicleDesc initVehicleDesc();
 
@@ -42,11 +70,13 @@ public:
     virtual void applyGlobalForce(glm::vec3 direction, double magnitude);
     virtual void applyLocalForce(float forward, float right, float up);
     
+    // why are these public?
     void ProtoCar::startBrakeMode();
     void ProtoCar::applyWheelTorque(float factor);
     void ProtoCar::applyWheelTurn(float factor);
     void ProtoCar::resetBrakes();
 
+    // should probably use a different force factor for brake & forward torques
     const double FORCE_FACTOR = 10000.;
 
     const float MAX_SPEED = 60.f;

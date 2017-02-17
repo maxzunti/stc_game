@@ -300,9 +300,11 @@ void Camera::calcCarRotSpeeds() {
     glm::quat diff = glm::rotate(car->getQRot() * glm::inverse(p_rot), 0.0f, up);
     float delta = 0.001;
     if (diff.y >= delta || diff.y <= -delta) { // Appreciable rotation; update rotation speeds
-        y_car_rot_speed += diff.y * FOLLOW_Y_CAM_ROT_SPEED;
-        clamp(y_car_rot_speed, FOLLOW_Y_MAX_ROT_SPEED);
-        y_resetting = false;
+        if (!RS_Y) {
+            y_car_rot_speed += diff.y * FOLLOW_Y_CAM_ROT_SPEED;
+            clamp(y_car_rot_speed, FOLLOW_Y_MAX_ROT_SPEED);
+            y_resetting = false;
+        }
     } else { // No real rotation
         if (!y_resetting) { // Just stopped rotating car; reset cam-rot speed to 0
             y_resetting = true;
@@ -332,9 +334,11 @@ void Camera::calcCarRotSpeeds() {
     //std::cout << "X rot cam speed: " << x_rot_speed << "  X xbox cam speed: " << x_xbox_speed << "  Y rot cam speed: " <<  y_rot_speed << "  Y  xboxcam speed: " << y_xbox_speed << std::endl;
 
     if (diff.x >= delta || diff.x <= -delta) { // Appreciable rotation; update rotation speeds
-        x_car_rot_speed += diff.x * FOLLOW_X_CAM_ROT_SPEED;
-        clamp(x_car_rot_speed, FOLLOW_X_MAX_ROT_SPEED);
-        x_resetting = false;
+        if (!RS_X) {
+            x_car_rot_speed += diff.x * FOLLOW_X_CAM_ROT_SPEED;
+            clamp(x_car_rot_speed, FOLLOW_X_MAX_ROT_SPEED);
+            x_resetting = false;
+        }
     } else { // No real rotation
         if (!x_resetting) { // Just stopped rotating car; reset cam-rot speed to 0
             x_resetting = true;
@@ -393,8 +397,6 @@ void Camera::calcFollowSpeeds() {
     // Update camera rotation angles
     x_rot_speed = (x_car_rot_speed + x_xbox_rot_speed);
     y_rot_speed = (y_car_rot_speed + y_xbox_rot_speed);
-
-  //  std::cout << "y_car_rot_speed = " << y_car_rot_speed << "    y_xbox_rot_speed" << y_xbox_rot_speed << "     y_rot_speed = " << y_rot_speed << std::endl;
 
     calcAsympSpeeds();
 

@@ -23,7 +23,25 @@ using namespace glm;
     physicsManager->mScene->addActor(*mVehicleNoDrive->getRigidDynamicActor());
     this->mActor = mVehicleNoDrive->getRigidDynamicActor();
     this->retracting = false;
+
+    initWheels("assets/models/Crate/Crate1.obj", "assets/models/Crate/CrateImage1.JPG");
+    for (int i = 0; i < NUM_WHEELS; i++) {
+        ents.push_back(wheels[i]);
+    }
 }
+
+ ProtoCar::~ProtoCar() {
+     for (int i = 0; i < NUM_WHEELS; i++) {
+         delete wheels[i];
+     }
+ }
+
+ // Setup the wheels for rendering
+ void ProtoCar::initWheels(std::string model_fname, std::string tex_fname) {
+     for (int i = 0; i < NUM_WHEELS; i++) {
+         wheels[i] = new Renderable(model_fname, tex_fname);
+     }
+ }
 
 void ProtoCar::applyGlobalForce(glm::vec3 direction, double magnitude) {
     PxVec3 physVec(direction.x, direction.y, direction.z);
@@ -135,6 +153,8 @@ void ProtoCar::update() {
 void ProtoCar::applyWheelTurn(float factor) {
     this->mVehicleNoDrive->setSteerAngle(2,factor/(15.f*(this->mActor->getLinearVelocity().magnitude()/MAX_SPEED)+1.0f));
     this->mVehicleNoDrive->setSteerAngle(3,factor/15.f);
+
+  //  this->mVehicleNoDrive->mWheelsDynData.pose
 }
 
 void ProtoCar::applyWheelTorque(float factor) {
@@ -175,6 +195,8 @@ VehicleDesc ProtoCar::initVehicleDesc()
     //The moment of inertia is just the moment of inertia of a cuboid but modified for easier steering.
     //Center of mass offset is 0.65m above the base of the chassis and 0.25m towards the front.
 
+    // TODO: Generalize these to be private class members (which we can modify at runtime with our config parser)
+
     const PxF32 chassisMass = 1500.0f; //10 - too low may cause vibration/jitter
 
     //TODO: must change the MOI of the chassis once we add multi-level tracks (ie ramps)
@@ -185,13 +207,6 @@ VehicleDesc ProtoCar::initVehicleDesc()
             (chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / 12.0f);
     const PxVec3 chassisCMOffset(0.0f, -chassisDims.y*0.5f + 0.65f-1.5f, 0.25f); // COG -1
 
-    //Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
-    //Moment of inertia is just the moment of inertia of a cylinder.
-    const PxF32 wheelMass = 20.f;//100
-    const PxF32 wheelRadius = 0.5f;
-    const PxF32 wheelWidth = 0.4f;
-    const PxF32 wheelMOI = 0.1f*wheelRadius*wheelRadius*wheelMass;//0.1f*wheelRadius*wheelRadius;
-
     const PxU32 nbWheels = 4;
 
     VehicleDesc vehicleDesc;
@@ -200,16 +215,36 @@ VehicleDesc ProtoCar::initVehicleDesc()
     vehicleDesc.chassisMOI = chassisMOI;
     vehicleDesc.chassisCMOffset = chassisCMOffset;
     vehicleDesc.chassisMaterial = this->mPhysicsManager->mMaterial;
-    vehicleDesc.wheelMass = wheelMass;
-    vehicleDesc.wheelRadius = wheelRadius;
-    vehicleDesc.wheelWidth = wheelWidth;
-    vehicleDesc.wheelMOI = wheelMOI;
+
+    vehicleDesc.wheelMass = WHEEL_MASS;
+    vehicleDesc.wheelRadius = WHEEL_RAD;
+    vehicleDesc.wheelWidth = WHEEL_WIDTH;
+    vehicleDesc.wheelMOI = WHEEL_MOI;
+
     vehicleDesc.numWheels = nbWheels;
     vehicleDesc.wheelMaterial = this->mPhysicsManager->mMaterial;
     return vehicleDesc;
 }
 
+// Update the rendered position & rotation for each wheel
+void ProtoCar::updateWheels(PxWheelQueryResult wheelQueryResults[NUM_WHEELS]) {
+    PxTransform carPose = mActor->getGlobalPose();
+   
+    // Essentially copying PhysicsObject::updatePosAndRot()
+    for (int i = 0; i < NUM_WHEELS; i++) {
+        PxTransform wheelPose = wheelQueryResults[i].localPose;
 
+        // Rotate by car rot
+        glm::vec3 newPos = glm::rotate(qrot, glm::vec3(wheelPose.p.x, wheelPose.p.y, wheelPose.p.z));
+
+        wheels[i]->setPos(carPose.p.x + newPos.x,
+                          carPose.p.y + newPos.y,
+                          carPose.p.z + newPos.z);
+
+        PxQuat wheelRot = carPose.q * wheelPose.q;
+        wheels[i]->setRot(glm::quat(wheelRot.w, wheelRot.x, wheelRot.y, wheelRot.z));
+    }
+}
 
 void ProtoCar::stepForPhysics() {
     //Raycasts.
@@ -220,9 +255,19 @@ void ProtoCar::stepForPhysics() {
 
     //Vehicle update.
     const PxVec3 grav = this->mPhysicsManager->mScene->getGravity();
+
+    /* PX_MAX_NB_WHEELS is 20 - probably a way bigger buffer than we need
+       also, no need to reallocate this for each fn call
     PxWheelQueryResult wheelQueryResults[PX_MAX_NB_WHEELS];
     PxVehicleWheelQueryResult vehicleQueryResults[1] = { { wheelQueryResults, this->mVehicleNoDrive->mWheelsSimData.getNbWheels() } };
-    PxVehicleUpdates(1/60.f, grav, *this->mPhysicsManager->mFrictionPairs, 1, vehicles, vehicleQueryResults);
+    */
+
+    PxWheelQueryResult wheelQueryResults[NUM_WHEELS];
+    PxVehicleWheelQueryResult vehicleQueryResults = { wheelQueryResults, this->mVehicleNoDrive->mWheelsSimData.getNbWheels() } ;
+    PxVehicleUpdates(1/60.f, grav, *this->mPhysicsManager->mFrictionPairs, 1, vehicles, &vehicleQueryResults);
+
+    // Updates the renderable positions for each wheel
+    updateWheels(wheelQueryResults);
 }
 
 //Fires the hook

@@ -29,9 +29,7 @@ void PhysicsObject::updatePosandRot()
         mActor->getGlobalPose().p.z);
 
     PxQuat &pQuat = mActor->getGlobalPose().q;
-    glm::vec3 rot = glm::eulerAngles(glm::tquat<double>(pQuat.w, pQuat.x, pQuat.y, pQuat.z));
-    setRot(rot);
-    qrot = glm::tquat<double>(pQuat.w, pQuat.x, pQuat.y, pQuat.z);
+    setRot(glm::quat(pQuat.w, pQuat.x, pQuat.y, pQuat.z));
 }
 
 void PhysicsObject::setPos(double x, double y, double z) {

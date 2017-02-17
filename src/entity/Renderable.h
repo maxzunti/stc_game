@@ -21,7 +21,6 @@ public:
 
     virtual bool canRender();
     std::vector<Model*>& getModels();
-    // bool is_model_loaded() const { return model_loaded; }
     void setRenderable(bool);
     void scale(double x, double y, double z);
     void reset_scale();

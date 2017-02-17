@@ -148,6 +148,5 @@ std::vector<Model*> Model::load_multimesh_models(std::string model_fname, std::s
     for (int i = 0; i < scene->mNumMeshes; i++) {
         loaded_models.emplace_back(new Model(model_fname, tex_fname, i));
     }
-    std::cout << "returning here; models.size = " << loaded_models.size() << std::endl;
     return loaded_models;
 }
