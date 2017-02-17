@@ -151,8 +151,8 @@ void ProtoCar::update() {
 
 */
 void ProtoCar::applyWheelTurn(float factor) {
-    this->mVehicleNoDrive->setSteerAngle(2,factor/(15.f*(this->mActor->getLinearVelocity().magnitude()/MAX_SPEED)+1.0f));
-    this->mVehicleNoDrive->setSteerAngle(3,factor/15.f);
+    this->mVehicleNoDrive->setSteerAngle(0,-factor/(15.f*(this->mActor->getLinearVelocity().magnitude()/MAX_SPEED)+1.0f));
+    this->mVehicleNoDrive->setSteerAngle(1,-factor/(15.f*(this->mActor->getLinearVelocity().magnitude()/MAX_SPEED)+1.0f));
 
   //  this->mVehicleNoDrive->mWheelsDynData.pose
 }
@@ -280,7 +280,6 @@ void ProtoCar::fireHook() {
     myHook->setPos(b.x+(2.0f*aim.x), b.y + 2.0f, b.z+(2.0f*aim.z));
     //glm::vec3 a_pos = arrow->getPos();
     //myHook->setPos(a_pos.x, a_pos.y + 2.0f, a_pos.z);
-
 }
 
 void ProtoCar::cancelHook() {
