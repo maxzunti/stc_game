@@ -32,6 +32,11 @@ protected:
     static const int FR = 1;
     static const int BL = 2;
     static const int BR = 3;
+    const glm::quat glL_WHEEL_MODEL_ROT = glm::quat(glm::vec3(0.0f, 0.f, M_PI / 2.0f));
+    const glm::quat glR_WHEEL_MODEL_ROT =  glm::quat(glm::vec3(0.0f, M_PI, 0.0f)) * glL_WHEEL_MODEL_ROT;
+    const PxQuat L_WHEEL_MODEL_ROT = PxQuat(glL_WHEEL_MODEL_ROT.x, glL_WHEEL_MODEL_ROT.y, glL_WHEEL_MODEL_ROT.z, glL_WHEEL_MODEL_ROT.w);
+    const PxQuat R_WHEEL_MODEL_ROT = PxQuat(glR_WHEEL_MODEL_ROT.x, glR_WHEEL_MODEL_ROT.y, glR_WHEEL_MODEL_ROT.z, glR_WHEEL_MODEL_ROT.w);
+    const glm::vec3 WHEEL_MODEL_SCL = glm::vec3(0.5, 0.6, 0.5);
 
     glm::quat aim_rot;
     glm::vec3 aim;

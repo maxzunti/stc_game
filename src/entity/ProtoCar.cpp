@@ -24,10 +24,11 @@ using namespace glm;
     this->mActor = mVehicleNoDrive->getRigidDynamicActor();
     this->retracting = false;
 
-    initWheels("assets/models/Crate/Crate1.obj", "assets/models/Crate/CrateImage1.JPG");
+    initWheels("assets/models/wheel/wheel.obj", "assets/models/wheel/wheeltex.png");
     for (int i = 0; i < NUM_WHEELS; i++) {
         ents.push_back(wheels[i]);
     }
+    scale(0.7f, 1.0f, 1.0f);
 }
 
  ProtoCar::~ProtoCar() {
@@ -40,6 +41,7 @@ using namespace glm;
  void ProtoCar::initWheels(std::string model_fname, std::string tex_fname) {
      for (int i = 0; i < NUM_WHEELS; i++) {
          wheels[i] = new Renderable(model_fname, tex_fname);
+         wheels[i]->scale(WHEEL_MODEL_SCL.x, WHEEL_MODEL_SCL.y, WHEEL_MODEL_SCL.z);
      }
  }
 
@@ -116,7 +118,7 @@ void ProtoCar::update() {
     }*/
   
     // Perform physX update
-    updatePosandRot();
+ //   updatePosandRot();
 
     // Update aim (after PhysX!)
     calcAim();
@@ -241,7 +243,13 @@ void ProtoCar::updateWheels(PxWheelQueryResult wheelQueryResults[NUM_WHEELS]) {
                           carPose.p.y + newPos.y,
                           carPose.p.z + newPos.z);
 
-        PxQuat wheelRot = carPose.q * wheelPose.q;
+        PxQuat wheelRot;
+        if (i % 2 == 0) { // left wheels
+            wheelRot = carPose.q * wheelPose.q * L_WHEEL_MODEL_ROT;
+        } else { // right wheels
+            wheelRot = carPose.q * wheelPose.q * R_WHEEL_MODEL_ROT;
+        }
+
         wheels[i]->setRot(glm::quat(wheelRot.w, wheelRot.x, wheelRot.y, wheelRot.z));
     }
 }
@@ -268,6 +276,9 @@ void ProtoCar::stepForPhysics() {
 
     // Updates the renderable positions for each wheel
     updateWheels(wheelQueryResults);
+    // Perform physX update
+    // MAX: Moved this here from update() so that the wheels would stop lagging behind. Probably makes more sense.
+    updatePosandRot();
 }
 
 //Fires the hook
