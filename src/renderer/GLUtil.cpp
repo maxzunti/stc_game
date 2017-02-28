@@ -106,7 +106,6 @@ bool loadBuffer(GLuint vbo[VBO::COUNT],
             &uvs[0],
             GL_STATIC_DRAW
             );
-        std::cout << "uvs.size = " << uvs.size() << std::endl;
     }
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo[VBO::INDICES]);
