@@ -26,6 +26,7 @@ Model::Model(std::vector<glm::vec3> points,
     this->points = points;
     this->normals = normals;
     this->uvs = uvs;
+    this->base_uvs = uvs;
     this->indices = indices;
 
     glGenBuffers(VBO::COUNT, vbo);
@@ -46,6 +47,7 @@ void Model::copy_ai_data(const aiMesh* mesh, const std::string &fname)
     // Clear old data
     points.clear();
     normals.clear();
+    base_uvs.clear();
     uvs.clear();
     indices.clear();
 
@@ -65,8 +67,9 @@ void Model::copy_ai_data(const aiMesh* mesh, const std::string &fname)
     if (mesh->mNumUVComponents[0] > 0) {
         for (int i = 0; i < mesh->mNumVertices; i++) {
             aiVector3D m_vec = mesh->mTextureCoords[0][i];
-            uvs.push_back(glm::vec2(m_vec.x, m_vec.y));
+            base_uvs.push_back(glm::vec2(m_vec.x, m_vec.y));
         }
+        uvs = base_uvs;
     } else {
         std::cout << "Warning: " << fname << " has no UV coordinates." << std::endl;
     }
@@ -129,6 +132,32 @@ void Model::scale(double &x_scl, double &y_scl, double &z_scl) {
         glm::vec4(0, 0, z_scl, 0),
         glm::vec4(0, 0, 0, 1));
 }
+
+void Model::tile_UV_Y(double factor) {
+    std::vector<glm::vec2> newUVs;;
+
+    for (int i = 0; i < uvs.size(); i++) {
+        glm::vec2 coords = uvs.at(i);
+        coords.y *= factor;
+        newUVs.push_back(std::move(coords));
+    }
+
+    // Somewhat inefficient to reupload everything - potentially optimize
+    loadBuffer(vbo, points, normals, newUVs, indices);
+}
+
+void Model::scroll_UV_Y(float offset) {
+    for (int i = 0; i < uvs.size(); i++) {
+        uvs[i].y += offset;
+    }
+}
+
+void Model::scroll_UV_X(float offset) {
+    for (int i = 0; i < uvs.size(); i++) {
+        uvs[i].x += offset;
+    }
+}
+
 
 // Generalized static function which loads multi-mesh models sharing a texture (e.g. 'testcar.obj')
 std::vector<Model*> Model::load_multimesh_models(std::string model_fname, std::string tex_fname) {
