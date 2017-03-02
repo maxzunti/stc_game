@@ -84,6 +84,14 @@ void Model::copy_ai_data(const aiMesh* mesh, const std::string &fname)
     }
 }
 
+const std::vector<glm::vec3> Model::getPoints() {
+    return this->points;
+}
+const std::vector<unsigned int> Model::getIndices() {
+    return this->indices;
+}
+
+
 bool Model::load_model_from_file(const std::string& fname, int mesh_id = 0)
 {
     Assimp::Importer importer;
