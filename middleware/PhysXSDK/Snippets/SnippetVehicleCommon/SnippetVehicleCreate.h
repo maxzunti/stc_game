@@ -17,7 +17,18 @@
 #include "vehicle/PxVehicleDriveTank.h"
 #include "vehicle/PxVehicleNoDrive.h"
 
+
 using namespace physx;
+
+// Struct for holding suspension-related data; passed to 'createVehicleNoDrive'
+// Created for Grav Grapplers, not actually part of PhysX
+struct susp_data {
+    // Default PhysX values
+    float S_MAX_COMPRESSION = 0.3;
+    float S_MAX_DROOP = 0.1;
+    float S_SPRING_STRENGTH = 3500000.f;
+    float S_SPRING_DAMPER_RATE = 4500.f;
+};
 
 ////////////////////////////////////////////////
 
@@ -58,7 +69,7 @@ PxVehicleDrive4W* createVehicle4W(const VehicleDesc& vehDesc, PxPhysics* physics
 
 PxVehicleDriveTank* createVehicleTank(const VehicleDesc& vehDesc, PxPhysics* physics, PxCooking* cooking);
 
-PxVehicleNoDrive* createVehicleNoDrive(const VehicleDesc& vehDesc, PxPhysics* physics, PxCooking* cooking);
+PxVehicleNoDrive* createVehicleNoDrive(const VehicleDesc& vehDesc, PxPhysics* physics, PxCooking* cooking, susp_data* suspension);
 
 void customizeVehicleToLengthScale(const PxReal lengthScale, PxRigidDynamic* rigidDynamic, PxVehicleWheelsSimData* wheelsSimData, PxVehicleDriveSimData* driveSimData);
 

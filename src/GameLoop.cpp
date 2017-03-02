@@ -21,7 +21,6 @@ using namespace std;
 
 int main(int argc, const char* argv[])
 {
-
     std::unique_ptr<Window> window(new Window());
 
     // Set up input
@@ -45,9 +44,6 @@ int main(int argc, const char* argv[])
     cars.push_back(car);
 	
     entities.push_back(car);
-	
-    car->setPos(-50, 7, 200);
-    car->setRot(0.0, 1.57/2.0, 0.0);
 
 	Obstacle * daCube = new Obstacle("assets/models/Crate/Crate1.obj", "assets/models/plane/logo_tile.png", myPhysics->createBlock(0.f, 100.f, 0.f, 100.f, 100.f, 100.f), myPhysics);
 	entities.push_back(daCube);

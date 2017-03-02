@@ -28,10 +28,9 @@ enum
 enum
 {
 	TIRE_TYPE_NORMAL=0,
-	TIRE_TYPE_WORN,
 	MAX_NUM_TIRE_TYPES
 };
 
-PxVehicleDrivableSurfaceToTireFrictionPairs* createFrictionPairs(const PxMaterial* defaultMaterial);
+PxVehicleDrivableSurfaceToTireFrictionPairs* createFrictionPairs(const PxMaterial* defaultMaterial, float& tire_friction);
 
 #endif //SNIPPET_VEHICLE_TIREFRICTION_H

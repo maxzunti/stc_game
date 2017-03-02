@@ -26,7 +26,6 @@ public:
 	PxMaterial* mMaterial;
 	VehicleSceneQueryData*	mVehicleSceneQueryData = NULL;
 	PxBatchQuery*			mBatchQuery = NULL;
-	PxVehicleDrivableSurfaceToTireFrictionPairs* mFrictionPairs = NULL;
 
 	PhysicsManager(PxContactModifyCallback* callBack);
 	~PhysicsManager();

@@ -42,7 +42,7 @@ PhysicsManager::PhysicsManager(PxContactModifyCallback* callBack)
     PxU32 numWorkers =2;
 
 	PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+	sceneDesc.gravity = PxVec3(0.0f, -20.0f, 0.0f);
 	mDispatcher = PxDefaultCpuDispatcherCreate(numWorkers);
 	sceneDesc.cpuDispatcher = mDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;
@@ -60,11 +60,6 @@ PhysicsManager::PhysicsManager(PxContactModifyCallback* callBack)
     mVehicleSceneQueryData = VehicleSceneQueryData::allocate(1, PX_MAX_NB_WHEELS, 1, gDefaultAllocatorCallback);
     mBatchQuery = VehicleSceneQueryData::setUpBatchedSceneQuery(0, *mVehicleSceneQueryData, mScene);
 
-    //Create the friction table for each combination of tire and surface type.
-    mFrictionPairs = createFrictionPairs(mMaterial);
-	
-	
-	
 }
 
 
