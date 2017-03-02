@@ -67,7 +67,6 @@ using namespace glm;
      carParams.push_back(std::make_pair(std::string("MAX_DROOP"), &MAX_DROOP));
      carParams.push_back(std::make_pair(std::string("SPRING_STRENGTH"), &SPRING_STRENGTH));
      carParams.push_back(std::make_pair(std::string("SPRING_DAMPER_RATE"), &SPRING_DAMPER_RATE));
-
      carParams.push_back(std::make_pair(std::string("WHEEL_DAMPING_RATE"), &WHEEL_DAMPING_RATE));
      carParams.push_back(std::make_pair(std::string("WHEEL_MAX_BRAKE_TORQUE"), &WHEEL_MAX_BRAKE_TORQUE));
      carParams.push_back(std::make_pair(std::string("WHEEL_MAX_STEER"), &WHEEL_MAX_STEER));
@@ -81,6 +80,10 @@ using namespace glm;
      carParams.push_back(std::make_pair(std::string("G_MAX_FRICTION"), &G_MAX_FRICTION));
      carParams.push_back(std::make_pair(std::string("G_END_POINT"), &G_END_POINT));
      carParams.push_back(std::make_pair(std::string("G_FRIC_PAST_END"), &G_FRIC_PAST_END));
+     carParams.push_back(std::make_pair(std::string("CHASSIS_X_MOI_FACTOR"), &CHASSIS_X_MOI_FACTOR));
+     carParams.push_back(std::make_pair(std::string("CHASSIS_Y_MOI_FACTOR"), &CHASSIS_Y_MOI_FACTOR));
+     carParams.push_back(std::make_pair(std::string("CHASSIS_Z_MOI_FACTOR"), &CHASSIS_Z_MOI_FACTOR));
+     
  }
 
  //Create a vehicle that will drive on the plane.
@@ -268,11 +271,9 @@ void ProtoCar::update() {
 
 */
 void ProtoCar::applyWheelTurn(float factor) {
-    this->mVehicleNoDrive->setSteerAngle(0, -factor / (STEER_VEL_FACTOR * (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED) + 1.0f));
-    this->mVehicleNoDrive->setSteerAngle(1, -factor / (STEER_VEL_FACTOR * (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED) + 1.0f));
-
-    this->mVehicleNoDrive->setSteerAngle(0, -factor / ((STEER_VEL_FACTOR * (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED)) + BASE_STEER));
-    this->mVehicleNoDrive->setSteerAngle(1, -factor / ((STEER_VEL_FACTOR * (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED)) + BASE_STEER));
+    double vdiff_2 = (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED) * (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED);
+    this->mVehicleNoDrive->setSteerAngle(0, -factor / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
+    this->mVehicleNoDrive->setSteerAngle(1, -factor / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
 
   //  this->mVehicleNoDrive->mWheelsDynData.pose
 }
@@ -321,9 +322,9 @@ VehicleDesc ProtoCar::initVehicleDesc()
 
     const PxVec3 chassisDims(CHASSIS_X, CHASSIS_Y, CHASSIS_Z);
     const PxVec3 chassisMOI
-        ((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
-            (chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)*0.8f*chassisMass / 12.0f,
-            (chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / 12.0f);
+        ((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / CHASSIS_X_MOI_FACTOR,
+            (chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)* 0.8f * chassisMass / CHASSIS_Y_MOI_FACTOR,
+            (chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / CHASSIS_Z_MOI_FACTOR);
     const PxVec3 chassisCMOffset(CM_X, CM_Y, CM_Z); // COG -1
 
     const PxU32 nbWheels = NUM_WHEELS;

@@ -65,6 +65,9 @@ protected:
     float CHASSIS_X = 2.5f;
     float CHASSIS_Y = 2.0f;
     float CHASSIS_Z = 5.0f;
+    float CHASSIS_X_MOI_FACTOR = 12.0f;
+    float CHASSIS_Y_MOI_FACTOR = 12.0f;
+    float CHASSIS_Z_MOI_FACTOR = 12.0f;
 
     // PhysX Wheel initializers
     // Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
