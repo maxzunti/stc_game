@@ -17,11 +17,11 @@
 using namespace physx;
 
 //Tire model friction for each combination of drivable surface type and tire type.
-static PxF32 gTireFrictionMultipliers[MAX_NUM_SURFACE_TYPES][MAX_NUM_TIRE_TYPES]=
+/*static PxF32 gTireFrictionMultipliers[MAX_NUM_SURFACE_TYPES][MAX_NUM_TIRE_TYPES]=
 {
 	//NORMAL, WORN
-	{ 10.00f }//TARMAC
-};
+	{ 0.00f }//TARMAC
+};*/
 
 PxVehicleDrivableSurfaceToTireFrictionPairs* createFrictionPairs(const PxMaterial* defaultMaterial, float& tire_friction)
 {

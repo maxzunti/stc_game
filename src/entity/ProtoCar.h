@@ -73,6 +73,23 @@ protected:
     float WHEEL_RAD = 0.5f;
     float WHEEL_WIDTH = 0.4f;
     float WHEEL_MOI = 0.1f * WHEEL_MASS * WHEEL_RAD * WHEEL_RAD; //0.1f*wheelRadius*wheelRadius;
+    float WHEEL_DAMPING_RATE = 0.25;
+    float WHEEL_MAX_BRAKE_TORQUE = 1500.0f;
+    float WHEEL_MAX_STEER = 0.0f;
+    float WHEEL_TOE_ANGLE = 0.0f;
+
+    // Tire data
+    float TIRE_FRICTION = 100000.f;
+    float LAT_STIFF_X = 2.0f;
+    float LAT_STIFF_Y = 0.3125f * (180.0f / PxPi);
+    float LONG_STIFF_PER_UNIT_GRAV = 1000.0f;
+
+    // Friction-slip graph tire data
+    float G_FRIC_AT_ZERO_LONG_SLIP = 1.0f;
+    float G_LONG_SLIP_W_MAX_FRICTION = 0.1f;
+    float G_MAX_FRICTION = 1.0f;
+    float G_END_POINT = 1.0f;
+    float G_FRIC_PAST_END = 1.0f;
 
     // Driving paramters
     float STEER_VEL_FACTOR = 15.0f; // controls how much we can steer as a factor of current velocity
@@ -82,7 +99,6 @@ protected:
     float MAX_SPEED = 60.f;
 
     // material-related values (supposedly, these won't actually affect our tire driving-friction, but we include them as part of the config anyway)
-    float TIRE_FRICTION = 100000.f;
     float MAT_STATIC = 0.0f;
     float MAT_DYNAMIC = 0.0f;
     float MAT_CR = 0.0f; // coefficient of restituion

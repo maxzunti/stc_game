@@ -67,6 +67,20 @@ using namespace glm;
      carParams.push_back(std::make_pair(std::string("MAX_DROOP"), &MAX_DROOP));
      carParams.push_back(std::make_pair(std::string("SPRING_STRENGTH"), &SPRING_STRENGTH));
      carParams.push_back(std::make_pair(std::string("SPRING_DAMPER_RATE"), &SPRING_DAMPER_RATE));
+
+     carParams.push_back(std::make_pair(std::string("WHEEL_DAMPING_RATE"), &WHEEL_DAMPING_RATE));
+     carParams.push_back(std::make_pair(std::string("WHEEL_MAX_BRAKE_TORQUE"), &WHEEL_MAX_BRAKE_TORQUE));
+     carParams.push_back(std::make_pair(std::string("WHEEL_MAX_STEER"), &WHEEL_MAX_STEER));
+     carParams.push_back(std::make_pair(std::string("WHEEL_TOE_ANGLE"), &WHEEL_TOE_ANGLE));
+     carParams.push_back(std::make_pair(std::string("LAT_STIFF_X"), &LAT_STIFF_X));
+     carParams.push_back(std::make_pair(std::string("LAT_STIFF_Y"), &LAT_STIFF_Y));
+     carParams.push_back(std::make_pair(std::string("MAX_COMPRESSION"), &MAX_COMPRESSION));
+     carParams.push_back(std::make_pair(std::string("LONG_STIFF_PER_UNIT_GRAV"), &LONG_STIFF_PER_UNIT_GRAV));
+     carParams.push_back(std::make_pair(std::string("G_FRIC_AT_ZERO_LONG_SLIP"), &G_FRIC_AT_ZERO_LONG_SLIP));
+     carParams.push_back(std::make_pair(std::string("G_LONG_SLIP_W_MAX_FRICTION"), &G_LONG_SLIP_W_MAX_FRICTION));
+     carParams.push_back(std::make_pair(std::string("G_MAX_FRICTION"), &G_MAX_FRICTION));
+     carParams.push_back(std::make_pair(std::string("G_END_POINT"), &G_END_POINT));
+     carParams.push_back(std::make_pair(std::string("G_FRIC_PAST_END"), &G_FRIC_PAST_END));
  }
 
  //Create a vehicle that will drive on the plane.
@@ -82,20 +96,45 @@ using namespace glm;
          wheels[i]->scale(WHEEL_RAD, WHEEL_WIDTH, WHEEL_RAD);
      }
 
-
      // Calculate those config-specified parameters which have associated formulas
      CM_Y = -CHASSIS_Y * 0.5f + CM_Y;
      WHEEL_MOI *= WHEEL_MASS * WHEEL_RAD * WHEEL_RAD; // ((factor) * mass) * wheelRadius * wheelRadius;
+     LAT_STIFF_Y *= LAT_STIFF_Y * (180.0f / PxPi);
 
-     VehicleDesc vehicleDesc = initVehicleDesc();
+
+     wheel_data wheels;
+     wheels.WHEEL_MASS = WHEEL_MASS;
+     wheels.WHEEL_MOI = WHEEL_MOI;
+     wheels.WHEEL_RADIUS = WHEEL_RAD;
+     wheels.WHEEL_WIDTH = WHEEL_WIDTH;
+     wheels.DAMPING_RATE = WHEEL_DAMPING_RATE;
+     wheels.MAX_BRAKE_TORQUE = WHEEL_MAX_BRAKE_TORQUE;
+     wheels.MAX_STEER = WHEEL_MAX_STEER;
+     wheels.TOE_ANGLE = WHEEL_TOE_ANGLE;
+
+     tire_data tires;
+     tires.LAT_STIFF_X = LAT_STIFF_X;
+     tires.LAT_STIFF_Y = LAT_STIFF_Y;
+     tires.LONG_STIFF_PER_UNIT_GRAV = LONG_STIFF_PER_UNIT_GRAV;
+     tires.G_FRIC_AT_ZERO_LONG_SLIP = G_FRIC_AT_ZERO_LONG_SLIP;
+     tires.G_LONG_SLIP_W_MAX_FRICTION = G_LONG_SLIP_W_MAX_FRICTION;
+     tires.G_MAX_FRICTION = G_MAX_FRICTION;
+     tires.G_END_POINT = G_END_POINT;
+     tires.G_FRIC_PAST_END = G_FRIC_PAST_END;
+
      susp_data suspension;
      suspension.S_MAX_COMPRESSION = MAX_COMPRESSION;
      suspension.S_MAX_DROOP = MAX_DROOP;
      suspension.S_SPRING_DAMPER_RATE = SPRING_DAMPER_RATE;
      suspension.S_SPRING_STRENGTH = SPRING_STRENGTH;
-     mVehicleNoDrive = createVehicleNoDrive(vehicleDesc, physMan->mPhysics, physMan->mCooking, &suspension);
+
+     VehicleDesc vehicleDesc = initVehicleDesc();
+
+     mVehicleNoDrive = createVehicleNoDrive(vehicleDesc, physMan->mPhysics, physMan->mCooking, &wheels, &tires, &suspension);
      PxTransform startTransform(PxVec3(0, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f), 0), PxQuat(PxIdentity));
      mVehicleNoDrive->getRigidDynamicActor()->setGlobalPose(startTransform);
+
+
 
      physMan->mScene->addActor(*mVehicleNoDrive->getRigidDynamicActor());
      this->mActor = mVehicleNoDrive->getRigidDynamicActor();
