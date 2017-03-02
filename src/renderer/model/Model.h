@@ -38,6 +38,8 @@ public:
 
     ~Model();
 
+    const std::vector<glm::vec3> getPoints();
+    const std::vector<unsigned int> getIndices();
     bool load_model_from_file(const std::string &fname, int mesh_id);
     const Texture * getTex() const;
     bool is_tex_loaded() const;

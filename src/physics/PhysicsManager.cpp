@@ -38,7 +38,6 @@ PhysicsManager::PhysicsManager(PxContactModifyCallback* callBack)
 	mCooking = PxCreateCooking(PX_PHYSICS_VERSION, *mFoundation, PxCookingParams(mTolerancesScale));
 	if (!mCooking)
 		std::cout << "PxCreateCooking failed!" << std::endl;
-
     PxU32 numWorkers =2;
 
 	PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
@@ -59,7 +58,7 @@ PhysicsManager::PhysicsManager(PxContactModifyCallback* callBack)
     //Create the batched scene queries for the suspension raycasts.
     mVehicleSceneQueryData = VehicleSceneQueryData::allocate(1, PX_MAX_NB_WHEELS, 1, gDefaultAllocatorCallback);
     mBatchQuery = VehicleSceneQueryData::setUpBatchedSceneQuery(0, *mVehicleSceneQueryData, mScene);
-
+    
 }
 
 
@@ -146,4 +145,26 @@ void PhysicsManager::stepPhysics()
 
 	mScene->simulate(1/60.f);
 	mScene->fetchResults(true);
+}
+
+PxTriangleMesh* PhysicsManager::createTriangleMesh(Model* mod)
+{
+    const std::vector<glm::vec3> points = mod->getPoints();
+    const std::vector<unsigned int> indices = mod->getIndices();
+    PxTriangleMeshDesc meshDesc;
+    meshDesc.points.count = points.size();
+    meshDesc.points.stride = sizeof(glm::vec3);
+    meshDesc.points.data = &points;
+
+    meshDesc.triangles.count = indices.size()/3;
+    meshDesc.triangles.stride = 3 * sizeof(unsigned int);
+    meshDesc.triangles.data = &indices;
+
+    PxDefaultMemoryOutputStream writeBuffer;
+    bool status = mCooking->cookTriangleMesh(meshDesc, writeBuffer);
+    if (!status)
+        return NULL;
+
+    PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
+    return mPhysics->createTriangleMesh(readBuffer);
 }
