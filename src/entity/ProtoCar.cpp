@@ -52,6 +52,7 @@ using namespace glm;
      carParams.push_back(std::make_pair(std::string("WHEEL_WIDTH"), &WHEEL_WIDTH));
      carParams.push_back(std::make_pair(std::string("WHEEL_MOI"), &WHEEL_MOI));
      carParams.push_back(std::make_pair(std::string("STEER_VEL_FACTOR"), &STEER_VEL_FACTOR));
+     carParams.push_back(std::make_pair(std::string("BASE_STEER"), &BASE_STEER));
      carParams.push_back(std::make_pair(std::string("DRIVE_TORQUE"), &DRIVE_TORQUE));
      carParams.push_back(std::make_pair(std::string("BRAKE_TORQUE"), &BRAKE_TORQUE));
      carParams.push_back(std::make_pair(std::string("MAX_SPEED"), &MAX_SPEED));
@@ -231,6 +232,9 @@ void ProtoCar::applyWheelTurn(float factor) {
     this->mVehicleNoDrive->setSteerAngle(0, -factor / (STEER_VEL_FACTOR * (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED) + 1.0f));
     this->mVehicleNoDrive->setSteerAngle(1, -factor / (STEER_VEL_FACTOR * (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED) + 1.0f));
 
+    this->mVehicleNoDrive->setSteerAngle(0, -factor / ((STEER_VEL_FACTOR * (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED)) + BASE_STEER));
+    this->mVehicleNoDrive->setSteerAngle(1, -factor / ((STEER_VEL_FACTOR * (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED)) + BASE_STEER));
+
   //  this->mVehicleNoDrive->mWheelsDynData.pose
 }
 
@@ -302,7 +306,7 @@ VehicleDesc ProtoCar::initVehicleDesc()
     mFrictionPairs = createFrictionPairs(tireMaterial, TIRE_FRICTION);
 
     vehicleDesc.wheelMaterial = tireMaterial; // This material doesn't affect the wheel's driving, but rather its non-driving
-                                                                                                // interactions with other surfaces (?)
+                                              // interactions with other surfaces (?)
     return vehicleDesc;
 }
 

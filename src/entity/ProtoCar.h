@@ -76,6 +76,7 @@ protected:
 
     // Driving paramters
     float STEER_VEL_FACTOR = 15.0f; // controls how much we can steer as a factor of current velocity
+    float BASE_STEER = 1.0f;
     float DRIVE_TORQUE = 10000.0f;
     float BRAKE_TORQUE = DRIVE_TORQUE * 100000.0f;
     float MAX_SPEED = 60.f;
