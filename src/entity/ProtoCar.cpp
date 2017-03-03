@@ -441,3 +441,7 @@ void ProtoCar::retractHook() {
     this->mActor->setLinearVelocity(this->mActor->getLinearVelocity() + launchDir * 10.f);
     this->mActor->setAngularVelocity(PxVec3(0.f, 0.f, 0.f));
 }
+
+double ProtoCar::getSpeed() {
+    return this->mActor->getLinearVelocity().magnitude();
+}

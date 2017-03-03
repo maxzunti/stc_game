@@ -149,6 +149,7 @@ public:
 
     glm::vec3 getAim() const;
     glm::quat getAimRot() const;
+    double getSpeed();
 
     void ProtoCar::stepForPhysics();
 };
