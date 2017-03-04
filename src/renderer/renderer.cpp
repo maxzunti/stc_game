@@ -269,9 +269,8 @@ void Renderer::drawSil(const Model& model, mat4 &perspectiveMatrix, glm::mat4 sc
     glBindVertexArray(model.vao[VAO::GEOMETRY]);
     mat4 &camMatrix = cam->getMatrix();
 
-    float sil_scale = 1.1;
     mat4 model_matrix = trans * rot * scale;
-    mat4 scaled_model = trans * rot * (scale * glm::scale(glm::vec3(sil_scale, sil_scale, sil_scale)));
+    mat4 scaled_model = trans * rot * (scale * glm::scale(glm::vec3(model.sil_x, model.sil_y, model.sil_z)));
 
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "cameraMatrix"),
         1,

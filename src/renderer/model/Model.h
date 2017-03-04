@@ -55,4 +55,14 @@ public:
 
     // model_fname is expected to contain multiple meshes, but still correspond to a single UV-mapped texture (used for all meshes)
     static std::vector<Model*> load_multimesh_models(std::string model_fname, std::string tex_fname);
+
+    // Model-scaling normalization factors
+    double x_norm = 1.;
+    double y_norm = 1.;
+    double z_norm = 1.;
+
+    static const float DEFAULT_SIL;
+    double sil_x = DEFAULT_SIL;
+    double sil_y = DEFAULT_SIL;
+    double sil_z = DEFAULT_SIL;
 };

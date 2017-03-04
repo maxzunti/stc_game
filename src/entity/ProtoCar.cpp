@@ -29,6 +29,10 @@ using namespace glm;
     make_physX_car();
 
     reset_scale();
+    X_MODEL_SCALE = 1.;
+    Y_MODEL_SCALE = 1.;
+    Z_MODEL_SCALE = 1.;
+    scaleModels();
     scale(0.7f, 1.0f, 1.0f);
 
     setPos(-50, 7, 200);
@@ -94,8 +98,11 @@ using namespace glm;
 
      for (int i = 0; i < NUM_WHEELS; i++) {
          wheels[i]->reset_scale();
+         wheels[i]->SIL_X_SCALE = 1.2;
+         wheels[i]->SIL_Y_SCALE = 1.2;
+         wheels[i]->SIL_Z_SCALE = 1.2;
+         wheels[i]->scaleModels();
          wheels[i]->scale(WHEEL_MODEL_SCL.x, WHEEL_MODEL_SCL.y, WHEEL_MODEL_SCL.z);
-       //  const glm::vec3 WHEEL_MODEL_SCL = glm::vec3(0.5, 0.6, 0.5)
          wheels[i]->scale(WHEEL_RAD, WHEEL_WIDTH, WHEEL_RAD);
      }
 
