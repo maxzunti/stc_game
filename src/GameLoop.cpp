@@ -84,8 +84,8 @@ int main(int argc, const char* argv[])
 
 
     entities.push_back(plane);
-	entities.push_back(wall1);
-	entities.push_back(wall2);
+//	entities.push_back(wall1);
+	entities.push_back(wall2); //back
 	entities.push_back(wall3);
 	entities.push_back(wall4);
 
