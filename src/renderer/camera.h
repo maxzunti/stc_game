@@ -37,9 +37,9 @@ public:
     // Freelook variables
     float FREE_X_CAM_ROT_SPEED = 0.05;
     float FREE_Y_CAM_ROT_SPEED = 0.05;
-    float FREE_X_CAM_MOVE_SPEED = 0.2;
-    float FREE_Y_CAM_MOVE_SPEED = 0.2;
-    float FREE_Z_CAM_MOVE_SPEED = 0.2;
+    float FREE_X_CAM_MOVE_SPEED = 2.;
+    float FREE_Y_CAM_MOVE_SPEED = 2.;
+    float FREE_Z_CAM_MOVE_SPEED = 2.;
 
     // Follow cam variables
     fp_vars follow_vars;

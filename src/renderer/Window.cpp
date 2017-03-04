@@ -22,7 +22,7 @@ matrix[2][2] = cos(radians) + axis.z*axis.z*(1 - cos(radians));
 return matrix;
 }*/
 
-Renderer* Window::renderer = new Renderer(0);
+Renderer* Window::renderer = new Renderer(0, glm::vec3(200, 400, 200), glm::vec3(-400, -500, -100));
 glm::vec2 Window::mousePos(0, 0);
 bool Window::mousePressed = false;
 bool Window::done_init = false;
@@ -30,6 +30,7 @@ bool Window::done_init = false;
 Window::Window() {
     if (!done_init) {
         initGLFW();
+
         if (!initGL()) {
             std::cout << "Error: OpenGL initialization failed" << std::endl;
         }
@@ -38,6 +39,7 @@ Window::Window() {
         }
     }
     renderer->initSkybox();
+    renderer->loadFrameBuffers();
 }
 
 Window::~Window() {
@@ -77,7 +79,6 @@ int Window::initGLFW() {
 
 void Window::draw(const std::vector<Entity*>& ents) {
     renderer->drawScene(ents);
-
     // scene is rendered to the back buffer, so swap to front for display
     glfwSwapBuffers(window);
 

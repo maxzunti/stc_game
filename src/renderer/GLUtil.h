@@ -21,7 +21,7 @@ struct VBO {
 	enum { POINTS = 0, NORMALS, UVS, INDICES, COUNT };	//POINTS=0, COLOR=1, UVS=2, INDICES=3, COUNT=4
 };
 
-enum SHADER { DEFAULT = 0, SKYBOX, SHADER_COUNT };
+enum SHADER { DEFAULT = 0, SKYBOX, SHADOW, SHADER_COUNT };
 
 //GLuint vbo[];		//Array which stores OpenGL's vertex buffer object handles
 GLuint vao[];		//Array which stores Vertex Array Object handles
