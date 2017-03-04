@@ -6,6 +6,7 @@
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleRaycast.h"
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleTireFriction.h"
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleFilterShader.h"
+#include "../renderer/model/Model.h"
 
 class PhysicsManager
 {
@@ -26,7 +27,6 @@ public:
 	PxMaterial* mMaterial;
 	VehicleSceneQueryData*	mVehicleSceneQueryData = NULL;
 	PxBatchQuery*			mBatchQuery = NULL;
-	PxVehicleDrivableSurfaceToTireFrictionPairs* mFrictionPairs = NULL;
 
 	PhysicsManager(PxContactModifyCallback* callBack);
 	~PhysicsManager();
@@ -34,6 +34,7 @@ public:
     PxActor* PhysicsManager::createWallPlane(float xpos, float ypos, float zpos, float xnorm, float znorm);
 	PxRigidBody* PhysicsManager::createHook(float, float, float, float, float, float);
 	PxRigidBody* PhysicsManager::createBlock(float, float, float, float, float, float);
+    PxTriangleMesh* PhysicsManager::createTriangleMesh(Model*);
 	void PhysicsManager::stepPhysics();
 };
 

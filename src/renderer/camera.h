@@ -79,8 +79,8 @@ public:
     float DELTA = 0.001;
 
     // Frame counts for the follow-cam delay
-    const static int FOLLOW_DELAY_POS = 3;
-    const static int FOLLOW_DELAY_ROT = 4;
+    const static int FOLLOW_DELAY_POS = 2;
+    const static int FOLLOW_DELAY_ROT = 1;
     const static int FOLLOW_DELAY_SIZE = 16;
 
     glm::vec3 dir;
@@ -111,6 +111,7 @@ public:
     void converge(float &input, float target, float step);
 
     glm::mat4 getMatrix();
+    glm::mat4 calcPerspective(); // calculate perspective as a function of car speed - want to increase FOV
 
 private:
     ProtoCar * car;
@@ -142,6 +143,7 @@ private:
     glm::vec3 prev_pos[FOLLOW_DELAY_SIZE];
     glm::quat prev_rot[FOLLOW_DELAY_SIZE];
     glm::quat p_rot;
+    glm::quat p_diff;
 
     int frame_counter = 0;
     

@@ -8,33 +8,143 @@ using namespace glm;
  ProtoCar::ProtoCar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents) :
     PhysicsObject(model_fname, tex_fname, actor, physicsManager),
     arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
-	myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents))
+	myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
+    car_parser("config/car_config", &carParams)
 {
+    physMan = physicsManager;
+
+    initParams();
+    car_parser.updateFromFile();
+
     myHook->scale(2.0, 2.0, 2.0);
     controller = cont;
     ents.push_back(arrow.get());
 	ents.push_back(myHook.get());
-    //Create a vehicle that will drive on the plane.
-    VehicleDesc vehicleDesc = initVehicleDesc();
-    mVehicleNoDrive = createVehicleNoDrive(vehicleDesc, physicsManager->mPhysics, physicsManager->mCooking);
-    PxTransform startTransform(PxVec3(0, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f), 0), PxQuat(PxIdentity));
-    mVehicleNoDrive->getRigidDynamicActor()->setGlobalPose(startTransform);
-   
-    physicsManager->mScene->addActor(*mVehicleNoDrive->getRigidDynamicActor());
-    this->mActor = mVehicleNoDrive->getRigidDynamicActor();
-    this->retracting = false;
 
     initWheels("assets/models/wheel/wheel.obj", "assets/models/wheel/wheeltex.png");
     for (int i = 0; i < NUM_WHEELS; i++) {
         ents.push_back(wheels[i]);
     }
+
+    make_physX_car();
+
+    reset_scale();
     scale(0.7f, 1.0f, 1.0f);
+
+    setPos(-50, 7, 200);
+    setRot(0.0, 1.57 / 2.0, 0.0);
 }
 
  ProtoCar::~ProtoCar() {
      for (int i = 0; i < NUM_WHEELS; i++) {
          delete wheels[i];
      }
+     physMan->mScene->removeActor(*mVehicleNoDrive->getRigidDynamicActor());
+ }
+
+ void ProtoCar::initParams() {
+     carParams.push_back(std::make_pair(std::string("CHASSIS_MASS"), &CHASSIS_MASS));
+     carParams.push_back(std::make_pair(std::string("CHASSIS_X"), &CHASSIS_X));
+     carParams.push_back(std::make_pair(std::string("CHASSIS_Y"), &CHASSIS_Y));
+     carParams.push_back(std::make_pair(std::string("CHASSIS_Z"), &CHASSIS_Z));
+     carParams.push_back(std::make_pair(std::string("WHEEL_MASS"), &WHEEL_MASS));
+     carParams.push_back(std::make_pair(std::string("WHEEL_RAD"), &WHEEL_RAD));
+     carParams.push_back(std::make_pair(std::string("WHEEL_WIDTH"), &WHEEL_WIDTH));
+     carParams.push_back(std::make_pair(std::string("WHEEL_MOI"), &WHEEL_MOI));
+     carParams.push_back(std::make_pair(std::string("STEER_VEL_FACTOR"), &STEER_VEL_FACTOR));
+     carParams.push_back(std::make_pair(std::string("BASE_STEER"), &BASE_STEER));
+     carParams.push_back(std::make_pair(std::string("DRIVE_TORQUE"), &DRIVE_TORQUE));
+     carParams.push_back(std::make_pair(std::string("BRAKE_TORQUE"), &BRAKE_TORQUE));
+     carParams.push_back(std::make_pair(std::string("MAX_SPEED"), &MAX_SPEED));
+     carParams.push_back(std::make_pair(std::string("TIRE_FRICTION"), &TIRE_FRICTION));
+     carParams.push_back(std::make_pair(std::string("MAT_STATIC"), &MAT_STATIC));
+     carParams.push_back(std::make_pair(std::string("MAT_DYNAMIC"), &MAT_DYNAMIC));
+     carParams.push_back(std::make_pair(std::string("MAT_CR"), &MAT_CR));
+     carParams.push_back(std::make_pair(std::string("CM_X"), &CM_X));
+     carParams.push_back(std::make_pair(std::string("CM_Y"), &CM_Y));
+     carParams.push_back(std::make_pair(std::string("CM_Z"), &CM_Z));
+     carParams.push_back(std::make_pair(std::string("MAX_COMPRESSION"), &MAX_COMPRESSION));
+     carParams.push_back(std::make_pair(std::string("MAX_DROOP"), &MAX_DROOP));
+     carParams.push_back(std::make_pair(std::string("SPRING_STRENGTH"), &SPRING_STRENGTH));
+     carParams.push_back(std::make_pair(std::string("SPRING_DAMPER_RATE"), &SPRING_DAMPER_RATE));
+     carParams.push_back(std::make_pair(std::string("WHEEL_DAMPING_RATE"), &WHEEL_DAMPING_RATE));
+     carParams.push_back(std::make_pair(std::string("WHEEL_MAX_BRAKE_TORQUE"), &WHEEL_MAX_BRAKE_TORQUE));
+     carParams.push_back(std::make_pair(std::string("WHEEL_MAX_STEER"), &WHEEL_MAX_STEER));
+     carParams.push_back(std::make_pair(std::string("WHEEL_TOE_ANGLE"), &WHEEL_TOE_ANGLE));
+     carParams.push_back(std::make_pair(std::string("LAT_STIFF_X"), &LAT_STIFF_X));
+     carParams.push_back(std::make_pair(std::string("LAT_STIFF_Y"), &LAT_STIFF_Y));
+     carParams.push_back(std::make_pair(std::string("MAX_COMPRESSION"), &MAX_COMPRESSION));
+     carParams.push_back(std::make_pair(std::string("LONG_STIFF_PER_UNIT_GRAV"), &LONG_STIFF_PER_UNIT_GRAV));
+     carParams.push_back(std::make_pair(std::string("G_FRIC_AT_ZERO_LONG_SLIP"), &G_FRIC_AT_ZERO_LONG_SLIP));
+     carParams.push_back(std::make_pair(std::string("G_LONG_SLIP_W_MAX_FRICTION"), &G_LONG_SLIP_W_MAX_FRICTION));
+     carParams.push_back(std::make_pair(std::string("G_MAX_FRICTION"), &G_MAX_FRICTION));
+     carParams.push_back(std::make_pair(std::string("G_END_POINT"), &G_END_POINT));
+     carParams.push_back(std::make_pair(std::string("G_FRIC_PAST_END"), &G_FRIC_PAST_END));
+     carParams.push_back(std::make_pair(std::string("CHASSIS_X_MOI_FACTOR"), &CHASSIS_X_MOI_FACTOR));
+     carParams.push_back(std::make_pair(std::string("CHASSIS_Y_MOI_FACTOR"), &CHASSIS_Y_MOI_FACTOR));
+     carParams.push_back(std::make_pair(std::string("CHASSIS_Z_MOI_FACTOR"), &CHASSIS_Z_MOI_FACTOR));
+     
+ }
+
+ //Create a vehicle that will drive on the plane.
+ void ProtoCar::make_physX_car() {
+     if (mVehicleNoDrive) {
+        physMan->mScene->removeActor(*mVehicleNoDrive->getRigidDynamicActor()); // delete the old car
+     }
+
+     for (int i = 0; i < NUM_WHEELS; i++) {
+         wheels[i]->reset_scale();
+         wheels[i]->scale(WHEEL_MODEL_SCL.x, WHEEL_MODEL_SCL.y, WHEEL_MODEL_SCL.z);
+       //  const glm::vec3 WHEEL_MODEL_SCL = glm::vec3(0.5, 0.6, 0.5)
+         wheels[i]->scale(WHEEL_RAD, WHEEL_WIDTH, WHEEL_RAD);
+     }
+
+     // Calculate those config-specified parameters which have associated formulas
+     CM_Y = -CHASSIS_Y * 0.5f + CM_Y;
+     WHEEL_MOI *= WHEEL_MASS * WHEEL_RAD * WHEEL_RAD; // ((factor) * mass) * wheelRadius * wheelRadius;
+     LAT_STIFF_Y *= LAT_STIFF_Y * (180.0f / PxPi);
+
+
+     wheel_data wheels;
+     wheels.WHEEL_MASS = WHEEL_MASS;
+     wheels.WHEEL_MOI = WHEEL_MOI;
+     wheels.WHEEL_RADIUS = WHEEL_RAD;
+     wheels.WHEEL_WIDTH = WHEEL_WIDTH;
+     wheels.DAMPING_RATE = WHEEL_DAMPING_RATE;
+     wheels.MAX_BRAKE_TORQUE = WHEEL_MAX_BRAKE_TORQUE;
+     wheels.MAX_STEER = WHEEL_MAX_STEER;
+     wheels.TOE_ANGLE = WHEEL_TOE_ANGLE;
+
+     tire_data tires;
+     tires.LAT_STIFF_X = LAT_STIFF_X;
+     tires.LAT_STIFF_Y = LAT_STIFF_Y;
+     tires.LONG_STIFF_PER_UNIT_GRAV = LONG_STIFF_PER_UNIT_GRAV;
+     tires.G_FRIC_AT_ZERO_LONG_SLIP = G_FRIC_AT_ZERO_LONG_SLIP;
+     tires.G_LONG_SLIP_W_MAX_FRICTION = G_LONG_SLIP_W_MAX_FRICTION;
+     tires.G_MAX_FRICTION = G_MAX_FRICTION;
+     tires.G_END_POINT = G_END_POINT;
+     tires.G_FRIC_PAST_END = G_FRIC_PAST_END;
+
+     susp_data suspension;
+     suspension.S_MAX_COMPRESSION = MAX_COMPRESSION;
+     suspension.S_MAX_DROOP = MAX_DROOP;
+     suspension.S_SPRING_DAMPER_RATE = SPRING_DAMPER_RATE;
+     suspension.S_SPRING_STRENGTH = SPRING_STRENGTH;
+
+     VehicleDesc vehicleDesc = initVehicleDesc();
+
+     mVehicleNoDrive = createVehicleNoDrive(vehicleDesc, physMan->mPhysics, physMan->mCooking, &wheels, &tires, &suspension);
+     PxTransform startTransform(PxVec3(0, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f), 0), PxQuat(PxIdentity));
+     mVehicleNoDrive->getRigidDynamicActor()->setGlobalPose(startTransform);
+
+
+
+     physMan->mScene->addActor(*mVehicleNoDrive->getRigidDynamicActor());
+     this->mActor = mVehicleNoDrive->getRigidDynamicActor();
+     this->retracting = false;
+
+     setPos(pos.x, pos.y + (2 * WHEEL_RAD) + (CHASSIS_Y) + 1.0, pos.z);
+     setRot(qrot);
  }
 
  // Setup the wheels for rendering
@@ -72,6 +182,15 @@ void ProtoCar::calcAim() {
 }
 
 void ProtoCar::update() {
+    if (controller->GetButtonPressed(XButtonIDs::X)) {
+        car_parser.updateFromFile();
+        make_physX_car();
+    }
+
+    if (controller->GetButtonPressed(XButtonIDs::A)) {
+        setPos(-50, 10, 200);
+        setRot(0.0, 1.57 / 2.0, 0.0);
+    }
 
     //Apply turn according to the left stick angle 
     applyWheelTurn(controller->LStick_InDeadzone() ? 0.f : controller->LeftStick_X());
@@ -83,7 +202,6 @@ void ProtoCar::update() {
     } else if ((controller->LeftTrigger() - controller->RightTrigger()) > 0) {
         resetBrakes();
         applyWheelTorque(-1.f*(controller->LeftTrigger() - controller->RightTrigger()));
-        
     } else {
         applyWheelTorque(0);
         startBrakeMode();
@@ -153,17 +271,18 @@ void ProtoCar::update() {
 
 */
 void ProtoCar::applyWheelTurn(float factor) {
-    this->mVehicleNoDrive->setSteerAngle(0,-factor/(15.f*(this->mActor->getLinearVelocity().magnitude()/MAX_SPEED)+1.0f));
-    this->mVehicleNoDrive->setSteerAngle(1,-factor/(15.f*(this->mActor->getLinearVelocity().magnitude()/MAX_SPEED)+1.0f));
+    double vdiff_2 = (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED) * (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED);
+    this->mVehicleNoDrive->setSteerAngle(0, -factor / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
+    this->mVehicleNoDrive->setSteerAngle(1, -factor / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
 
   //  this->mVehicleNoDrive->mWheelsDynData.pose
 }
 
 void ProtoCar::applyWheelTorque(float factor) {
-    this->mVehicleNoDrive->setDriveTorque(0, -FORCE_FACTOR*factor);
-    this->mVehicleNoDrive->setDriveTorque(1, -FORCE_FACTOR*factor);
-    this->mVehicleNoDrive->setDriveTorque(2, -FORCE_FACTOR*factor);
-    this->mVehicleNoDrive->setDriveTorque(3, -FORCE_FACTOR*factor);
+    this->mVehicleNoDrive->setDriveTorque(0, -DRIVE_TORQUE*factor);
+    this->mVehicleNoDrive->setDriveTorque(1, -DRIVE_TORQUE*factor);
+    this->mVehicleNoDrive->setDriveTorque(2, -DRIVE_TORQUE*factor);
+    this->mVehicleNoDrive->setDriveTorque(3, -DRIVE_TORQUE*factor);
 }
 
 
@@ -177,10 +296,10 @@ void ProtoCar::resetBrakes()
 
 void ProtoCar::startBrakeMode()
 {
-    this->mVehicleNoDrive->setBrakeTorque(0, FORCE_FACTOR*100000.0f);
-    this->mVehicleNoDrive->setBrakeTorque(1, FORCE_FACTOR*100000.0f);
-    this->mVehicleNoDrive->setBrakeTorque(2, FORCE_FACTOR*100000.0f);
-    this->mVehicleNoDrive->setBrakeTorque(3, FORCE_FACTOR*100000.0f);
+    this->mVehicleNoDrive->setBrakeTorque(0, BRAKE_TORQUE);
+    this->mVehicleNoDrive->setBrakeTorque(1, BRAKE_TORQUE);
+    this->mVehicleNoDrive->setBrakeTorque(2, BRAKE_TORQUE);
+    this->mVehicleNoDrive->setBrakeTorque(3, BRAKE_TORQUE);
 }
 
 glm::vec3 ProtoCar::getAim() const {
@@ -199,17 +318,16 @@ VehicleDesc ProtoCar::initVehicleDesc()
 
     // TODO: Generalize these to be private class members (which we can modify at runtime with our config parser)
 
-    const PxF32 chassisMass = 1500.0f; //10 - too low may cause vibration/jitter
+    const PxF32 chassisMass = CHASSIS_MASS;
 
-    //TODO: must change the MOI of the chassis once we add multi-level tracks (ie ramps)
-    const PxVec3 chassisDims(2.5f, 2.0f, 5.0f);
+    const PxVec3 chassisDims(CHASSIS_X, CHASSIS_Y, CHASSIS_Z);
     const PxVec3 chassisMOI
-        ((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
-            (chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)*0.8f*chassisMass / 12.0f,
-            (chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / 12.0f);
-    const PxVec3 chassisCMOffset(0.0f, -chassisDims.y*0.5f + 0.65f-1.5f, 0.25f); // COG -1
+        ((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / CHASSIS_X_MOI_FACTOR,
+            (chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)* 0.8f * chassisMass / CHASSIS_Y_MOI_FACTOR,
+            (chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / CHASSIS_Z_MOI_FACTOR);
+    const PxVec3 chassisCMOffset(CM_X, CM_Y, CM_Z); // COG -1
 
-    const PxU32 nbWheels = 4;
+    const PxU32 nbWheels = NUM_WHEELS;
 
     VehicleDesc vehicleDesc;
     vehicleDesc.chassisMass = chassisMass;
@@ -224,7 +342,11 @@ VehicleDesc ProtoCar::initVehicleDesc()
     vehicleDesc.wheelMOI = WHEEL_MOI;
 
     vehicleDesc.numWheels = nbWheels;
-    vehicleDesc.wheelMaterial = this->mPhysicsManager->mMaterial;
+    tireMaterial = this->mPhysicsManager->mPhysics->createMaterial(MAT_STATIC, MAT_DYNAMIC, MAT_CR);
+    mFrictionPairs = createFrictionPairs(tireMaterial, TIRE_FRICTION);
+
+    vehicleDesc.wheelMaterial = tireMaterial; // This material doesn't affect the wheel's driving, but rather its non-driving
+                                              // interactions with other surfaces (?)
     return vehicleDesc;
 }
 
@@ -272,7 +394,7 @@ void ProtoCar::stepForPhysics() {
 
     PxWheelQueryResult wheelQueryResults[NUM_WHEELS];
     PxVehicleWheelQueryResult vehicleQueryResults = { wheelQueryResults, this->mVehicleNoDrive->mWheelsSimData.getNbWheels() } ;
-    PxVehicleUpdates(1/60.f, grav, *this->mPhysicsManager->mFrictionPairs, 1, vehicles, &vehicleQueryResults);
+    PxVehicleUpdates(1/60.f, grav, *mFrictionPairs, 1, vehicles, &vehicleQueryResults);
 
     // Updates the renderable positions for each wheel
     updateWheels(wheelQueryResults);
@@ -316,6 +438,10 @@ void ProtoCar::retractHook() {
 
     launchDir.normalize();
 
-    this->mActor->setLinearVelocity(this->mActor->getLinearVelocity() + launchDir*10.f);
+    this->mActor->setLinearVelocity(this->mActor->getLinearVelocity() + launchDir * 10.f);
     this->mActor->setAngularVelocity(PxVec3(0.f, 0.f, 0.f));
+}
+
+double ProtoCar::getSpeed() {
+    return this->mActor->getLinearVelocity().magnitude();
 }

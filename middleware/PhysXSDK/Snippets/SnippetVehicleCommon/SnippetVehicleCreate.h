@@ -17,7 +17,42 @@
 #include "vehicle/PxVehicleDriveTank.h"
 #include "vehicle/PxVehicleNoDrive.h"
 
+
 using namespace physx;
+
+// Struct for holding suspension-related data; passed to 'createVehicleNoDrive'
+// Created for Grav Grapplers, not actually part of PhysX
+struct susp_data {
+    // Default PhysX values
+    float S_MAX_COMPRESSION = 0.3;
+    float S_MAX_DROOP = 0.1;
+    float S_SPRING_STRENGTH = 3500000.f;
+    float S_SPRING_DAMPER_RATE = 4500.f;
+};
+
+struct wheel_data {
+	float WHEEL_RADIUS = 0.0f;
+	float WHEEL_MASS = 20.0f;
+	float WHEEL_MOI = 0.0f;
+	float WHEEL_WIDTH = 0.0f;
+	float DAMPING_RATE = 0.25;
+	float MAX_BRAKE_TORQUE = 1500.0f;
+	float MAX_STEER = 0.0f;
+	float TOE_ANGLE = 0.0f;
+};
+
+struct tire_data {
+	float LAT_STIFF_X = 2.0f;
+	float LAT_STIFF_Y = 0.3125f * (180.0f / PxPi);
+	float LONG_STIFF_PER_UNIT_GRAV = 1000.0f;
+	
+	// Friction-graph data
+	float G_FRIC_AT_ZERO_LONG_SLIP = 1.0f;
+	float G_LONG_SLIP_W_MAX_FRICTION = 0.1f;
+	float G_MAX_FRICTION = 1.0f;
+	float G_END_POINT = 1.0f;
+	float G_FRIC_PAST_END = 1.0f;
+};
 
 ////////////////////////////////////////////////
 
@@ -58,7 +93,7 @@ PxVehicleDrive4W* createVehicle4W(const VehicleDesc& vehDesc, PxPhysics* physics
 
 PxVehicleDriveTank* createVehicleTank(const VehicleDesc& vehDesc, PxPhysics* physics, PxCooking* cooking);
 
-PxVehicleNoDrive* createVehicleNoDrive(const VehicleDesc& vehDesc, PxPhysics* physics, PxCooking* cooking);
+PxVehicleNoDrive* createVehicleNoDrive(const VehicleDesc& vehDesc, PxPhysics* physics, PxCooking* cooking, wheel_data* wheelData, tire_data* tireData, susp_data* suspension);
 
 void customizeVehicleToLengthScale(const PxReal lengthScale, PxRigidDynamic* rigidDynamic, PxVehicleWheelsSimData* wheelsSimData, PxVehicleDriveSimData* driveSimData);
 

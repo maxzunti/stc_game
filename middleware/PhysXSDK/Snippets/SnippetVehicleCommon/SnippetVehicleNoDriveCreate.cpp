@@ -37,11 +37,14 @@ void computeWheelCenterActorOffsets
 	}
 }
 
+
 void setupWheelsSimulationData
-(const PxF32 wheelMass, const PxF32 wheelMOI, const PxF32 wheelRadius, const PxF32 wheelWidth, 
- const PxU32 numWheels, const PxVec3* wheelCenterActorOffsets,
+(const PxU32 numWheels, const PxVec3* wheelCenterActorOffsets,
  const PxVec3& chassisCMOffset, const PxF32 chassisMass,
- PxVehicleWheelsSimData* wheelsSimData)
+ PxVehicleWheelsSimData* wheelsSimData,
+ wheel_data* wheelData,
+ tire_data* tireData,
+ susp_data* suspension)
 {
 	//Set up the wheels.
 	PxVehicleWheelData wheels[PX_MAX_NB_WHEELS];
@@ -49,10 +52,14 @@ void setupWheelsSimulationData
 		//Set up the wheel data structures with mass, moi, radius, width.
 		for(PxU32 i = 0; i < numWheels; i++)
 		{
-			wheels[i].mMass = wheelMass;
-			wheels[i].mMOI = wheelMOI;
-			wheels[i].mRadius = wheelRadius;
-			wheels[i].mWidth = wheelWidth;
+			wheels[i].mMass = wheelData->WHEEL_MASS;
+			wheels[i].mMOI = wheelData->WHEEL_MOI;
+			wheels[i].mRadius = wheelData->WHEEL_RADIUS;
+			wheels[i].mWidth = wheelData->WHEEL_WIDTH;
+			wheels[i].mDampingRate = wheelData->DAMPING_RATE;
+			wheels[i].mMaxBrakeTorque = wheelData->MAX_BRAKE_TORQUE;
+			wheels[i].mMaxSteer = wheelData->MAX_STEER;
+			wheels[i].mToeAngle = wheelData->TOE_ANGLE;
 		}
 	}
 
@@ -63,6 +70,16 @@ void setupWheelsSimulationData
 		for(PxU32 i = 0; i < numWheels; i++)
 		{
 			tires[i].mType = TIRE_TYPE_NORMAL;
+			tires[i].mLatStiffX = tireData->LAT_STIFF_X;
+			tires[i].mLatStiffY = tireData->LAT_STIFF_Y;
+			tires[i].mLongitudinalStiffnessPerUnitGravity = tireData->LONG_STIFF_PER_UNIT_GRAV;
+			
+			// Tire friction-slip graph data
+			tires[i].mFrictionVsSlipGraph[0][1] = tireData->G_FRIC_AT_ZERO_LONG_SLIP;
+			tires[i].mFrictionVsSlipGraph[1][0] = tireData->G_LONG_SLIP_W_MAX_FRICTION;
+			tires[i].mFrictionVsSlipGraph[1][1] = tireData->G_MAX_FRICTION;
+			tires[i].mFrictionVsSlipGraph[2][0] = tireData->G_END_POINT;
+			tires[i].mFrictionVsSlipGraph[2][1] = tireData->G_FRIC_PAST_END;
 		}
 	}
 
@@ -76,10 +93,10 @@ void setupWheelsSimulationData
 		//Set the suspension data.
 		for(PxU32 i = 0; i < numWheels; i++)
 		{
-			suspensions[i].mMaxCompression = 0.3f;//0.3
-			suspensions[i].mMaxDroop = 0.1f;//0.1
-			suspensions[i].mSpringStrength = 3500000.f; //3500000	
-			suspensions[i].mSpringDamperRate =4500.f;//4500
+			suspensions[i].mMaxCompression = suspension->S_MAX_COMPRESSION;//0.3
+			suspensions[i].mMaxDroop = suspension->S_MAX_DROOP;//0.1
+			suspensions[i].mSpringStrength = suspension->S_SPRING_STRENGTH; //3500000	
+			suspensions[i].mSpringDamperRate = suspension->S_SPRING_DAMPER_RATE;//4500
 			suspensions[i].mSprungMass = suspSprungMasses[i];
 		}
 
@@ -144,7 +161,12 @@ void setupWheelsSimulationData
 
 }// namespace NoDrive
 
-PxVehicleNoDrive* createVehicleNoDrive(const VehicleDesc& vehicleDesc, PxPhysics* physics, PxCooking* cooking)
+PxVehicleNoDrive* createVehicleNoDrive(const VehicleDesc& vehicleDesc,
+									   PxPhysics* physics,
+									   PxCooking* cooking,
+									   wheel_data* wheelData,
+									   tire_data* tireData,
+									   susp_data* suspension)
 {
 	const PxVec3 chassisDims = vehicleDesc.chassisDims;
 	const PxF32 wheelWidth = vehicleDesc.wheelWidth;
@@ -191,15 +213,14 @@ PxVehicleNoDrive* createVehicleNoDrive(const VehicleDesc& vehicleDesc, PxPhysics
 	{
 		//Compute the wheel center offsets from the origin.
 		PxVec3 wheelCentreActorOffsets[PX_MAX_NB_WHEELS];
-		const PxF32 frontZ = chassisDims.z*0.3f;
-		const PxF32 rearZ = -chassisDims.z*0.3f;
+		const PxF32 frontZ = chassisDims.z * 0.3f;
+		const PxF32 rearZ = -chassisDims.z * 0.3f;
 		NoDrive::computeWheelCenterActorOffsets(frontZ, rearZ, chassisDims, wheelWidth, wheelRadius, numWheels, wheelCentreActorOffsets);
 
 		NoDrive::setupWheelsSimulationData
-			(vehicleDesc.wheelMass, vehicleDesc.wheelMOI, wheelRadius, wheelWidth, 
-			 numWheels, wheelCentreActorOffsets,
+			(numWheels, wheelCentreActorOffsets,
 			 vehicleDesc.chassisCMOffset, vehicleDesc.chassisMass,
-			 wheelsSimData);
+			 wheelsSimData, wheelData, tireData, suspension);
 	}
 
 	//Create a vehicle from the wheels and drive sim data.

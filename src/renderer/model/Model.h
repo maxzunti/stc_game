@@ -12,8 +12,11 @@ class Model {
     std::vector<glm::vec3> points;
     std::vector<glm::vec3> normals;
     std::vector<glm::vec2> uvs;
+    std::vector<glm::vec2> base_uvs;
     std::unique_ptr<Texture> tex;
     std::vector<unsigned int> indices;
+
+    glm::vec2 uv_scale = glm::vec2(1.0f, 1.0f);
 
     bool tex_loaded = false;
     bool is_loaded = false;
@@ -35,6 +38,8 @@ public:
 
     ~Model();
 
+    const std::vector<glm::vec3> getPoints();
+    const std::vector<unsigned int> getIndices();
     bool load_model_from_file(const std::string &fname, int mesh_id);
     const Texture * getTex() const;
     bool is_tex_loaded() const;
@@ -43,6 +48,11 @@ public:
     const glm::mat4& get_scaling() const;
     void reset_scale();
     void scale(double &x_scl, double &y_scl, double &z_scl);
+
+    // used to tile textures
+    void tile_UV_Y(double factor);
+    void scroll_UV_Y(float offset);
+    void scroll_UV_X(float offset);
 
     // model_fname is expected to contain multiple meshes, but still correspond to a single UV-mapped texture (used for all meshes)
     static std::vector<Model*> load_multimesh_models(std::string model_fname, std::string tex_fname);

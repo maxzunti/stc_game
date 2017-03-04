@@ -112,6 +112,15 @@ mat4 Camera::getMatrix()
     return transpose(cameraRotation)*translation;
 }
 
+glm::mat4 Camera::calcPerspective() {
+    float FOV = 80;
+    float speed = car->getSpeed();
+    if (speed > 80) {// TODO: currently hardcoded; change to be a function of MAX_SPEED
+        FOV += FOV * (speed - 80) / 130;
+    }
+    return glm::perspective(radians(FOV), 1.f, 0.1f, 3000.f);
+}
+
 void Camera::rotateAroundCenter(float x, float y, vec3 focus)
 {
     vec3 camFocus = pos - focus;
@@ -300,7 +309,9 @@ void Camera::calcCarRotSpeeds() {
     glm::quat diff = glm::rotate(car->getQRot() * glm::inverse(p_rot), 0.0f, up);
     float delta = 0.001;
     if (diff.y >= delta || diff.y <= -delta) { // Appreciable rotation; update rotation speeds
-        if (!RS_Y) {
+        if (diff.y * p_diff.y < 0) { // different rotation direction
+            y_car_rot_speed = 0;
+        } else if (!RS_Y) {
             y_car_rot_speed += diff.y * FOLLOW_Y_CAM_ROT_SPEED;
             clamp(y_car_rot_speed, FOLLOW_Y_MAX_ROT_SPEED);
             y_resetting = false;
@@ -334,7 +345,9 @@ void Camera::calcCarRotSpeeds() {
     //std::cout << "X rot cam speed: " << x_rot_speed << "  X xbox cam speed: " << x_xbox_speed << "  Y rot cam speed: " <<  y_rot_speed << "  Y  xboxcam speed: " << y_xbox_speed << std::endl;
 
     if (diff.x >= delta || diff.x <= -delta) { // Appreciable rotation; update rotation speeds
-        if (!RS_X) {
+        if (diff.x * p_diff.x < 0) { // different rotation direction
+            x_car_rot_speed = 0;
+        } else if (!RS_X) {
             x_car_rot_speed += diff.x * FOLLOW_X_CAM_ROT_SPEED;
             clamp(x_car_rot_speed, FOLLOW_X_MAX_ROT_SPEED);
             x_resetting = false;
@@ -363,6 +376,14 @@ void Camera::calcCarRotSpeeds() {
         }
         clamp(x_car_rot_speed, FOLLOW_X_MAX_ROT_SPEED);
     }
+
+    // Override speeds if RS input is present
+    // Do this here so previous follow-cam '_resetting' bools still trigger
+    if (RS_Y || RS_X) {
+        y_car_rot_speed = 0;
+        x_car_rot_speed = 0;
+    }
+    p_diff = diff;
 }
 
 // Reduce camera speeds as they approach the max allowed x/y angle, or 0 if RS is released

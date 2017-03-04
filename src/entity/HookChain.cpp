@@ -13,7 +13,7 @@ HookChain::HookChain(std::string model_fname, std::string tex_fname) :
     // At this point, we've loaded a single hook model using the PhysicsObject constructor
     assert(models.size() == 1);
     unattached = models[0];
-    attached = new Model(model_fname, "assets/models/AimArrow/red.png");
+    attached = new Model(model_fname, "assets/models/cylinder/oline.png");
 
     scale(X_SCALE, Y_SCALE, Z_SCALE);
     rotate(base_rot.x, base_rot.y, base_rot.z);
@@ -34,6 +34,9 @@ void HookChain::reposition(glm::vec3 carPos, glm::vec3 hookPos) {
         reset_scale();
         float len = glm::distance(hookPos, carPos);
         scale(X_SCALE, Y_SCALE * len, Z_SCALE);
+
+        attached->tile_UV_Y(Y_SCALE * len);
+        unattached->tile_UV_Y(Y_SCALE * len);
 
         // Set position between car and hook
         vec3 dir = normalize(hookPos - carPos);

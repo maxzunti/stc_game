@@ -93,9 +93,10 @@ PxF32					gVehicleModeLifetime = 4.0f;
 PxF32					gVehicleModeTimer = 0.0f;
 bool					gVehicleOrderComplete = false;
 PxU32					gVehicleOrderProgress = 0;
-
+/*
 VehicleDesc initVehicleDesc()
 {
+#error bad_initVehicleDesc
 	//Set up the chassis mass, dimensions, moment of inertia, and center of mass offset.
 	//The moment of inertia is just the moment of inertia of a cuboid but modified for easier steering.
 	//Center of mass offset is 0.65m above the base of the chassis and 0.25m towards the front.
@@ -128,7 +129,7 @@ VehicleDesc initVehicleDesc()
 	vehicleDesc.numWheels = nbWheels;
 	vehicleDesc.wheelMaterial = gMaterial;
 	return vehicleDesc;
-}
+}*/
 
 void startAccelerateForwardsMode()
 {
