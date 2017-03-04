@@ -9,12 +9,10 @@
 
 // Class to store the raw data (and vbo array, once initialized) of a loaded model
 class Model {
-    std::vector<glm::vec3> points;
     std::vector<glm::vec3> normals;
     std::vector<glm::vec2> uvs;
     std::vector<glm::vec2> base_uvs;
     std::unique_ptr<Texture> tex;
-    std::vector<unsigned int> indices;
 
     glm::vec2 uv_scale = glm::vec2(1.0f, 1.0f);
 
@@ -37,9 +35,10 @@ public:
         std::vector<unsigned int> indices);
 
     ~Model();
-
-    const std::vector<glm::vec3> getPoints();
-    const std::vector<unsigned int> getIndices();
+    std::vector<glm::vec3> points;
+    std::vector<unsigned int> indices;
+    std::vector<glm::vec3>* getPoints();
+    std::vector<unsigned int>* getIndices();
     bool load_model_from_file(const std::string &fname, int mesh_id);
     const Texture * getTex() const;
     bool is_tex_loaded() const;

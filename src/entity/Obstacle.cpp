@@ -2,7 +2,7 @@
 
 
 
-Obstacle::Obstacle(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager) :
+Obstacle::Obstacle(std::string model_fname, std::string tex_fname, PxRigidBody* actor, glm::vec3 scales, PhysicsManager* physicsManager) :
 	PhysicsObject(model_fname, tex_fname, actor, physicsManager) {
-	this->scale(100, 100, 100);
+	this->scale(scales.x, scales.y, scales.z);
 }

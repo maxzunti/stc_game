@@ -52,6 +52,7 @@ void Model::copy_ai_data(const aiMesh* mesh, const std::string &fname)
     indices.clear();
 
     // Load vertices
+    std::cout << "mesh num vertices: " << mesh->mNumVertices << std::endl;
     for (int i = 0; i < mesh->mNumVertices; i++) {
         aiVector3D m_vec = mesh->mVertices[i];
         points.push_back(glm::vec3(m_vec.x, m_vec.y, m_vec.z));
@@ -84,11 +85,11 @@ void Model::copy_ai_data(const aiMesh* mesh, const std::string &fname)
     }
 }
 
-const std::vector<glm::vec3> Model::getPoints() {
-    return this->points;
+std::vector<glm::vec3>* Model::getPoints() {
+    return &this->points;
 }
-const std::vector<unsigned int> Model::getIndices() {
-    return this->indices;
+std::vector<unsigned int>* Model::getIndices() {
+    return &this->indices;
 }
 
 
@@ -104,6 +105,8 @@ bool Model::load_model_from_file(const std::string& fname, int mesh_id = 0)
         std::cout << "Error loading " << fname << ": \n" << importer.GetErrorString() << std::endl;
         return false;
     }
+
+    std::cout << "loading model " << fname << std::endl;
 
     // Mesh successfully found
     copy_ai_data(scene->mMeshes[mesh_id], fname);
