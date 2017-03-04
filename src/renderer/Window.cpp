@@ -22,7 +22,7 @@ matrix[2][2] = cos(radians) + axis.z*axis.z*(1 - cos(radians));
 return matrix;
 }*/
 
-Renderer* Window::renderer = new Renderer(0, glm::vec3(200, 400, 200), glm::vec3(-400, -500, -100));
+Renderer* Window::renderer = new Renderer(0);
 glm::vec2 Window::mousePos(0, 0);
 bool Window::mousePressed = false;
 bool Window::done_init = false;

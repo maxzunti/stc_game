@@ -27,11 +27,11 @@
 using namespace std;
 using namespace glm;
 
-Renderer::Renderer(int index, vec3 pos, vec3 dir) :
+Renderer::Renderer(int index) :
     cam(new Camera(vec3(0, -1, -1), vec3(0, 10, 10)))
 {
     index = index;
-    light = new Light(pos, dir);
+    light = new Light(glm::vec3(200, 400, 200), glm::vec3(-400, -500, -100)); // TODO: stop hard-coding this
 }
 
 void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {

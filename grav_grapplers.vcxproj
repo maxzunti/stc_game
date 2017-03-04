@@ -217,6 +217,7 @@
     <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.cpp" />
     <ClCompile Include="src\entity\AimArrow.cpp" />
     <ClCompile Include="src\entity\Hook.cpp" />
+    <ClCompile Include="src\entity\Light.cpp" />
     <ClCompile Include="src\entity\Obstacle.cpp" />
     <ClCompile Include="src\entity\HookChain.cpp" />
     <ClCompile Include="src\entity\PhysicsObject.cpp" />

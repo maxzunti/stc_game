@@ -15,12 +15,11 @@ class Renderer {
     // Light might need to be elsewhere
     Light * light;
 
-
     void render(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 model_matrix, int startElement);
     void drawSkybox(const Skybox* sb, glm::mat4 &perspectiveMatrix);
 
 public:
-	Renderer(int,glm::vec3, glm::vec3);
+	Renderer(int);
 	~Renderer();
     void initSkybox();
 	void drawScene(const std::vector<Entity*>& ents);
