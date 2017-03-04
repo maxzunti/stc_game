@@ -15,24 +15,44 @@ class Renderer {
     // Light might need to be elsewhere
     Light * light;
 
-    void render(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 model_matrix, int startElement);
+    void initSkybox();
     void drawSkybox(const Skybox* sb, glm::mat4 &perspectiveMatrix);
+
+    // Control model-rendering flow
+    void renderModel(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans);
+
+    // Render black-border silhouettes
+    void drawSil(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans);
+
+    // Actually draw each model using standard shading
+    void drawShade(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans);
+
+    // Shadow mapping functions
+    void renderShadowMap(const std::vector<Entity*>& ents);
+    void addToShadowMap(const Model& model, glm::mat4 model_matrix, int startElement);
+
+    // The following are all required for shadow mapping 
+    // We need to decide of we want to move them to a seperate location or not 
+    GLuint SM_frameBuffer;
+    GLuint SM_depthTex;
+    glm::mat4 depthMVP;
+
+    // Silhouette vars
+    GLuint SIL_frameBuffer;
+    GLuint SIL_depthTex;
+
+    // Init a frame buffer for a depth map, used for shadow mapping + silhouetting
+    bool initDepthFrameBuffer(GLuint &frameBuffer, GLuint &depthTex);
+
+    int width;
+    int height;
 
 public:
 	Renderer(int);
 	~Renderer();
-    void initSkybox();
+    void postGLInit(); // call init functions after Window's created the OpenGL env.
 	void drawScene(const std::vector<Entity*>& ents);
-
-    // The following are all required for shadow mapping 
-    // We need to decide of we want to move them to a seperate location or not 
-    GLuint FramebufferName = 1;
-    GLuint depthTexture;
-    glm::mat4 depthMVP;
-    bool loadFrameBuffers();
-    void renderShadowMap(const std::vector<Entity*>& ents);
-    void shrender(const Model& model, glm::mat4 model_matrix, int startElement);
-
+    void setDims(int width, int height);
 
     Camera* getCam();
 };

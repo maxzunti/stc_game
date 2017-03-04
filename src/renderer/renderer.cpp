@@ -34,6 +34,17 @@ Renderer::Renderer(int index) :
     light = new Light(glm::vec3(200, 400, 200), glm::vec3(-400, -500, -100)); // TODO: stop hard-coding this
 }
 
+Renderer::~Renderer()
+{
+    delete cam;
+}
+
+void Renderer::postGLInit() {
+    initSkybox();
+    initDepthFrameBuffer(SM_frameBuffer, SM_depthTex);
+    initDepthFrameBuffer(SIL_frameBuffer, SIL_depthTex);
+}
+
 void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
 
      //Changing size can drastically affect the shadow map.
@@ -51,7 +62,7 @@ void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
 
     //Change the viewport and frame buffer, clear the buffer bit
     glViewport(0, 0, 8192, 8192);
-    glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
+    glBindFramebuffer(GL_FRAMEBUFFER, SM_frameBuffer);
     glClear(GL_DEPTH_BUFFER_BIT);
     
     // Render each of the entities to the shadowMap texture in a first pass
@@ -69,7 +80,7 @@ void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
                 mat4 trans = glm::translate(mat4(), r->getPos());
                 mat4 mmatrix = trans * rot * scale;
 
-                shrender(*model,mmatrix, 0);
+                addToShadowMap(*model, mmatrix, 0);
             }
         }
         
@@ -79,11 +90,11 @@ void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
 }
 
 // Sets up the frame buffer and the shadowMap texture
-bool Renderer::loadFrameBuffers() {
-    glGenFramebuffers(1, &FramebufferName);
+bool Renderer::initDepthFrameBuffer(GLuint &frameBuffer, GLuint &depthTex) {
+    glGenFramebuffers(1, &frameBuffer);
     // Depth texture. Slower than a depth buffer, but you can sample it later in your shader
-    glGenTextures(1, &depthTexture);
-    glBindTexture(GL_TEXTURE_2D, depthTexture);
+    glGenTextures(1, &depthTex);
+    glBindTexture(GL_TEXTURE_2D, depthTex);
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, 8192, 8192, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);// To gl linear possibly
@@ -94,8 +105,8 @@ bool Renderer::loadFrameBuffers() {
     GLfloat borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
     glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D, depthTexture, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D, depthTex, 0);
 
     glDrawBuffer(GL_NONE); // No color buffer is drawn to.
     glReadBuffer(GL_NONE);
@@ -158,7 +169,7 @@ void Renderer::drawSkybox(const Skybox* sb, glm::mat4 &perspectiveMatrix)
 }
 
 // Shadow render - does the rendering to the texture - called by renderShadowMap
-void Renderer::shrender(const Model& model, mat4 model_matrix, int startElement){
+void Renderer::addToShadowMap(const Model& model, mat4 model_matrix, int startElement){
 
     // Make sure depth testing is enabled and cull front faces
     glEnable(GL_DEPTH_TEST);
@@ -183,12 +194,19 @@ void Renderer::shrender(const Model& model, mat4 model_matrix, int startElement)
 }
 
 
-void Renderer::render(const Model& model, mat4 &perspectiveMatrix, mat4 model_matrix, int startElement)
+void Renderer::renderModel(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans)
 {
-    // Set object-specific VAO
-    glBindVertexArray(model.vao[VAO::GEOMETRY]);
+   // drawSil(model, perspectiveMatrix, scale, rot, trans);
 
+    drawShade(model, perspectiveMatrix, scale, rot, trans);
+}
+
+void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans) {
+    glUseProgram(shader[SHADER::DEFAULT]);
+
+    glBindVertexArray(model.vao[VAO::GEOMETRY]);
     mat4 &camMatrix = cam->getMatrix();
+    mat4 model_matrix = trans * rot * scale;
 
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "cameraMatrix"),
         1,
@@ -207,7 +225,7 @@ void Renderer::render(const Model& model, mat4 &perspectiveMatrix, mat4 model_ma
 
 
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, depthTexture);
+    glBindTexture(GL_TEXTURE_2D, SM_depthTex);
     glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "shadowMap"), 1);
    
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "depthBiasMVP"), 1, GL_FALSE, glm::value_ptr(depthMVP));
@@ -220,22 +238,99 @@ void Renderer::render(const Model& model, mat4 &perspectiveMatrix, mat4 model_ma
     CheckGLErrors("loadUniforms");
 
     glDrawElements(
-        GL_TRIANGLES,		//What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
-        model.num_indices(),		//How many indices
-        GL_UNSIGNED_INT,	//Type
-        (void*)0			//Offset
+        GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+        model.num_indices(), //How many indices
+        GL_UNSIGNED_INT,	 //Type
+        (void*)0			 //Offset
         );
 
-    CheckGLErrors("render");
+    CheckGLErrors("drawShade");
     glBindVertexArray(0);
 }
+
+void Renderer::drawSil(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans) {
+    glUseProgram(shader[SHADER::SIL]);
+
+    glBindVertexArray(model.vao[VAO::GEOMETRY]);
+    mat4 &camMatrix = cam->getMatrix();
+
+    float sil_scale = 1.1;
+    mat4 model_matrix = trans * rot * scale;
+    mat4 scaled_model = trans * rot * (scale * glm::scale(glm::vec3(sil_scale, sil_scale, sil_scale)));
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "cameraMatrix"),
+        1,
+        false,
+        &camMatrix[0][0]);
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "perspectiveMatrix"),
+        1,
+        false,
+        &perspectiveMatrix[0][0]);
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "modelviewMatrix"),
+        1,
+        false,
+        &scaled_model[0][0]);
+
+    CheckGLErrors("loadUniforms");
+
+
+    // Draw black silhouette
+   // glEnable(GL_CULL_FACE); // enable culling
+    glDepthMask(GL_FALSE); // enable writes to Z-buffer
+   // glEnable(GL_DEPTH_TEST);
+   glDisable(GL_DEPTH_TEST);
+
+
+ //   glDisable(GL_DEPTH_TEST);
+  //  glDepthFunc(GL_GEQUAL);
+    glUniform3f(glGetUniformLocation(shader[SHADER::SIL], "u_color1"), 0.0, 0.0, 0.0);
+    glUniform1f(glGetUniformLocation(shader[SHADER::SIL], "u_offset1"), 0.0f); // line thickness
+    glDrawElements(
+        GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+        model.num_indices(), //How many indices
+        GL_UNSIGNED_INT,	 //Type
+        (void*)0			 //Offset
+        );
+
+    /*
+    // Reset scaling
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "modelviewMatrix"),
+        1,
+        false,
+        &model_matrix[0][0]);
+
+
+    // Draw white center
+    glDepthMask(GL_TRUE); // disable writes to Z-buffer
+    glEnable(GL_DEPTH_TEST);
+
+   // glDepthFunc(GL_LESS);
+    glUniform3f(glGetUniformLocation(shader[SHADER::SIL], "u_color1"), 1.0, 1.0, 1.0);
+    glUniform1f(glGetUniformLocation(shader[SHADER::SIL], "u_offset1"), 0.0f); // line thickness
+        glDrawElements(
+        GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+        model.num_indices(), //How many indices
+        GL_UNSIGNED_INT,	 //Type
+        (void*)0			 //Offset
+        );*/
+
+  //  glDepthMask(GL_TRUE); // disable writes to Z-buffer
+    glDepthFunc(GL_LESS);
+    glDepthMask(GL_TRUE); // enable writes to Z-buffer
+    glEnable(GL_DEPTH_TEST);
+
+    CheckGLErrors("drawSil");
+    glBindVertexArray(0);
+}
+
 
 void Renderer::drawScene(const std::vector<Entity*>& ents)
 {
     renderShadowMap(ents);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    glViewport(0, 0, 1024, 768); // Render on the whole framebuffer, complete from the lower left corner to the upper right
+    glViewport(0, 0, width, height); // Render on the whole framebuffer, complete from the lower left corner to the upper right
 
   //  glCullFace(GL_BACK); // Cull back-facing triangles -> draw only front-facing triangles
     
@@ -267,20 +362,20 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
                 mat4 scale = model->get_scaling();
                 mat4 rot = glm::mat4_cast(r->getQRot());
                 mat4 trans = glm::translate(mat4(), r->getPos());
-                mat4 mmatrix = trans * rot * scale;
 
-                render(*model, perspectiveMatrix, mmatrix, 0);
+                renderModel(*model, perspectiveMatrix, scale, rot, trans);
             }
         }
     }
 }
 
-Renderer::~Renderer()
-{
-    delete cam;
-}
-
 // This seems kinda dangerous
 Camera* Renderer::getCam() {
     return cam;
+}
+
+void Renderer::setDims(int width, int height) {
+    this->width = width;
+    this->height = height;
+    cam->setDims(width, height);
 }

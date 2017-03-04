@@ -22,7 +22,7 @@ using namespace std;
 
 int main(int argc, const char* argv[])
 {
-    std::unique_ptr<Window> window(new Window());
+    std::unique_ptr<Window> window(new Window(1024, 768));
 
     // Set up input
     std::unique_ptr<Input> input(new Input(0));
