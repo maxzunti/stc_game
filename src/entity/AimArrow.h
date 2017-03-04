@@ -3,8 +3,8 @@
 
 class AimArrow : public Renderable {
 public:
-    const float SCALE = 0.5;
-    const float BASE_RAD = 4.0;
+    const float SCALE = 1.;
+    const float BASE_RAD = 7.0;
     const float BASE_ROT = M_PI / 2;
     const float HEIGHT_MOD = -0.8;
 
