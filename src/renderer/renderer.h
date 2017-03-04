@@ -38,14 +38,16 @@ class Renderer {
     glm::mat4 depthMVP;
 
     // Silhouette vars
-    GLuint SIL_frameBuffer;
+    GLuint SIL_frameBuffer1;
+    GLuint SIL_frameBuffer2;
     GLuint SIL_depthTex;
 
     // Init a frame buffer for a depth map, used for shadow mapping + silhouetting
-    bool initDepthFrameBuffer(GLuint &frameBuffer, GLuint &depthTex);
+    bool initDepthFrameBuffer(GLuint &frameBuffer, GLuint &depthTex, int width, int height);
 
     int width;
     int height;
+    float SM_res = 8192;
 
 public:
 	Renderer(int);
