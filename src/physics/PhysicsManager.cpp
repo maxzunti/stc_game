@@ -147,24 +147,55 @@ void PhysicsManager::stepPhysics()
 	mScene->fetchResults(true);
 }
 
-PxTriangleMesh* PhysicsManager::createTriangleMesh(Model* mod)
+PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU32 filterdata, PxU32 filterdataagainst)
 {
-    const std::vector<glm::vec3> points = mod->getPoints();
-    const std::vector<unsigned int> indices = mod->getIndices();
-    PxTriangleMeshDesc meshDesc;
-    meshDesc.points.count = points.size();
-    meshDesc.points.stride = sizeof(glm::vec3);
-    meshDesc.points.data = &points;
+    
+    std::vector<glm::vec3> points = mod->points;
+    std::vector<PxVec3> convexVerts;
 
+    for (int i = 0; i < points.size(); i++) {
+        glm::vec3 point = points.at(i);
+        convexVerts.push_back(PxVec3(point.x, point.y, point.z));
+    }
+
+    std::vector<unsigned int> indices = mod->indices;
+    PxTriangleMeshDesc meshDesc;
+    meshDesc.points.count = convexVerts.size();
+    meshDesc.points.stride = sizeof(PxVec3);
+    meshDesc.points.data = &convexVerts[0];
     meshDesc.triangles.count = indices.size()/3;
     meshDesc.triangles.stride = 3 * sizeof(unsigned int);
-    meshDesc.triangles.data = &indices;
+    meshDesc.triangles.data = &indices[0];
 
     PxDefaultMemoryOutputStream writeBuffer;
     bool status = mCooking->cookTriangleMesh(meshDesc, writeBuffer);
+
     if (!status)
         return NULL;
 
     PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
-    return mPhysics->createTriangleMesh(readBuffer);
+
+    PxTriangleMesh* triMesh = mPhysics->createTriangleMesh(readBuffer);
+
+    PxTriangleMeshGeometry geom(triMesh);
+    
+    PxRigidStatic* triAct;
+    
+    //if (!dynamic)
+     //   triAct = mPhysics->createRigidStatic(PxTransform(PxVec3(0.f, 0.f, 0.f)));
+    //else
+    triAct = mPhysics->createRigidStatic(PxTransform(PxVec3(0.f, 0.f, 0.f)));
+
+    PxShape* triShape = triAct->createShape(geom, *mMaterial);
+
+    //Set the query filter data of the ground plane so that the vehicle raycasts can hit the ground.
+    physx::PxFilterData qryFilterData;
+    setupDrivableSurface(qryFilterData);
+    triShape->setQueryFilterData(qryFilterData);
+    PxFilterData simFilterData;
+    simFilterData.word0 = filterdata;
+    simFilterData.word1 = filterdataagainst;
+    triShape->setSimulationFilterData(simFilterData);
+    return triAct;
+    
 }

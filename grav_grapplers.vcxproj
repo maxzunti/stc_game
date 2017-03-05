@@ -220,11 +220,13 @@
     <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.cpp" />
     <ClCompile Include="src\entity\AimArrow.cpp" />
     <ClCompile Include="src\entity\Hook.cpp" />
+    <ClCompile Include="src\entity\Light.cpp" />
     <ClCompile Include="src\entity\Obstacle.cpp" />
     <ClCompile Include="src\entity\HookChain.cpp" />
     <ClCompile Include="src\entity\PhysicsObject.cpp" />
     <ClCompile Include="src\entity\ProtoCar.cpp" />
     <ClCompile Include="src\Jukebox.cpp" />
+    <ClCompile Include="src\entity\StaticPhysicsObject.cpp" />
     <ClCompile Include="src\physics\PhysicsManager.cpp" />
     <ClCompile Include="src\entity\Entity.cpp" />
     <ClCompile Include="src\entity\Renderable.cpp" />
@@ -381,7 +383,6 @@
     <ClInclude Include="src\physics\PhysicsManager.h" />
     <ClInclude Include="src\entity\AICar.h" />
     <ClInclude Include="src\entity\Car.h" />
-    <ClInclude Include="src\entity\DynamicPhysicsObject.h" />
     <ClInclude Include="src\entity\Light.h" />
     <ClInclude Include="src\entity\Hook.h" />
     <ClInclude Include="src\entity\StaticPhysicsObject.h" />

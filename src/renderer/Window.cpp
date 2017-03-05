@@ -27,9 +27,13 @@ glm::vec2 Window::mousePos(0, 0);
 bool Window::mousePressed = false;
 bool Window::done_init = false;
 
-Window::Window() {
+Window::Window(int width, int height) {
+    this->width = width;
+    this->height = height;
+
     if (!done_init) {
         initGLFW();
+
         if (!initGL()) {
             std::cout << "Error: OpenGL initialization failed" << std::endl;
         }
@@ -37,7 +41,8 @@ Window::Window() {
             done_init = true;
         }
     }
-    renderer->initSkybox();
+    renderer->setDims(width, height);
+    renderer->postGLInit();
 }
 
 Window::~Window() {
@@ -59,7 +64,7 @@ int Window::initGLFW() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    window = glfwCreateWindow(1024, 768, "GRAV GRAPPLERS", 0, 0);
+    window = glfwCreateWindow(width, height, "GRAV GRAPPLERS", 0, 0);
     if (!window) {
         std::cout << "Program failed to create GLFW window, TERMINATING" << std::endl;
         glfwTerminate();
@@ -77,7 +82,6 @@ int Window::initGLFW() {
 
 void Window::draw(const std::vector<Entity*>& ents) {
     renderer->drawScene(ents);
-
     // scene is rendered to the back buffer, so swap to front for display
     glfwSwapBuffers(window);
 
@@ -160,8 +164,7 @@ void Window::resizeCallback(GLFWwindow* window, int width, int height)
 {
     int vp[4];
     glGetIntegerv(GL_VIEWPORT, vp);
-
-    glViewport(0, 0, width, height);
+    renderer->setDims(width, height);
 }
 
 Renderer* Window::getRenderer() { return renderer;  }

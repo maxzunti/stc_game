@@ -72,7 +72,6 @@ bool initVAO(GLuint vao[VAO::COUNT], GLuint vbo[VBO::COUNT])
 	return !CheckGLErrors("initVAO");		//Check for errors in initialize
 }
 
-
 //Loads buffers with data
 bool loadBuffer(GLuint vbo[VBO::COUNT],
                 const vector<vec3>& points,
@@ -155,6 +154,8 @@ bool initGL()
 
     initShader(SHADER::DEFAULT, "src\\renderer\\shaders\\vertex.glsl", "src\\renderer\\shaders\\fragment.glsl");
     initShader(SHADER::SKYBOX, "src\\renderer\\shaders\\skybox_vert.glsl", "src\\renderer\\shaders\\skybox_frag.glsl");
+    initShader(SHADER::SHADOW, "src\\renderer\\shaders\\shadow_vert.glsl", "src\\renderer\\shaders\\shadow_frag.glsl");
+    initShader(SHADER::SIL, "src\\renderer\\shaders\\sil_v.glsl", "src\\renderer\\shaders\\sil_f.glsl");
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);

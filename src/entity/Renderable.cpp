@@ -1,14 +1,16 @@
 #include "Renderable.h"
 #include <iostream>
 
-Renderable::Renderable() { }
+Renderable::Renderable() {  }
 
 Renderable::Renderable(std::string model_fname, std::string tex_fname)
 {
     models = Model::load_multimesh_models(model_fname, tex_fname);
 
-    if (models.size() > 0)
+    if (models.size() > 0) {
         model_loaded = true;
+    }
+    scaleModels();
 }
 
 Renderable::~Renderable() {
@@ -18,6 +20,16 @@ Renderable::~Renderable() {
     models.clear();
 }
 
+void Renderable::scaleModels() {
+    for (auto mptr : models) {
+        mptr->x_norm = X_MODEL_SCALE;
+        mptr->y_norm = Y_MODEL_SCALE;
+        mptr->z_norm = Z_MODEL_SCALE;
+        mptr->sil_x = SIL_X_SCALE;
+        mptr->sil_y = SIL_Y_SCALE;
+        mptr->sil_z = SIL_Z_SCALE;
+    }
+}
 
 bool Renderable::canRender() { return renderable; }
 

@@ -105,6 +105,12 @@
     <ClCompile Include="src\Jukebox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\entity\StaticPhysicsObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entity\Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="middleware\glm\detail\func_common.inl">
@@ -927,9 +933,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\entity\StaticPhysicsObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\entity\DynamicPhysicsObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\entity\Trigger.h">

@@ -1,7 +1,10 @@
 #include "Model.h"
 #include <iostream>
 
+const float Model::DEFAULT_SIL = 1.1;
+
 Model::Model() { // delete me
+
 }
 
 Model::Model(std::string model_fname, std::string tex_fname, int mesh_id) :
@@ -33,6 +36,7 @@ Model::Model(std::vector<glm::vec3> points,
     glGenVertexArrays(VAO::COUNT, vao);
     initVAO(vao, vbo);
     loadBuffer(vbo, points, normals, uvs, indices);
+    reset_scale();
 }
 
 Model::~Model()
@@ -84,11 +88,11 @@ void Model::copy_ai_data(const aiMesh* mesh, const std::string &fname)
     }
 }
 
-const std::vector<glm::vec3> Model::getPoints() {
-    return this->points;
+std::vector<glm::vec3>* Model::getPoints() {
+    return &this->points;
 }
-const std::vector<unsigned int> Model::getIndices() {
-    return this->indices;
+std::vector<unsigned int>* Model::getIndices() {
+    return &this->indices;
 }
 
 
@@ -104,6 +108,8 @@ bool Model::load_model_from_file(const std::string& fname, int mesh_id = 0)
         std::cout << "Error loading " << fname << ": \n" << importer.GetErrorString() << std::endl;
         return false;
     }
+
+    std::cout << "loading model " << fname << std::endl;
 
     // Mesh successfully found
     copy_ai_data(scene->mMeshes[mesh_id], fname);
@@ -131,6 +137,7 @@ void Model::reset_scale() {
         glm::vec4(0, 1, 0, 0),
         glm::vec4(0, 0, 1, 0),
         glm::vec4(0, 0, 0, 1));
+    scale(x_norm, y_norm, z_norm);
 }
 
 void Model::scale(double &x_scl, double &y_scl, double &z_scl) {

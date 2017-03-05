@@ -37,9 +37,9 @@ public:
     // Freelook variables
     float FREE_X_CAM_ROT_SPEED = 0.05;
     float FREE_Y_CAM_ROT_SPEED = 0.05;
-    float FREE_X_CAM_MOVE_SPEED = 0.2;
-    float FREE_Y_CAM_MOVE_SPEED = 0.2;
-    float FREE_Z_CAM_MOVE_SPEED = 0.2;
+    float FREE_X_CAM_MOVE_SPEED = 2.;
+    float FREE_Y_CAM_MOVE_SPEED = 2.;
+    float FREE_Z_CAM_MOVE_SPEED = 2.;
 
     // Follow cam variables
     fp_vars follow_vars;
@@ -113,6 +113,8 @@ public:
     glm::mat4 getMatrix();
     glm::mat4 calcPerspective(); // calculate perspective as a function of car speed - want to increase FOV
 
+    void setDims(int width, int height);
+
 private:
     ProtoCar * car;
     Input * controller;
@@ -146,6 +148,8 @@ private:
     glm::quat p_diff;
 
     int frame_counter = 0;
+    int width = 0;
+    int height = 0;
     
     // tracks whether the right stick is currently in use
     bool RS_Y = false;
