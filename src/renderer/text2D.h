@@ -30,7 +30,7 @@ public:
     Texture *fontTexture;
 
    // void initText2D(const char * texturePath);
-    void printText2D(const char * text, int x, int y, int size);
+    void printText2D(const char * text, int x, int y, int size, int width, int height);
     bool initVAO(GLuint vao[], GLuint vbo[]);
     bool loadBuffer(GLuint vbo[], std::vector<glm::vec2>& points, std::vector<glm::vec2>& uvs);
 };

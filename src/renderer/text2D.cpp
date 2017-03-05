@@ -29,7 +29,7 @@ Text2D::Text2D(const char * texturePath) {
 
 }
 
-void Text2D::printText2D(const char * text, int x, int y, int size) {
+void Text2D::printText2D(const char * text, int x, int y, int size, int width, int height) {
 
     glBindVertexArray(textVao[TEXT_VAO::GEOMETRY]);
 
@@ -82,6 +82,9 @@ void Text2D::printText2D(const char * text, int x, int y, int size) {
 
     
     loadBuffer(textVbo, vertices, UVs);
+
+    glUniform1i(glGetUniformLocation(shader[SHADER::TEXT], "height"), height);
+    glUniform1i(glGetUniformLocation(shader[SHADER::TEXT], "width"), width);
 
     //Bind texture
     fontTexture->load(GL_TEXTURE0, shader[SHADER::TEXT], "textTextureSample");

@@ -371,20 +371,28 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     }
     // Draw text here
   
+    int xPlacement = 50;
+    int yPlacement = this->height - 100;
+
     //Lap Placement - insert real lap information here
     char text[256];
     sprintf(text, "LAP\n1/3");
-    textRenderer->printText2D(text, 50, 700, 60);
+    textRenderer->printText2D(text, xPlacement, yPlacement, 60, this->width, this->height);
 
    //Timer Text - insert real timer info here
-   char timeText[256];
+    xPlacement = 50;
+    yPlacement = 100;
+    char timeText[256];
     sprintf(timeText, "TIME\n0:28:37");
-    textRenderer->printText2D(timeText, 50, 60, 60);
+    textRenderer->printText2D(timeText, xPlacement, yPlacement, 60, this->width, this->height);
 
     //Position - insert real position info here
+    xPlacement = this->width - 200;
+    yPlacement = this->height - 100;
+
     char posText[256];
     sprintf(posText, "1st");
-    textRenderer->printText2D(posText, 550, 700, 60);
+    textRenderer->printText2D(posText, xPlacement, yPlacement, 60, this->width, this->height);
 }
 
 // This seems kinda dangerous
