@@ -258,7 +258,14 @@ void Car::update() {
         this->retractHook();
     }
 
+    //Defines how soon the hook detaches
+    float autoDetachLength = 200.f;
+
     this->myHook->update(pos + (HOOK_FORWARD_OFFSET*dir) + (HOOK_UP_OFFSET*up));
+    if ((this->getHookDistance() > autoDetachLength) && (this->myHook->getShot())) {
+        std::cout << this->getHookDistance() <<std::endl;
+        this->cancelHook();
+    }
 }
 
 
@@ -446,4 +453,10 @@ void Car::retractHook() {
 
 double Car::getSpeed() {
     return this->mActor->getLinearVelocity().magnitude();
+}
+
+float Car::getHookDistance() {
+    //retract hook
+    vec3 launchDir = this->myHook->getPos() - pos;
+    return glm::length(launchDir);
 }
