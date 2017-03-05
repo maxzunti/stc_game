@@ -27,13 +27,12 @@ int main(int argc, const char* argv[])
     std::unique_ptr<Window> window(new Window(1024, 768));
 
 	//Music
-	Jukebox *bgm = new Jukebox("assets/sound/shootingstars.mp3");
+	Jukebox *bgm = new Jukebox("assets/sound/dmw.mp3");
 	bgm->play();
 
     // Set up input
     std::unique_ptr<Input> input(new Input(0));
 
-	// Input* myInput = new Input();
     StickListener stickListener;
 	PhysicsManager* myPhysics = new PhysicsManager(&stickListener);
 	// OpponentAI* myAI = new OpponentAI();

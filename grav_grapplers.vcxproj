@@ -218,6 +218,7 @@
     <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleNoDriveCreate.cpp" />
     <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleRaycast.cpp" />
     <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.cpp" />
+    <ClCompile Include="src\entity\AICar.cpp" />
     <ClCompile Include="src\entity\AimArrow.cpp" />
     <ClCompile Include="src\entity\Hook.cpp" />
     <ClCompile Include="src\entity\Light.cpp" />
