@@ -37,7 +37,6 @@ int main(int argc, const char* argv[])
     // Set up input
     std::unique_ptr<Input> input(new Input(0));
 
-	// Input* myInput = new Input();
     StickListener stickListener;
     TriggerListener triggerListener;
 	PhysicsManager* myPhysics = new PhysicsManager(&triggerListener, &stickListener);

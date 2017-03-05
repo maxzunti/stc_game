@@ -11,6 +11,7 @@
 // ==========================================================================
 #include "renderer.h"
 #include "camera.h"
+#include "text2D.h"
 
 #include <iostream>
 #include <fstream>
@@ -45,6 +46,12 @@ void Renderer::postGLInit() {
 
     initDepthFrameBuffer(SIL_frameBuffer1, SIL_depthTex, width, height);
     initDepthFrameBuffer(SIL_frameBuffer2, SIL_depthTex, width, height);
+
+    initText("assets/textures/fontBlue.png");
+}
+
+void Renderer::initText(const char * texturePath) {
+    textRenderer = new Text2D(texturePath);
 }
 
 // Sets up the frame buffer and the shadowMap texture
@@ -117,7 +124,7 @@ void Renderer::drawSkybox(const Skybox* sb, glm::mat4 &perspectiveMatrix)
 
     //   GLuint uniformLocation = glGetUniformLocation(shader[SHADER::SKYBOX], skybox);
     //   glUniform1i(uniformLocation, 0);
-    CheckGLErrors("loadUniforms");
+    CheckGLErrors("skybox loadUniforms");
 
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
@@ -236,7 +243,7 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
     glUniform3fv(glGetUniformLocation(shader[SHADER::DEFAULT], "viewPos"), 1, &cam->pos[0]);	
 
     model.getTex()->load(GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
-    CheckGLErrors("loadUniforms");
+    CheckGLErrors("loadUniforms in render");
 
     // Shade against the cached pre-silhouette depth values
     glBindFramebuffer(GL_READ_FRAMEBUFFER, SIL_frameBuffer1); // pre-sil depth
@@ -323,7 +330,6 @@ void Renderer::drawSil(const Model& model, mat4 &perspectiveMatrix, glm::mat4 sc
     glBindVertexArray(0);
 }
 
-
 void Renderer::drawScene(const std::vector<Entity*>& ents)
 {
     renderShadowMap(ents);
@@ -363,6 +369,30 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
             }
         }
     }
+    // Draw text here
+  
+    int xPlacement = 50;
+    int yPlacement = this->height - 100;
+
+    //Lap Placement - insert real lap information here
+    char text[256];
+    sprintf(text, "LAP\n1/3");
+    textRenderer->printText2D(text, xPlacement, yPlacement, 60, this->width, this->height);
+
+   //Timer Text - insert real timer info here
+    xPlacement = 50;
+    yPlacement = 100;
+    char timeText[256];
+    sprintf(timeText, "TIME\n0:28:37");
+    textRenderer->printText2D(timeText, xPlacement, yPlacement, 60, this->width, this->height);
+
+    //Position - insert real position info here
+    xPlacement = this->width - 200;
+    yPlacement = this->height - 100;
+
+    char posText[256];
+    sprintf(posText, "1st");
+    textRenderer->printText2D(posText, xPlacement, yPlacement, 60, this->width, this->height);
 }
 
 // This seems kinda dangerous

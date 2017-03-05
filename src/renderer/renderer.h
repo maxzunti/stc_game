@@ -6,6 +6,8 @@
 #include "../input/input.h"
 #include <memory>
 #include "../entity/Light.h"
+#include "model\Texture.h"
+#include "text2D.h"
 
 class Renderer {
 	int index;
@@ -37,6 +39,10 @@ class Renderer {
     GLuint SM_depthTex;
     glm::mat4 depthMVP;
 
+    //Text rendering
+    void Renderer::initText(const char * texturePath);
+    Text2D * textRenderer;
+    
     // Silhouette vars
     GLuint SIL_frameBuffer1;
     GLuint SIL_frameBuffer2;

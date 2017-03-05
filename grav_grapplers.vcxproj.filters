@@ -117,6 +117,15 @@
     <ClCompile Include="src\entity\RectTrigger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\entity\AICar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entity\Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\text2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="middleware\glm\detail\func_common.inl">
@@ -468,6 +477,10 @@
     <None Include="middleware\xinput\xinput1_3.dll" />
     <None Include="src\renderer\shaders\skybox_frag.glsl" />
     <None Include="src\renderer\shaders\skybox_vert.glsl" />
+    <None Include="src\renderer\shaders\shadow_frag.glsl" />
+    <None Include="src\renderer\shaders\shadow_vert.glsl" />
+    <None Include="src\renderer\shaders\text_vert.glsl" />
+    <None Include="src\renderer\shaders\text_frag.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="middleware\glad\include\glad\glad.h">
@@ -1022,6 +1035,9 @@
     <ClInclude Include="src\entity\RectTrigger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\text2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\stars_milkyway.jpg">
@@ -1046,6 +1062,21 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="assets\textures\texture_sun.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="\\cs-fs01\Profiles\ug\mgbauman\Desktop\font.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\font.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\fontBlue.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\fontBlack.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\fontGold.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
