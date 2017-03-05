@@ -47,7 +47,7 @@ void Renderer::postGLInit() {
     initDepthFrameBuffer(SIL_frameBuffer1, SIL_depthTex, width, height);
     initDepthFrameBuffer(SIL_frameBuffer2, SIL_depthTex, width, height);
 
-    initText("assets/textures/fontBlue.png");
+    initText("assets/textures/blue_gg_font.png");
 }
 
 void Renderer::initText(const char * texturePath) {
@@ -369,17 +369,21 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
             }
         }
     }
+    drawText();
+}
+
+void Renderer::drawText() {
     // Draw text here
-  
+
     int xPlacement = 50;
     int yPlacement = this->height - 100;
 
     //Lap Placement - insert real lap information here
     char text[256];
-    sprintf(text, "LAP\n1/3");
+    sprintf(text, "LAP\n1\\3");
     textRenderer->printText2D(text, xPlacement, yPlacement, 60, this->width, this->height);
 
-   //Timer Text - insert real timer info here
+    //Timer Text - insert real timer info here
     xPlacement = 50;
     yPlacement = 100;
     char timeText[256];
@@ -391,8 +395,9 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     yPlacement = this->height - 100;
 
     char posText[256];
-    sprintf(posText, "1st");
+    sprintf(posText, "1ST");
     textRenderer->printText2D(posText, xPlacement, yPlacement, 60, this->width, this->height);
+
 }
 
 // This seems kinda dangerous
