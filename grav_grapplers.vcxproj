@@ -225,6 +225,7 @@
     <ClCompile Include="src\entity\HookChain.cpp" />
     <ClCompile Include="src\entity\PhysicsObject.cpp" />
     <ClCompile Include="src\entity\ProtoCar.cpp" />
+    <ClCompile Include="src\entity\Trigger.cpp" />
     <ClCompile Include="src\Jukebox.cpp" />
     <ClCompile Include="src\entity\StaticPhysicsObject.cpp" />
     <ClCompile Include="src\physics\PhysicsManager.cpp" />
@@ -232,6 +233,7 @@
     <ClCompile Include="src\entity\Renderable.cpp" />
     <ClCompile Include="src\GameLoop.cpp" />
     <ClCompile Include="src\input\input.cpp" />
+    <ClCompile Include="src\physics\TriggerListener.cpp" />
     <ClCompile Include="src\renderer\GLUtil.cpp" />
     <ClCompile Include="src\renderer\junk\junk.cpp" />
     <ClCompile Include="src\renderer\model\Texture.cpp" />
@@ -377,6 +379,7 @@
     <ClInclude Include="src\entity\Obstacle.h" />
     <ClInclude Include="src\entity\HookChain.h" />
     <ClInclude Include="src\Jukebox.h" />
+    <ClInclude Include="src\physics\TriggerListener.h" />
     <ClInclude Include="src\util\ConfigParser.h" />
     <ClInclude Include="src\entity\AimArrow.h" />
     <ClInclude Include="src\entity\ProtoCar.h" />
