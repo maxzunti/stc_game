@@ -173,6 +173,7 @@ PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU3
     PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
 
     PxTriangleMesh* triMesh = mPhysics->createTriangleMesh(readBuffer);
+
     
     PxTriangleMeshGeometry geom(triMesh);
     PxMeshScale meshscale;
