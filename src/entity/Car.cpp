@@ -144,7 +144,7 @@ void Car::make_physX_car() {
     this->retracting = false;
 
     setPos(pos.x, pos.y + (2 * WHEEL_RAD) + (CHASSIS_Y)+1.0, pos.z);
-    setRot(qrot);
+    setRot(glm::quat());
 }
 
 // Setup the wheels for rendering
@@ -188,7 +188,7 @@ void Car::update() {
     }
 
     if (controller->GetButtonPressed(XButtonIDs::A)) {
-        setPos(-50, 10, 200);
+        setPos(-50, 100, 72);
         setRot(0.0, 1.57 / 2.0, 0.0);
     }
 
