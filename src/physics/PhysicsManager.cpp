@@ -2,14 +2,11 @@
 
 using namespace physx;
 
-PhysicsManager::PhysicsManager(PxContactModifyCallback* callBack)
+PhysicsManager::PhysicsManager(PxSimulationEventCallback *event_callback, PxContactModifyCallback* mod_callback)
 {
 	static PxDefaultErrorCallback gDefaultErrorCallback;
 	static PxDefaultAllocator gDefaultAllocatorCallback;
     
-
-
-
 	mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback,
 		gDefaultErrorCallback);
 	
@@ -45,7 +42,8 @@ PhysicsManager::PhysicsManager(PxContactModifyCallback* callBack)
 	mDispatcher = PxDefaultCpuDispatcherCreate(numWorkers);
 	sceneDesc.cpuDispatcher = mDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;
-    sceneDesc.contactModifyCallback = callBack;
+    sceneDesc.simulationEventCallback = event_callback;
+    sceneDesc.contactModifyCallback = mod_callback;
 	mScene = mPhysics->createScene(sceneDesc);
 
 	mMaterial = mPhysics->createMaterial(.3f, .3f, 0.1f);

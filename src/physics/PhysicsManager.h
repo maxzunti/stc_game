@@ -28,7 +28,7 @@ public:
 	VehicleSceneQueryData*	mVehicleSceneQueryData = NULL;
 	PxBatchQuery*			mBatchQuery = NULL;
 
-	PhysicsManager(PxContactModifyCallback* callBack);
+    PhysicsManager(PxSimulationEventCallback *event_callback, PxContactModifyCallback* mod_callback);
 	~PhysicsManager();
 	PxActor* PhysicsManager::createGroundPlane();
     PxActor* PhysicsManager::createWallPlane(float xpos, float ypos, float zpos, float xnorm, float znorm);
@@ -46,5 +46,4 @@ struct FilterGroup
 		eHOOK = (1 << 1),
 		eWALL = (1 << 2),
 	};
-
 };

@@ -6,5 +6,5 @@ protected:
     bool triggered = false;
 
 public:
-
+    Trigger(std::string model_fname, std::string tex_fname, PhysicsManager* physicsManager);
 };
