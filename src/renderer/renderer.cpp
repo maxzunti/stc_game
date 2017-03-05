@@ -27,65 +27,34 @@
 using namespace std;
 using namespace glm;
 
-Renderer::Renderer(int index, vec3 pos, vec3 dir) :
+Renderer::Renderer(int index) :
     cam(new Camera(vec3(0, -1, -1), vec3(0, 10, 10)))
 {
     index = index;
-    light = new Light(pos, dir);
+    light = new Light(glm::vec3(200, 400, 200), glm::vec3(-400, -500, -100)); // TODO: stop hard-coding this
 }
 
-void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
+Renderer::~Renderer()
+{
+    delete cam;
+}
 
-     //Changing size can drastically affect the shadow map.
-    // Smaller values capture less of the area but do allow for better shadows.
-    // important area for tuning - especially in relation to mapsize 
-    float size = 500; // 900
-   
-    // Compute the MVP matrix from the light's point of view 
-    glm::mat4 depthProjectionMatrix = glm::ortho<float>(-size, size, -size, size, 0.1f, 1500.f); // 1500.0f
-    glm::mat4 depthViewMatrix = glm::lookAt(light->getPos(), glm::vec3(0.f), glm::vec3(0, 1, 0));
-    depthMVP = depthProjectionMatrix * depthViewMatrix;
+void Renderer::postGLInit() {
+    initSkybox();
+    initDepthFrameBuffer(SM_frameBuffer, SM_depthTex, SM_res, SM_res);
 
-    // Use our shader
-    glUseProgram(shader[SHADER::SHADOW]);
-
-    //Change the viewport and frame buffer, clear the buffer bit
-    glViewport(0, 0, 8192, 8192);
-    glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
-    glClear(GL_DEPTH_BUFFER_BIT);
-    
-    // Render each of the entities to the shadowMap texture in a first pass
-    for (auto& e : ents) {
-        // This is virtual function lookup for each entity, might be slow
-        // Potentially optimize by using a single vec of Renderables
-        if (e->canRender()) {
-            // Careful here - static_cast is FAST, but potentially dangerous if an entity
-            // hasn't been initialized properly
-            Renderable* r = static_cast<Renderable*>(e);
-
-            for (Model* model : r->getModels()) {
-                mat4 scale = model->get_scaling();
-                mat4 rot = glm::mat4_cast(r->getQRot());
-                mat4 trans = glm::translate(mat4(), r->getPos());
-                mat4 mmatrix = trans * rot * scale;
-
-                shrender(*model,mmatrix, 0);
-            }
-        }
-        
-     }
-    //Back to base frame buffer
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    initDepthFrameBuffer(SIL_frameBuffer1, SIL_depthTex, width, height);
+    initDepthFrameBuffer(SIL_frameBuffer2, SIL_depthTex, width, height);
 }
 
 // Sets up the frame buffer and the shadowMap texture
-bool Renderer::loadFrameBuffers() {
-    glGenFramebuffers(1, &FramebufferName);
+bool Renderer::initDepthFrameBuffer(GLuint &frameBuffer, GLuint &depthTex, int width, int height) {
+    glGenFramebuffers(1, &frameBuffer);
     // Depth texture. Slower than a depth buffer, but you can sample it later in your shader
-    glGenTextures(1, &depthTexture);
-    glBindTexture(GL_TEXTURE_2D, depthTexture);
+    glGenTextures(1, &depthTex);
+    glBindTexture(GL_TEXTURE_2D, depthTex);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, 8192, 8192, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);// To gl linear possibly
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -94,19 +63,19 @@ bool Renderer::loadFrameBuffers() {
     GLfloat borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
     glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D, depthTexture, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D, depthTex, 0);
 
     glDrawBuffer(GL_NONE); // No color buffer is drawn to.
     glReadBuffer(GL_NONE);
-
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     
     // Always check that our framebuffer is ok
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         return false;
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
 }
 
 
@@ -157,8 +126,52 @@ void Renderer::drawSkybox(const Skybox* sb, glm::mat4 &perspectiveMatrix)
     glDepthMask(GL_TRUE);
 }
 
+
+void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
+
+    //Changing size can drastically affect the shadow map.
+    // Smaller values capture less of the area but do allow for better shadows.
+    // important area for tuning - especially in relation to mapsize 
+    float size = 500; // 900
+
+    // Compute the MVP matrix from the light's point of view 
+    glm::mat4 depthProjectionMatrix = glm::ortho<float>(-size, size, -size, size, 0.1f, 1500.f); // 1500.0f
+    glm::mat4 depthViewMatrix = glm::lookAt(light->getPos(), glm::vec3(0.f), glm::vec3(0, 1, 0));
+    depthMVP = depthProjectionMatrix * depthViewMatrix;
+
+    // Use our shader
+    glUseProgram(shader[SHADER::SHADOW]);
+
+    //Change the viewport and frame buffer, clear the buffer bit
+    glViewport(0, 0, SM_res, SM_res);
+    glBindFramebuffer(GL_FRAMEBUFFER, SM_frameBuffer);
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    // Render each of the entities to the shadowMap texture in a first pass
+    for (auto& e : ents) {
+        // This is virtual function lookup for each entity, might be slow
+        // Potentially optimize by using a single vec of Renderables
+        if (e->canRender()) {
+            // Careful here - static_cast is FAST, but potentially dangerous if an entity
+            // hasn't been initialized properly
+            Renderable* r = static_cast<Renderable*>(e);
+
+            for (Model* model : r->getModels()) {
+                mat4 scale = model->get_scaling();
+                mat4 rot = glm::mat4_cast(r->getQRot());
+                mat4 trans = glm::translate(mat4(), r->getPos());
+                mat4 mmatrix = trans * rot * scale;
+
+                addToShadowMap(*model, mmatrix, 0);
+            }
+        }
+    }
+    //Back to base frame buffer
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
 // Shadow render - does the rendering to the texture - called by renderShadowMap
-void Renderer::shrender(const Model& model, mat4 model_matrix, int startElement){
+void Renderer::addToShadowMap(const Model& model, mat4 model_matrix, int startElement){
 
     // Make sure depth testing is enabled and cull front faces
     glEnable(GL_DEPTH_TEST);
@@ -183,12 +196,18 @@ void Renderer::shrender(const Model& model, mat4 model_matrix, int startElement)
 }
 
 
-void Renderer::render(const Model& model, mat4 &perspectiveMatrix, mat4 model_matrix, int startElement)
+void Renderer::renderModel(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans)
 {
-    // Set object-specific VAO
-    glBindVertexArray(model.vao[VAO::GEOMETRY]);
+    drawSil(model, perspectiveMatrix, scale, rot, trans);
+    drawShade(model, perspectiveMatrix, scale, rot, trans);
+}
 
+void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans) {
+    glUseProgram(shader[SHADER::DEFAULT]);
+
+    glBindVertexArray(model.vao[VAO::GEOMETRY]);
     mat4 &camMatrix = cam->getMatrix();
+    mat4 model_matrix = trans * rot * scale;
 
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "cameraMatrix"),
         1,
@@ -207,7 +226,7 @@ void Renderer::render(const Model& model, mat4 &perspectiveMatrix, mat4 model_ma
 
 
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, depthTexture);
+    glBindTexture(GL_TEXTURE_2D, SM_depthTex);
     glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "shadowMap"), 1);
    
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "depthBiasMVP"), 1, GL_FALSE, glm::value_ptr(depthMVP));
@@ -219,25 +238,97 @@ void Renderer::render(const Model& model, mat4 &perspectiveMatrix, mat4 model_ma
     model.getTex()->load(GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
     CheckGLErrors("loadUniforms");
 
+    // Shade against the cached pre-silhouette depth values
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, SIL_frameBuffer1); // pre-sil depth
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // to actual drawbuffer
+    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
+        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
+
     glDrawElements(
-        GL_TRIANGLES,		//What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
-        model.num_indices(),		//How many indices
-        GL_UNSIGNED_INT,	//Type
-        (void*)0			//Offset
+        GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+        model.num_indices(), //How many indices
+        GL_UNSIGNED_INT,	 //Type
+        (void*)0			 //Offset
         );
 
-    CheckGLErrors("render");
+    // Restore post-sil depth values to drawbuffer
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, SIL_frameBuffer2); // post-sil depth
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // to actual drawbuffer
+    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
+        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
+
+    CheckGLErrors("drawShade");
     glBindVertexArray(0);
 }
+
+void Renderer::drawSil(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans) {
+    glUseProgram(shader[SHADER::SIL]);
+
+    glBindVertexArray(model.vao[VAO::GEOMETRY]);
+    mat4 &camMatrix = cam->getMatrix();
+
+    mat4 model_matrix = trans * rot * scale;
+    mat4 scaled_model = trans * rot * (scale * glm::scale(glm::vec3(model.sil_x, model.sil_y, model.sil_z)));
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "cameraMatrix"),
+        1,
+        false,
+        &camMatrix[0][0]);
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "perspectiveMatrix"),
+        1,
+        false,
+        &perspectiveMatrix[0][0]);
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "modelviewMatrix"),
+        1,
+        false,
+        &scaled_model[0][0]);
+
+    CheckGLErrors("loadUniforms");
+
+    // Copy pre-sil depth-buffer values to temp SIL_frameBuffer1
+    glBindFramebuffer(GL_FRAMEBUFFER, SIL_frameBuffer1);
+    glClear(GL_DEPTH_BUFFER_BIT); // clear FB1
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0); // copy from default...
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, SIL_frameBuffer1); // ...to sil_1
+    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
+        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
+
+    glDepthMask(GL_TRUE); // enable writes to Z-buffer
+
+    glUniform3f(glGetUniformLocation(shader[SHADER::SIL], "u_color1"), 0.0, 0.0, 0.0);
+
+    // Still using default framebuffer => silhouettes update default framebuffer
+    glDrawElements(
+        GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+        model.num_indices(), //How many indices
+        GL_UNSIGNED_INT,	 //Type
+        (void*)0			 //Offset
+        );
+
+    // Copy post-sil depth-buffer values to temp SIL_frameBuffer2
+    glBindFramebuffer(GL_FRAMEBUFFER, SIL_frameBuffer2);
+    glClear(GL_DEPTH_BUFFER_BIT); // clear FB2
+    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0); // copy from default...
+    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, SIL_frameBuffer2); // ...to sil_2
+    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
+        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
+
+    CheckGLErrors("drawSil");
+    glBindVertexArray(0);
+}
+
 
 void Renderer::drawScene(const std::vector<Entity*>& ents)
 {
     renderShadowMap(ents);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-    glViewport(0, 0, 1024, 768); // Render on the whole framebuffer, complete from the lower left corner to the upper right
-
-  //  glCullFace(GL_BACK); // Cull back-facing triangles -> draw only front-facing triangles
+    glViewport(0, 0, width, height); // Render on the whole framebuffer, complete from the lower left corner to the upper right
     
     cam->update();
 	//float fovy, float aspect, float zNear, float zFar
@@ -267,20 +358,27 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
                 mat4 scale = model->get_scaling();
                 mat4 rot = glm::mat4_cast(r->getQRot());
                 mat4 trans = glm::translate(mat4(), r->getPos());
-                mat4 mmatrix = trans * rot * scale;
 
-                render(*model, perspectiveMatrix, mmatrix, 0);
+                renderModel(*model, perspectiveMatrix, scale, rot, trans);
             }
         }
     }
 }
 
-Renderer::~Renderer()
-{
-    delete cam;
-}
-
 // This seems kinda dangerous
 Camera* Renderer::getCam() {
     return cam;
+}
+
+void Renderer::setDims(int width, int height) {
+    this->width = width;
+    this->height = height;
+    cam->setDims(width, height);
+
+    // Need to resize silhouette FB to match depth-buffer res
+    glDeleteFramebuffers(1, &SIL_frameBuffer1);
+    glDeleteFramebuffers(1, &SIL_frameBuffer2);
+    glDeleteTextures(1, &SIL_depthTex);
+    initDepthFrameBuffer(SIL_frameBuffer1, SIL_depthTex, width, height);
+    initDepthFrameBuffer(SIL_frameBuffer2, SIL_depthTex, width, height);
 }

@@ -22,12 +22,15 @@ matrix[2][2] = cos(radians) + axis.z*axis.z*(1 - cos(radians));
 return matrix;
 }*/
 
-Renderer* Window::renderer = new Renderer(0, glm::vec3(200, 400, 200), glm::vec3(-400, -500, -100));
+Renderer* Window::renderer = new Renderer(0);
 glm::vec2 Window::mousePos(0, 0);
 bool Window::mousePressed = false;
 bool Window::done_init = false;
 
-Window::Window() {
+Window::Window(int width, int height) {
+    this->width = width;
+    this->height = height;
+
     if (!done_init) {
         initGLFW();
 
@@ -38,8 +41,8 @@ Window::Window() {
             done_init = true;
         }
     }
-    renderer->initSkybox();
-    renderer->loadFrameBuffers();
+    renderer->setDims(width, height);
+    renderer->postGLInit();
 }
 
 Window::~Window() {
@@ -61,7 +64,7 @@ int Window::initGLFW() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    window = glfwCreateWindow(1024, 768, "GRAV GRAPPLERS", 0, 0);
+    window = glfwCreateWindow(width, height, "GRAV GRAPPLERS", 0, 0);
     if (!window) {
         std::cout << "Program failed to create GLFW window, TERMINATING" << std::endl;
         glfwTerminate();
@@ -161,8 +164,7 @@ void Window::resizeCallback(GLFWwindow* window, int width, int height)
 {
     int vp[4];
     glGetIntegerv(GL_VIEWPORT, vp);
-
-    glViewport(0, 0, width, height);
+    renderer->setDims(width, height);
 }
 
 Renderer* Window::getRenderer() { return renderer;  }

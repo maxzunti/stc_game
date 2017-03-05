@@ -6,7 +6,6 @@
 
 using namespace glm;
 
-
 HookChain::HookChain(std::string model_fname, std::string tex_fname) :
     Renderable(model_fname, tex_fname) {
 
@@ -15,7 +14,16 @@ HookChain::HookChain(std::string model_fname, std::string tex_fname) :
     unattached = models[0];
     attached = new Model(model_fname, "assets/models/cylinder/oline.png");
 
-    scale(X_SCALE, Y_SCALE, Z_SCALE);
+    models.push_back(attached);
+    this->X_MODEL_SCALE = 0.3;
+    this->Y_MODEL_SCALE = 0.2155181703369411;
+    this->Z_MODEL_SCALE = 0.3;
+    this->SIL_X_SCALE = 1.4;
+    this->SIL_Z_SCALE = 1.4;
+    this->SIL_Y_SCALE = 1.0;
+    scaleModels();
+    models.pop_back();
+
     rotate(base_rot.x, base_rot.y, base_rot.z);
     renderable = false;
 }
@@ -33,10 +41,10 @@ void HookChain::reposition(glm::vec3 carPos, glm::vec3 hookPos) {
         // Rescale to length
         reset_scale();
         float len = glm::distance(hookPos, carPos);
-        scale(X_SCALE, Y_SCALE * len, Z_SCALE);
+        scale(1., len, 1.);
 
-        attached->tile_UV_Y(Y_SCALE * len);
-        unattached->tile_UV_Y(Y_SCALE * len);
+        attached->tile_UV_Y(Y_MODEL_SCALE * len);
+        unattached->tile_UV_Y(Y_MODEL_SCALE * len);
 
         // Set position between car and hook
         vec3 dir = normalize(hookPos - carPos);

@@ -118,7 +118,7 @@ glm::mat4 Camera::calcPerspective() {
     if (speed > 80) {// TODO: currently hardcoded; change to be a function of MAX_SPEED
         FOV += FOV * (speed - 80) / 130;
     }
-    return glm::perspective(radians(FOV), 1.f, 0.1f, 3000.f);
+    return glm::perspective(radians(FOV), ((float)width)/((float)height), 0.1f, 3000.f);
 }
 
 void Camera::rotateAroundCenter(float x, float y, vec3 focus)
@@ -426,4 +426,9 @@ void Camera::calcFollowSpeeds() {
 
     y_cam_rot += y_rot_speed;
     clamp(y_cam_rot, FOLLOW_Y_MAX_ROT);
+}
+
+void Camera::setDims(int width, int height) {
+    this->width = width;
+    this->height = height;
 }

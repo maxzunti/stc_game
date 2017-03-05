@@ -157,15 +157,12 @@ PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU3
         glm::vec3 point = points.at(i);
         convexVerts.push_back(PxVec3(point.x, point.y, point.z));
     }
-    std::cout << "vers size: " << convexVerts.size() << std::endl;
 
     std::vector<unsigned int> indices = mod->indices;
     PxTriangleMeshDesc meshDesc;
     meshDesc.points.count = convexVerts.size();
     meshDesc.points.stride = sizeof(PxVec3);
     meshDesc.points.data = &convexVerts[0];
-    std::cout << "points: " << convexVerts.size() << std::endl;
-    std::cout << "num tries: " << indices.size()/3 << std::endl;
     meshDesc.triangles.count = indices.size()/3;
     meshDesc.triangles.stride = 3 * sizeof(unsigned int);
     meshDesc.triangles.data = &indices[0];

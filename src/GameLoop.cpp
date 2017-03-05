@@ -1,3 +1,5 @@
+#define SDL_MAIN_HANDLED
+
 #include <iostream>
 
 #include "renderer/Window.h"
@@ -14,15 +16,19 @@
 #include "entity/Obstacle.h"
 #include "physics/StickListener.h"
 #include "renderer/skybox/Skybox.h"
+#include "Jukebox.h"
 #include <ctime>
-
 #include "util/ConfigParser.h"
 
 using namespace std;
 
 int main(int argc, const char* argv[])
 {
-    std::unique_ptr<Window> window(new Window());
+    std::unique_ptr<Window> window(new Window(1024, 768));
+
+	//Music
+	Jukebox *bgm = new Jukebox("assets/sound/dmw.mp3");
+	bgm->play();
 
     // Set up input
     std::unique_ptr<Input> input(new Input(0));
@@ -30,7 +36,6 @@ int main(int argc, const char* argv[])
 	// Input* myInput = new Input();
     StickListener stickListener;
 	PhysicsManager* myPhysics = new PhysicsManager(&stickListener);
-	// Sound* mySound = new Sound();
 	// OpponentAI* myAI = new OpponentAI();
 
     // TODO: convert these to unique_ptrs

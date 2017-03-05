@@ -32,8 +32,11 @@ class Window {
     static void mousePosCallback(GLFWwindow* window, double xpos, double ypos);
     static void resizeCallback(GLFWwindow* window, int width, int height);
 
+    int width;
+    int height;
+
 public:
-    Window();
+    Window(int width, int height);
     ~Window();
 
     void Window::draw(const std::vector<Entity*>& ents);
