@@ -228,7 +228,7 @@ void Car::update() {
         //applyLocalForce(0, 0, 2000);
         startBrakeMode();
     }
-    if (controller->GetButtonPressed(XButtonIDs::B)) {
+    if (this->myHook->getStuck() && controller->GetButtonPressed(XButtonIDs::B)) {
         this->cancelHook();
     }
     /*
@@ -263,7 +263,6 @@ void Car::update() {
 
     this->myHook->update(pos + (HOOK_FORWARD_OFFSET*dir) + (HOOK_UP_OFFSET*up));
     if ((this->getHookDistance() > autoDetachLength) && (this->myHook->getShot())) {
-        std::cout << this->getHookDistance() <<std::endl;
         this->cancelHook();
     }
 }
@@ -438,7 +437,6 @@ void Car::retractHook() {
 
     PxVec3 launchDir = PxVec3(this->myHook->getPos().x, this->myHook->getPos().y, this->myHook->getPos().z) -
         PxVec3(pos.x, pos.y, pos.z);
-
     // Implement this again when cooldown is working
     /*if (launchDir.magnitude() < 30.f)
     {
