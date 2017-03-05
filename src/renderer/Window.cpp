@@ -40,6 +40,7 @@ Window::Window() {
     }
     renderer->initSkybox();
     renderer->loadFrameBuffers();
+    //renderer->initText("assets/textures/font.png");
 }
 
 Window::~Window() {

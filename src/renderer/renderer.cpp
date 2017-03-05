@@ -11,6 +11,7 @@
 // ==========================================================================
 #include "renderer.h"
 #include "camera.h"
+#include "text2D.h"
 
 #include <iostream>
 #include <fstream>
@@ -32,6 +33,7 @@ Renderer::Renderer(int index, vec3 pos, vec3 dir) :
 {
     index = index;
     light = new Light(pos, dir);
+
 }
 
 void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
@@ -39,7 +41,7 @@ void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
      //Changing size can drastically affect the shadow map.
     // Smaller values capture less of the area but do allow for better shadows.
     // important area for tuning - especially in relation to mapsize 
-    float size = 500; // 900
+    float size = 900; // 900
    
     // Compute the MVP matrix from the light's point of view 
     glm::mat4 depthProjectionMatrix = glm::ortho<float>(-size, size, -size, size, 0.1f, 1500.f); // 1500.0f
@@ -80,6 +82,7 @@ void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
 
 // Sets up the frame buffer and the shadowMap texture
 bool Renderer::loadFrameBuffers() {
+    initText("assets/textures/fontBlue.png");
     glGenFramebuffers(1, &FramebufferName);
     // Depth texture. Slower than a depth buffer, but you can sample it later in your shader
     glGenTextures(1, &depthTexture);
@@ -148,7 +151,7 @@ void Renderer::drawSkybox(const Skybox* sb, glm::mat4 &perspectiveMatrix)
 
     //   GLuint uniformLocation = glGetUniformLocation(shader[SHADER::SKYBOX], skybox);
     //   glUniform1i(uniformLocation, 0);
-    CheckGLErrors("loadUniforms");
+    CheckGLErrors("skybox loadUniforms");
 
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
@@ -217,7 +220,7 @@ void Renderer::render(const Model& model, mat4 &perspectiveMatrix, mat4 model_ma
     glUniform3fv(glGetUniformLocation(shader[SHADER::DEFAULT], "viewPos"), 1, &cam->pos[0]);	
 
     model.getTex()->load(GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
-    CheckGLErrors("loadUniforms");
+    CheckGLErrors("loadUniforms in render");
 
     glDrawElements(
         GL_TRIANGLES,		//What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
@@ -228,6 +231,10 @@ void Renderer::render(const Model& model, mat4 &perspectiveMatrix, mat4 model_ma
 
     CheckGLErrors("render");
     glBindVertexArray(0);
+}
+
+void Renderer::initText(const char * texturePath) {
+    textRenderer = new Text2D(texturePath);
 }
 
 void Renderer::drawScene(const std::vector<Entity*>& ents)
@@ -273,6 +280,22 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
             }
         }
     }
+    // Draw text here
+  
+    //Lap Placement - insert real lap information here
+    char text[256];
+    sprintf(text, "LAP\n1/3");
+    textRenderer->printText2D(text, 50, 700, 60);
+
+   //Timer Text - insert real timer info here
+   char timeText[256];
+    sprintf(timeText, "TIME\n0:28:37");
+    textRenderer->printText2D(timeText, 50, 60, 60);
+
+    //Position - insert real position info here
+    char posText[256];
+    sprintf(posText, "1st");
+    textRenderer->printText2D(posText, 550, 700, 60);
 }
 
 Renderer::~Renderer()

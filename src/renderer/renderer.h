@@ -6,6 +6,8 @@
 #include "../input/input.h"
 #include <memory>
 #include "../entity/Light.h"
+#include "model\Texture.h"
+#include "text2D.h"
 
 class Renderer {
 	int index;
@@ -34,6 +36,9 @@ public:
     void renderShadowMap(const std::vector<Entity*>& ents);
     void shrender(const Model& model, glm::mat4 model_matrix, int startElement);
 
-
+    //Text rendering
+    void Renderer::initText(const char * texturePath);
+    Text2D * textRenderer;
+    
     Camera* getCam();
 };

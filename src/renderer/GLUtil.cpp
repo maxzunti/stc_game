@@ -155,6 +155,7 @@ bool initGL()
     initShader(SHADER::DEFAULT, "src\\renderer\\shaders\\vertex.glsl", "src\\renderer\\shaders\\fragment.glsl");
     initShader(SHADER::SKYBOX, "src\\renderer\\shaders\\skybox_vert.glsl", "src\\renderer\\shaders\\skybox_frag.glsl");
     initShader(SHADER::SHADOW, "src\\renderer\\shaders\\shadow_vert.glsl", "src\\renderer\\shaders\\shadow_frag.glsl");
+    initShader(SHADER::TEXT, "src\\renderer\\shaders\\text_vert.glsl", "src\\renderer\\shaders\\text_frag.glsl");
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 	/*

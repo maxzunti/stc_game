@@ -217,6 +217,7 @@
     <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.cpp" />
     <ClCompile Include="src\entity\AimArrow.cpp" />
     <ClCompile Include="src\entity\Hook.cpp" />
+    <ClCompile Include="src\entity\Light.cpp" />
     <ClCompile Include="src\entity\Obstacle.cpp" />
     <ClCompile Include="src\entity\HookChain.cpp" />
     <ClCompile Include="src\entity\PhysicsObject.cpp" />
@@ -235,6 +236,7 @@
     <ClCompile Include="middleware\glm\detail\glm.cpp" />
     <ClCompile Include="src\renderer\model\Model.cpp" />
     <ClCompile Include="src\renderer\skybox\Skybox.cpp" />
+    <ClCompile Include="src\renderer\text2D.cpp" />
     <ClCompile Include="src\renderer\Window.cpp" />
     <ClCompile Include="src\physics\StickListener.cpp" />
     <ClCompile Include="src\util\ConfigParser.cpp" />
@@ -357,8 +359,12 @@
     <None Include="middleware\glm\gtx\vector_query.inl" />
     <None Include="middleware\glm\gtx\wrap.inl" />
     <None Include="src\renderer\shaders\fragment.glsl" />
+    <None Include="src\renderer\shaders\shadow_frag.glsl" />
+    <None Include="src\renderer\shaders\shadow_vert.glsl" />
     <None Include="src\renderer\shaders\skybox_frag.glsl" />
     <None Include="src\renderer\shaders\skybox_vert.glsl" />
+    <None Include="src\renderer\shaders\text_frag.glsl" />
+    <None Include="src\renderer\shaders\text_vert.glsl" />
     <None Include="src\renderer\shaders\vertex.glsl" />
     <None Include="src\vertex.glsl" />
   </ItemGroup>
@@ -370,6 +376,7 @@
     <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.h" />
     <ClInclude Include="src\entity\Obstacle.h" />
     <ClInclude Include="src\entity\HookChain.h" />
+    <ClInclude Include="src\renderer\text2D.h" />
     <ClInclude Include="src\util\ConfigParser.h" />
     <ClInclude Include="src\entity\AimArrow.h" />
     <ClInclude Include="src\entity\ProtoCar.h" />
@@ -549,6 +556,10 @@
     <ClInclude Include="src\physics\StickListener.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\textures\font.png" />
+    <Image Include="assets\textures\fontBlack.png" />
+    <Image Include="assets\textures\fontBlue.png" />
+    <Image Include="assets\textures\fontGold.png" />
     <Image Include="assets\textures\stars_milkyway.jpg" />
     <Image Include="assets\textures\texture_earth_surface.jpg" />
     <Image Include="assets\textures\texture_moon.jpg" />
@@ -557,6 +568,7 @@
     <Image Include="src\texture_earth_surface.jpg" />
     <Image Include="src\texture_moon.jpg" />
     <Image Include="src\texture_sun.jpg" />
+    <Image Include="\\cs-fs01\Profiles\ug\mgbauman\Desktop\font.png" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="middleware\glfw\glfw3.lib" />
