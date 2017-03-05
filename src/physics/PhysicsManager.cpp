@@ -177,8 +177,6 @@ PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU3
 
     PxTriangleMesh* triMesh = mPhysics->createTriangleMesh(readBuffer);
 
-    PxTriangleMeshGeometry geom(triMesh);
-    
     PxRigidStatic* triAct;
     
     //if (!dynamic)
