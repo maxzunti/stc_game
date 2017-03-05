@@ -228,7 +228,7 @@ void Car::update() {
         //applyLocalForce(0, 0, 2000);
         startBrakeMode();
     }
-    if (this->myHook->getStuck() && controller->GetButtonPressed(XButtonIDs::B)) {
+    if (controller->GetButtonPressed(XButtonIDs::B)) {
         this->cancelHook();
     }
     /*
@@ -245,11 +245,11 @@ void Car::update() {
     arrow->reposition(up, pos, aim, aim_rot);
 
     // Must fire after calc aim
-    if ((!this->myHook->getShot() && !this->myHook->getStuck()) && controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
+    if ((!this->myHook->getShot() && !this->myHook->getStuck()) && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
         fireHook();
     }
 
-    if (this->myHook->getStuck() && controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
+    if (this->myHook->getStuck() && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
         this->retracting = true;
     }
 
