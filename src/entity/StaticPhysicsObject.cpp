@@ -10,8 +10,15 @@ StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string te
 {
     this->scale(scale.x, scale.y, scale.z);
     mPhysicsManager = physicsManager;
-    mActor = mPhysicsManager->createTriangleMesh(this->getModels().at(0), false, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
-    mPhysicsManager->mScene->addActor(*mActor);
+    PxVec3 myscale;
+    myscale.x = scale.x;
+    myscale.y = scale.y;
+    myscale.z = scale.z;
+    for (Model* m : this->getModels())
+    {
+        mActor = mPhysicsManager->createTriangleMesh(m, false, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST, myscale);
+        mPhysicsManager->mScene->addActor(*mActor);
+    }
 }
 
 StaticPhysicsObject::~StaticPhysicsObject()
