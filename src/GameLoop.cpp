@@ -53,20 +53,15 @@ int main(int argc, const char* argv[])
  
     cars.push_back(car);
     entities.push_back(car);
-    car->setPos(-50, 7, 200);
+    car->setPos(-50, 200, 200);
     car->setRot(0.0, 1.57 / 2.0, 0.0);
 
-	Obstacle * daCube = new Obstacle("assets/models/Crate/Crate1.obj", "assets/models/plane/logo_tile.png", myPhysics->createBlock(0.f, 100.f, 0.f, 100.f, 100.f, 100.f), glm::vec3(100,100,100), myPhysics);
-   // Obstacle * daPot = new Obstacle("assets/models/teapot/teapot.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(-50.f, 15.f, 210.f, 4.f, 3.f, 4.f), glm::vec3(1,1,1), myPhysics);
-    //Set the simulation filter data of the ground plane so that it collides with the chassis of a vehicle but not the wheels.
-    
-    StaticPhysicsObject * daPot = new StaticPhysicsObject("assets/models/teapot/teapot.obj", "assets/models/teapot/teapot_tex.png", myPhysics);
-    entities.push_back(daCube);
-    entities.push_back(daPot);
-    daCube->setRot(0.0, 0.0, 3.14f);
-    daPot->setPos(-50.f, 5.f, 210.f);
+    StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/tracksurface.obj", "assets/models/track/blue.png", glm::vec3(100.f,100.f,100.f), myPhysics);
+    entities.push_back(myTrack);
+    StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/models/track/green.png", glm::vec3(100.f, 100.f, 100.f), myPhysics);
+    entities.push_back(myTrackWalls);
 
-    Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
+    /*Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
 	Renderable* wall1 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/stc.png");
 	Renderable* wall2 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/stc.png");
 	Renderable* wall3 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/hearthstone.png");
@@ -99,7 +94,7 @@ int main(int argc, const char* argv[])
 	entities.push_back(wall1);
 	entities.push_back(wall2); //back
 	entities.push_back(wall3);
-	entities.push_back(wall4);
+	entities.push_back(wall4);*/
 
     // Create a finish-line trigger
    /* RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/green.png", 30., 5., 30., true);
@@ -111,11 +106,11 @@ int main(int argc, const char* argv[])
     finishLine->scaleModels();*/
 
     //myPhysics->createGroundPlane();
-    myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
+    /*myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
 	myPhysics->createWallPlane(0,5,-500,0,1);
 	myPhysics->createWallPlane(0, 5, 500, 0, -1);
 	myPhysics->createWallPlane(500, 5, 0, -1, 0);
-	myPhysics->createWallPlane(-500, 5,  0, 1, 0);
+	myPhysics->createWallPlane(-500, 5,  0, 1, 0);*/
 
     while (!window->shouldClose())
 	{
@@ -129,8 +124,8 @@ int main(int argc, const char* argv[])
 		myPhysics->stepPhysics();
    
         car->update();
-        daCube->update();
-        daPot->update();
+        myTrack->update();
+        myTrackWalls->update();
        
 	// mySound->updateSound();
 		window->draw(entities);

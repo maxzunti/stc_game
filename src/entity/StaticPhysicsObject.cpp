@@ -4,10 +4,11 @@
 #define M_PI 3.14159265358979323846
 using namespace physx;
 
-StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string tex_fname, PhysicsManager* physicsManager)
+StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string tex_fname, glm::vec3 scale, PhysicsManager* physicsManager)
 
     : Renderable(model_fname, tex_fname)
 {
+    this->scale(scale.x, scale.y, scale.z);
     mPhysicsManager = physicsManager;
     mActor = mPhysicsManager->createTriangleMesh(this->getModels().at(0), false, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
     mPhysicsManager->mScene->addActor(*mActor);
