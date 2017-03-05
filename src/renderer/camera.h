@@ -1,6 +1,6 @@
 #ifndef CAMERA_H
 #define CAMERA_H
-#include "../entity/ProtoCar.h"
+#include "../entity/Car.h"
 #include "../input/input.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/quaternion.hpp"
@@ -93,7 +93,7 @@ public:
 	Camera(glm::vec3 _dir, glm::vec3 _pos);
 
     void registerController(Input *);
-    void registerCar(ProtoCar *);
+    void registerCar(Car *);
 
     void update();
 	void rotateCamera(float x, float y);
@@ -116,7 +116,7 @@ public:
     void setDims(int width, int height);
 
 private:
-    ProtoCar * car;
+    Car * car;
     Input * controller;
     ConfigParser fc_parser;
 

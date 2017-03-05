@@ -12,9 +12,9 @@
 #include "physics/PhysicsManager.h"
 #include "entity/Entity.h"
 #include "entity/Renderable.h"
-#include "entity/PhysicsObject.h"
+#include "entity/DynamicPhysicsObject.h"
 #include "entity/StaticPhysicsObject.h"
-#include "entity/ProtoCar.h"
+#include "entity/Car.h"
 #include "entity/Hook.h"
 #include "entity/Obstacle.h"
 #include "renderer/skybox/Skybox.h"
@@ -43,9 +43,9 @@ int main(int argc, const char* argv[])
 
     // TODO: convert these to unique_ptrs
     std::vector<Entity*> entities(0);
-    std::vector<ProtoCar*> cars(0);
+    std::vector<Car*> cars(0);
 
-    ProtoCar *car = new ProtoCar("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, input.get(), entities);
+    Car *car = new Car("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, input.get(), entities);
 
     window->getRenderer()->getCam()->registerController(input.get());
     window->getRenderer()->getCam()->registerCar(car);

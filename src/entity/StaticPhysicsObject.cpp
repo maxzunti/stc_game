@@ -4,7 +4,6 @@
 #define M_PI 3.14159265358979323846
 using namespace physx;
 
-
 StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string tex_fname, PhysicsManager* physicsManager)
 
     : Renderable(model_fname, tex_fname)
