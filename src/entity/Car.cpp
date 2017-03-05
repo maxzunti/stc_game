@@ -33,9 +33,6 @@ Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Phy
     Z_MODEL_SCALE = 1.;
     scaleModels();
     scale(0.7f, 1.0f, 1.0f);
-
-    setPos(-50, 7, 200);
-    setRot(0.0, 1.57 / 2.0, 0.0);
 }
 
 Car::~Car() {
@@ -141,8 +138,6 @@ void Car::make_physX_car() {
     mVehicleNoDrive = createVehicleNoDrive(vehicleDesc, physMan->mPhysics, physMan->mCooking, &wheels, &tires, &suspension);
     PxTransform startTransform(PxVec3(0, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f), 0), PxQuat(PxIdentity));
     mVehicleNoDrive->getRigidDynamicActor()->setGlobalPose(startTransform);
-
-
 
     physMan->mScene->addActor(*mVehicleNoDrive->getRigidDynamicActor());
     this->mActor = mVehicleNoDrive->getRigidDynamicActor();

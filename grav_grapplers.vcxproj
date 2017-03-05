@@ -225,7 +225,7 @@
     <ClCompile Include="src\entity\Light.cpp" />
     <ClCompile Include="src\entity\Obstacle.cpp" />
     <ClCompile Include="src\entity\HookChain.cpp" />
-    <ClCompile Include="src\entity\Trigger.cpp" />
+    <ClCompile Include="src\entity\RectTrigger.cpp" />
     <ClCompile Include="src\Jukebox.cpp" />
     <ClCompile Include="src\entity\StaticPhysicsObject.cpp" />
     <ClCompile Include="src\physics\PhysicsManager.cpp" />
@@ -379,6 +379,7 @@
     <ClInclude Include="src\entity\DynamicPhysicsObject.h" />
     <ClInclude Include="src\entity\Obstacle.h" />
     <ClInclude Include="src\entity\HookChain.h" />
+    <ClInclude Include="src\entity\RectTrigger.h" />
     <ClInclude Include="src\Jukebox.h" />
     <ClInclude Include="src\physics\TriggerListener.h" />
     <ClInclude Include="src\util\ConfigParser.h" />
@@ -390,7 +391,6 @@
     <ClInclude Include="src\entity\Hook.h" />
     <ClInclude Include="src\entity\StaticPhysicsObject.h" />
     <ClInclude Include="src\entity\Track.h" />
-    <ClInclude Include="src\entity\Trigger.h" />
     <ClInclude Include="src\entity\Entity.h" />
     <ClInclude Include="src\entity\Renderable.h" />
     <ClInclude Include="src\input\input.h" />

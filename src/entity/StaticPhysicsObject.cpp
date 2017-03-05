@@ -13,6 +13,10 @@ StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string te
     mPhysicsManager->mScene->addActor(*mActor);
 }
 
+StaticPhysicsObject::~StaticPhysicsObject()
+{
+}
+
 void StaticPhysicsObject::update() {
     updatePosandRot();
 }
@@ -76,8 +80,4 @@ void StaticPhysicsObject::rotate(double x, double y, double z) {
 
     PxQuat newRot(qrot.x, qrot.y, qrot.z, qrot.w);
     mActor->setGlobalPose(PxTransform(mActor->getGlobalPose().p, newRot));
-}
-
-StaticPhysicsObject::~StaticPhysicsObject()
-{
 }

@@ -3,7 +3,8 @@
 #include <iostream>
 
 #include "renderer/Window.h"
-#include "renderer\GLUtil.h"
+#include "renderer/GLUtil.h"
+#include "renderer/skybox/Skybox.h"
 
 #include "physics/StickListener.h"
 #include "physics/TriggerListener.h"
@@ -17,7 +18,8 @@
 #include "entity/Car.h"
 #include "entity/Hook.h"
 #include "entity/Obstacle.h"
-#include "renderer/skybox/Skybox.h"
+#include "entity/RectTrigger.h"
+
 #include "Jukebox.h"
 #include <ctime>
 #include "util/ConfigParser.h"
@@ -51,8 +53,9 @@ int main(int argc, const char* argv[])
     window->getRenderer()->getCam()->registerCar(car);
  
     cars.push_back(car);
-	
     entities.push_back(car);
+    car->setPos(-50, 7, 200);
+    car->setRot(0.0, 1.57 / 2.0, 0.0);
 
 	Obstacle * daCube = new Obstacle("assets/models/Crate/Crate1.obj", "assets/models/plane/logo_tile.png", myPhysics->createBlock(0.f, 100.f, 0.f, 100.f, 100.f, 100.f), glm::vec3(100,100,100), myPhysics);
    // Obstacle * daPot = new Obstacle("assets/models/teapot/teapot.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(-50.f, 15.f, 210.f, 4.f, 3.f, 4.f), glm::vec3(1,1,1), myPhysics);
@@ -93,13 +96,20 @@ int main(int argc, const char* argv[])
 	wall4->setRot(1.57, 1.57, 0);
 	wall4->scale(50, 50, 50);
 
-
     entities.push_back(plane);
 	entities.push_back(wall1);
 	entities.push_back(wall2); //back
 	entities.push_back(wall3);
 	entities.push_back(wall4);
 
+    // Create a finish-line trigger
+    RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/green.png", 30., 5., 30., true);
+    entities.push_back(finishLine);
+    finishLine->setPos(-200, 3, 0);
+    finishLine->SIL_X_SCALE = 1.02;
+    finishLine->SIL_Y_SCALE = 1.02;
+    finishLine->SIL_Z_SCALE = 1.02;
+    finishLine->scaleModels();
 
     //myPhysics->createGroundPlane();
     myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
@@ -107,7 +117,6 @@ int main(int argc, const char* argv[])
 	myPhysics->createWallPlane(0, 5, 500, 0, -1);
 	myPhysics->createWallPlane(500, 5, 0, -1, 0);
 	myPhysics->createWallPlane(-500, 5,  0, 1, 0);
-
 
     while (!window->shouldClose())
 	{

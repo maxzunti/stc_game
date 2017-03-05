@@ -84,7 +84,6 @@ PxActor* PhysicsManager::createWallPlane(float xpos, float ypos, float zpos, flo
     wallPlane->getShapes(shapes, 1);
     mScene->addActor(*wallPlane);
 
-
     PxFilterData filterData;
     filterData.word0 = COLLISION_FLAG_OBSTACLE;
     filterData.word1 = COLLISION_FLAG_OBSTACLE_AGAINST;
@@ -195,5 +194,4 @@ PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU3
     simFilterData.word1 = filterdataagainst;
     triShape->setSimulationFilterData(simFilterData);
     return triAct;
-    
 }

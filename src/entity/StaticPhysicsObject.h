@@ -2,6 +2,7 @@
 #include "Renderable.h"
 #include "PxPhysicsAPI.h"
 #include "../physics/PhysicsManager.h"
+#include "PxRigidStatic.h"
 
 class StaticPhysicsObject : public Renderable {
 protected:
@@ -12,7 +13,6 @@ public:
     PhysicsManager* mPhysicsManager;
 
     StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string tex_fname, PhysicsManager* physicsManager);
-
     StaticPhysicsObject::~StaticPhysicsObject();
 
     void updatePosandRot();
