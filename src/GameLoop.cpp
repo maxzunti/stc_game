@@ -53,14 +53,18 @@ int main(int argc, const char* argv[])
  
     cars.push_back(car);
     entities.push_back(car);
-    car->setPos(-50, 200, 200);
+    car->setPos(-50, 100, 72);
     car->setRot(0.0, 1.57 / 2.0, 0.0);
 
-    StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/tracksurface.obj", "assets/models/track/blue.png", glm::vec3(100.f,100.f,100.f), myPhysics);
-    entities.push_back(myTrack);
-    StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/models/track/green.png", glm::vec3(100.f, 100.f, 100.f), myPhysics);
+    //StaticPhysicsObject * testCube = new StaticPhysicsObject("assets/models/Crate/Crate1.obj", "assets/models/track/green.png", glm::vec3(5, 5, 5), myPhysics);
+    //entities.push_back(testCube);
+    
+    StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/models/track/green.png", glm::vec3(50.f, 50.f, 50.f), myPhysics);
     entities.push_back(myTrackWalls);
-
+    StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/tracksurface.obj", "assets/models/track/blue.png", glm::vec3(50.f,50.f,50.f), myPhysics);
+    entities.push_back(myTrack);
+    
+    
     myTrack->SIL_X_SCALE = 1.1;
     myTrack->SIL_Y_SCALE = 1.1;
     myTrack->SIL_Z_SCALE = 1.1;
@@ -74,15 +78,15 @@ int main(int argc, const char* argv[])
     myTrackWalls->setSil(false);
 
 
-    /*Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
-	Renderable* wall1 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/stc.png");
+    ///Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
+    /*Renderable* wall1 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/stc.png");
 	Renderable* wall2 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/stc.png");
 	Renderable* wall3 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/hearthstone.png");
 	Renderable* wall4 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/hearthstone.png");
-
-    plane->setPos(0, 0, 0);
-    plane->scale(50, 50, 50);
-
+    */
+    //plane->setPos(0, 0, 0);
+   // plane->scale(50, 50, 50);
+    /*
 	//milky
 	wall1->setPos(0, -20, -500);
 	wall1->setRot(1.57, 0, 0);
@@ -102,9 +106,9 @@ int main(int argc, const char* argv[])
 	wall4->setPos(-500, -20, 0);
 	wall4->setRot(1.57, 1.57, 0);
 	wall4->scale(50, 50, 50);
-
-    entities.push_back(plane);
-	entities.push_back(wall1);
+    */
+    //entities.push_back(plane);
+	/*entities.push_back(wall1);
 	entities.push_back(wall2); //back
 	entities.push_back(wall3);
 	entities.push_back(wall4);*/
@@ -119,8 +123,8 @@ int main(int argc, const char* argv[])
     finishLine->scaleModels();*/
 
     //myPhysics->createGroundPlane();
-    /*myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
-	myPhysics->createWallPlane(0,5,-500,0,1);
+    //myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
+	/*myPhysics->createWallPlane(0,5,-500,0,1);
 	myPhysics->createWallPlane(0, 5, 500, 0, -1);
 	myPhysics->createWallPlane(500, 5, 0, -1, 0);
 	myPhysics->createWallPlane(-500, 5,  0, 1, 0);*/
@@ -137,8 +141,7 @@ int main(int argc, const char* argv[])
 		myPhysics->stepPhysics();
    
         car->update();
-        myTrack->update();
-        myTrackWalls->update();
+       
        
 	// mySound->updateSound();
 		window->draw(entities);

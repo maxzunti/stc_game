@@ -144,7 +144,7 @@ void Car::make_physX_car() {
     this->retracting = false;
 
     setPos(pos.x, pos.y + (2 * WHEEL_RAD) + (CHASSIS_Y)+1.0, pos.z);
-    setRot(qrot);
+    setRot(glm::quat());
 }
 
 // Setup the wheels for rendering
@@ -188,7 +188,7 @@ void Car::update() {
     }
 
     if (controller->GetButtonPressed(XButtonIDs::A)) {
-        setPos(-50, 10, 200);
+        setPos(-50, 100, 72);
         setRot(0.0, 1.57 / 2.0, 0.0);
     }
 
@@ -228,7 +228,7 @@ void Car::update() {
         //applyLocalForce(0, 0, 2000);
         startBrakeMode();
     }
-    if (this->myHook->getStuck() && controller->GetButtonPressed(XButtonIDs::B)) {
+    if (controller->GetButtonPressed(XButtonIDs::B)) {
         this->cancelHook();
     }
     /*
@@ -245,11 +245,11 @@ void Car::update() {
     arrow->reposition(up, pos, aim, aim_rot);
 
     // Must fire after calc aim
-    if ((!this->myHook->getShot() && !this->myHook->getStuck()) && controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
+    if ((!this->myHook->getShot() && !this->myHook->getStuck()) && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
         fireHook();
     }
 
-    if (this->myHook->getStuck() && controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
+    if (this->myHook->getStuck() && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
         this->retracting = true;
     }
 
@@ -259,7 +259,7 @@ void Car::update() {
     }
 
     //Defines how soon the hook detaches
-    float autoDetachLength = 200.f;
+    float autoDetachLength = 400.f;
 
     this->myHook->update(pos + (HOOK_FORWARD_OFFSET*dir) + (HOOK_UP_OFFSET*up));
     if ((this->getHookDistance() > autoDetachLength) && (this->myHook->getShot())) {

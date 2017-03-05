@@ -48,7 +48,7 @@ void Hook::applyLocalForce(float forward, float right, float up) {
 
 void Hook::update(glm::vec3 carPos) {
     if (mShot && !mStuck) {
-        mActor->setLinearVelocity(200.f*PxVec3(dir.x, dir.y, dir.z));
+        mActor->setLinearVelocity(500.f*PxVec3(dir.x, dir.y, dir.z));
     }
 
     updatePosandRot();

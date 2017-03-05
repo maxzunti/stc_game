@@ -38,11 +38,12 @@ PhysicsManager::PhysicsManager(PxSimulationEventCallback *event_callback, PxCont
     PxU32 numWorkers =2;
 
 	PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
+    sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
 	sceneDesc.gravity = PxVec3(0.0f, -20.0f, 0.0f);
 	mDispatcher = PxDefaultCpuDispatcherCreate(numWorkers);
 	sceneDesc.cpuDispatcher = mDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;
-    sceneDesc.simulationEventCallback = event_callback;
+   // sceneDesc.simulationEventCallback = event_callback;
     sceneDesc.contactModifyCallback = mod_callback;
 	mScene = mPhysics->createScene(sceneDesc);
 
@@ -99,10 +100,12 @@ PxRigidBody* PhysicsManager::createHook(float x, float y, float z, float xdim, f
 	//PxShape* shape = mPhysics->createShape(PxBoxGeometry(1.0f, 1.0f, 1.0f), *mMaterial);
 	PxTransform localTm(PxVec3(x, y, z));
 	PxRigidDynamic* body = mPhysics->createRigidDynamic(localTm);
+    
 	PxShape* shape = body->createShape(PxBoxGeometry(xdim, ydim, zdim), *mMaterial);
 	//body->attachShape(*shape);
 	body->setLinearDamping(1.0f);
 	body->setAngularDamping(1.0f);
+    body->setRigidBodyFlag(PxRigidBodyFlag::eENABLE_CCD, true);
 	PxRigidBodyExt::updateMassAndInertia(*body, 1.0f);
 	//mScene->addActor(*body);
 	//////////////////////////
@@ -166,19 +169,22 @@ PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU3
 
     PxDefaultMemoryOutputStream writeBuffer;
     bool status = mCooking->cookTriangleMesh(meshDesc, writeBuffer);
-
     if (!status)
+    {
+        std::cout << "Cooking failed!!" << std::endl;
         return NULL;
+    }
 
     PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
 
     PxTriangleMesh* triMesh = mPhysics->createTriangleMesh(readBuffer);
 
     
-    PxTriangleMeshGeometry geom(triMesh);
-    PxMeshScale meshscale;
-    meshscale.scale = scale;
-    geom.scale = meshscale;
+    PxMeshScale meshscale(scale, PxQuat(PxIdentity));
+    
+
+    PxTriangleMeshGeometry geom(triMesh, meshscale);
+
     PxRigidStatic* triAct;
     
     //if (!dynamic)
