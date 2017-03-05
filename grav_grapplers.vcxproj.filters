@@ -72,22 +72,7 @@
     <ClCompile Include="src\entity\Hook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleRaycast.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleNoDriveCreate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleCreate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\entity\AimArrow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleFilterShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\physics\StickListener.cpp">
@@ -100,6 +85,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\entity\HookChain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleCreate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleFilterShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleNoDriveCreate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleRaycast.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Jukebox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -977,19 +980,7 @@
     <ClInclude Include="src\entity\ProtoCar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleRaycast.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleCreate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\entity\AimArrow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleFilterShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\physics\StickListener.h">
@@ -998,13 +989,28 @@
     <ClInclude Include="src\util\ConfigParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="middleware\PhysXSDK\Include\PxContactModifyCallback.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\entity\Obstacle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\entity\HookChain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="middleware\PhysXSDK\Include\PxContactModifyCallback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleCreate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleFilterShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleRaycast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Jukebox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
