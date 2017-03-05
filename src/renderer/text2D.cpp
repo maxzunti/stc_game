@@ -1,11 +1,10 @@
+// Adapted/Inspired by http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-11-2d-text/
 #include "model\Texture.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "text2D.h"
 #include "GLUtil.h"
 
-
-// Addapted by 
 using namespace glm;
 using namespace std;
 
