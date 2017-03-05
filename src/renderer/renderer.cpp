@@ -13,6 +13,7 @@
 #include "camera.h"
 #include "text2D.h"
 
+#include <GLFW/glfw3.h>
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -383,7 +384,8 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     xPlacement = 50;
     yPlacement = 100;
     char timeText[256];
-    sprintf(timeText, "TIME\n0:28:37");
+    double currentTime = glfwGetTime();
+    sprintf(timeText, "TIME\n%.2i:%.2i", int(currentTime)/60,int(currentTime)%60);
     textRenderer->printText2D(timeText, xPlacement, yPlacement, 60, this->width, this->height);
 
     //Position - insert real position info here
