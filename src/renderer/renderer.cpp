@@ -47,12 +47,12 @@ void Renderer::postGLInit() {
 
     initDepthFrameBuffer(SIL_frameBuffer1, SIL_depthTex, width, height);
     initDepthFrameBuffer(SIL_frameBuffer2, SIL_depthTex, width, height);
-
-    initText("assets/textures/blue_gg_font.png");
+    initText();
 }
 
-void Renderer::initText(const char * texturePath) {
-    textRenderer = new Text2D(texturePath);
+void Renderer::initText() {
+    blueText = new Text2D("assets/textures/blue_gg_font.png");
+    blackText = new Text2D("assets/textures/black_gg_font.png");
 }
 
 // Sets up the frame buffer and the shadowMap texture
@@ -385,11 +385,12 @@ void Renderer::drawText() {
 
     int xPlacement = 50;
     int yPlacement = this->height - 100;
+    int ds_offset = 3;
 
     //Lap Placement - insert real lap information here
     char text[256];
     sprintf(text, "LAP\n1\\3");
-    textRenderer->printText2D(text, xPlacement, yPlacement, 60, this->width, this->height);
+    drawDropShadowText(text, blueText, blackText, xPlacement, yPlacement, 60, ds_offset);
 
     //Timer Text - insert real timer info here
     xPlacement = 50;
@@ -397,7 +398,7 @@ void Renderer::drawText() {
     char timeText[256];
     double currentTime = glfwGetTime();
     sprintf(timeText, "TIME\n%.2i:%.2i", int(currentTime)/60,int(currentTime)%60);
-    textRenderer->printText2D(timeText, xPlacement, yPlacement, 60, this->width, this->height);
+    drawDropShadowText(timeText, blueText, blackText, xPlacement, yPlacement, 60, ds_offset);
 
     //Position - insert real position info here
     xPlacement = this->width - 200;
@@ -405,9 +406,14 @@ void Renderer::drawText() {
 
     char posText[256];
     sprintf(posText, "1ST");
-    textRenderer->printText2D(posText, xPlacement, yPlacement, 60, this->width, this->height);
-
+    drawDropShadowText(posText, blueText, blackText, xPlacement, yPlacement, 60, ds_offset);
 }
+
+void Renderer::drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset) {
+    back->printText2D(string, x, y, size, this->width, this->height);
+    front->printText2D(string, x + offset, y - offset, size, this->width, this->height);
+}
+
 
 // This seems kinda dangerous
 Camera* Renderer::getCam() {

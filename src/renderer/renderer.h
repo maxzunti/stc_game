@@ -40,8 +40,9 @@ class Renderer {
     glm::mat4 depthMVP;
 
     //Text rendering
-    void Renderer::initText(const char * texturePath);
-    Text2D * textRenderer;
+    void Renderer::initText();
+    Text2D * blueText;
+    Text2D * blackText;
     
     // Silhouette vars
     GLuint SIL_frameBuffer1;
@@ -55,6 +56,7 @@ class Renderer {
     int height;
     float SM_res = 8192;
     void drawText();
+    void drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset);
 
 public:
 	Renderer(int);
