@@ -205,7 +205,9 @@ void Renderer::addToShadowMap(const Model& model, mat4 model_matrix, int startEl
 
 void Renderer::renderModel(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans)
 {
-    drawSil(model, perspectiveMatrix, scale, rot, trans);
+    if (model.shouldSil()) {
+        drawSil(model, perspectiveMatrix, scale, rot, trans);
+    }
     drawShade(model, perspectiveMatrix, scale, rot, trans);
 }
 
@@ -245,12 +247,15 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
     model.getTex()->load(GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
     CheckGLErrors("loadUniforms in render");
 
-    // Shade against the cached pre-silhouette depth values
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, SIL_frameBuffer1); // pre-sil depth
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // to actual drawbuffer
-    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
-        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+    if (model.shouldSil()) {
+        // Shade against the cached pre-silhouette depth values
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, SIL_frameBuffer1); // pre-sil depth
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // to actual drawbuffer
+        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
+            GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+    }
     glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
+
 
     glDrawElements(
         GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
@@ -259,12 +264,14 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
         (void*)0			 //Offset
         );
 
-    // Restore post-sil depth values to drawbuffer
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, SIL_frameBuffer2); // post-sil depth
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // to actual drawbuffer
-    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
-        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
+    if (model.shouldSil()) {
+        // Restore post-sil depth values to drawbuffer
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, SIL_frameBuffer2); // post-sil depth
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // to actual drawbuffer
+        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
+            GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
+    }
 
     CheckGLErrors("drawShade");
     glBindVertexArray(0);

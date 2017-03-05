@@ -61,6 +61,19 @@ int main(int argc, const char* argv[])
     StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/models/track/green.png", glm::vec3(100.f, 100.f, 100.f), myPhysics);
     entities.push_back(myTrackWalls);
 
+    myTrack->SIL_X_SCALE = 1.1;
+    myTrack->SIL_Y_SCALE = 1.1;
+    myTrack->SIL_Z_SCALE = 1.1;
+    myTrack->scaleModels();
+    myTrack->setSil(false);
+
+    myTrackWalls->SIL_X_SCALE = 1.01;
+    myTrackWalls->SIL_Y_SCALE = 1.01;
+    myTrackWalls->SIL_Z_SCALE = 1.01;
+    myTrackWalls->scaleModels();
+    myTrackWalls->setSil(false);
+
+
     /*Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
 	Renderable* wall1 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/stc.png");
 	Renderable* wall2 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/stc.png");

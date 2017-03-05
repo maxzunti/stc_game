@@ -35,4 +35,5 @@ public:
     float SIL_X_SCALE = Model::DEFAULT_SIL;
     float SIL_Y_SCALE = Model::DEFAULT_SIL;
     float SIL_Z_SCALE = Model::DEFAULT_SIL;
+    void setSil(bool);
 };

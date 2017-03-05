@@ -194,3 +194,11 @@ std::vector<Model*> Model::load_multimesh_models(std::string model_fname, std::s
     }
     return loaded_models;
 }
+
+void Model::drawSil(bool newVal) {
+    draw_sil = newVal;
+}
+
+bool Model::shouldSil() const {
+    return draw_sil;
+}
