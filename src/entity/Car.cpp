@@ -431,7 +431,6 @@ void Car::retractHook() {
 
     PxVec3 launchDir = PxVec3(this->myHook->getPos().x, this->myHook->getPos().y, this->myHook->getPos().z) -
         PxVec3(pos.x, pos.y, pos.z);
-
     // Implement this again when cooldown is working
     /*if (launchDir.magnitude() < 30.f)
     {

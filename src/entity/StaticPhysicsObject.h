@@ -12,7 +12,7 @@ public:
     physx::PxRigidStatic* mActor;
     PhysicsManager* mPhysicsManager;
 
-    StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string tex_fname, glm::vec3 scale, PhysicsManager* physicsManager);
+    StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string tex_fname, glm::vec3 scale, PhysicsManager* physicsManager, PxU32 filterdata, PxU32 filterdataagainst);
     StaticPhysicsObject::~StaticPhysicsObject();
 
     void updatePosandRot();

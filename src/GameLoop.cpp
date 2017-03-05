@@ -59,11 +59,12 @@ int main(int argc, const char* argv[])
     //StaticPhysicsObject * testCube = new StaticPhysicsObject("assets/models/Crate/Crate1.obj", "assets/models/track/green.png", glm::vec3(5, 5, 5), myPhysics);
     //entities.push_back(testCube);
     
-    StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/models/track/green.png", glm::vec3(50.f, 50.f, 50.f), myPhysics);
+    StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/models/track/green.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
     entities.push_back(myTrackWalls);
-    StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/tracksurface.obj", "assets/models/track/blue.png", glm::vec3(50.f,50.f,50.f), myPhysics);
+    StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/tracksurface.obj", "assets/models/track/blue.png", glm::vec3(50.f,50.f,50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
     entities.push_back(myTrack);
-    
+    StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks.obj", "assets/models/track/green.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST);
+    entities.push_back(myHookables);
     
     myTrack->SIL_X_SCALE = 1.1;
     myTrack->SIL_Y_SCALE = 1.1;
@@ -77,8 +78,14 @@ int main(int argc, const char* argv[])
     myTrackWalls->scaleModels();
     myTrackWalls->setSil(false);
 
+    
+    myHookables->SIL_X_SCALE = 1.01;
+    myHookables->SIL_Y_SCALE = 1.01;
+    myHookables->SIL_Z_SCALE = 1.01;
+    myHookables->scaleModels();
+    myHookables->setSil(false);
 
-    ///Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
+    //Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
     /*Renderable* wall1 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/stc.png");
 	Renderable* wall2 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/stc.png");
 	Renderable* wall3 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/hearthstone.png");
