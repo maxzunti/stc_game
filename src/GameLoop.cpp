@@ -5,6 +5,9 @@
 #include "renderer/Window.h"
 #include "renderer\GLUtil.h"
 
+#include "physics/StickListener.h"
+#include "physics/TriggerListener.h"
+
 #include "input/input.h"
 #include "physics/PhysicsManager.h"
 #include "entity/Entity.h"
@@ -14,7 +17,6 @@
 #include "entity/ProtoCar.h"
 #include "entity/Hook.h"
 #include "entity/Obstacle.h"
-#include "physics/StickListener.h"
 #include "renderer/skybox/Skybox.h"
 #include "Jukebox.h"
 #include <ctime>
@@ -35,7 +37,8 @@ int main(int argc, const char* argv[])
 
 	// Input* myInput = new Input();
     StickListener stickListener;
-	PhysicsManager* myPhysics = new PhysicsManager(&stickListener);
+    TriggerListener triggerListener;
+	PhysicsManager* myPhysics = new PhysicsManager(&triggerListener, &stickListener);
 	// OpponentAI* myAI = new OpponentAI();
 
     // TODO: convert these to unique_ptrs
@@ -82,7 +85,7 @@ int main(int argc, const char* argv[])
 
 	//moon
 	wall3->setPos(500, -20, 0);
-	wall3->setRot(1.57, 1.57, 0);
+	wall3->setRot(1.57, -1.57, 0);
 	wall3->scale(50, 50, 50);
 
 	//sun
@@ -92,7 +95,7 @@ int main(int argc, const char* argv[])
 
 
     entities.push_back(plane);
-//	entities.push_back(wall1);
+	entities.push_back(wall1);
 	entities.push_back(wall2); //back
 	entities.push_back(wall3);
 	entities.push_back(wall4);
