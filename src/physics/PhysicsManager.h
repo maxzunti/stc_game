@@ -33,8 +33,8 @@ public:
 	PxActor* PhysicsManager::createGroundPlane();
     PxActor* PhysicsManager::createWallPlane(float xpos, float ypos, float zpos, float xnorm, float znorm);
 	PxRigidBody* PhysicsManager::createHook(float, float, float, float, float, float);
-	PxRigidBody* PhysicsManager::createBlock(float, float, float, float, float, float);
-    PxTriangleMesh* PhysicsManager::createTriangleMesh(Model*);
+	PxRigidBody* PhysicsManager::createBlock(float x, float y, float z, float xdim, float ydim, float zdim);
+    PxRigidStatic* PhysicsManager::createTriangleMesh(Model*, bool dynamic, PxU32 simFilterData, PxU32 simFilterDataAgainst);
 	void PhysicsManager::stepPhysics();
 };
 

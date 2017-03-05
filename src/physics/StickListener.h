@@ -11,6 +11,3 @@ public:
 	~StickListener();
 	void StickListener::onContactModify(physx::PxContactModifyPair *const pairs, physx::PxU32 count);
 };
-
-
-

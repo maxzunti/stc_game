@@ -1,3 +1,5 @@
+#define SDL_MAIN_HANDLED
+
 #include <iostream>
 
 #include "renderer/Window.h"
@@ -8,28 +10,31 @@
 #include "entity/Entity.h"
 #include "entity/Renderable.h"
 #include "entity/PhysicsObject.h"
+#include "entity/StaticPhysicsObject.h"
 #include "entity/ProtoCar.h"
 #include "entity/Hook.h"
 #include "entity/Obstacle.h"
 #include "physics/StickListener.h"
 #include "renderer/skybox/Skybox.h"
+#include "Jukebox.h"
 #include <ctime>
-
 #include "util/ConfigParser.h"
 
 using namespace std;
 
 int main(int argc, const char* argv[])
 {
-    std::unique_ptr<Window> window(new Window());
+    std::unique_ptr<Window> window(new Window(1024, 768));
+
+	//Music
+	Jukebox *bgm = new Jukebox("assets/sound/dmw.mp3");
+	bgm->play();
 
     // Set up input
     std::unique_ptr<Input> input(new Input(0));
 
-	// Input* myInput = new Input();
     StickListener stickListener;
 	PhysicsManager* myPhysics = new PhysicsManager(&stickListener);
-	// Sound* mySound = new Sound();
 	// OpponentAI* myAI = new OpponentAI();
 
     // TODO: convert these to unique_ptrs
@@ -45,9 +50,15 @@ int main(int argc, const char* argv[])
 	
     entities.push_back(car);
 
-	Obstacle * daCube = new Obstacle("assets/models/Crate/Crate1.obj", "assets/models/plane/logo_tile.png", myPhysics->createBlock(0.f, 100.f, 0.f, 100.f, 100.f, 100.f), myPhysics);
-	entities.push_back(daCube);
+	Obstacle * daCube = new Obstacle("assets/models/Crate/Crate1.obj", "assets/models/plane/logo_tile.png", myPhysics->createBlock(0.f, 100.f, 0.f, 100.f, 100.f, 100.f), glm::vec3(100,100,100), myPhysics);
+   // Obstacle * daPot = new Obstacle("assets/models/teapot/teapot.obj", "assets/models/teapot/teapot_tex.png", myPhysics->createBlock(-50.f, 15.f, 210.f, 4.f, 3.f, 4.f), glm::vec3(1,1,1), myPhysics);
+    //Set the simulation filter data of the ground plane so that it collides with the chassis of a vehicle but not the wheels.
+    
+    StaticPhysicsObject * daPot = new StaticPhysicsObject("assets/models/teapot/teapot.obj", "assets/models/teapot/teapot_tex.png", myPhysics);
+    entities.push_back(daCube);
+    entities.push_back(daPot);
     daCube->setRot(0.0, 0.0, 3.14f);
+    daPot->setPos(-50.f, 5.f, 210.f);
 
     Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
 	Renderable* wall1 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/stc.png");
@@ -107,6 +118,7 @@ int main(int argc, const char* argv[])
    
         car->update();
         daCube->update();
+        daPot->update();
        
 	// mySound->updateSound();
 		window->draw(entities);

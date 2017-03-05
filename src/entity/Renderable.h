@@ -24,4 +24,15 @@ public:
     void setRenderable(bool);
     void scale(double x, double y, double z);
     void reset_scale();
+    void scaleModels();
+
+    // Model-scaling normalization factors
+    float X_MODEL_SCALE = 1.;
+    float Y_MODEL_SCALE = 1.;
+    float Z_MODEL_SCALE = 1.;
+
+    // Allows silhouette thickness to be tweaked per-renderable
+    float SIL_X_SCALE = Model::DEFAULT_SIL;
+    float SIL_Y_SCALE = Model::DEFAULT_SIL;
+    float SIL_Z_SCALE = Model::DEFAULT_SIL;
 };
