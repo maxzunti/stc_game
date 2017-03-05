@@ -7,8 +7,6 @@ Renderable::Renderable(std::string model_fname, std::string tex_fname)
 {
     models = Model::load_multimesh_models(model_fname, tex_fname);
 
-    std::cout << "loading " << model_fname << std::endl;
-    std::cout << "X_MODEL_SCALE = " << X_MODEL_SCALE << std::endl;
     if (models.size() > 0) {
         model_loaded = true;
     }

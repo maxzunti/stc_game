@@ -56,7 +56,6 @@ void Model::copy_ai_data(const aiMesh* mesh, const std::string &fname)
     indices.clear();
 
     // Load vertices
-    std::cout << "mesh num vertices: " << mesh->mNumVertices << std::endl;
     for (int i = 0; i < mesh->mNumVertices; i++) {
         aiVector3D m_vec = mesh->mVertices[i];
         points.push_back(glm::vec3(m_vec.x, m_vec.y, m_vec.z));
