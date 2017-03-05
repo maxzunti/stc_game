@@ -102,13 +102,13 @@ int main(int argc, const char* argv[])
 	entities.push_back(wall4);
 
     // Create a finish-line trigger
-    RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/green.png", 30., 5., 30., true);
+   /* RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/green.png", 30., 5., 30., true);
     entities.push_back(finishLine);
     finishLine->setPos(-200, 3, 0);
     finishLine->SIL_X_SCALE = 1.02;
     finishLine->SIL_Y_SCALE = 1.02;
     finishLine->SIL_Z_SCALE = 1.02;
-    finishLine->scaleModels();
+    finishLine->scaleModels();*/
 
     //myPhysics->createGroundPlane();
     myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
