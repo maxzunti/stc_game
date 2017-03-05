@@ -10,7 +10,7 @@ const float BASE_ROT = 0;
 const float HEIGHT_MOD = -0.8;
 
 Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents) :
-	PhysicsObject(model_fname, tex_fname, actor, physicsManager),
+	DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
     chain(new HookChain("assets/models/cylinder/cylinder2.obj", "assets/models/cylinder/bline.png"))
 {
     ents.push_back(chain.get());

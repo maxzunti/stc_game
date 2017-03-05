@@ -48,7 +48,7 @@ void Renderer::postGLInit() {
     initDepthFrameBuffer(SIL_frameBuffer1, SIL_depthTex, width, height);
     initDepthFrameBuffer(SIL_frameBuffer2, SIL_depthTex, width, height);
 
-    initText("assets/textures/fontBlue.png");
+    initText("assets/textures/blue_gg_font.png");
 }
 
 void Renderer::initText(const char * texturePath) {
@@ -206,7 +206,9 @@ void Renderer::addToShadowMap(const Model& model, mat4 model_matrix, int startEl
 
 void Renderer::renderModel(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans)
 {
-    drawSil(model, perspectiveMatrix, scale, rot, trans);
+    if (model.shouldSil()) {
+        drawSil(model, perspectiveMatrix, scale, rot, trans);
+    }
     drawShade(model, perspectiveMatrix, scale, rot, trans);
 }
 
@@ -246,12 +248,15 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
     model.getTex()->load(GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
     CheckGLErrors("loadUniforms in render");
 
-    // Shade against the cached pre-silhouette depth values
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, SIL_frameBuffer1); // pre-sil depth
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // to actual drawbuffer
-    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
-        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+    if (model.shouldSil()) {
+        // Shade against the cached pre-silhouette depth values
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, SIL_frameBuffer1); // pre-sil depth
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // to actual drawbuffer
+        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
+            GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+    }
     glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
+
 
     glDrawElements(
         GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
@@ -260,12 +265,14 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
         (void*)0			 //Offset
         );
 
-    // Restore post-sil depth values to drawbuffer
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, SIL_frameBuffer2); // post-sil depth
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // to actual drawbuffer
-    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
-        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
+    if (model.shouldSil()) {
+        // Restore post-sil depth values to drawbuffer
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, SIL_frameBuffer2); // post-sil depth
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // to actual drawbuffer
+        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
+            GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
+    }
 
     CheckGLErrors("drawShade");
     glBindVertexArray(0);
@@ -370,17 +377,21 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
             }
         }
     }
+    drawText();
+}
+
+void Renderer::drawText() {
     // Draw text here
-  
+
     int xPlacement = 50;
     int yPlacement = this->height - 100;
 
     //Lap Placement - insert real lap information here
     char text[256];
-    sprintf(text, "LAP\n1/3");
+    sprintf(text, "LAP\n1\\3");
     textRenderer->printText2D(text, xPlacement, yPlacement, 60, this->width, this->height);
 
-   //Timer Text - insert real timer info here
+    //Timer Text - insert real timer info here
     xPlacement = 50;
     yPlacement = 100;
     char timeText[256];
@@ -393,8 +404,9 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     yPlacement = this->height - 100;
 
     char posText[256];
-    sprintf(posText, "1st");
+    sprintf(posText, "1ST");
     textRenderer->printText2D(posText, xPlacement, yPlacement, 60, this->width, this->height);
+
 }
 
 // This seems kinda dangerous

@@ -60,13 +60,7 @@
     <ClCompile Include="src\physics\PhysicsManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\entity\PhysicsObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\renderer\skybox\Skybox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\entity\ProtoCar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\entity\Hook.cpp">
@@ -109,6 +103,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\entity\Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\physics\TriggerListener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entity\DynamicPhysicsObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entity\Car.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entity\RectTrigger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\entity\AICar.cpp">
@@ -948,9 +954,6 @@
     <ClInclude Include="src\entity\StaticPhysicsObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\entity\Trigger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\entity\Track.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -984,16 +987,10 @@
     <ClInclude Include="src\renderer\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\entity\PhysicsObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\physics\PhysicsManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\renderer\skybox\Skybox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\entity\ProtoCar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\entity\AimArrow.h">
@@ -1027,6 +1024,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Jukebox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\physics\TriggerListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\DynamicPhysicsObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\RectTrigger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\renderer\text2D.h">

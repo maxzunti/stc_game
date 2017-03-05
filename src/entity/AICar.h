@@ -1,6 +1,6 @@
 #pragma once
-#include "ProtoCar.h"
-#include "PhysicsObject.h"
+#include "Car.h"
+#include "DynamicPhysicsObject.h"
 
 #include "PxPhysicsAPI.h"
 #include "vehicle/PxVehicleUtil.h"
@@ -13,7 +13,7 @@
 
 #include "../util/ConfigParser.h"
 
-class AICar : public ProtoCar {
+class AICar : public Car {
 protected:
 	void calcAim();
 public:

@@ -54,6 +54,7 @@ class Renderer {
     int width;
     int height;
     float SM_res = 8192;
+    void drawText();
 
 public:
 	Renderer(int);

@@ -18,6 +18,7 @@ class Model {
 
     bool tex_loaded = false;
     bool is_loaded = false;
+    bool draw_sil = true;
 
     void copy_ai_data(const aiMesh* mesh, const std::string &fname);
 
@@ -65,4 +66,7 @@ public:
     double sil_x = DEFAULT_SIL;
     double sil_y = DEFAULT_SIL;
     double sil_z = DEFAULT_SIL;
+
+    void drawSil(bool);
+    bool shouldSil() const;
 };

@@ -166,7 +166,7 @@ void Camera::registerController(Input * newCont) {
     controller = newCont;
 }
 
-void Camera::registerCar(ProtoCar * newCar) {
+void Camera::registerCar(Car * newCar) {
     car = newCar;
 }
 

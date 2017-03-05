@@ -2,14 +2,11 @@
 
 using namespace physx;
 
-PhysicsManager::PhysicsManager(PxContactModifyCallback* callBack)
+PhysicsManager::PhysicsManager(PxSimulationEventCallback *event_callback, PxContactModifyCallback* mod_callback)
 {
 	static PxDefaultErrorCallback gDefaultErrorCallback;
 	static PxDefaultAllocator gDefaultAllocatorCallback;
     
-
-
-
 	mFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gDefaultAllocatorCallback,
 		gDefaultErrorCallback);
 	
@@ -45,7 +42,8 @@ PhysicsManager::PhysicsManager(PxContactModifyCallback* callBack)
 	mDispatcher = PxDefaultCpuDispatcherCreate(numWorkers);
 	sceneDesc.cpuDispatcher = mDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;
-    sceneDesc.contactModifyCallback = callBack;
+    sceneDesc.simulationEventCallback = event_callback;
+    sceneDesc.contactModifyCallback = mod_callback;
 	mScene = mPhysics->createScene(sceneDesc);
 
 	mMaterial = mPhysics->createMaterial(.3f, .3f, 0.1f);
@@ -85,7 +83,6 @@ PxActor* PhysicsManager::createWallPlane(float xpos, float ypos, float zpos, flo
     PxShape* shapes[1];
     wallPlane->getShapes(shapes, 1);
     mScene->addActor(*wallPlane);
-
 
     PxFilterData filterData;
     filterData.word0 = COLLISION_FLAG_OBSTACLE;
@@ -147,7 +144,7 @@ void PhysicsManager::stepPhysics()
 	mScene->fetchResults(true);
 }
 
-PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU32 filterdata, PxU32 filterdataagainst)
+PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU32 filterdata, PxU32 filterdataagainst, PxVec3 scale)
 {
     
     std::vector<glm::vec3> points = mod->points;
@@ -177,6 +174,11 @@ PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU3
 
     PxTriangleMesh* triMesh = mPhysics->createTriangleMesh(readBuffer);
 
+    
+    PxTriangleMeshGeometry geom(triMesh);
+    PxMeshScale meshscale;
+    meshscale.scale = scale;
+    geom.scale = meshscale;
     PxRigidStatic* triAct;
     
     //if (!dynamic)
@@ -185,7 +187,6 @@ PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU3
     triAct = mPhysics->createRigidStatic(PxTransform(PxVec3(0.f, 0.f, 0.f)));
 
     PxShape* triShape = triAct->createShape(geom, *mMaterial);
-
     //Set the query filter data of the ground plane so that the vehicle raycasts can hit the ground.
     physx::PxFilterData qryFilterData;
     setupDrivableSurface(qryFilterData);
@@ -195,5 +196,4 @@ PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU3
     simFilterData.word1 = filterdataagainst;
     triShape->setSimulationFilterData(simFilterData);
     return triAct;
-    
 }

@@ -52,3 +52,9 @@ void Renderable::reset_scale() {
 
 
 void Renderable::setRenderable(bool val) { renderable = val; }
+
+void Renderable::setSil(bool sil) {
+    for (auto &m : models) {
+        m->drawSil(sil);
+    }
+}

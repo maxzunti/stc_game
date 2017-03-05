@@ -1,9 +1,9 @@
 #pragma once
-#include "PhysicsObject.h"
+#include "DynamicPhysicsObject.h"
 #include "../Snippets/SnippetVehicleCommon/SnippetVehicleFilterShader.h"
 #include "HookChain.h"
 
-class Hook : public PhysicsObject {
+class Hook : public DynamicPhysicsObject {
 protected:
     Model* unattached;
     Model* attached;

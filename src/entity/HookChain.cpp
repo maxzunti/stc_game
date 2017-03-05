@@ -2,7 +2,6 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <iostream>
-#include "PhysicsObject.h"
 
 using namespace glm;
 
