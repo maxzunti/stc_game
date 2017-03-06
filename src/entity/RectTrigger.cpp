@@ -17,8 +17,5 @@ RectTrigger::RectTrigger(PhysicsManager* physicsManager, std::string texName, fl
     mActor->setName("LapBox");
     mActor->userData = this;
     this->triggerID = id;
-    scale(x_width, y_width, z_width);
     physicsManager->mScene->addActor(*mActor);
-    
-    
 }
