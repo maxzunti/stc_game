@@ -32,6 +32,7 @@ protected:
 
     PxVehicleNoDrive*	mVehicleNoDrive = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * mFrictionPairs = NULL;
+    PxVehicleDrivableSurfaceToTireFrictionPairs * noFrictionPairs = NULL;
     PxMaterial* tireMaterial;
 
     /* (rendered) wheel array + index mappings
@@ -107,6 +108,7 @@ protected:
     float DRIVE_TORQUE = 10000.0f;
     float BRAKE_TORQUE = DRIVE_TORQUE * 100000.0f;
     float MAX_SPEED = 60.f;
+    float SLOWDOWN = 2.0f; // determines how much we slow down per frame
 
     // material-related values (supposedly, these won't actually affect our tire driving-friction, but we include them as part of the config anyway)
     float MAT_STATIC = 0.0f;

@@ -122,6 +122,7 @@ void Car::initParams() {
     carParams.push_back(std::make_pair(std::string("WHEEL_Y_LOWER"), &WHEEL_Y_LOWER));
     carParams.push_back(std::make_pair(std::string("WHEEL_X_FACTOR"), &WHEEL_X_FACTOR));
     carParams.push_back(std::make_pair(std::string("WHEEL_Z_FACTOR"), &WHEEL_Z_FACTOR));
+    carParams.push_back(std::make_pair(std::string("SLOWDOWN"), &SLOWDOWN));
 }
 
 //Create a vehicle that will drive on the plane.
@@ -257,9 +258,8 @@ void Car::update() {
     //Cap the max velocity of the car to 80
     if (this->mActor->getLinearVelocity().magnitude() > MAX_SPEED && !this->retracting)
     {
-        PxVec3 temp = this->mActor->getLinearVelocity();
-        temp.normalize();
-        this->mActor->setLinearVelocity(MAX_SPEED*temp);
+        PxVec3 speed = this->mActor->getLinearVelocity();
+        this->mActor->setLinearVelocity(speed * SLOWDOWN);
     }
     else if (this->mActor->getLinearVelocity().magnitude() > MAX_SPEED*1.5f && this->retracting)
     {
@@ -396,6 +396,8 @@ VehicleDesc Car::initVehicleDesc()
     vehicleDesc.numWheels = nbWheels;
     tireMaterial = this->mPhysicsManager->mPhysics->createMaterial(MAT_STATIC, MAT_DYNAMIC, MAT_CR);
     mFrictionPairs = createFrictionPairs(tireMaterial, TIRE_FRICTION);
+    float zero_friction = 0.0f;
+    noFrictionPairs = createFrictionPairs(tireMaterial, zero_friction);
 
     vehicleDesc.wheelMaterial = tireMaterial; // This material doesn't affect the wheel's driving, but rather its non-driving
                                               // interactions with other surfaces (?)
@@ -447,7 +449,12 @@ void Car::stepForPhysics() {
 
     PxWheelQueryResult wheelQueryResults[NUM_WHEELS];
     PxVehicleWheelQueryResult vehicleQueryResults = { wheelQueryResults, this->mVehicleNoDrive->mWheelsSimData.getNbWheels() };
-    PxVehicleUpdates(1 / 60.f, grav, *mFrictionPairs, 1, vehicles, &vehicleQueryResults);
+    if (retracting) { // disable friction when retracting
+        PxVehicleUpdates(1 / 60.f, grav, *noFrictionPairs, 1, vehicles, &vehicleQueryResults);
+    }
+    else {
+        PxVehicleUpdates(1 / 60.f, grav, *mFrictionPairs, 1, vehicles, &vehicleQueryResults);
+    }
 
     // Updates the renderable positions for each wheel
     updateWheels(wheelQueryResults);

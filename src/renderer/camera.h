@@ -114,6 +114,7 @@ public:
     glm::mat4 calcPerspective(); // calculate perspective as a function of car speed - want to increase FOV
 
     void setDims(int width, int height);
+    float getCarSpeed();
 
 private:
     Car * car;
