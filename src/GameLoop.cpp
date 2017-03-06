@@ -129,12 +129,14 @@ int main(int argc, const char* argv[])
 
     // Create a finish-line trigger
     RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/checkers.png", 10., 20., 100., 0, true);
+
     entities.push_back(finishLine);
     finishLine->setPos(-150, 0, -350);
     finishLine->scaleModels();
     finishLine->setSil(false);
 
     RectTrigger * checkpoint1 = new RectTrigger(myPhysics, "assets/models/track/green.png", 50., 20., 100., 1);
+
     entities.push_back(checkpoint1);
     checkpoint1->setPos(80.1522, 61.2789, 161.581);
     checkpoint1->SIL_X_SCALE = 1.02;
@@ -143,6 +145,7 @@ int main(int argc, const char* argv[])
     checkpoint1->scaleModels();
 
     RectTrigger * checkpoint2 = new RectTrigger(myPhysics, "assets/models/track/green.png", 100., 20., 50., 2);
+
     entities.push_back(checkpoint2);
     checkpoint2->setPos(-950.594, 13.4629, -207.866);
     checkpoint2->SIL_X_SCALE = 1.02;
@@ -155,7 +158,7 @@ int main(int argc, const char* argv[])
 	myPhysics->createWallPlane(0, 5, 500, 0, -1);
 	myPhysics->createWallPlane(500, 5, 0, -1, 0);
 	myPhysics->createWallPlane(-500, 5,  0, 1, 0);*/
-
+    glfwSetTime(0);
     while (!window->shouldClose())
 	{
         input->Update();

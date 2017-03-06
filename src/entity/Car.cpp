@@ -510,3 +510,11 @@ float Car::getHookDistance() {
     vec3 launchDir = this->myHook->getPos() - pos;
     return glm::length(launchDir);
 }
+
+int Car::getLap() {
+    return lap;
+}
+
+int Car::getPartOfLap() {
+    return partoflap;
+}

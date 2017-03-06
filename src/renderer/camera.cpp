@@ -435,3 +435,8 @@ void Camera::setDims(int width, int height) {
 float Camera::getCarSpeed() {
     return car->mActor->getLinearVelocity().magnitude();
 }
+
+
+Car * Camera::getCar() {
+    return car;
+}

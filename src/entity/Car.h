@@ -164,6 +164,7 @@ public:
     glm::quat getAimRot() const;
     double getSpeed();
     float Car::getHookDistance();
-
+    int Car::getLap();
+    int Car::getPartOfLap();
     void Car::stepForPhysics();
 };
