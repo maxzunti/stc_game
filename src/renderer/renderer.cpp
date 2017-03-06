@@ -34,7 +34,7 @@ Renderer::Renderer(int index) :
 {
     index = index;
     // (glm::vec3(200, 400, 200)
-    light = new Light(glm::vec3(550, 500, 400), glm::vec3(-400, -500, -100)); // TODO: stop hard-coding this
+    light = new Light(glm::vec3(200, 600, 350), glm::vec3(-400, -500, -100)); // TODO: stop hard-coding this
 }
 
 Renderer::~Renderer()
