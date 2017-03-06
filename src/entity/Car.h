@@ -137,6 +137,7 @@ protected:
     void make_physX_car();
 public:
     Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents);
+	Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents);
     ~Car();
 
     VehicleDesc initVehicleDesc();

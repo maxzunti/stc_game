@@ -216,6 +216,9 @@ void Renderer::renderModel(const Model& model, mat4 &perspectiveMatrix, glm::mat
 void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans) {
     glUseProgram(shader[SHADER::DEFAULT]);
 
+    glEnablei(GL_BLEND, 0);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     glBindVertexArray(model.vao[VAO::GEOMETRY]);
     mat4 &camMatrix = cam->getMatrix();
     mat4 model_matrix = trans * rot * scale;
@@ -258,6 +261,8 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
     }
     glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
 
+  //  glEnablei(GL_BLEND, 0);
+  //  glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
     glDrawElements(
         GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
@@ -276,6 +281,7 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
     }
 
     CheckGLErrors("drawShade");
+    glDisablei(GL_BLEND, 0);
     glBindVertexArray(0);
 }
 
