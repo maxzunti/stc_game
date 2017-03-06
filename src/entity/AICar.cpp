@@ -150,6 +150,7 @@ void AICar::update()
 
 	//Directly inputting forces
 	//When should a car not be accelerating?
+
 	if (this->mActor->getLinearVelocity().magnitude() != 0.1)
 	{
 		resetBrakes();
@@ -161,8 +162,9 @@ void AICar::update()
 		applyWheelTorque(-1.f*(controller->LeftTrigger() - controller->RightTrigger()));
 	}*/
 	else {
-		applyWheelTorque(0);
-		startBrakeMode();
+		resetBrakes();
+		applyWheelTurn(TURN_FACTOR);
+		applyWheelTorque(ACCEL_FACTOR);
 	}
 
 	//Cap the max velocity of the car to 80

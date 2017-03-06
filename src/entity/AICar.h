@@ -10,7 +10,6 @@
 #include "AimArrow.h"
 #include "../input/input.h"
 #include "Hook.h"
-#include <list>
 
 #include "../util/ConfigParser.h"
 
