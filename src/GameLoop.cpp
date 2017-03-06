@@ -59,11 +59,10 @@ int main(int argc, const char* argv[])
     //StaticPhysicsObject * testCube = new StaticPhysicsObject("assets/models/Crate/Crate1.obj", "assets/models/track/green.png", glm::vec3(5, 5, 5), myPhysics);
     //entities.push_back(testCube);
     
+    StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/tracksurface.obj", "assets/models/track/blue.png", glm::vec3(50.f, 50.f, 50.f), myPhysics);
+    entities.push_back(myTrack);
     StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/models/track/green.png", glm::vec3(50.f, 50.f, 50.f), myPhysics);
     entities.push_back(myTrackWalls);
-    StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/tracksurface.obj", "assets/models/track/blue.png", glm::vec3(50.f,50.f,50.f), myPhysics);
-    entities.push_back(myTrack);
-    
     
     myTrack->SIL_X_SCALE = 1.1;
     myTrack->SIL_Y_SCALE = 1.1;
