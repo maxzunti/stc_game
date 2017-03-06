@@ -382,6 +382,7 @@
     <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleFilterShader.h" />
     <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleRaycast.h" />
     <ClInclude Include="middleware\PhysXSDK\Snippets\SnippetVehicleCommon\SnippetVehicleTireFriction.h" />
+    <ClInclude Include="src\BuildFlags.h" />
     <ClInclude Include="src\entity\DynamicPhysicsObject.h" />
     <ClInclude Include="src\entity\Obstacle.h" />
     <ClInclude Include="src\entity\HookChain.h" />

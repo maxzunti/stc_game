@@ -1038,6 +1038,9 @@
     <ClInclude Include="src\renderer\text2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\BuildFlags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\stars_milkyway.jpg">
