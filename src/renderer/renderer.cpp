@@ -33,7 +33,8 @@ Renderer::Renderer(int index) :
     cam(new Camera(vec3(0, -1, -1), vec3(0, 10, 10)))
 {
     index = index;
-    light = new Light(glm::vec3(200, 400, 200), glm::vec3(-400, -500, -100)); // TODO: stop hard-coding this
+    // (glm::vec3(200, 400, 200)
+    light = new Light(glm::vec3(200, 600, 350), glm::vec3(-400, -500, -100)); // TODO: stop hard-coding this
 }
 
 Renderer::~Renderer()
@@ -142,10 +143,10 @@ void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
     //Changing size can drastically affect the shadow map.
     // Smaller values capture less of the area but do allow for better shadows.
     // important area for tuning - especially in relation to mapsize 
-    float size = 500; // 900
+    float size = 860; // 900
 
     // Compute the MVP matrix from the light's point of view 
-    glm::mat4 depthProjectionMatrix = glm::ortho<float>(-size, size, -size, size, 0.1f, 1500.f); // 1500.0f
+    glm::mat4 depthProjectionMatrix = glm::ortho<float>(-size, 690, -size, size, 1.f, 1700.f); // 1500.0f
     glm::mat4 depthViewMatrix = glm::lookAt(light->getPos(), glm::vec3(0.f), glm::vec3(0, 1, 0));
     depthMVP = depthProjectionMatrix * depthViewMatrix;
 
@@ -186,7 +187,7 @@ void Renderer::addToShadowMap(const Model& model, mat4 model_matrix, int startEl
     // Make sure depth testing is enabled and cull front faces
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
-    glCullFace(GL_FRONT);
+  //  glCullFace(GL_BACK);
 
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SHADOW], "depthMVP"), 1, false, &depthMVP[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SHADOW], "model"), 1, false, &model_matrix[0][0]);
@@ -396,8 +397,11 @@ void Renderer::drawText() {
     int ds_offset = 3;
 
     //Lap Placement - insert real lap information here
+
+    char lapText[256];
+    sprintf(lapText, "\n%i\\3",cam->getCar()->getLap());
     drawDropShadowText("LAP", blueText, blackText, xPlacement, yPlacement, 60, ds_offset);
-    drawDropShadowText("\n1\\3", whiteText, blackText, xPlacement, yPlacement, 60, ds_offset);
+    drawDropShadowText(lapText, whiteText, blackText, xPlacement, yPlacement, 60, ds_offset);
 
     //Timer Text - insert real timer info here
     xPlacement = 30;
@@ -421,6 +425,15 @@ void Renderer::drawText() {
     int speed_int = (int)cam->getCarSpeed();
     std::string speed_str = std::to_string(speed_int);
     drawDropShadowText(speed_str.c_str(), whiteText, blackText, xPlacement, yPlacement, 100, ds_offset);
+
+    if ((cam->getCar()->getLap() == 3) && (cam->getCar()->getPartOfLap() == 4)) {
+        xPlacement = width/4;
+        yPlacement = height-200;
+        char winText[256];
+        sprintf(winText, "YOU WIN!");
+        drawDropShadowText(winText, whiteText, blackText, xPlacement, yPlacement, 100, ds_offset);
+    }
+
 }
 
 void Renderer::drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset) {

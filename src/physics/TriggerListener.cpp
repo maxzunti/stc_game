@@ -42,6 +42,7 @@ void TriggerListener::onTrigger(PxTriggerPair* pairs, PxU32 count) {
                 if (myCar->lap == 3)
                 {
                     std::cout << "A car has won!!!!" << std::endl;
+                    myCar->partoflap = 4;
                 }
                 else
                 {

@@ -115,7 +115,7 @@ public:
 
     void setDims(int width, int height);
     float getCarSpeed();
-
+    Car * getCar();
 private:
     Car * car;
     Input * controller;
