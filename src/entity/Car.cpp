@@ -67,6 +67,10 @@ Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Phy
 	Z_MODEL_SCALE = 1.;
 	scaleModels();
 //	scale(0.7f, 1.0f, 1.0f);
+    mActor->userData = this;
+    mActor->setName("Car");
+    this->lap = 1;
+    this->partoflap = 0;
 }
 
 Car::~Car() {
@@ -228,6 +232,32 @@ void Car::calcAim() {
 }
 
 void Car::update() {
+
+    if (this->getPos().y < -200.0f)
+    {
+        switch (this->partoflap)
+        {
+        case 0:
+            this->setPos(-300, 10, -200);
+            this->setRot(0.0, -0.5, 0.0);
+            break;
+        case 1: 
+            this->setPos(-150, 10, -350);
+            this->setRot(0.0, -1.3, 0.0);
+            break;
+        case 2:
+            this->setPos(80.1522, 70, 161.581);
+            this->setRot(0.0, 1.57/2.0, 0.0);
+            break;
+        case 3:
+            this->setPos(-988.594, 23, -207.866);
+            this->setRot(0.0, 4.14 / 1.2, 0.0);
+            break;
+        default:
+            std::cout << "switch error: you ded" << std::endl;
+            break;
+        }
+    }
     if (controller->GetButtonPressed(XButtonIDs::X)) {
         car_parser.updateFromFile();
         make_physX_car();

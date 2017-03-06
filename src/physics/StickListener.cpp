@@ -14,8 +14,6 @@ StickListener::~StickListener()
 
 void StickListener::onContactModify(PxContactModifyPair *const pairs, PxU32 count)
 {
-
-	std::cout << "oncontactmodify called" << std::endl;
 	for (PxU32 i = 0; i < count; i++)
 	{
 	//PxTransform pointOfContact;

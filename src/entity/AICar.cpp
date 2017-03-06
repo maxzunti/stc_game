@@ -65,6 +65,32 @@ bool AICar::calcAim() {
 
 void AICar::update()
 {
+
+    if (this->getPos().y < -200.0f)
+    {
+        switch (this->partoflap)
+        {
+        case 0:
+            this->setPos(-300, 10, -200);
+            this->setRot(0.0, -0.5, 0.0);
+            break;
+        case 1:
+            this->setPos(-150, 10, -350);
+            this->setRot(0.0, -1.3, 0.0);
+            break;
+        case 2:
+            this->setPos(80.1522, 70, 161.581);
+            this->setRot(0.0, 1.57 / 2.0, 0.0);
+            break;
+        case 3:
+            this->setPos(-988.594, 23, -207.866);
+            this->setRot(0.0, 4.14 / 1.2, 0.0);
+            break;
+        default:
+            std::cout << "switch error: ai car ded" << std::endl;
+            break;
+        }
+    }
 	//TODO: Acquire an ordered (?) vector of all the nodes, outlining the path
 	//std::vector<DynamicPhysicsObject*> nodes;
 	

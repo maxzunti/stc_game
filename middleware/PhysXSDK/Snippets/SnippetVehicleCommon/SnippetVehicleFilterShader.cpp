@@ -43,7 +43,7 @@ PxFilterFlags VehicleFilterShader
 		
 		if (filterData0.word0 == COLLISION_FLAG_HOOK || filterData1.word0 == COLLISION_FLAG_HOOK)
 		{
-			std::cout << "collision is hooked" << std::endl;
+			//std::cout << "collision is hooked" << std::endl;
             // might need to change resolve to solve or simply add solve
 			pairFlags = PxPairFlag::eMODIFY_CONTACTS | PxPairFlag::eRESOLVE_CONTACTS | PxPairFlag::eDETECT_CCD_CONTACT 
                 | PxPairFlag::eDETECT_DISCRETE_CONTACT;
