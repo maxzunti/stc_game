@@ -53,6 +53,8 @@ void Renderer::postGLInit() {
 void Renderer::initText() {
     blueText = new Text2D("assets/textures/blue_gg_font.png");
     blackText = new Text2D("assets/textures/black_gg_font.png");
+    redText = new Text2D("assets/textures/red_gg_font.png");
+    whiteText = new Text2D("assets/textures/white_gg_font.png");
 }
 
 // Sets up the frame buffer and the shadowMap texture
@@ -389,30 +391,36 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
 void Renderer::drawText() {
     // Draw text here
 
-    int xPlacement = 50;
+    int xPlacement = 30;
     int yPlacement = this->height - 100;
     int ds_offset = 3;
 
     //Lap Placement - insert real lap information here
-    char text[256];
-    sprintf(text, "LAP\n1\\3");
-    drawDropShadowText(text, blueText, blackText, xPlacement, yPlacement, 60, ds_offset);
+    drawDropShadowText("LAP", blueText, blackText, xPlacement, yPlacement, 60, ds_offset);
+    drawDropShadowText("\n1\\3", whiteText, blackText, xPlacement, yPlacement, 60, ds_offset);
 
     //Timer Text - insert real timer info here
-    xPlacement = 50;
+    xPlacement = 30;
     yPlacement = 100;
     char timeText[256];
     double currentTime = glfwGetTime();
-    sprintf(timeText, "TIME\n%.2i:%.2i", int(currentTime)/60,int(currentTime)%60);
-    drawDropShadowText(timeText, blueText, blackText, xPlacement, yPlacement, 60, ds_offset);
+    sprintf(timeText, "\n%.2i:%.2i", int(currentTime)/60,int(currentTime)%60);
+    drawDropShadowText("TIME", blueText, blackText, xPlacement, yPlacement, 60, ds_offset);
+    drawDropShadowText(timeText, whiteText, blackText, xPlacement, yPlacement, 60, ds_offset);
 
     //Position - insert real position info here
-    xPlacement = this->width - 200;
-    yPlacement = this->height - 100;
+    xPlacement = this->width - 300;
+    yPlacement = this->height - 150;
 
     char posText[256];
     sprintf(posText, "1ST");
-    drawDropShadowText(posText, blueText, blackText, xPlacement, yPlacement, 60, ds_offset);
+    drawDropShadowText(posText, whiteText, blackText, xPlacement, yPlacement, 100, ds_offset);
+
+    xPlacement = this->width - 300;
+    yPlacement = 50;
+    int speed_int = (int)cam->getCarSpeed();
+    std::string speed_str = std::to_string(speed_int);
+    drawDropShadowText(speed_str.c_str(), whiteText, blackText, xPlacement, yPlacement, 100, ds_offset);
 }
 
 void Renderer::drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset) {

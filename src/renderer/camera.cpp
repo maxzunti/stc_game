@@ -414,7 +414,6 @@ void Camera::calcFollowSpeeds() {
     calcXboxRotSpeeds();
     calcCarRotSpeeds();
 
-
     // Update camera rotation angles
     x_rot_speed = (x_car_rot_speed + x_xbox_rot_speed);
     y_rot_speed = (y_car_rot_speed + y_xbox_rot_speed);
@@ -431,4 +430,8 @@ void Camera::calcFollowSpeeds() {
 void Camera::setDims(int width, int height) {
     this->width = width;
     this->height = height;
+}
+
+float Camera::getCarSpeed() {
+    return car->mActor->getLinearVelocity().magnitude();
 }

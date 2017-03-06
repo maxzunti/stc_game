@@ -43,6 +43,8 @@ class Renderer {
     void Renderer::initText();
     Text2D * blueText;
     Text2D * blackText;
+    Text2D * redText;
+    Text2D * whiteText;
     
     // Silhouette vars
     GLuint SIL_frameBuffer1;
