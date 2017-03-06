@@ -53,7 +53,7 @@ int main(int argc, const char* argv[])
  
     cars.push_back(car);
     entities.push_back(car);
-    car->setPos(-50, 100, 72);
+    car->setPos(-200, 10, -350);
     car->setRot(0.0, 1.57 / 2.0, 0.0);
 
     //StaticPhysicsObject * testCube = new StaticPhysicsObject("assets/models/Crate/Crate1.obj", "assets/models/track/green.png", glm::vec3(5, 5, 5), myPhysics);
@@ -121,13 +121,13 @@ int main(int argc, const char* argv[])
 	entities.push_back(wall4);*/
 
     // Create a finish-line trigger
-   /* RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/green.png", 30., 5., 30., true);
+   RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/models/track/green.png", 6., 4., 6., 0, true);
     entities.push_back(finishLine);
-    finishLine->setPos(-200, 3, 0);
+    finishLine->setPos(-150, 10, -350);
     finishLine->SIL_X_SCALE = 1.02;
     finishLine->SIL_Y_SCALE = 1.02;
     finishLine->SIL_Z_SCALE = 1.02;
-    finishLine->scaleModels();*/
+    finishLine->scaleModels();
 
     //myPhysics->createGroundPlane();
     //myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
@@ -148,7 +148,6 @@ int main(int argc, const char* argv[])
 		myPhysics->stepPhysics();
    
         car->update();
-       
        
 	// mySound->updateSound();
 		window->draw(entities);

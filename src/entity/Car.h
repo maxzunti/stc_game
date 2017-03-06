@@ -139,6 +139,9 @@ public:
     Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents);
     ~Car();
 
+    int lap;
+    int partoflap;
+
     VehicleDesc initVehicleDesc();
 
     virtual void update();

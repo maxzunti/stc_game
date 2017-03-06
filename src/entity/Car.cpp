@@ -33,6 +33,10 @@ Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Phy
     Z_MODEL_SCALE = 1.;
     scaleModels();
     scale(0.7f, 1.0f, 1.0f);
+    mActor->userData = this;
+    mActor->setName("Car");
+    this->lap = 1;
+    this->partoflap = 0;
 }
 
 Car::~Car() {

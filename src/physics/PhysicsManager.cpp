@@ -43,7 +43,7 @@ PhysicsManager::PhysicsManager(PxSimulationEventCallback *event_callback, PxCont
 	mDispatcher = PxDefaultCpuDispatcherCreate(numWorkers);
 	sceneDesc.cpuDispatcher = mDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;
-   // sceneDesc.simulationEventCallback = event_callback;
+    sceneDesc.simulationEventCallback = event_callback;
     sceneDesc.contactModifyCallback = mod_callback;
 	mScene = mPhysics->createScene(sceneDesc);
 
