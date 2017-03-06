@@ -1,6 +1,7 @@
 #define SDL_MAIN_HANDLED
 
 #include <iostream>
+#include "BuildFlags.h"
 
 #include "renderer/Window.h"
 #include "renderer/GLUtil.h"
@@ -66,7 +67,11 @@ int main(int argc, const char* argv[])
 	bot->setPos(-325, 10, -225);
 	bot->setRot(0.0, -1.2, 0.0);
     
+#ifdef FAST_TRACK
+    StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/fast_track.obj", "assets/models/track/blue.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+#else
     StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/tracksurface.obj", "assets/models/track/blue.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+#endif
     entities.push_back(myTrack);
     StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/models/track/green.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
     entities.push_back(myTrackWalls);
