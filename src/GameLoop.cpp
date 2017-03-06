@@ -56,12 +56,12 @@ int main(int argc, const char* argv[])
     cars.push_back(car);
     entities.push_back(car);
 
-    car->setPos(-200, 10, -350);
+    car->setPos(-300, 10, -200);
 
 	cars.push_back(bot);
 	entities.push_back(bot);
 
-    car->setRot(0.0, 1.57 / 2.0, 0.0);
+    car->setRot(0.0, -0.5, 0.0);
 
 	bot->setPos(-25, 100, 72);
 	bot->setRot(0.0, 1.57 / 2.0, 0.0);
@@ -144,9 +144,9 @@ int main(int argc, const char* argv[])
     checkpoint1->SIL_Z_SCALE = 1.02;
     checkpoint1->scaleModels();
 
-    RectTrigger * checkpoint2 = new RectTrigger(myPhysics, "assets/models/track/green.png", 50., 20., 100., 2, true);
+    RectTrigger * checkpoint2 = new RectTrigger(myPhysics, "assets/models/track/green.png", 100., 20., 50., 2, true);
     entities.push_back(checkpoint2);
-    checkpoint2->setPos(-988.594, 13.4629, -207.866);
+    checkpoint2->setPos(-950.594, 13.4629, -207.866);
     checkpoint2->SIL_X_SCALE = 1.02;
     checkpoint2->SIL_Y_SCALE = 1.02;
     checkpoint2->SIL_Z_SCALE = 1.02;
