@@ -35,6 +35,36 @@ Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Phy
     scale(0.7f, 1.0f, 1.0f);
 }
 
+Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents) :
+	DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
+	arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
+	myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
+	car_parser("config/car_config", &carParams)
+{
+	physMan = physicsManager;
+
+	initParams();
+	car_parser.updateFromFile();
+
+	myHook->scale(2.0, 2.0, 2.0);
+	ents.push_back(arrow.get());
+	ents.push_back(myHook.get());
+
+	initWheels("assets/models/wheel/wheel.obj", "assets/models/wheel/wheeltex.png");
+	for (int i = 0; i < NUM_WHEELS; i++) {
+		ents.push_back(wheels[i]);
+	}
+
+	make_physX_car();
+
+	reset_scale();
+	X_MODEL_SCALE = 1.;
+	Y_MODEL_SCALE = 1.;
+	Z_MODEL_SCALE = 1.;
+	scaleModels();
+	scale(0.7f, 1.0f, 1.0f);
+}
+
 Car::~Car() {
     for (int i = 0; i < NUM_WHEELS; i++) {
         delete wheels[i];
