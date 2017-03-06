@@ -33,7 +33,6 @@ PxFilterFlags VehicleFilterShader
     // let triggers through
     if (PxFilterObjectIsTrigger(attributes0) || PxFilterObjectIsTrigger(attributes1))
     {
-        std::cout << "Imma trigga shape!" << std::endl;
         pairFlags = PxPairFlag::eTRIGGER_DEFAULT;
         return PxFilterFlag::eDEFAULT;
     }
