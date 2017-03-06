@@ -28,6 +28,7 @@ void Renderable::scaleModels() {
         mptr->sil_x = SIL_X_SCALE;
         mptr->sil_y = SIL_Y_SCALE;
         mptr->sil_z = SIL_Z_SCALE;
+        mptr->sil_jitter =  SIL_JITTER;
     }
 }
 

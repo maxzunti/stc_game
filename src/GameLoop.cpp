@@ -81,19 +81,22 @@ int main(int argc, const char* argv[])
     myTrack->SIL_X_SCALE = 1.1;
     myTrack->SIL_Y_SCALE = 1.1;
     myTrack->SIL_Z_SCALE = 1.1;
+    myTrack->SIL_JITTER = 1.2;
     myTrack->scaleModels();
-    myTrack->setSil(false);
+    myTrack->setSil(true);
 
     myTrackWalls->SIL_X_SCALE = 1.01;
     myTrackWalls->SIL_Y_SCALE = 1.01;
     myTrackWalls->SIL_Z_SCALE = 1.01;
+    myTrackWalls->SIL_JITTER = 1.0;
     myTrackWalls->scaleModels();
-    myTrackWalls->setSil(false);
+    myTrackWalls->setSil(true);
 
     
-    myHookables->SIL_X_SCALE = 1.01;
-    myHookables->SIL_Y_SCALE = 1.01;
-    myHookables->SIL_Z_SCALE = 1.01;
+    myHookables->SIL_X_SCALE = 1.1;
+    myHookables->SIL_Y_SCALE = 1.0;
+    myHookables->SIL_Z_SCALE = 1.1;
+    myHookables->SIL_JITTER = 1.0;
     myHookables->scaleModels();
     myHookables->setSil(false);
 

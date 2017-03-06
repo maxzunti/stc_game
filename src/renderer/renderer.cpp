@@ -210,7 +210,63 @@ void Renderer::addToShadowMap(const Model& model, mat4 model_matrix, int startEl
 void Renderer::renderModel(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans)
 {
     if (model.shouldSil()) {
-        drawSil(model, perspectiveMatrix, scale, rot, trans);
+        const mat4 model_matrix = trans * rot * scale;
+        mat4 sil_model;
+
+        glBindFramebuffer(GL_FRAMEBUFFER, SIL_frameBuffer1);
+        glClear(GL_DEPTH_BUFFER_BIT); // clear FB1
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, 0); // copy from default...
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, SIL_frameBuffer1); // ...to sil_1
+        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
+            GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
+
+        if (model.sil_jitter > 0.0) { // sil_jitter set; use the more expensive jitter technique
+                                      // Copy pre-sil depth-buffer values to temp SIL_frameBuffer1
+
+            // +X
+            mat4 jitter_trans = glm::translate(vec3(model.sil_jitter, 0.0, 0.0));
+            sil_model = jitter_trans * model_matrix;
+            drawSil(model, perspectiveMatrix, sil_model);
+
+            // -X
+            jitter_trans = glm::translate(vec3(-model.sil_jitter, 0.0, 0.0));
+            sil_model = jitter_trans * model_matrix;
+            drawSil(model, perspectiveMatrix, sil_model);
+
+            // +Y
+            jitter_trans = glm::translate(vec3(0.0, model.sil_jitter, 0.0));
+            sil_model = jitter_trans * model_matrix;
+            drawSil(model, perspectiveMatrix, sil_model);
+
+            // -Y
+            jitter_trans = glm::translate(vec3(0.0, -model.sil_jitter, 0.0));
+            sil_model = jitter_trans * model_matrix;
+            drawSil(model, perspectiveMatrix, sil_model);
+
+            // +Z
+            jitter_trans = glm::translate(vec3(0.0, 0.0, model.sil_jitter));
+            sil_model = jitter_trans * model_matrix;
+            drawSil(model, perspectiveMatrix, sil_model);
+
+            // -Z
+            jitter_trans = glm::translate(vec3(0.0, 0.0, -model.sil_jitter));
+            sil_model = jitter_trans * model_matrix;
+            drawSil(model, perspectiveMatrix, sil_model);
+        }
+        else {
+            sil_model = trans * rot * (scale * glm::scale(glm::vec3(model.sil_x, model.sil_y, model.sil_z)));
+            drawSil(model, perspectiveMatrix, sil_model);
+        }
+
+        // Copy post-sil depth-buffer values to temp SIL_frameBuffer2
+        glBindFramebuffer(GL_FRAMEBUFFER, SIL_frameBuffer2);
+        glClear(GL_DEPTH_BUFFER_BIT); // clear FB2
+        glBindFramebuffer(GL_READ_FRAMEBUFFER, 0); // copy from default...
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, SIL_frameBuffer2); // ...to sil_2
+        glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
+            GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
     }
     drawShade(model, perspectiveMatrix, scale, rot, trans);
 }
@@ -287,14 +343,11 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
     glBindVertexArray(0);
 }
 
-void Renderer::drawSil(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans) {
+void Renderer::drawSil(const Model& model, mat4 &perspectiveMatrix, glm::mat4 &mmatrix) {
     glUseProgram(shader[SHADER::SIL]);
 
     glBindVertexArray(model.vao[VAO::GEOMETRY]);
     mat4 &camMatrix = cam->getMatrix();
-
-    mat4 model_matrix = trans * rot * scale;
-    mat4 scaled_model = trans * rot * (scale * glm::scale(glm::vec3(model.sil_x, model.sil_y, model.sil_z)));
 
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "cameraMatrix"),
         1,
@@ -309,18 +362,9 @@ void Renderer::drawSil(const Model& model, mat4 &perspectiveMatrix, glm::mat4 sc
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "modelviewMatrix"),
         1,
         false,
-        &scaled_model[0][0]);
+        &mmatrix[0][0]);
 
     CheckGLErrors("loadUniforms");
-
-    // Copy pre-sil depth-buffer values to temp SIL_frameBuffer1
-    glBindFramebuffer(GL_FRAMEBUFFER, SIL_frameBuffer1);
-    glClear(GL_DEPTH_BUFFER_BIT); // clear FB1
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0); // copy from default...
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, SIL_frameBuffer1); // ...to sil_1
-    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
-        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
 
     glDepthMask(GL_TRUE); // enable writes to Z-buffer
 
@@ -333,15 +377,6 @@ void Renderer::drawSil(const Model& model, mat4 &perspectiveMatrix, glm::mat4 sc
         GL_UNSIGNED_INT,	 //Type
         (void*)0			 //Offset
         );
-
-    // Copy post-sil depth-buffer values to temp SIL_frameBuffer2
-    glBindFramebuffer(GL_FRAMEBUFFER, SIL_frameBuffer2);
-    glClear(GL_DEPTH_BUFFER_BIT); // clear FB2
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0); // copy from default...
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, SIL_frameBuffer2); // ...to sil_2
-    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
-        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
 
     CheckGLErrors("drawSil");
     glBindVertexArray(0);

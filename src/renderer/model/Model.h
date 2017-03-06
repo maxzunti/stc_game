@@ -66,6 +66,7 @@ public:
     double sil_x = DEFAULT_SIL;
     double sil_y = DEFAULT_SIL;
     double sil_z = DEFAULT_SIL;
+    double sil_jitter = 0.0f;
 
     void drawSil(bool);
     bool shouldSil() const;

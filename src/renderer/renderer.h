@@ -24,7 +24,7 @@ class Renderer {
     void renderModel(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans);
 
     // Render black-border silhouettes
-    void drawSil(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans);
+    void drawSil(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 &mmatrix);
 
     // Actually draw each model using standard shading
     void drawShade(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans);
