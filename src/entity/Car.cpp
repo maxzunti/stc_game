@@ -28,11 +28,15 @@ Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Phy
     make_physX_car();
 
     reset_scale();
-    X_MODEL_SCALE = 1.;
+    X_MODEL_SCALE = .7;
     Y_MODEL_SCALE = 1.;
     Z_MODEL_SCALE = 1.;
     scaleModels();
     scale(0.7f, 1.0f, 1.0f);
+    mActor->userData = this;
+    mActor->setName("Car");
+    this->lap = 1;
+    this->partoflap = 0;
 }
 
 Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents) :
@@ -58,11 +62,11 @@ Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Phy
 	make_physX_car();
 
 	reset_scale();
-	X_MODEL_SCALE = 1.;
+	X_MODEL_SCALE = .7;
 	Y_MODEL_SCALE = 1.;
 	Z_MODEL_SCALE = 1.;
 	scaleModels();
-	scale(0.7f, 1.0f, 1.0f);
+//	scale(0.7f, 1.0f, 1.0f);
 }
 
 Car::~Car() {
@@ -113,6 +117,11 @@ void Car::initParams() {
     carParams.push_back(std::make_pair(std::string("CHASSIS_X_MOI_FACTOR"), &CHASSIS_X_MOI_FACTOR));
     carParams.push_back(std::make_pair(std::string("CHASSIS_Y_MOI_FACTOR"), &CHASSIS_Y_MOI_FACTOR));
     carParams.push_back(std::make_pair(std::string("CHASSIS_Z_MOI_FACTOR"), &CHASSIS_Z_MOI_FACTOR));
+    carParams.push_back(std::make_pair(std::string("WHEEL_FRONT_Z"), &WHEEL_FRONT_Z));
+    carParams.push_back(std::make_pair(std::string("WHEEL_BACK_Z"), &WHEEL_BACK_Z));
+    carParams.push_back(std::make_pair(std::string("WHEEL_Y_LOWER"), &WHEEL_Y_LOWER));
+    carParams.push_back(std::make_pair(std::string("WHEEL_X_FACTOR"), &WHEEL_X_FACTOR));
+    carParams.push_back(std::make_pair(std::string("WHEEL_Z_FACTOR"), &WHEEL_Z_FACTOR));
 }
 
 //Create a vehicle that will drive on the plane.
@@ -146,6 +155,12 @@ void Car::make_physX_car() {
     wheels.MAX_BRAKE_TORQUE = WHEEL_MAX_BRAKE_TORQUE;
     wheels.MAX_STEER = WHEEL_MAX_STEER;
     wheels.TOE_ANGLE = WHEEL_TOE_ANGLE;
+
+    wheels.WHEEL_FRONT_Z = WHEEL_FRONT_Z;
+    wheels.WHEEL_BACK_Z = WHEEL_BACK_Z;
+    wheels.WHEEL_Y_LOWER = WHEEL_Y_LOWER;
+    wheels.WHEEL_X_FACTOR = WHEEL_X_FACTOR;
+    wheels.WHEEL_Z_FACTOR = WHEEL_Z_FACTOR;
 
     tire_data tires;
     tires.LAT_STIFF_X = LAT_STIFF_X;

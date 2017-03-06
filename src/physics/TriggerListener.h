@@ -1,6 +1,8 @@
 #pragma once
 #include "PxPhysicsAPI.h"
 #include "PxSimulationEventCallback.h"
+#include "../entity/Car.h"
+#include "../entity/RectTrigger.h"
 
 class TriggerListener : public physx::PxSimulationEventCallback {
 public:

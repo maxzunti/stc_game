@@ -81,6 +81,13 @@ protected:
     float WHEEL_MAX_STEER = 0.0f;
     float WHEEL_TOE_ANGLE = 0.0f;
 
+    // Wheel position offsets
+    float WHEEL_FRONT_Z = 0.3f;
+    float WHEEL_BACK_Z = 0.3f;
+    float WHEEL_Y_LOWER = 0.0f;
+    float WHEEL_X_FACTOR = 0.5f;
+    float WHEEL_Z_FACTOR = 0.5f;
+
     // Tire data
     float TIRE_FRICTION = 100000.f;
     float LAT_STIFF_X = 2.0f;
@@ -139,6 +146,9 @@ public:
     Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents);
 	Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents);
     ~Car();
+
+    int lap;
+    int partoflap;
 
     VehicleDesc initVehicleDesc();
 

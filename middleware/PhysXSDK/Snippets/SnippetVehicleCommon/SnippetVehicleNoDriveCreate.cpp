@@ -18,7 +18,7 @@ namespace NoDrive
 {
 
 void computeWheelCenterActorOffsets
-(const PxF32 wheelFrontZ, const PxF32 wheelRearZ, const PxVec3& chassisDims, const PxF32 wheelWidth, const PxF32 wheelRadius, const PxU32 numWheels, PxVec3* wheelCentreOffsets)
+(const PxF32 wheelFrontZ, const PxF32 wheelRearZ, const PxVec3& chassisDims, const PxF32 wheelWidth, const PxF32 wheelRadius, const PxU32 numWheels, PxVec3* wheelCentreOffsets, wheel_data* wheelData)
 {
 	//chassisDims.z is the distance from the rear of the chassis to the front of the chassis.
 	//The front has z = 0.5*chassisDims.z and the rear has z = -0.5*chassisDims.z.
@@ -31,9 +31,9 @@ void computeWheelCenterActorOffsets
 	for(PxU32 i = 0; i < numWheels; i+=2)
 	{
 		//Left wheel offset from origin.
-		wheelCentreOffsets[i + 0] = PxVec3((-chassisDims.x + wheelWidth)*0.5f, -(chassisDims.y/2 + wheelRadius), wheelRearZ + i*deltaZ*0.5f);
+		wheelCentreOffsets[i + 0] = PxVec3((-chassisDims.x + wheelWidth)*wheelData->WHEEL_X_FACTOR, -(chassisDims.y/2 + wheelRadius) - wheelData->WHEEL_Y_LOWER, wheelRearZ + i*deltaZ*wheelData->WHEEL_Z_FACTOR);
 		//Right wheel offsets from origin.
-		wheelCentreOffsets[i + 1] = PxVec3((+chassisDims.x - wheelWidth)*0.5f, -(chassisDims.y/2 + wheelRadius), wheelRearZ + i*deltaZ*0.5f);
+		wheelCentreOffsets[i + 1] = PxVec3((+chassisDims.x - wheelWidth)*wheelData->WHEEL_X_FACTOR, -(chassisDims.y/2 + wheelRadius) - wheelData->WHEEL_Y_LOWER, wheelRearZ + i*deltaZ*wheelData->WHEEL_Z_FACTOR);
 	}
 }
 
@@ -213,9 +213,9 @@ PxVehicleNoDrive* createVehicleNoDrive(const VehicleDesc& vehicleDesc,
 	{
 		//Compute the wheel center offsets from the origin.
 		PxVec3 wheelCentreActorOffsets[PX_MAX_NB_WHEELS];
-		const PxF32 frontZ = chassisDims.z * 0.3f;
-		const PxF32 rearZ = -chassisDims.z * 0.3f;
-		NoDrive::computeWheelCenterActorOffsets(frontZ, rearZ, chassisDims, wheelWidth, wheelRadius, numWheels, wheelCentreActorOffsets);
+		const PxF32 frontZ = chassisDims.z * wheelData->WHEEL_FRONT_Z;
+		const PxF32 rearZ = -chassisDims.z * wheelData->WHEEL_BACK_Z;
+		NoDrive::computeWheelCenterActorOffsets(frontZ, rearZ, chassisDims, wheelWidth, wheelRadius, numWheels, wheelCentreActorOffsets, wheelData);
 
 		NoDrive::setupWheelsSimulationData
 			(numWheels, wheelCentreActorOffsets,
