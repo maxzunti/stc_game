@@ -16,6 +16,7 @@
 #include "entity/DynamicPhysicsObject.h"
 #include "entity/StaticPhysicsObject.h"
 #include "entity/Car.h"
+#include "entity/AICar.h"
 #include "entity/Hook.h"
 #include "entity/Obstacle.h"
 #include "entity/RectTrigger.h"
@@ -47,23 +48,29 @@ int main(int argc, const char* argv[])
     std::vector<Car*> cars(0);
 
     Car *car = new Car("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, input.get(), entities);
+	AICar *bot = new AICar("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, entities);
 
     window->getRenderer()->getCam()->registerController(input.get());
     window->getRenderer()->getCam()->registerCar(car);
  
     cars.push_back(car);
     entities.push_back(car);
+
     car->setPos(-200, 10, -350);
+
+	cars.push_back(bot);
+	entities.push_back(bot);
+
     car->setRot(0.0, 1.57 / 2.0, 0.0);
 
-    //StaticPhysicsObject * testCube = new StaticPhysicsObject("assets/models/Crate/Crate1.obj", "assets/models/track/green.png", glm::vec3(5, 5, 5), myPhysics);
-    //entities.push_back(testCube);
+	bot->setPos(-25, 100, 72);
+	bot->setRot(0.0, 1.57 / 2.0, 0.0);
     
+    StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/tracksurface.obj", "assets/models/track/blue.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    entities.push_back(myTrack);
     StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/models/track/green.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
     entities.push_back(myTrackWalls);
-    StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/tracksurface.obj", "assets/models/track/blue.png", glm::vec3(50.f,50.f,50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
-    entities.push_back(myTrack);
-    StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks.obj", "assets/models/track/green.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST);
+    StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks.obj", "assets/textures/trans_red.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST);
     entities.push_back(myHookables);
     
     myTrack->SIL_X_SCALE = 1.1;
@@ -139,10 +146,8 @@ int main(int argc, const char* argv[])
     while (!window->shouldClose())
 	{
         input->Update();
-        
-    // myInput->getState();
-    // myAI->getState();
-
+        bot->update();
+		
         for (const auto& c : cars)
             c->stepForPhysics();
 		myPhysics->stepPhysics();

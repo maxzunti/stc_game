@@ -39,6 +39,12 @@ struct wheel_data {
 	float MAX_BRAKE_TORQUE = 1500.0f;
 	float MAX_STEER = 0.0f;
 	float TOE_ANGLE = 0.0f;
+	
+	float WHEEL_FRONT_Z = 0.3f;
+	float WHEEL_BACK_Z = 0.3f;
+	float WHEEL_Y_LOWER = 0.0f;
+	float WHEEL_X_FACTOR = 0.5f;
+	float WHEEL_Z_FACTOR = 0.5f;
 };
 
 struct tire_data {

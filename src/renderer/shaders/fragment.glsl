@@ -8,7 +8,7 @@
 
 uniform sampler2D image;
 
-// When true- renders the depth map (shadowMap texture) on every object
+// When true - renders the depth map (shadowMap texture) on every object
 bool DEBUG = false;
 
 out vec4 FragmentColour;
@@ -90,12 +90,13 @@ void main()
 	texture_coordinate.y = -FragUV[1];
 
 	// could be xyz instead of rgb (rgb usage due to the fact that its a color)
-    vec3 color =  texture(image, texture_coordinate).rgb; 
+    vec4 color =  texture(image, texture_coordinate); 
+
     vec3 normal = normalize(FragNormal);
     vec3 lightColor = vec3(1.0);
 
     // Ambient
-    vec3 ambient = ka * color;
+    vec3 ambient = ka * color.rgb;
 	
 	// Diffuse
     vec3 lightDir = normalize(lightPos - vecPos);
@@ -112,9 +113,9 @@ void main()
     // Calculate shadow
     float shadow = ShadowCalculation(ShadowCoord);                      
     shadow = min(shadow, 0.75); // reduce shadow strength a little: allow some diffuse/specular light in shadowed regions
-    vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;    
+    vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color.rgb;    
   
-	FragmentColour = vec4(lighting, 1.0f);
+	FragmentColour = vec4(lighting, color.a);
   
 	// DEBUG sets the texture on each object to be the depth map
 	if (DEBUG){
