@@ -150,6 +150,7 @@ public:
     glm::vec3 getAim() const;
     glm::quat getAimRot() const;
     double getSpeed();
+    float Car::getHookDistance();
 
     void Car::stepForPhysics();
 };
