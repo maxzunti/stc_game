@@ -258,16 +258,16 @@ void Car::update() {
         this->retractHook();
     }
 
-    //Defines how soon the hook detaches
-    float autoDetachLength = 400.f;
-
-    this->myHook->update(pos + (HOOK_FORWARD_OFFSET*dir) + (HOOK_UP_OFFSET*up));
-    if ((this->getHookDistance() > autoDetachLength) && (this->myHook->getShot())) {
+    //Defines the distance that the hook detaches at
+    float autoDetachMaxLength = 400.f;
+    float autoDetachMinLength = 75.f;
+    if (((this->getHookDistance() > autoDetachMaxLength) && (this->myHook->getShot())) || ((this->getHookDistance() < autoDetachMinLength) && (this->myHook->getStuck()))) {
         this->cancelHook();
     }
+
+    this->myHook->update(pos + (HOOK_FORWARD_OFFSET*dir) + (HOOK_UP_OFFSET*up));
+   
 }
-
-
 
 /*
 ^^

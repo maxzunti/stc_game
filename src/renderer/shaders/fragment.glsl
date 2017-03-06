@@ -48,7 +48,7 @@ float ShadowCalculation(vec4 shadowCoord)
     // Calculate bias (based on depth map resolution and slope) - one of the techniques to improve shadow quality
     vec3 normal = normalize(FragNormal);
     vec3 lightDir = normalize(lightPos - vecPos);
-    float bias = max(0.001 * (1.0 - dot(normal, lightDir)), 0.0002); // Changing the bias has great effects on the rendering
+    float bias = max(0.001 * (1.0 - dot(normal, lightDir)), 0.001); // Changing the bias has great effects on the rendering 0.0002
 	
     // Check whether current frag pos is in shadow
     //float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
@@ -127,8 +127,8 @@ void main()
 		/*vec3 projCoords = ShadowCoord.xyz / ShadowCoord.w;
 		projCoords = (projCoords * 0.5) + 0.5;
 		FragmentColour = vec4(texture(shadowMap, projCoords.xy).x);
-		//FragmentColour = vec4(projCoords.xy,0,0 );
-		*/
+		*///FragmentColour = vec4(projCoords.xy,0,0 );
+		
 
 	}
 }

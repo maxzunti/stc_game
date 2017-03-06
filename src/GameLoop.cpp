@@ -91,8 +91,8 @@ int main(int argc, const char* argv[])
 	Renderable* wall3 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/hearthstone.png");
 	Renderable* wall4 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/hearthstone.png");
     */
-    //plane->setPos(0, 0, 0);
-   // plane->scale(50, 50, 50);
+    //plane->setPos(0, 1200, 0);
+    //plane->scale(50, 50, 50);
     /*
 	//milky
 	wall1->setPos(0, -20, -500);
