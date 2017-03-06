@@ -63,8 +63,8 @@ int main(int argc, const char* argv[])
 
     car->setRot(0.0, -0.5, 0.0);
 
-	bot->setPos(-25, 100, 72);
-	bot->setRot(0.0, 1.57 / 2.0, 0.0);
+	bot->setPos(-325, 10, -225);
+	bot->setRot(0.0, -1.2, 0.0);
     
     StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/tracksurface.obj", "assets/models/track/blue.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
     entities.push_back(myTrack);

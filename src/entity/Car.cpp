@@ -7,7 +7,7 @@ using namespace glm;
 Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents) :
     DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
     arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
-    myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
+    myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, -5000.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
     car_parser("config/car_config", &carParams)
 {
     physMan = physicsManager;
@@ -480,7 +480,7 @@ void Car::cancelHook() {
         this->mPhysicsManager->mScene->removeActor(*myHook->mActor);
     myHook->setShot(false);
     myHook->setStuck(false);
-    myHook->setPos(0.0, 200.0, 0.0);
+    myHook->setPos(0.0, -5000.0, 0.0);
     myHook->mActor->setLinearVelocity(PxVec3(0.f, 0.f, 0.f));
     this->retracting = false;
 }
