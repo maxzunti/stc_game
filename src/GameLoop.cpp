@@ -98,7 +98,7 @@ int main(int argc, const char* argv[])
     myHookables->SIL_Z_SCALE = 1.1;
     myHookables->SIL_JITTER = 1.0;
     myHookables->scaleModels();
-    myHookables->setSil(false);
+    myHookables->setSil(true);
 
     //Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
     /*Renderable* wall1 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/stc.png");
