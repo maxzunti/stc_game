@@ -33,8 +33,9 @@ int main(int argc, const char* argv[])
     std::unique_ptr<Window> window(new Window(1024, 768));
 
 	//Music
-	Jukebox *bgm = new Jukebox("assets/sound/dmw.mp3");
-	bgm->play();
+	Jukebox *jb = new Jukebox();
+    jb->setup();
+    jb->play();
 
     // Set up input
     std::unique_ptr<Input> input(new Input(0));
@@ -48,7 +49,7 @@ int main(int argc, const char* argv[])
     std::vector<Entity*> entities(0);
     std::vector<Car*> cars(0);
 
-    Car *car = new Car("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, input.get(), entities);
+    Car *car = new Car("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, input.get(), entities, jb);
 	AICar *bot = new AICar("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, entities);
 
     window->getRenderer()->getCam()->registerController(input.get());

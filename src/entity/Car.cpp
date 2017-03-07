@@ -4,12 +4,13 @@
 
 using namespace glm;
 
-Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents) :
+Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents, Jukebox* jb) :
     DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
     arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
     myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, -5000.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
     car_parser("config/car_config", &carParams)
 {
+    this->myJB = jb;
     physMan = physicsManager;
 
     initParams();
@@ -326,6 +327,8 @@ void Car::update() {
 
     if (this->myHook->getStuck() && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
         this->retracting = true;
+
+        this->myJB->playEffect(myJB->gravpull);
     }
 
     if (this->retracting)
@@ -495,6 +498,7 @@ void Car::stepForPhysics() {
 
 //Fires the hook
 void Car::fireHook() {
+    this->myJB->playEffect(myJB->firehook);
     this->mPhysicsManager->mScene->addActor(*myHook->mActor);
     myHook->setShot(true);
     myHook->setRot(aim_rot);

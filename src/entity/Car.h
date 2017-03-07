@@ -13,6 +13,9 @@
 #include "../util/ConfigParser.h"
 
 
+#include "../Jukebox.h"
+
+
 // Prototype for a car class - mostly used for testing some basic controller input,
 // plus maybe generating some functions that'll be useful for an actual car later on
 class Car : public DynamicPhysicsObject {
@@ -29,6 +32,7 @@ protected:
     glm::vec3 up;
     std::unique_ptr<Hook> myHook;
     bool retracting;
+    
 
     PxVehicleNoDrive*	mVehicleNoDrive = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * mFrictionPairs = NULL;
@@ -145,12 +149,13 @@ protected:
 
     void make_physX_car();
 public:
-    Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents);
+    Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents, Jukebox* jb);
 	Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents);
     ~Car();
 
     int lap;
     int partoflap;
+    Jukebox* myJB;
 
     VehicleDesc initVehicleDesc();
 
