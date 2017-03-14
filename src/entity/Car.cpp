@@ -430,19 +430,28 @@ void Car::update() {
 
 */
 void Car::applyWheelTurn(float factor) {
-    double vdiff_2 = (this->mActor->getLinearVelocity().magnitude() / MAX_STEER_SPEED) * (this->mActor->getLinearVelocity().magnitude() / MAX_STEER_SPEED);
-    this->mVehicleNoDrive->setSteerAngle(0, -factor / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
-    this->mVehicleNoDrive->setSteerAngle(1, -factor / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
-    PxReal currAngle = mVehicleNoDrive->getSteerAngle(0);
+   double vdiff_2 = (this->mActor->getLinearVelocity().magnitude() / MAX_STEER_SPEED) * (this->mActor->getLinearVelocity().magnitude() / MAX_STEER_SPEED);
+   double f_2 = factor < 0 ? (factor * factor) : -(factor * factor);
+   double f_3 = -factor * factor * factor;
+
+   this->mVehicleNoDrive->setSteerAngle(0, f_3 / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
+   this->mVehicleNoDrive->setSteerAngle(1, f_3 / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
+ /*   PxReal currAngle = mVehicleNoDrive->getSteerAngle(0);
     PxReal newAngle = currAngle - (factor / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
-    float STEER_DECAY = 0.02;
-    float MAX_STEER_ANGLE = 0.3;
-    if (mActor->getLinearVelocity().magnitude() > 0.001) {
-        if (newAngle > 0.001) {
+    float LS_steer_deadzone = 0.25;
+    bool LS_used = (controller->LeftStick_X() > LS_steer_deadzone || controller->LeftStick_X() < -LS_steer_deadzone) ||
+                   (controller->LeftStick_Y() > LS_steer_deadzone || controller->LeftStick_Y() < -LS_steer_deadzone);
+    std::cout << "LS_used = " << LS_used << std::endl;
+    std::cout << "LSX = " << controller->LeftStick_X() << "    LSY = " << controller->LeftStick_Y() << std::endl;
+    if (!LS_used && mActor->getLinearVelocity().magnitude() > 1) {
+        if (newAngle > STEER_DECAY) {
             newAngle -= STEER_DECAY;
         }
-        else if (newAngle < -0.001) {
+        else if (newAngle < -STEER_DECAY) {
             newAngle += STEER_DECAY;
+        }
+        else {
+            newAngle = 0;
         }
     }
 
@@ -452,8 +461,8 @@ void Car::applyWheelTurn(float factor) {
     else if (newAngle < -MAX_STEER_ANGLE) {
         newAngle = -MAX_STEER_ANGLE;
     }
-   // mVehicleNoDrive->setSteerAngle(0, newAngle);
-   // mVehicleNoDrive->setSteerAngle(1, newAngle);
+    mVehicleNoDrive->setSteerAngle(0, newAngle);
+    mVehicleNoDrive->setSteerAngle(1, newAngle);*/
 
     //  this->mVehicleNoDrive->mWheelsDynData.pose
 }
