@@ -69,6 +69,8 @@ Camera::Camera(vec3 _dir, vec3 _pos)
     follow_vars.push_back(std::make_pair(std::string("FOLLOW_HEIGHT"), &FOLLOW_HEIGHT));
     follow_vars.push_back(std::make_pair(std::string("BASE_ANGLE"), &BASE_ANGLE));
     follow_vars.push_back(std::make_pair(std::string("DELTA"), &DELTA));
+    follow_vars.push_back(std::make_pair(std::string("FOV_START_SPEED"), &FOV_START_SPEED));
+    follow_vars.push_back(std::make_pair(std::string("FOV_MAX_SPEED"), &FOV_MAX_SPEED));
     fc_parser.updateFromFile();
 }
 
@@ -115,8 +117,8 @@ mat4 Camera::getMatrix()
 glm::mat4 Camera::calcPerspective() {
     float FOV = 80;
     float speed = car->getSpeed();
-    if (speed > 110) {// TODO: currently hardcoded; change to be a function of MAX_SPEED
-   //     FOV += FOV * (speed - 110) / 130;
+    if (speed > FOV_START_SPEED) {// TODO: currently hardcoded; change to be a function of MAX_SPEED
+        FOV += FOV * (speed - FOV_START_SPEED) / FOV_MAX_SPEED;
     }
     return glm::perspective(radians(FOV), ((float)width)/((float)height), 0.1f, 3000.f);
 }

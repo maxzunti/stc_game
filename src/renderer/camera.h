@@ -67,6 +67,9 @@ public:
     float FOLLOW_X_CAM_RETURN_SPEED = 0.0005;
     float FOLLOW_Y_CAM_RETURN_SPEED = 0.001;
 
+    float FOV_START_SPEED = 250;
+    float FOV_MAX_SPEED = 380;
+
     // Scaling factors which determine the cam-speeds near the angle boundaries
     float X_ASYMP_FACTOR = 3.0;
     float Y_ASYMP_FACTOR = 3.0;
