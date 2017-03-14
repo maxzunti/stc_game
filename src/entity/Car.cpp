@@ -142,6 +142,11 @@ void Car::initParams() {
     carParams.push_back(std::make_pair(std::string("SUSP_APPLY_OFFSET"), &SUSP_APPLY_OFFSET));
     carParams.push_back(std::make_pair(std::string("TIRE_APPLY_OFFSET"), &TIRE_APPLY_OFFSET));
     carParams.push_back(std::make_pair(std::string("MAX_STEER_SPEED"), &MAX_STEER_SPEED));
+    carParams.push_back(std::make_pair(std::string("HOOK_FRICTION"), &HOOK_FRICTION));
+    carParams.push_back(std::make_pair(std::string("LOW_SPEED"), &LOW_SPEED));
+    carParams.push_back(std::make_pair(std::string("LOW_FRICTION"), &LOW_FRICTION));
+    carParams.push_back(std::make_pair(std::string("MAX_STEER_ANGLE"), &MAX_STEER_ANGLE));
+    carParams.push_back(std::make_pair(std::string("STEER_DECAY"), &STEER_DECAY));
 }
 
 void Car::initHookParams() {
@@ -150,6 +155,7 @@ void Car::initHookParams() {
     hookParams.push_back(std::make_pair(std::string("HOOK_ROT_FACTOR"), &HOOK_ROT_FACTOR));
     hookParams.push_back(std::make_pair(std::string("HOOK_MAX_LENGTH"), &HOOK_MAX_LENGTH));
     hookParams.push_back(std::make_pair(std::string("HOOK_MIN_LENGTH"), &HOOK_MIN_LENGTH));
+    hookParams.push_back(std::make_pair(std::string("HOOK_START_DIST"), &HOOK_START_DIST));
 }
 
 //Create a vehicle that will drive on the plane.
@@ -256,8 +262,8 @@ VehicleDesc Car::initVehicleDesc()
     vehicleDesc.numWheels = nbWheels;
     tireMaterial = this->mPhysicsManager->mPhysics->createMaterial(MAT_STATIC, MAT_DYNAMIC, MAT_CR);
     mFrictionPairs = createFrictionPairs(tireMaterial, TIRE_FRICTION);
-    float zero_friction = 0.0f;
-    noFrictionPairs = createFrictionPairs(tireMaterial, zero_friction);
+    noFrictionPairs = createFrictionPairs(tireMaterial, HOOK_FRICTION);
+    lowFrictionPairs = createFrictionPairs(tireMaterial, LOW_FRICTION);
 
     vehicleDesc.wheelMaterial = tireMaterial; // This material doesn't affect the wheel's driving, but rather its non-driving
                                               // interactions with other surfaces (?)
@@ -427,6 +433,27 @@ void Car::applyWheelTurn(float factor) {
     double vdiff_2 = (this->mActor->getLinearVelocity().magnitude() / MAX_STEER_SPEED) * (this->mActor->getLinearVelocity().magnitude() / MAX_STEER_SPEED);
     this->mVehicleNoDrive->setSteerAngle(0, -factor / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
     this->mVehicleNoDrive->setSteerAngle(1, -factor / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
+    PxReal currAngle = mVehicleNoDrive->getSteerAngle(0);
+    PxReal newAngle = currAngle - (factor / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
+    float STEER_DECAY = 0.02;
+    float MAX_STEER_ANGLE = 0.3;
+    if (mActor->getLinearVelocity().magnitude() > 0.001) {
+        if (newAngle > 0.001) {
+            newAngle -= STEER_DECAY;
+        }
+        else if (newAngle < -0.001) {
+            newAngle += STEER_DECAY;
+        }
+    }
+
+    if (newAngle > MAX_STEER_ANGLE) {
+        newAngle = MAX_STEER_ANGLE;
+    }
+    else if (newAngle < -MAX_STEER_ANGLE) {
+        newAngle = -MAX_STEER_ANGLE;
+    }
+   // mVehicleNoDrive->setSteerAngle(0, newAngle);
+   // mVehicleNoDrive->setSteerAngle(1, newAngle);
 
     //  this->mVehicleNoDrive->mWheelsDynData.pose
 }
@@ -507,11 +534,16 @@ void Car::stepForPhysics() {
 
     PxWheelQueryResult wheelQueryResults[NUM_WHEELS];
     PxVehicleWheelQueryResult vehicleQueryResults = { wheelQueryResults, this->mVehicleNoDrive->mWheelsSimData.getNbWheels() };
-    if (retracting) { // disable friction when retracting
-        PxVehicleUpdates(1 / 60.f, grav, *noFrictionPairs, 1, vehicles, &vehicleQueryResults);
+    if (mActor->getLinearVelocity().magnitude() < LOW_SPEED) {
+        PxVehicleUpdates(1 / 60.f, grav, *lowFrictionPairs, 1, vehicles, &vehicleQueryResults); // use low-friction at low speeds to stop jittering
     }
     else {
-        PxVehicleUpdates(1 / 60.f, grav, *mFrictionPairs, 1, vehicles, &vehicleQueryResults);
+        if (retracting) { // disable friction when retracting
+            PxVehicleUpdates(1 / 60.f, grav, *noFrictionPairs, 1, vehicles, &vehicleQueryResults);
+        }
+        else {
+            PxVehicleUpdates(1 / 60.f, grav, *mFrictionPairs, 1, vehicles, &vehicleQueryResults);
+        }
     }
 
     // Updates the renderable positions for each wheel
@@ -529,7 +561,7 @@ void Car::fireHook() {
     myHook->setRot(aim_rot);
 
     glm::vec3 b = arrow->getPos();
-    myHook->setPos(b.x + (2.0f*aim.x), b.y + 2.0f, b.z + (2.0f*aim.z));
+    myHook->setPos(b.x + (HOOK_START_DIST*aim.x), b.y + HOOK_START_DIST, b.z + (HOOK_START_DIST*aim.z));
     //glm::vec3 a_pos = arrow->getPos();
     //myHook->setPos(a_pos.x, a_pos.y + 2.0f, a_pos.z);
 }
@@ -559,11 +591,15 @@ void Car::retractHook() {
    mActor->setLinearVelocity(this->mActor->getLinearVelocity() + (hookDir * HOOK_PULL_SPEED) + (carDir * HOOK_BOOST_SPEED));
 
    PxVec3 r(right.x, right.y, right.z);
-   if (r.dot(hookDir) > 0) { // hook on right
-       rotateAboutUp(-hookDir.dot(carDir) / HOOK_ROT_FACTOR);
+   float perp_comp = r.dot(hookDir);
+   if (perp_comp < 0.001 && perp_comp > -0.001) {
+       cancelHook(); // end once perpendicular
+   }
+   if (perp_comp > 0) { // hook on right
+ //      rotateAboutUp(-hookDir.dot(carDir) / HOOK_ROT_FACTOR);
    }
    else {
-       rotateAboutUp(hookDir.dot(carDir) / HOOK_ROT_FACTOR);
+  //     rotateAboutUp(hookDir.dot(carDir) / HOOK_ROT_FACTOR);
    }
   // rotate()
  //   mActor->addForce(hookDir * 10.0f);

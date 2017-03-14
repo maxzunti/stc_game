@@ -38,6 +38,8 @@ protected:
     PxVehicleNoDrive*	mVehicleNoDrive = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * mFrictionPairs = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * noFrictionPairs = NULL;
+    PxVehicleDrivableSurfaceToTireFrictionPairs * lowFrictionPairs = NULL;
+    
     PxMaterial* tireMaterial;
 
     /* (rendered) wheel array + index mappings
@@ -97,9 +99,12 @@ protected:
 
     // Tire data
     float TIRE_FRICTION = 100000.f;
+    float HOOK_FRICTION = 0.0f; // friction while hooked
     float LAT_STIFF_X = 2.0f;
     float LAT_STIFF_Y = 0.3125f * (180.0f / PxPi);
     float LONG_STIFF_PER_UNIT_GRAV = 1000.0f;
+    float LOW_SPEED = 5.0f;
+    float LOW_FRICTION = 1.0f;
 
     // Friction-slip graph tire data
     float G_FRIC_AT_ZERO_LONG_SLIP = 1.0f;
@@ -110,6 +115,8 @@ protected:
 
     // Driving paramters
     float STEER_VEL_FACTOR = 15.0f; // controls how much we can steer as a factor of current velocity
+    float MAX_STEER_ANGLE = 0.3;
+    float STEER_DECAY = 0.02;
     float MAX_STEER_SPEED = 250.0f;
     float BASE_STEER = 1.0f;
     float DRIVE_TORQUE = 10000.0f;
@@ -141,6 +148,7 @@ protected:
     float HOOK_ROT_FACTOR = 100.0f;
     float HOOK_MAX_LENGTH = 400.f;
     float HOOK_MIN_LENGTH = 75.f;
+    float HOOK_START_DIST = 5.0f;
 
     void initWheels(std::string model_fname, std::string tex_fname);
     void updateWheels(PxWheelQueryResult wheelQueryResults[NUM_WHEELS]);

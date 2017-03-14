@@ -28,6 +28,7 @@ void StickListener::onContactModify(PxContactModifyPair *const pairs, PxU32 coun
 
             temp->mActor->setLinearVelocity(PxVec3(0, 0, 0));
             temp->mActor->setAngularVelocity(PxVec3(0, 0, 0));
+            temp->mActor->setGlobalPose(temp->mActor->getGlobalPose());
             temp->mActor->getScene()->removeActor(*temp->mActor);
         }
 
@@ -42,6 +43,7 @@ void StickListener::onContactModify(PxContactModifyPair *const pairs, PxU32 coun
             temp->setStuck(true);
             temp->mActor->setLinearVelocity(PxVec3(0, 0, 0));
             temp->mActor->setAngularVelocity(PxVec3(0, 0, 0));
+            temp->mActor->setGlobalPose(temp->mActor->getGlobalPose());
             temp->mActor->getScene()->removeActor(*temp->mActor);
 
         }

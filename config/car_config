@@ -24,9 +24,12 @@ WHEEL_X_FACTOR=0.5
 WHEEL_Z_FACTOR=0.5
 
 // PhysX tire data
-TIRE_FRICTION=10.
+LOW_FRICTION=1.0 // used to prevent jitter at low speeds
+LOW_SPEED=50.0 // value at which to use low friction
+TIRE_FRICTION=1000000.
+HOOK_FRICTION=50
 LAT_STIFF_X=2
-LAT_STIFF_Y=0.7 // right now, high values of this are causing jerk - look into PxVehicleTireLoadFilterData load values
+LAT_STIFF_Y=0.9 // right now, high values of this are causing jerk - look into PxVehicleTireLoadFilterData load values
 LONG_STIFF_PER_UNIT_GRAV=280.0
 
 // Friction-slip graph tire data
@@ -42,13 +45,13 @@ MAT_DYNAMIC=0.4
 MAT_CR=0.1
 
 //Driving parameters
-STEER_VEL_FACTOR=50.0
-MAX_STEER_SPEED=300.0
+STEER_VEL_FACTOR=100.0
+MAX_STEER_SPEED=500.0
 BASE_STEER=1.7
-DRIVE_TORQUE=30000.0
+DRIVE_TORQUE=20000.0
 BRAKE_TORQUE=5200.0
 MAX_SPEED=250.
-SLOWDOWN=0.995
+SLOWDOWN=0.997
 
 //center-of-mass offsets
 CM_X=0.0
