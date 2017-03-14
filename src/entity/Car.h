@@ -26,14 +26,15 @@ protected:
     std::unique_ptr<AimArrow> arrow;
 
     ConfigParser car_parser;
+    ConfigParser hook_parser;
 
     glm::quat aim_rot;
     glm::vec3 aim;
     glm::vec3 up;
+    glm::vec3 right;
     std::unique_ptr<Hook> myHook;
     bool retracting;
     
-
     PxVehicleNoDrive*	mVehicleNoDrive = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * mFrictionPairs = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * noFrictionPairs = NULL;
@@ -65,6 +66,7 @@ protected:
 
     // Config-modifiable parameters go here
     fp_vars carParams;
+    fp_vars hookParams;
 
     float CHASSIS_MASS = 1500.0f;
     float CHASSIS_X = 2.5f;
@@ -108,6 +110,7 @@ protected:
 
     // Driving paramters
     float STEER_VEL_FACTOR = 15.0f; // controls how much we can steer as a factor of current velocity
+    float MAX_STEER_SPEED = 250.0f;
     float BASE_STEER = 1.0f;
     float DRIVE_TORQUE = 10000.0f;
     float BRAKE_TORQUE = DRIVE_TORQUE * 100000.0f;
@@ -132,10 +135,18 @@ protected:
     float SUSP_APPLY_OFFSET = -0.3f;
     float TIRE_APPLY_OFFSET = -0.3f;
 
+    // Hook parameters, read from 'hook_config'
+    float HOOK_PULL_SPEED = 5.0f;
+    float HOOK_BOOST_SPEED = 5.0f;
+    float HOOK_ROT_FACTOR = 100.0f;
+    float HOOK_MAX_LENGTH = 400.f;
+    float HOOK_MIN_LENGTH = 75.f;
+
     void initWheels(std::string model_fname, std::string tex_fname);
     void updateWheels(PxWheelQueryResult wheelQueryResults[NUM_WHEELS]);
 
     void initParams();
+    void initHookParams();
 
     // Calculate an aim rotation using an xbox controller
     void calcAim();
@@ -174,4 +185,5 @@ public:
     int Car::getLap();
     int Car::getPartOfLap();
     void Car::stepForPhysics();
+    virtual void rotateAboutUp(float angle);
 };

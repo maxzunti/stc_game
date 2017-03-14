@@ -481,7 +481,7 @@ void Renderer::drawText() {
     frameCount++;
     if (frameCount >= 59) {
         frameCount = 0;
-        std::cout << "timePassed = " << currentTime << std::endl;
+      //  std::cout << "timePassed = " << currentTime << std::endl;
     }
     sprintf(timeText, "\n%.2i:%.2i", int(currentTime)/60,int(currentTime)%60);
     drawDropShadowText("TIME", blueText, blackText, xPlacement, yPlacement, 60, ds_offset);

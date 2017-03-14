@@ -21,4 +21,5 @@ public:
     virtual void setRot(glm::vec3 &newRot);
     virtual void setRot(glm::quat &newRot);
     virtual void rotate(double x, double y, double z);
+   // virtual void rotateAboutUp(double angle);
 };

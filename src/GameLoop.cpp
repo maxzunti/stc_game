@@ -35,7 +35,7 @@ int main(int argc, const char* argv[])
 	//Music
 	Jukebox *jb = new Jukebox();
     jb->setup();
-    jb->play();
+   // jb->play();
 
     // Set up input
     std::unique_ptr<Input> input(new Input(0));

@@ -1,5 +1,6 @@
 #include "Car.h"
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 #include <math.h>
 
 using namespace glm;
@@ -8,13 +9,18 @@ Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Phy
     DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
     arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
     myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, -5000.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
-    car_parser("config/car_config", &carParams)
+    car_parser("config/car_config", &carParams),
+    hook_parser("config/hook_config", &hookParams)
 {
     this->myJB = jb;
     physMan = physicsManager;
 
     initParams();
+    initHookParams();
+
     car_parser.updateFromFile();
+    hook_parser.updateFromFile();
+    myHook->updateFromConfig();
 
     myHook->scale(2.0, 2.0, 2.0);
     controller = cont;
@@ -44,12 +50,17 @@ Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Phy
 	DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
 	arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
 	myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
-	car_parser("config/car_config", &carParams)
+	car_parser("config/car_config", &carParams),
+    hook_parser("config/hook_config", &hookParams)
 {
 	physMan = physicsManager;
 
-	initParams();
-	car_parser.updateFromFile();
+    initParams();
+    initHookParams();
+
+    car_parser.updateFromFile();
+    hook_parser.updateFromFile();
+    myHook->updateFromConfig();
 
 	myHook->scale(2.0, 2.0, 2.0);
 	ents.push_back(arrow.get());
@@ -130,6 +141,15 @@ void Car::initParams() {
     carParams.push_back(std::make_pair(std::string("SLOWDOWN"), &SLOWDOWN));
     carParams.push_back(std::make_pair(std::string("SUSP_APPLY_OFFSET"), &SUSP_APPLY_OFFSET));
     carParams.push_back(std::make_pair(std::string("TIRE_APPLY_OFFSET"), &TIRE_APPLY_OFFSET));
+    carParams.push_back(std::make_pair(std::string("MAX_STEER_SPEED"), &MAX_STEER_SPEED));
+}
+
+void Car::initHookParams() {
+    hookParams.push_back(std::make_pair(std::string("HOOK_PULL_SPEED"), &HOOK_PULL_SPEED));
+    hookParams.push_back(std::make_pair(std::string("HOOK_BOOST_SPEED"), &HOOK_BOOST_SPEED));
+    hookParams.push_back(std::make_pair(std::string("HOOK_ROT_FACTOR"), &HOOK_ROT_FACTOR));
+    hookParams.push_back(std::make_pair(std::string("HOOK_MAX_LENGTH"), &HOOK_MAX_LENGTH));
+    hookParams.push_back(std::make_pair(std::string("HOOK_MIN_LENGTH"), &HOOK_MIN_LENGTH));
 }
 
 //Create a vehicle that will drive on the plane.
@@ -265,7 +285,7 @@ void Car::applyLocalForce(float forward, float right, float up) {
 }
 
 void Car::calcAim() {
-    vec3 right = normalize(cross(dir, vec3(0, 1, 0)));
+    right = normalize(cross(dir, vec3(0, 1, 0)));
     up = normalize(cross(right, dir));
     float angle = 0.0f;
     if (!controller->RStick_InDeadzone()) {
@@ -308,6 +328,8 @@ void Car::update() {
     }
     if (controller->GetButtonPressed(XButtonIDs::X)) {
         car_parser.updateFromFile();
+        hook_parser.updateFromFile();
+        myHook->updateFromConfig();
         make_physX_car();
     }
 
@@ -375,7 +397,7 @@ void Car::update() {
     if (this->myHook->getStuck() && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
         this->retracting = true;
 
-        this->myJB->playEffect(myJB->gravpull);
+   //     this->myJB->playEffect(myJB->gravpull);
     }
 
     if (this->retracting)
@@ -384,9 +406,7 @@ void Car::update() {
     }
 
     //Defines the distance that the hook detaches at
-    float autoDetachMaxLength = 400.f;
-    float autoDetachMinLength = 75.f;
-    if (((this->getHookDistance() > autoDetachMaxLength) && (this->myHook->getShot())) || ((this->getHookDistance() < autoDetachMinLength) && (this->myHook->getStuck()))) {
+    if (((this->getHookDistance() > HOOK_MAX_LENGTH) && (this->myHook->getShot())) || ((this->getHookDistance() < HOOK_MIN_LENGTH) && (this->myHook->getStuck()))) {
         this->cancelHook();
     }
 
@@ -404,7 +424,7 @@ void Car::update() {
 
 */
 void Car::applyWheelTurn(float factor) {
-    double vdiff_2 = (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED) * (this->mActor->getLinearVelocity().magnitude() / MAX_SPEED);
+    double vdiff_2 = (this->mActor->getLinearVelocity().magnitude() / MAX_STEER_SPEED) * (this->mActor->getLinearVelocity().magnitude() / MAX_STEER_SPEED);
     this->mVehicleNoDrive->setSteerAngle(0, -factor / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
     this->mVehicleNoDrive->setSteerAngle(1, -factor / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
 
@@ -503,7 +523,7 @@ void Car::stepForPhysics() {
 
 //Fires the hook
 void Car::fireHook() {
-    this->myJB->playEffect(myJB->firehook);
+  //  this->myJB->playEffect(myJB->firehook);
     this->mPhysicsManager->mScene->addActor(*myHook->mActor);
     myHook->setShot(true);
     myHook->setRot(aim_rot);
@@ -525,8 +545,8 @@ void Car::cancelHook() {
 }
 
 void Car::retractHook() {
-
-    PxVec3 launchDir = PxVec3(this->myHook->getPos().x, this->myHook->getPos().y, this->myHook->getPos().z) -
+    PxVec3 carDir = PxVec3(dir.x, dir.y, dir.z);
+    PxVec3 hookDir = PxVec3(myHook->getPos().x, myHook->getPos().y, myHook->getPos().z) -
         PxVec3(pos.x, pos.y, pos.z);
     // Implement this again when cooldown is working
     /*if (launchDir.magnitude() < 30.f)
@@ -534,10 +554,21 @@ void Car::retractHook() {
     this->cancelHook();
     }*/
 
-    launchDir.normalize();
+   hookDir.normalize();
 
-    this->mActor->setLinearVelocity(this->mActor->getLinearVelocity() + launchDir * 10.f);
-    this->mActor->setAngularVelocity(PxVec3(0.f, 0.f, 0.f));
+   mActor->setLinearVelocity(this->mActor->getLinearVelocity() + (hookDir * HOOK_PULL_SPEED) + (carDir * HOOK_BOOST_SPEED));
+
+   PxVec3 r(right.x, right.y, right.z);
+   if (r.dot(hookDir) > 0) { // hook on right
+       rotateAboutUp(-hookDir.dot(carDir) / HOOK_ROT_FACTOR);
+   }
+   else {
+       rotateAboutUp(hookDir.dot(carDir) / HOOK_ROT_FACTOR);
+   }
+  // rotate()
+ //   mActor->addForce(hookDir * 10.0f);
+ ///   mActor->setVe
+ //   this->mActor->setAngularVelocity(PxVec3(0.f, 0.f, 0.f));
 }
 
 double Car::getSpeed() {
@@ -556,4 +587,9 @@ int Car::getLap() {
 
 int Car::getPartOfLap() {
     return partoflap;
+}
+
+void Car::rotateAboutUp(float angle) {
+    qrot = glm::rotate(qrot, angle, up);
+    setRot(qrot);
 }

@@ -11,9 +11,12 @@ const float HEIGHT_MOD = -0.8;
 
 Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents) :
 	DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
-    chain(new HookChain("assets/models/cylinder/cylinder2.obj", "assets/models/cylinder/bline.png"))
+    chain(new HookChain("assets/models/cylinder/cylinder2.obj", "assets/models/cylinder/bline.png")),
+    hook_parser("config/hook_config", &hookParams)
 {
     ents.push_back(chain.get());
+    initHookParams();
+    updateFromConfig();
 
     // At this point, we've loaded a single hook model using the PhysicsObject constructor
     assert(models.size() == 1);
@@ -28,12 +31,17 @@ Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, P
     actor->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
     this->scale(0.5, 0.5, 0.5);
 }
+
 Hook::~Hook() {
     // Delete whichever model isn't in 'models' (since Renderable's destructor will catch anything that is)
     if (mStuck)
         delete unattached;
     else
         delete attached;
+}
+
+void Hook::initHookParams() {
+    hookParams.push_back(std::make_pair(std::string("HOOK_SPEED"), &HOOK_SPEED));
 }
 
 void Hook::applyGlobalForce(glm::vec3 direction, double magnitude) {
@@ -48,7 +56,7 @@ void Hook::applyLocalForce(float forward, float right, float up) {
 
 void Hook::update(glm::vec3 carPos) {
     if (mShot && !mStuck) {
-        mActor->setLinearVelocity(500.f*PxVec3(dir.x, dir.y, dir.z));
+        mActor->setLinearVelocity(HOOK_SPEED*PxVec3(dir.x, dir.y, dir.z));
     }
 
     updatePosandRot();
@@ -86,4 +94,8 @@ bool Hook::getStuck() {
 
 bool Hook::getShot() {
     return mShot;
+}
+
+void Hook::updateFromConfig() {
+    hook_parser.updateFromFile();
 }
