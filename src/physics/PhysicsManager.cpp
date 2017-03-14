@@ -39,7 +39,7 @@ PhysicsManager::PhysicsManager(PxSimulationEventCallback *event_callback, PxCont
 
 	PxSceneDesc sceneDesc(mPhysics->getTolerancesScale());
     sceneDesc.flags |= PxSceneFlag::eENABLE_CCD;
-	sceneDesc.gravity = PxVec3(0.0f, -20.0f, 0.0f);
+	sceneDesc.gravity = PxVec3(0.0f, -85.0f, 0.0f);
 	mDispatcher = PxDefaultCpuDispatcherCreate(numWorkers);
 	sceneDesc.cpuDispatcher = mDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;

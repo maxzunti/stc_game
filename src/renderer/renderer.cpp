@@ -478,6 +478,11 @@ void Renderer::drawText() {
     yPlacement = 100;
     char timeText[256];
     double currentTime = glfwGetTime();
+    frameCount++;
+    if (frameCount >= 59) {
+        frameCount = 0;
+        std::cout << "timePassed = " << currentTime << std::endl;
+    }
     sprintf(timeText, "\n%.2i:%.2i", int(currentTime)/60,int(currentTime)%60);
     drawDropShadowText("TIME", blueText, blackText, xPlacement, yPlacement, 60, ds_offset);
     drawDropShadowText(timeText, whiteText, blackText, xPlacement, yPlacement, 60, ds_offset);

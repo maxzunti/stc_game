@@ -116,7 +116,7 @@ glm::mat4 Camera::calcPerspective() {
     float FOV = 80;
     float speed = car->getSpeed();
     if (speed > 110) {// TODO: currently hardcoded; change to be a function of MAX_SPEED
-        FOV += FOV * (speed - 110) / 130;
+   //     FOV += FOV * (speed - 110) / 130;
     }
     return glm::perspective(radians(FOV), ((float)width)/((float)height), 0.1f, 3000.f);
 }

@@ -28,6 +28,9 @@ struct susp_data {
     float S_MAX_DROOP = 0.1;
     float S_SPRING_STRENGTH = 3500000.f;
     float S_SPRING_DAMPER_RATE = 4500.f;
+	float S_SUSP_APPLY_OFFSET = -0.3f;
+    float S_WHEEL_APPLY_OFFSET = -0.3f;
+
 };
 
 struct wheel_data {

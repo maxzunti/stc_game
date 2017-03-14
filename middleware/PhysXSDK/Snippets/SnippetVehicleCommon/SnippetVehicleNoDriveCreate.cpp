@@ -131,10 +131,10 @@ void setupWheelsSimulationData
 			wheelCentreCMOffsets[i] = wheelCenterActorOffsets[i] - chassisCMOffset;
 
 			//Suspension force application point 0.3 metres below rigid body center of mass.
-			suspForceAppCMOffsets[i]=PxVec3(wheelCentreCMOffsets[i].x,-0.3f,wheelCentreCMOffsets[i].z);
+			suspForceAppCMOffsets[i]=PxVec3(wheelCentreCMOffsets[i].x,suspension->S_SUSP_APPLY_OFFSET,wheelCentreCMOffsets[i].z);
 
 			//Tire force application point 0.3 metres below rigid body center of mass.
-			tireForceAppCMOffsets[i]=PxVec3(wheelCentreCMOffsets[i].x,-0.3f,wheelCentreCMOffsets[i].z);
+			tireForceAppCMOffsets[i]=PxVec3(wheelCentreCMOffsets[i].x,suspension->S_WHEEL_APPLY_OFFSET,wheelCentreCMOffsets[i].z);
 		}
 	}
 

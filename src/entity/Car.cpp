@@ -128,6 +128,8 @@ void Car::initParams() {
     carParams.push_back(std::make_pair(std::string("WHEEL_X_FACTOR"), &WHEEL_X_FACTOR));
     carParams.push_back(std::make_pair(std::string("WHEEL_Z_FACTOR"), &WHEEL_Z_FACTOR));
     carParams.push_back(std::make_pair(std::string("SLOWDOWN"), &SLOWDOWN));
+    carParams.push_back(std::make_pair(std::string("SUSP_APPLY_OFFSET"), &SUSP_APPLY_OFFSET));
+    carParams.push_back(std::make_pair(std::string("TIRE_APPLY_OFFSET"), &TIRE_APPLY_OFFSET));
 }
 
 //Create a vehicle that will drive on the plane.
@@ -183,6 +185,8 @@ void Car::make_physX_car() {
     suspension.S_MAX_DROOP = MAX_DROOP;
     suspension.S_SPRING_DAMPER_RATE = SPRING_DAMPER_RATE;
     suspension.S_SPRING_STRENGTH = SPRING_STRENGTH;
+    suspension.S_SUSP_APPLY_OFFSET = SUSP_APPLY_OFFSET;
+    suspension.S_WHEEL_APPLY_OFFSET = TIRE_APPLY_OFFSET;
 
     VehicleDesc vehicleDesc = initVehicleDesc();
 
@@ -197,6 +201,49 @@ void Car::make_physX_car() {
     setPos(pos.x, pos.y + (2 * WHEEL_RAD) + (CHASSIS_Y)+1.0, pos.z);
     setRot(glm::quat());
 }
+
+VehicleDesc Car::initVehicleDesc()
+{
+    //Set up the chassis mass, dimensions, moment of inertia, and center of mass offset.
+    //The moment of inertia is just the moment of inertia of a cuboid but modified for easier steering.
+    //Center of mass offset is 0.65m above the base of the chassis and 0.25m towards the front.
+
+    // TODO: Generalize these to be private class members (which we can modify at runtime with our config parser)
+
+    const PxF32 chassisMass = CHASSIS_MASS;
+
+    const PxVec3 chassisDims(CHASSIS_X, CHASSIS_Y, CHASSIS_Z);
+    const PxVec3 chassisMOI
+        ((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / CHASSIS_X_MOI_FACTOR,
+            (chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)* 0.8f * chassisMass / CHASSIS_Y_MOI_FACTOR,
+            (chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / CHASSIS_Z_MOI_FACTOR);
+    const PxVec3 chassisCMOffset(CM_X, CM_Y, CM_Z); // COG -1
+
+    const PxU32 nbWheels = NUM_WHEELS;
+
+    VehicleDesc vehicleDesc;
+    vehicleDesc.chassisMass = chassisMass;
+    vehicleDesc.chassisDims = chassisDims;
+    vehicleDesc.chassisMOI = chassisMOI;
+    vehicleDesc.chassisCMOffset = chassisCMOffset;
+    vehicleDesc.chassisMaterial = this->mPhysicsManager->mMaterial;
+
+    vehicleDesc.wheelMass = WHEEL_MASS;
+    vehicleDesc.wheelRadius = WHEEL_RAD;
+    vehicleDesc.wheelWidth = WHEEL_WIDTH;
+    vehicleDesc.wheelMOI = WHEEL_MOI;
+
+    vehicleDesc.numWheels = nbWheels;
+    tireMaterial = this->mPhysicsManager->mPhysics->createMaterial(MAT_STATIC, MAT_DYNAMIC, MAT_CR);
+    mFrictionPairs = createFrictionPairs(tireMaterial, TIRE_FRICTION);
+    float zero_friction = 0.0f;
+    noFrictionPairs = createFrictionPairs(tireMaterial, zero_friction);
+
+    vehicleDesc.wheelMaterial = tireMaterial; // This material doesn't affect the wheel's driving, but rather its non-driving
+                                              // interactions with other surfaces (?)
+    return vehicleDesc;
+}
+
 
 // Setup the wheels for rendering
 void Car::initWheels(std::string model_fname, std::string tex_fname) {
@@ -296,7 +343,7 @@ void Car::update() {
     {
         PxVec3 temp = this->mActor->getLinearVelocity();
         temp.normalize();
-        this->mActor->setLinearVelocity(MAX_SPEED*1.5f*temp);
+        this->mActor->setLinearVelocity(MAX_SPEED * 1.5f * temp);
     }
 
     //Handbrake - Possibly remove in future
@@ -393,48 +440,6 @@ glm::vec3 Car::getAim() const {
 
 glm::quat Car::getAimRot() const {
     return aim_rot;
-}
-
-VehicleDesc Car::initVehicleDesc()
-{
-    //Set up the chassis mass, dimensions, moment of inertia, and center of mass offset.
-    //The moment of inertia is just the moment of inertia of a cuboid but modified for easier steering.
-    //Center of mass offset is 0.65m above the base of the chassis and 0.25m towards the front.
-
-    // TODO: Generalize these to be private class members (which we can modify at runtime with our config parser)
-
-    const PxF32 chassisMass = CHASSIS_MASS;
-
-    const PxVec3 chassisDims(CHASSIS_X, CHASSIS_Y, CHASSIS_Z);
-    const PxVec3 chassisMOI
-        ((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / CHASSIS_X_MOI_FACTOR,
-            (chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)* 0.8f * chassisMass / CHASSIS_Y_MOI_FACTOR,
-            (chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / CHASSIS_Z_MOI_FACTOR);
-    const PxVec3 chassisCMOffset(CM_X, CM_Y, CM_Z); // COG -1
-
-    const PxU32 nbWheels = NUM_WHEELS;
-
-    VehicleDesc vehicleDesc;
-    vehicleDesc.chassisMass = chassisMass;
-    vehicleDesc.chassisDims = chassisDims;
-    vehicleDesc.chassisMOI = chassisMOI;
-    vehicleDesc.chassisCMOffset = chassisCMOffset;
-    vehicleDesc.chassisMaterial = this->mPhysicsManager->mMaterial;
-
-    vehicleDesc.wheelMass = WHEEL_MASS;
-    vehicleDesc.wheelRadius = WHEEL_RAD;
-    vehicleDesc.wheelWidth = WHEEL_WIDTH;
-    vehicleDesc.wheelMOI = WHEEL_MOI;
-
-    vehicleDesc.numWheels = nbWheels;
-    tireMaterial = this->mPhysicsManager->mPhysics->createMaterial(MAT_STATIC, MAT_DYNAMIC, MAT_CR);
-    mFrictionPairs = createFrictionPairs(tireMaterial, TIRE_FRICTION);
-    float zero_friction = 0.0f;
-    noFrictionPairs = createFrictionPairs(tireMaterial, zero_friction);
-
-    vehicleDesc.wheelMaterial = tireMaterial; // This material doesn't affect the wheel's driving, but rather its non-driving
-                                              // interactions with other surfaces (?)
-    return vehicleDesc;
 }
 
 // Update the rendered position & rotation for each wheel

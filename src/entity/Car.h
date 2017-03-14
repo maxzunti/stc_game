@@ -129,6 +129,8 @@ protected:
     float MAX_DROOP = 0.1;
     float SPRING_STRENGTH = 3500000.f;
     float SPRING_DAMPER_RATE = 4500.f;
+    float SUSP_APPLY_OFFSET = -0.3f;
+    float TIRE_APPLY_OFFSET = -0.3f;
 
     void initWheels(std::string model_fname, std::string tex_fname);
     void updateWheels(PxWheelQueryResult wheelQueryResults[NUM_WHEELS]);
