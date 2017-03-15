@@ -262,7 +262,9 @@ VehicleDesc Car::initVehicleDesc()
     vehicleDesc.numWheels = nbWheels;
     tireMaterial = this->mPhysicsManager->mPhysics->createMaterial(MAT_STATIC, MAT_DYNAMIC, MAT_CR);
     mFrictionPairs = createFrictionPairs(tireMaterial, TIRE_FRICTION);
-    noFrictionPairs = createFrictionPairs(tireMaterial, HOOK_FRICTION);
+    float zero = 0;
+    noFrictionPairs = createFrictionPairs(tireMaterial, zero);
+    hookFrictionPairs = createFrictionPairs(tireMaterial, HOOK_FRICTION);
     lowFrictionPairs = createFrictionPairs(tireMaterial, LOW_FRICTION);
 
     vehicleDesc.wheelMaterial = tireMaterial; // This material doesn't affect the wheel's driving, but rather its non-driving
@@ -377,46 +379,60 @@ void Car::update() {
     //Handbrake - Possibly remove in future
     if (controller->GetButtonPressed(XButtonIDs::A)) {
         //applyLocalForce(0, 0, 2000);
-        startBrakeMode();
+    //    startBrakeMode();
     }
     if (this->myHook->getStuck() && controller->GetButtonPressed(XButtonIDs::B)) {
         this->cancelHook();
     }
-    /*
-    Debug rotations - don't really need this anymore
-    if (controller->GetButtonPressed(XButtonIDs::L_Shoulder)) {
-    rotate(0., 0.05, 0.);
-    }*/
-
-    // Perform physX update
-    //   updatePosandRot();
 
     // Update aim (after PhysX!)
     calcAim();
     arrow->reposition(up, pos, aim, aim_rot);
 
+    if (myHook->getStuck()) {
+
+        PxVec3 hookDir = PxVec3(myHook->getPos().x, myHook->getPos().y, myHook->getPos().z) -
+            PxVec3(pos.x, pos.y, pos.z);
+        float hookDist = hookDir.normalize();
+
+        if (hookDist <= min_hookDist + 0.3) {
+            min_hookDist = hookDist;
+        }
+        else { // min_hookDist < curr hook
+            if (controller->GetButtonPressed(XButtonIDs::L_Shoulder)) {
+                swinging = true;
+            }
+            else {
+                cancelHook();
+            }
+        }
+    }
+
     // Must fire after calc aim
-    if ((!this->myHook->getShot() && !this->myHook->getStuck()) && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
+    if ((!myHook->getShot() && !myHook->getStuck()) && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
         fireHook();
     }
 
-    if (this->myHook->getStuck() && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
-        this->retracting = true;
+    if (myHook->getStuck() && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
+        retracting = true;
 
    //     this->myJB->playEffect(myJB->gravpull);
     }
 
-    if (this->retracting)
+    if (swinging) {
+        swingHook();
+    }
+    else if (retracting)
     {
-        this->retractHook();
+        retractHook();
     }
 
     //Defines the distance that the hook detaches at
-    if (((this->getHookDistance() > HOOK_MAX_LENGTH) && (this->myHook->getShot())) || ((this->getHookDistance() < HOOK_MIN_LENGTH) && (this->myHook->getStuck()))) {
-        this->cancelHook();
+    if (((getHookDistance() > HOOK_MAX_LENGTH) && (myHook->getShot())) || ((getHookDistance() < HOOK_MIN_LENGTH) && (myHook->getStuck()))) {
+        cancelHook();
     }
 
-    this->myHook->update(pos + (HOOK_FORWARD_OFFSET*dir) + (HOOK_UP_OFFSET*up));
+    myHook->update(pos + (HOOK_FORWARD_OFFSET*dir) + (HOOK_UP_OFFSET*up));
    
 }
 
@@ -547,8 +563,11 @@ void Car::stepForPhysics() {
         PxVehicleUpdates(1 / 60.f, grav, *lowFrictionPairs, 1, vehicles, &vehicleQueryResults); // use low-friction at low speeds to stop jittering
     }
     else {
-        if (retracting) { // disable friction when retracting
-            PxVehicleUpdates(1 / 60.f, grav, *noFrictionPairs, 1, vehicles, &vehicleQueryResults);
+        if (swinging) {
+            PxVehicleUpdates(1 / 60.f, grav, *hookFrictionPairs, 1, vehicles, &vehicleQueryResults);
+        }
+        else if (retracting) { // disable friction when retracting
+            PxVehicleUpdates(1 / 60.f, grav, *hookFrictionPairs, 1, vehicles, &vehicleQueryResults);
         }
         else {
             PxVehicleUpdates(1 / 60.f, grav, *mFrictionPairs, 1, vehicles, &vehicleQueryResults);
@@ -564,6 +583,8 @@ void Car::stepForPhysics() {
 
 //Fires the hook
 void Car::fireHook() {
+    min_hookDist = 999999.0f;
+
   //  this->myJB->playEffect(myJB->firehook);
     this->mPhysicsManager->mScene->addActor(*myHook->mActor);
     myHook->setShot(true);
@@ -582,39 +603,45 @@ void Car::cancelHook() {
     myHook->setStuck(false);
     myHook->setPos(0.0, -5000.0, 0.0);
     myHook->mActor->setLinearVelocity(PxVec3(0.f, 0.f, 0.f));
-    this->retracting = false;
+    retracting = false;
+    swinging = false;
 }
 
 void Car::retractHook() {
     PxVec3 carDir = PxVec3(dir.x, dir.y, dir.z);
     PxVec3 hookDir = PxVec3(myHook->getPos().x, myHook->getPos().y, myHook->getPos().z) -
         PxVec3(pos.x, pos.y, pos.z);
-    // Implement this again when cooldown is working
-    /*if (launchDir.magnitude() < 30.f)
-    {
-    this->cancelHook();
-    }*/
-
-   hookDir.normalize();
+    hookDir.normalize();
 
    mActor->setLinearVelocity(this->mActor->getLinearVelocity() + (hookDir * HOOK_PULL_SPEED) + (carDir * HOOK_BOOST_SPEED));
-
-   PxVec3 r(right.x, right.y, right.z);
-   float perp_comp = r.dot(hookDir);
-   if (perp_comp < 0.001 && perp_comp > -0.001) {
-       cancelHook(); // end once perpendicular
-   }
-   if (perp_comp > 0) { // hook on right
- //      rotateAboutUp(-hookDir.dot(carDir) / HOOK_ROT_FACTOR);
-   }
-   else {
-  //     rotateAboutUp(hookDir.dot(carDir) / HOOK_ROT_FACTOR);
-   }
-  // rotate()
- //   mActor->addForce(hookDir * 10.0f);
- ///   mActor->setVe
- //   this->mActor->setAngularVelocity(PxVec3(0.f, 0.f, 0.f));
 }
+
+void Car::swingHook() {
+    float speed = mActor->getLinearVelocity().magnitude();
+    if (speed < MAX_SPEED) {
+        speed += 1.5f;
+    }
+
+    PxVec3 hookDir = PxVec3(myHook->getPos().x, myHook->getPos().y, myHook->getPos().z) -
+        PxVec3(pos.x, pos.y, pos.z);
+    float angle = mActor->getLinearVelocity().magnitude() / (60.0f * hookDir.magnitude()); // theta = (s / r) = (v / 60 R) => angle per frame
+    vec3 hookRad(hookDir.x, hookDir.y, hookDir.z);
+
+  //  vec3 newPos = pos;
+    if (dot(hookRad, right) > 0) { // on the right
+  //      newPos -= hookRad * (1 - cos(angle));
+  //      newPos += glm::cross(hookRad, up) * sin(-angle);
+        rotateAboutUp(-angle);
+    }
+    else {
+ //       newPos += hookRad * (1 - cos(angle));
+ //       newPos += glm::cross(hookRad, up) * sin(angle);
+        rotateAboutUp(angle);
+    }
+
+    mActor->setLinearVelocity(PxVec3(dir.x * speed, dir.y * speed, dir.z * speed));
+}
+
 
 double Car::getSpeed() {
     return this->mActor->getLinearVelocity().magnitude();

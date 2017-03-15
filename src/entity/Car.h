@@ -33,12 +33,15 @@ protected:
     glm::vec3 up;
     glm::vec3 right;
     std::unique_ptr<Hook> myHook;
-    bool retracting;
+    bool retracting = false;
+    bool swinging = false;
+    float min_hookDist; // min hook distance
     
     PxVehicleNoDrive*	mVehicleNoDrive = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * mFrictionPairs = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * noFrictionPairs = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * lowFrictionPairs = NULL;
+    PxVehicleDrivableSurfaceToTireFrictionPairs * hookFrictionPairs = NULL;
     
     PxMaterial* tireMaterial;
 
@@ -167,6 +170,7 @@ protected:
     void fireHook();
     void cancelHook();
     void retractHook();
+    void swingHook();
 
     void make_physX_car();
 public:
