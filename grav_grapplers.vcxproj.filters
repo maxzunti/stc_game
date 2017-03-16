@@ -126,6 +126,12 @@
     <ClCompile Include="src\renderer\text2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\entity\Track.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entity\Wheel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="middleware\glm\detail\func_common.inl">
@@ -1039,6 +1045,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\BuildFlags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\Wheel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

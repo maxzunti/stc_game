@@ -17,17 +17,24 @@ class Renderer {
     // Light might need to be elsewhere
     Light * light;
 
+    int stencil_bit = 0;
+
     void initSkybox();
     void drawSkybox(glm::mat4 &perspectiveMatrix);
 
     // Control model-rendering flow
-    void renderModel(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans);
+    void renderModel(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, float reflectivity = 0.0f);
 
     // Render black-border silhouettes
     void drawSil(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 &mmatrix);
 
     // Actually draw each model using standard shading
-    void drawShade(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans);
+    void drawShade(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, float reflectivity = 0.0f);
+
+    // Control track-reflection rendering
+    void renderReflections(Car* car, glm::mat4 &perspectiveMatrix, float reflectivity = 0.2f);
+
+    // Draw reflections onto the track surface
 
     // Shadow mapping functions
     void renderShadowMap(const std::vector<Entity*>& ents);
@@ -37,6 +44,10 @@ class Renderer {
     // We need to decide of we want to move them to a seperate location or not 
     GLuint SM_frameBuffer;
     GLuint SM_depthTex;
+    GLuint R_frameBuffer;
+    GLuint R_depthTex;
+    GLuint R_temp_frameBuffer; // used to store actual depth-buffer values after blitting the stored ones to real [draw] FB
+    GLuint R_temp_depthTex;
     glm::mat4 depthMVP;
 
     //Text rendering

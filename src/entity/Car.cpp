@@ -5,13 +5,14 @@
 
 using namespace glm;
 
-Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents, Jukebox* jb) :
+Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject* track) :
     DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
     arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
     myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, -5000.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
     car_parser("config/car_config", &carParams),
     hook_parser("config/hook_config", &hookParams)
 {
+    this->track = track;
     this->myJB = jb;
     physMan = physicsManager;
 
@@ -46,13 +47,15 @@ Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Phy
     this->partoflap = 0;
 }
 
-Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents) :
+
+Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track) :
 	DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
 	arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
 	myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
 	car_parser("config/car_config", &carParams),
     hook_parser("config/hook_config", &hookParams)
 {
+    this->track = track;
 	physMan = physicsManager;
 
     initParams();
@@ -276,7 +279,7 @@ VehicleDesc Car::initVehicleDesc()
 // Setup the wheels for rendering
 void Car::initWheels(std::string model_fname, std::string tex_fname) {
     for (int i = 0; i < NUM_WHEELS; i++) {
-        wheels[i] = new Renderable(model_fname, tex_fname);
+        wheels[i] = new Wheel(model_fname, tex_fname);
         wheels[i]->scale(WHEEL_MODEL_SCL.x, WHEEL_MODEL_SCL.y, WHEEL_MODEL_SCL.z);
     }
 }
@@ -529,17 +532,23 @@ void Car::updateWheels(PxWheelQueryResult wheelQueryResults[NUM_WHEELS]) {
             carPose.p.y + newPos.y,
             carPose.p.z + newPos.z);
 
+        glm::quat inv_local = glm::inverse(glm::quat(wheelPose.q.w, wheelPose.q.x, wheelPose.q.y, wheelPose.q.z));
+        PxQuat invRot = PxQuat(inv_local.x, inv_local.y, inv_local.z, inv_local.w);
         PxQuat wheelRot;
+
         if (i % 2 == 0) { // left wheels
             wheelRot = carPose.q * wheelPose.q * L_WHEEL_MODEL_ROT;
+            invRot = carPose.q * invRot * L_WHEEL_MODEL_ROT;
         }
         else { // right wheels
             wheelRot = carPose.q * wheelPose.q * R_WHEEL_MODEL_ROT;
+            invRot = carPose.q * invRot * R_WHEEL_MODEL_ROT;
         }
-
+        wheels[i]->set_inv_rot(glm::quat(invRot.w, invRot.x, invRot.y, invRot.z));
         wheels[i]->setRot(glm::quat(wheelRot.w, wheelRot.x, wheelRot.y, wheelRot.z));
     }
 }
+
 
 void Car::stepForPhysics() {
     //Raycasts.
@@ -619,7 +628,7 @@ void Car::retractHook() {
 void Car::swingHook() {
     float speed = mActor->getLinearVelocity().magnitude();
     if (speed < MAX_SPEED) {
-        speed += 1.5f;
+    //    speed += 1.5f;
     }
 
     PxVec3 hookDir = PxVec3(myHook->getPos().x, myHook->getPos().y, myHook->getPos().z) -
@@ -664,4 +673,46 @@ int Car::getPartOfLap() {
 void Car::rotateAboutUp(float angle) {
     qrot = glm::rotate(qrot, angle, up);
     setRot(qrot);
+}
+
+bool Car::isCar() {
+    return true;
+}
+
+// Perform a downwards raycast to get a height above the track
+RaycastResults Car::doRaycast() {
+    PxReal maxDistance = 500;            // [in] Raycast max distance
+    PxRaycastBuffer hit;                 // [out] Raycast results
+    mPhysicsManager->mScene;
+    float distance = -1.0;
+    RaycastResults raycast;
+
+    const PxU32 bufferSize = 256;
+    PxRaycastHit hitBuffer[bufferSize];
+    PxRaycastBuffer buf(hitBuffer, bufferSize);
+    if (mPhysicsManager->mScene->raycast(PxVec3(pos.x, pos.y, pos.z), PxVec3(0.0, -1.0, 0.0), maxDistance, buf)) {
+        for (PxU32 i = 0; i < buf.nbTouches; i++) {
+            if (buf.touches[i].actor->getName() == "track") {
+                raycast.distance = buf.touches[i].distance;
+                raycast.normal = glm::vec3(buf.touches[i].normal.x, buf.touches[i].normal.y, buf.touches[i].normal.z);
+            }
+        }
+    }
+    return raycast;
+}
+
+Wheel* Car::getWheel(int index) {
+    return wheels[index];
+}
+
+glm::vec3& Car::getRight() {
+    return right;
+}
+
+glm::vec3& Car::getUp() {
+    return up;
+}
+
+Hook * Car::getHook() {
+    return myHook.get();
 }

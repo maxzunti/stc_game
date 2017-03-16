@@ -90,6 +90,7 @@ void Text2D::printText2D(const char * text, int x, int y, int size, int width, i
    
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glDisable(GL_DEPTH_TEST);
 
     glDrawArrays(
         GL_TRIANGLES,		//What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
@@ -98,6 +99,8 @@ void Text2D::printText2D(const char * text, int x, int y, int size, int width, i
     );
 
     glDisable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
+
 
     CheckGLErrors("text render");
 }

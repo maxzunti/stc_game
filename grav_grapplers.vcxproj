@@ -227,6 +227,8 @@
     <ClCompile Include="src\entity\Obstacle.cpp" />
     <ClCompile Include="src\entity\HookChain.cpp" />
     <ClCompile Include="src\entity\RectTrigger.cpp" />
+    <ClCompile Include="src\entity\Track.cpp" />
+    <ClCompile Include="src\entity\Wheel.cpp" />
     <ClCompile Include="src\Jukebox.cpp" />
     <ClCompile Include="src\entity\StaticPhysicsObject.cpp" />
     <ClCompile Include="src\physics\PhysicsManager.cpp" />
@@ -387,6 +389,7 @@
     <ClInclude Include="src\entity\Obstacle.h" />
     <ClInclude Include="src\entity\HookChain.h" />
     <ClInclude Include="src\entity\RectTrigger.h" />
+    <ClInclude Include="src\entity\Wheel.h" />
     <ClInclude Include="src\renderer\text2D.h" />
     <ClInclude Include="src\Jukebox.h" />
     <ClInclude Include="src\physics\TriggerListener.h" />

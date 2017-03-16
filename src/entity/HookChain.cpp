@@ -11,7 +11,7 @@ HookChain::HookChain(std::string model_fname, std::string tex_fname) :
     // At this point, we've loaded a single hook model using the PhysicsObject constructor
     assert(models.size() == 1);
     unattached = models[0];
-    attached = new Model(model_fname, "assets/models/cylinder/oline.png");
+    attached = new Model(model_fname, "assets/textures/trans_red.png");
 
     models.push_back(attached);
     this->X_MODEL_SCALE = 0.3;
@@ -64,6 +64,7 @@ void HookChain::reposition(glm::vec3 carPos, glm::vec3 hookPos) {
 void HookChain::enable(bool val) {
     enabled = val;
     renderable = val;
+    std::cout << "renderable = " << renderable << std::endl;
 }
 
 void HookChain::setStuck(bool val) {

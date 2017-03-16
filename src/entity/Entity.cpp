@@ -57,3 +57,5 @@ double Entity::yPos() const { return pos[1]; }
 double Entity::zPos() const { return pos[2]; }
 
 bool Entity::canRender() { return false; }
+
+bool Entity::isCar() { return false; }

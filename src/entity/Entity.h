@@ -31,5 +31,6 @@ public:
 	double zPos() const;
 
     virtual bool canRender();
+    virtual bool isCar(); // ideally, we wouldn't perform these particular-type checks for anything, but it should be reasonable for one or two things
 };
 #endif ENTITY_H

@@ -1,5 +1,6 @@
 #pragma once
 #include "DynamicPhysicsObject.h"
+#include "StaticPhysicsObject.h"
 
 #include "PxPhysicsAPI.h"
 #include "vehicle/PxVehicleUtil.h"
@@ -9,21 +10,58 @@
 #include "AimArrow.h"
 #include "../input/input.h"
 #include "Hook.h"
+#include "Wheel.h"
 
 #include "../util/ConfigParser.h"
 
 
 #include "../Jukebox.h"
-
+struct RaycastResults {
+    glm::vec3 normal;
+    float distance = -1.0f;
+};
 
 // Prototype for a car class - mostly used for testing some basic controller input,
 // plus maybe generating some functions that'll be useful for an actual car later on
 class Car : public DynamicPhysicsObject {
 
+public:
+    Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject * track);
+	Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track);
+    ~Car();
+
+    int lap;
+    int partoflap;
+    static const int NUM_WHEELS = 4;
+
+    VehicleDesc initVehicleDesc();
+
+    virtual void update();
+
+    virtual void applyGlobalForce(glm::vec3 direction, double magnitude);
+    virtual void applyLocalForce(float forward, float right, float up);
+    virtual bool isCar(); // yes, it is.
+
+    glm::vec3 getAim() const;
+    glm::quat getAimRot() const;
+    double getSpeed();
+    float Car::getHookDistance();
+    int Car::getLap();
+    int Car::getPartOfLap();
+    void Car::stepForPhysics();
+    virtual void rotateAboutUp(float angle);
+    virtual RaycastResults doRaycast();
+    Wheel* getWheel(int index); // return a pointer to a given wheel
+    glm::vec3& getRight();
+    glm::vec3& getUp();
+    Hook * getHook();
+
 protected:
     Input * controller;
     PhysicsManager * physMan;
     std::unique_ptr<AimArrow> arrow;
+    StaticPhysicsObject * track;
+    Jukebox* myJB;
 
     ConfigParser car_parser;
     ConfigParser hook_parser;
@@ -36,13 +74,13 @@ protected:
     bool retracting = false;
     bool swinging = false;
     float min_hookDist; // min hook distance
-    
+
     PxVehicleNoDrive*	mVehicleNoDrive = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * mFrictionPairs = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * noFrictionPairs = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * lowFrictionPairs = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * hookFrictionPairs = NULL;
-    
+
     PxMaterial* tireMaterial;
 
     /* (rendered) wheel array + index mappings
@@ -53,8 +91,7 @@ protected:
     (2)|  ----  |(3)
     */
 
-    static const int NUM_WHEELS = 4;
-    Renderable* wheels[NUM_WHEELS];
+    Wheel* wheels[NUM_WHEELS];
     static const int FL = 0;
     static const int FR = 1;
     static const int BL = 2;
@@ -63,6 +100,7 @@ protected:
     const glm::quat glR_WHEEL_MODEL_ROT = glm::quat(glm::vec3(0.0f, M_PI, 0.0f)) * glL_WHEEL_MODEL_ROT;
     const PxQuat L_WHEEL_MODEL_ROT = PxQuat(glL_WHEEL_MODEL_ROT.x, glL_WHEEL_MODEL_ROT.y, glL_WHEEL_MODEL_ROT.z, glL_WHEEL_MODEL_ROT.w);
     const PxQuat R_WHEEL_MODEL_ROT = PxQuat(glR_WHEEL_MODEL_ROT.x, glR_WHEEL_MODEL_ROT.y, glR_WHEEL_MODEL_ROT.z, glR_WHEEL_MODEL_ROT.w);
+
     const glm::vec3 WHEEL_MODEL_SCL = glm::vec3(0.7, 1.5, 0.7);
 
     // Used to position the origin of the hook when fired from the car
@@ -127,7 +165,7 @@ protected:
     float MAX_SPEED = 60.f;
     float SLOWDOWN = 2.0f; // determines how much we slow down per frame
 
-    // material-related values (supposedly, these won't actually affect our tire driving-friction, but we include them as part of the config anyway)
+                           // material-related values (supposedly, these won't actually affect our tire driving-friction, but we include them as part of the config anyway)
     float MAT_STATIC = 0.0f;
     float MAT_DYNAMIC = 0.0f;
     float MAT_CR = 0.0f; // coefficient of restituion
@@ -173,29 +211,4 @@ protected:
     void swingHook();
 
     void make_physX_car();
-public:
-    Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents, Jukebox* jb);
-	Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents);
-    ~Car();
-
-    int lap;
-    int partoflap;
-    Jukebox* myJB;
-
-    VehicleDesc initVehicleDesc();
-
-    virtual void update();
-
-    virtual void applyGlobalForce(glm::vec3 direction, double magnitude);
-    virtual void applyLocalForce(float forward, float right, float up);
-
-
-    glm::vec3 getAim() const;
-    glm::quat getAimRot() const;
-    double getSpeed();
-    float Car::getHookDistance();
-    int Car::getLap();
-    int Car::getPartOfLap();
-    void Car::stepForPhysics();
-    virtual void rotateAboutUp(float angle);
 };

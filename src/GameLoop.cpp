@@ -16,6 +16,7 @@
 #include "entity/Renderable.h"
 #include "entity/DynamicPhysicsObject.h"
 #include "entity/StaticPhysicsObject.h"
+#include "entity/Track.h"
 #include "entity/Car.h"
 #include "entity/AICar.h"
 #include "entity/Hook.h"
@@ -49,33 +50,28 @@ int main(int argc, const char* argv[])
     std::vector<Entity*> entities(0);
     std::vector<Car*> cars(0);
 
-    Car *car = new Car("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, input.get(), entities, jb);
-	AICar *bot = new AICar("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, entities);
 
-    window->getRenderer()->getCam()->registerController(input.get());
-    window->getRenderer()->getCam()->registerCar(car);
- 
-    cars.push_back(car);
-    entities.push_back(car);
-
-    car->setPos(-300, 10, -200);
-
-	cars.push_back(bot);
-	entities.push_back(bot);
-
-    car->setRot(0.0, -0.5, 0.0);
-
-	bot->setPos(-325, 10, -225);
-	bot->setRot(0.0, -1.2, 0.0);
-    
 #ifdef FAST_TRACK
-    StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/fast_track.obj", "assets/models/track/blue.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    Track * myTrack = new Track("assets/models/track/fast_track.obj", "assets/textures/notwhite.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    for (auto m : myTrack->getModels()) {
+    //    m->tile_UV_Y(30);
+    //    m->tile_UV_X(2);
+    }
 #else
-    StaticPhysicsObject * myTrack = new StaticPhysicsObject("assets/models/track/tracksurface.obj", "assets/models/track/blue.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    Track * myTrack = new Track("assets/models/track/tracksurface.obj", "assets/textures/tris.jpg", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
 #endif
     entities.push_back(myTrack);
-    StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/models/track/green.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/textures/tris.jpg", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
     entities.push_back(myTrackWalls);
+    for (auto m : myTrackWalls->getModels()) {
+        m->tile_UV_Y(2);
+        m->tile_UV_X(2);
+    }
+    for (auto m : myTrack->getModels()) {
+            m->tile_UV_Y(30);
+            m->tile_UV_X(1);
+    }
+
     StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks.obj", "assets/textures/trans_red.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST);
     entities.push_back(myHookables);
     
@@ -100,6 +96,24 @@ int main(int argc, const char* argv[])
     myHookables->SIL_JITTER = 1.0;
     myHookables->scaleModels();
     myHookables->setSil(true);
+
+    Car *car = new Car("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, input.get(), entities, jb, myTrack);
+    AICar *bot = new AICar("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, entities, myTrack);
+    window->getRenderer()->getCam()->registerController(input.get());
+    window->getRenderer()->getCam()->registerCar(car);
+
+    cars.push_back(car);
+    entities.push_back(car);
+
+    car->setPos(-300, 10, -200);
+
+    cars.push_back(bot);
+    entities.push_back(bot);
+    car->setRot(0.0, -0.5, 0.0);
+
+    bot->setPos(-325, 10, -225);
+    bot->setRot(0.0, -1.2, 0.0);
+
 
     //Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
     /*Renderable* wall1 = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/stc.png");

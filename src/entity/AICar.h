@@ -26,9 +26,10 @@ protected:
 	float heuristic(glm::vec3 node);
 
 public:
-	AICar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents);
+	AICar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject * track);
 	~AICar();
 
 	void navigate();	
 	virtual void update();
+    virtual bool isCar() { return false; }
 };
