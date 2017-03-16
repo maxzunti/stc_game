@@ -51,11 +51,15 @@ public:
 
     // used to tile textures
     void tile_UV_Y(double factor);
+    void tile_UV_X(double factor);
     void scroll_UV_Y(float offset);
     void scroll_UV_X(float offset);
 
     // model_fname is expected to contain multiple meshes, but still correspond to a single UV-mapped texture (used for all meshes)
     static std::vector<Model*> load_multimesh_models(std::string model_fname, std::string tex_fname);
+
+    // Skybox reflectivity
+    float SkyR = 0.3f;
 
     // Model-scaling normalization factors
     double x_norm = 1.;

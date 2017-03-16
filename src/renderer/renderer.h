@@ -18,7 +18,7 @@ class Renderer {
     Light * light;
 
     void initSkybox();
-    void drawSkybox(const Skybox* sb, glm::mat4 &perspectiveMatrix);
+    void drawSkybox(glm::mat4 &perspectiveMatrix);
 
     // Control model-rendering flow
     void renderModel(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans);

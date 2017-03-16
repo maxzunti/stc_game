@@ -22,10 +22,12 @@ in vec3 lightDir;
 in vec4 ShadowCoord;
 
 // Values that stay constant for the whole mesh.
+uniform samplerCube skybox;
 uniform sampler2D shadowMap;
 
 uniform vec3 lightPos;
 uniform vec3 viewPos;
+uniform float SkyR; 
 
 // Calculate whether something is in shadow or not
 // Apply some techniques that improve the the shadow quality
@@ -90,13 +92,10 @@ void main()
 	texture_coordinate.y = -FragUV[1];
 
 	// could be xyz instead of rgb (rgb usage due to the fact that its a color)
-    vec4 color =  texture(image, texture_coordinate); 
+    vec4 color = texture(image, texture_coordinate);
 
     vec3 normal = normalize(FragNormal);
     vec3 lightColor = vec3(1.0);
-
-    // Ambient
-    vec3 ambient = ka * color.rgb;
 	
 	// Diffuse
     vec3 lightDir = normalize(lightPos - vecPos);
@@ -110,11 +109,23 @@ void main()
     spec = pow(max(dot(normal, halfwayDir), 0.0), p);
     vec3 specular = spec * lightColor;    
 
+    // Calculate skybox reflections
+    vec3 R = reflect(-viewDir, normal);
+    vec4 skyRefs = texture(skybox, R);
+    vec4 newColor = color + vec4(skyRefs.rgb * SkyR, 0.0);
+ 
+    // Ambient
+    vec3 ambient = ka * color.rgb;
+
+    color = newColor;
+
     // Calculate shadow
     float shadow = ShadowCalculation(ShadowCoord);                      
     shadow = min(shadow, 0.75); // reduce shadow strength a little: allow some diffuse/specular light in shadowed regions
     vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color.rgb;    
-  
+   
+
+
 	FragmentColour = vec4(lighting, color.a);
   
 	// DEBUG sets the texture on each object to be the depth map

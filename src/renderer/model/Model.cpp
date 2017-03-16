@@ -161,6 +161,20 @@ void Model::tile_UV_Y(double factor) {
     loadBuffer(vbo, points, normals, newUVs, indices);
 }
 
+void Model::tile_UV_X(double factor) {
+    std::vector<glm::vec2> newUVs;;
+
+    for (int i = 0; i < uvs.size(); i++) {
+        glm::vec2 coords = uvs.at(i);
+        coords.x *= factor;
+        newUVs.push_back(std::move(coords));
+    }
+
+    // Somewhat inefficient to reupload everything - potentially optimize
+    loadBuffer(vbo, points, normals, newUVs, indices);
+}
+
+
 void Model::scroll_UV_Y(float offset) {
     for (int i = 0; i < uvs.size(); i++) {
         uvs[i].y += offset;

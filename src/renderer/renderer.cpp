@@ -110,22 +110,22 @@ void Renderer::initSkybox() {
     // Maybe generalize this at some point, but hard-coding it should be okay for now
     std::string skybox_dir = "assets\\skybox\\miramar\\";
     std::string filenames[6] = {
-        skybox_dir + "miramar_rt.tga",
-        skybox_dir + "miramar_lf.tga",
-        skybox_dir + "miramar_up.tga",
-        skybox_dir + "miramar_dn.tga",
-        skybox_dir + "miramar_bk.tga",
-        skybox_dir + "miramar_ft.tga",
+        skybox_dir + "Right.png",
+        skybox_dir + "Left.png",
+        skybox_dir + "Up.png",
+        skybox_dir + "Down.png",
+        skybox_dir + "Back.png",
+        skybox_dir + "Front.png",
     };
     skybox = new Skybox(filenames);
 }
 
-void Renderer::drawSkybox(const Skybox* sb, glm::mat4 &perspectiveMatrix)
+void Renderer::drawSkybox(glm::mat4 &perspectiveMatrix)
 {
     glDepthMask(GL_FALSE);
 
     // Set object-specific VAO
-    glBindVertexArray(sb->vao);
+    glBindVertexArray(skybox->vao);
 
     glm::mat4 view = glm::mat4(glm::mat3(cam->getMatrix())); // Convert to 3x3 to remove translation components
 
@@ -140,7 +140,7 @@ void Renderer::drawSkybox(const Skybox* sb, glm::mat4 &perspectiveMatrix)
         &perspectiveMatrix[0][0]);
 
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, sb->tex_id);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, skybox->tex_id);
 
     //   GLuint uniformLocation = glGetUniformLocation(shader[SHADER::SKYBOX], skybox);
     //   glUniform1i(uniformLocation, 0);
@@ -226,7 +226,6 @@ void Renderer::addToShadowMap(const Model& model, mat4 model_matrix, int startEl
 void Renderer::renderModel(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans)
 {
     drawShade(model, perspectiveMatrix, scale, rot, trans);
-
     if (model.shouldSil()) {
         const mat4 model_matrix = trans * rot * scale;
         mat4 sil_model;
@@ -320,8 +319,16 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
     glUseProgram(shader[SHADER::DEFAULT]);
 
     glBindVertexArray(model.vao[VAO::GEOMETRY]);
+
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, skybox->tex_id);
+    glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "skybox"), 2);
+    model.getTex()->load(GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
+
     mat4 &camMatrix = cam->getMatrix();
     mat4 model_matrix = trans * rot * scale;
+
+    glUniform1f(glGetUniformLocation(shader[SHADER::DEFAULT], "SkyR"), model.SkyR);
 
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "cameraMatrix"),
         1,
@@ -338,7 +345,6 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
         false,
         &model_matrix[0][0]);
 
-
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, SM_depthTex);
     glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "shadowMap"), 1);
@@ -349,7 +355,7 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
     glUniform3f(glGetUniformLocation(shader[SHADER::DEFAULT], "lightDir"), light->getDir().x, light->getDir().y, light->getDir().z);
     glUniform3fv(glGetUniformLocation(shader[SHADER::DEFAULT], "viewPos"), 1, &cam->pos[0]);	
 
-    model.getTex()->load(GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
+
     CheckGLErrors("loadUniforms in render");
 
     glEnablei(GL_BLEND, 0);
@@ -401,7 +407,6 @@ void Renderer::drawSil(const Model& model, mat4 &perspectiveMatrix, glm::mat4 &m
 
     glUniform3f(glGetUniformLocation(shader[SHADER::SIL], "u_color1"), 0.0, 0.0, 0.0);
 
-    // Draw cube reflection
     glStencilFunc(GL_NOTEQUAL, 1, 0xFF); // Pass test if stencil value is 1
     glStencilMask(0x00); // Don't write anything to stencil buffer
 
@@ -430,7 +435,7 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
 
     glUseProgram(shader[SHADER::SKYBOX]);
-    drawSkybox(this->skybox, perspectiveMatrix);
+    drawSkybox(perspectiveMatrix);
     
     glUseProgram(shader[SHADER::DEFAULT]);
 
