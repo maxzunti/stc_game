@@ -27,6 +27,33 @@ uniform sampler2D shadowMap;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 
+
+vec2 poissonDisk[16] = vec2[]( 
+   vec2( -0.94201624, -0.39906216 ), 
+   vec2( 0.94558609, -0.76890725 ), 
+   vec2( -0.094184101, -0.92938870 ), 
+   vec2( 0.34495938, 0.29387760 ), 
+   vec2( -0.91588581, 0.45771432 ), 
+   vec2( -0.81544232, -0.87912464 ), 
+   vec2( -0.38277543, 0.27676845 ), 
+   vec2( 0.97484398, 0.75648379 ), 
+   vec2( 0.44323325, -0.97511554 ), 
+   vec2( 0.53742981, -0.47373420 ), 
+   vec2( -0.26496911, -0.41893023 ), 
+   vec2( 0.79197514, 0.19090188 ), 
+   vec2( -0.24188840, 0.99706507 ), 
+   vec2( -0.81409955, 0.91437590 ), 
+   vec2( 0.19984126, 0.78641367 ), 
+   vec2( 0.14383161, -0.14100790 ) 
+);
+
+// Returns a random number based on a vec3 and an int.
+float random(vec3 seed, int i){
+	vec4 seed4 = vec4(seed,i);
+	float dot_product = dot(seed4, vec4(12.9898,78.233,45.164,94.673));
+	return fract(sin(dot_product) * 43758.5453);
+}
+
 // Calculate whether something is in shadow or not
 // Apply some techniques that improve the the shadow quality
 float ShadowCalculation(vec4 shadowCoord)
@@ -48,14 +75,16 @@ float ShadowCalculation(vec4 shadowCoord)
     // Calculate bias (based on depth map resolution and slope) - one of the techniques to improve shadow quality
     vec3 normal = normalize(FragNormal);
     vec3 lightDir = normalize(lightPos - vecPos);
-    float bias = max(0.001 * (1.0 - dot(normal, lightDir)), 0.001); // Changing the bias has great effects on the rendering 0.0002
+    float bias = max(0.001 * (1.0 - dot(normal, lightDir)), 0.00075); // Changing the bias has great effects on the rendering 0.001
 	
     // Check whether current frag pos is in shadow
+	float shadow = 0.0f;
     //float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
-
-
+	
+	
+	
     // PCF - another technique to improve shadows - its use will depend on the quality of shadows we're getting
-	float shadow = 0.0;
+	//float shadow = 0.0;
     vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
     for(int x = -1; x <= 1; ++x)
     {
@@ -67,7 +96,19 @@ float ShadowCalculation(vec4 shadowCoord)
     }
     shadow /= 9.0;
 
+	/*
+	// Poisson sampling - looks horrible
+	for ( int i = 0; i < 4; i ++){
+		int index = int(16.0*random(gl_FragCoord.xyy, i))%16;
+		closestDepth = texture(shadowMap, projCoords.xy + poissonDisk[index]/700.0).r; 
+		currentDepth = projCoords.z;
+		shadow -= 0.2*(1.0-(currentDepth - bias > closestDepth  ? 1.0 : 0.0));
+	
+		//shadow -= 0.2*(1.0-texture( shadowMap, vec3(ShadowCoord.xy + poissonDisk[index]/700.0, (ShadowCoord.z-bias)/ShadowCoord.w) ));
+	}*/
 
+
+	
    // Keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
     if(projCoords.z > 1.0)
        shadow = 0.0;
@@ -113,6 +154,7 @@ void main()
     // Calculate shadow
     float shadow = ShadowCalculation(ShadowCoord);                      
     shadow = min(shadow, 0.75); // reduce shadow strength a little: allow some diffuse/specular light in shadowed regions
+
     vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color.rgb;    
   
 	FragmentColour = vec4(lighting, color.a);

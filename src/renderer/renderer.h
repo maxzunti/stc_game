@@ -52,7 +52,7 @@ class Renderer {
 
     int width;
     int height;
-    float SM_res = 8192;
+    float SM_res = 8192*2;
     void drawText();
     void drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset);
     int frameCount = 0;
