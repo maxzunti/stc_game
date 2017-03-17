@@ -1,0 +1,7 @@
+HOOK_SPEED=1500.0 // Firing speed
+HOOK_PULL_SPEED=6. // actual car-pulling speed (in hook direction)
+HOOK_BOOST_SPEED=0.
+HOOK_ROT_FACTOR=70.0
+HOOK_MAX_LENGTH=600.
+HOOK_MIN_LENGTH=30.
+HOOK_START_DIST=5.0 // how far from the car the hook starts

@@ -52,13 +52,13 @@ int main(int argc, const char* argv[])
 
 
 #ifdef FAST_TRACK
-    Track * myTrack = new Track("assets/models/track/fast_track.obj", "assets/textures/notwhite.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    Track * myTrack = new Track("assets/models/track/fast_track.obj", "assets/textures/lg.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
     for (auto m : myTrack->getModels()) {
     //    m->tile_UV_Y(30);
     //    m->tile_UV_X(2);
     }
 #else
-    Track * myTrack = new Track("assets/models/track/tracksurface.obj", "assets/textures/tris.jpg", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    Track * myTrack = new Track("assets/models/track/tracksurface.obj", "assets/textures/lg.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
 #endif
     entities.push_back(myTrack);
     StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/textures/tris.jpg", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
