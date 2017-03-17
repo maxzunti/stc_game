@@ -23,7 +23,7 @@ class Renderer {
     void drawSkybox(glm::mat4 &perspectiveMatrix);
 
     // Control model-rendering flow
-    void renderModel(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, float reflectivity = 0.0f);
+    void renderModel(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans);
 
     // Render black-border silhouettes
     void drawSil(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 &mmatrix);
@@ -32,7 +32,7 @@ class Renderer {
     void drawShade(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, float reflectivity = 0.0f);
 
     // Control track-reflection rendering
-    void renderReflections(Car* car, glm::mat4 &perspectiveMatrix, float reflectivity = 0.2f);
+    void renderReflections(Car* car, glm::mat4 &perspectiveMatrix, float reflectivity = 0.5f);
 
     // Draw reflections onto the track surface
 

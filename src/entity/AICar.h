@@ -31,5 +31,4 @@ public:
 
 	void navigate();	
 	virtual void update();
-    virtual bool isCar() { return false; }
 };

@@ -64,7 +64,6 @@ void HookChain::reposition(glm::vec3 carPos, glm::vec3 hookPos) {
 void HookChain::enable(bool val) {
     enabled = val;
     renderable = val;
-    std::cout << "renderable = " << renderable << std::endl;
 }
 
 void HookChain::setStuck(bool val) {
