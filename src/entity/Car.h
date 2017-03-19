@@ -51,6 +51,7 @@ public:
     void Car::stepForPhysics();
     virtual void rotateAboutUp(float angle);
     virtual RaycastResults doRaycast();
+    RaycastResults doHookRaycast();
     Wheel* getWheel(int index); // return a pointer to a given wheel
     glm::vec3& getRight();
     glm::vec3& getUp();

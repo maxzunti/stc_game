@@ -80,7 +80,7 @@ int main(int argc, const char* argv[])
     myTrack->SIL_Z_SCALE = 1.1;
     myTrack->SIL_JITTER = 1.2;
     myTrack->scaleModels();
-    myTrack->setSil(true);
+    myTrack->setSil(false);
 
     myTrackWalls->SIL_X_SCALE = 1.01;
     myTrackWalls->SIL_Y_SCALE = 1.01;

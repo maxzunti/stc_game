@@ -701,6 +701,33 @@ RaycastResults Car::doRaycast() {
     return raycast;
 }
 
+// Perform a downwards raycast to get a height above the track
+RaycastResults Car::doHookRaycast() {
+    RaycastResults raycast;
+    if (!myHook->getShot()) {
+        return raycast;
+    }
+    PxReal maxDistance = 500;            // [in] Raycast max distance
+    PxRaycastBuffer hit;                 // [out] Raycast results
+    mPhysicsManager->mScene;
+    float distance = -1.0;
+    PxVec3 pos = PxVec3(myHook->xPos(), myHook->yPos(), myHook->zPos());
+
+    const PxU32 bufferSize = 256;
+    PxRaycastHit hitBuffer[bufferSize];
+    PxRaycastBuffer buf(hitBuffer, bufferSize);
+    if (mPhysicsManager->mScene->raycast(PxVec3(pos.x, pos.y, pos.z), PxVec3(0.0, -1.0, 0.0), maxDistance, buf)) {
+        for (PxU32 i = 0; i < buf.nbTouches; i++) {
+            if (buf.touches[i].actor->getName() == "track") {
+                raycast.distance = buf.touches[i].distance;
+                raycast.normal = glm::vec3(buf.touches[i].normal.x, buf.touches[i].normal.y, buf.touches[i].normal.z);
+            }
+        }
+    }
+    return raycast;
+}
+
+
 Wheel* Car::getWheel(int index) {
     return wheels[index];
 }

@@ -68,5 +68,4 @@ GLuint CompileShader(GLenum shaderType, const std::string &source);
 // creates and returns a program object linked from vertex and fragment shaders
 GLuint LinkProgram(GLuint vertexShader, GLuint fragmentShader);
 
-
 #endif // GL_UTIL_H
