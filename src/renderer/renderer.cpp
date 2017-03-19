@@ -36,7 +36,8 @@ using namespace glm;
 struct Stencil {
     const static int none = 0x00;
     const static int sil = 0x01;
-    const static int ref = 0x02;
+    const static int track = 0x02;
+    const static int refDrawn = 0x04;
     const static int clear = 0xFF;
 };
 
@@ -58,8 +59,6 @@ void Renderer::postGLInit() {
     initText();
 
     initDepthFrameBuffer(SM_frameBuffer, SM_depthTex, SM_res, SM_res);
-    initDepthFrameBuffer(R_frameBuffer, R_depthTex, width, height);
-    initDepthFrameBuffer(R_temp_frameBuffer, R_temp_depthTex, width, height);
 }
 
 void Renderer::initText() {
@@ -136,6 +135,8 @@ void Renderer::initSkybox() {
 void Renderer::drawSkybox(glm::mat4 &perspectiveMatrix)
 {
     glDepthMask(GL_FALSE);
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_STENCIL_TEST);
 
     // Set object-specific VAO
     glBindVertexArray(skybox->vao);
@@ -163,6 +164,7 @@ void Renderer::drawSkybox(glm::mat4 &perspectiveMatrix)
 
     CheckGLErrors("drawSkybox");
     glBindVertexArray(0);
+    glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
 }
 
@@ -328,11 +330,12 @@ void Renderer::renderModel(const Model& model, mat4 &perspectiveMatrix, glm::mat
     }
 }
 
-void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, float reflectivity) {
+void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, bool reflects) {
     glUseProgram(shader[SHADER::DEFAULT]);
 
     glBindVertexArray(model.vao[VAO::GEOMETRY]);
 
+    glEnable(GL_DEPTH_TEST);
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_CUBE_MAP, skybox->tex_id);
     glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "skybox"), 2);
@@ -367,21 +370,20 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
     glUniform3f(glGetUniformLocation(shader[SHADER::DEFAULT], "lightPos"), light->getPos().x, light->getPos().y, light->getPos().z);
     glUniform3f(glGetUniformLocation(shader[SHADER::DEFAULT], "lightDir"), light->getDir().x, light->getDir().y, light->getDir().z);
     glUniform3fv(glGetUniformLocation(shader[SHADER::DEFAULT], "viewPos"), 1, &cam->pos[0]);	
+    glUniform1f(glGetUniformLocation(shader[SHADER::DEFAULT], "intensity_factor"), 1.0); // full alpha
 
-    if (reflectivity == 0) {
+    if (!reflects) {
         // Draw shape as a stencil
         glEnable(GL_STENCIL_TEST);
         stencil_bit = stencil_bit | Stencil::sil;
         glStencilFunc(GL_ALWAYS, stencil_bit, 0xFF); // Set any stencil to our sb value
-        glStencilOp(GL_REPLACE, GL_KEEP, GL_REPLACE);
+        glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
         glStencilMask(stencil_bit); // Clear the current stencil bit
         glClear(GL_STENCIL_BUFFER_BIT);
-        glStencilMask(0xFF); // Overwrite anything
-        glUniform1f(glGetUniformLocation(shader[SHADER::DEFAULT], "intensity_factor"), 1.0); // full alpha
-        reflectivity = 1.0f;
+        // glStencilMask(0xFF); // Overwrite anything
+        // Note: because we can't overwrite the track stencil bit without messing with reflections,
+        // reflections will appear in front of ANY track, whether or not it fails depth
     }
-
-    glUniform1f(glGetUniformLocation(shader[SHADER::DEFAULT], "intensity_factor"), reflectivity);
 
     glEnablei(GL_BLEND, 0);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -395,7 +397,6 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
         (void*)0			 //Offset
         );
     
-    glEnable(GL_DEPTH_TEST);
     CheckGLErrors("drawShade");
     glDisablei(GL_BLEND, 0);
     glBindVertexArray(0);
@@ -459,29 +460,15 @@ void Renderer::renderReflections(Car* car, glm::mat4 &perspectiveMatrix, float r
     vec3 car_reflect_pos = car->getPos() + r_offset;
     mat4 trans = glm::translate(mat4(), car_reflect_pos);
 
-    // Save 'real' framebuffer depth
-    glBindFramebuffer(GL_FRAMEBUFFER, R_temp_frameBuffer);
-  //  glClear(GL_DEPTH_BUFFER_BIT);
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0); // copy from default...
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, R_temp_frameBuffer); // ...to temp
-    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
-        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-
-    // Now, make use of the fake (well, track), intially empty depthbuffer values
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, R_frameBuffer); // copy from default...
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // ...to temp
-    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
-        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset to default
-
+    // Test that we only draw onto track, and mark the new areas that we draw with refDrawn
     glEnable(GL_STENCIL_TEST);
-    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-    glStencilFunc(GL_EQUAL, Stencil::ref, Stencil::ref);
-    glStencilMask(Stencil::ref);
+    glStencilOp(GL_KEEP, GL_REPLACE, GL_REPLACE);
+    glStencilFunc(GL_EQUAL, Stencil::track | Stencil::refDrawn, Stencil::track); // MAX: set middle 'ref' to 'sil' as well? test after
+    glStencilMask(Stencil::track | Stencil::refDrawn);
     
     // Draw the car
     for (Model* mod : car->getModels()) {
-        drawShade(*mod, perspectiveMatrix, mod->get_scaling(), rot, trans, reflectivity);
+        drawShade(*mod, perspectiveMatrix, mod->get_scaling(), rot, trans, true);
     }
 
     for (int i = 0; i < Car::NUM_WHEELS; i++) {
@@ -493,41 +480,113 @@ void Renderer::renderReflections(Car* car, glm::mat4 &perspectiveMatrix, float r
         model_rot = wheel->getQRot();
         rot = glm::mat4_cast(model_rot);
         trans = glm::translate(mat4(), car_reflect_pos + localPos + (WHEEL_MIRROR_OFFSET * raycast.normal));
-        drawShade(*wheelMod, perspectiveMatrix, wheelMod->get_scaling(), rot, trans, reflectivity);
+        drawShade(*wheelMod, perspectiveMatrix, wheelMod->get_scaling(), rot, trans, true);
     }
 
     // Render hook:
     Hook* hook = car->getHook();
     if (hook->getShot()) {
-        vec3 hookDir = normalize(hook->getPos() - car->getPos());
-        trans = glm::translate(mat4(), hook->getPos() + r_offset);
+        RaycastResults hookCast = car->doHookRaycast();
+        r_offset = (2.0f * -hookCast.normal * hookCast.distance);
+
+        vec3 fakeHookPos = hook->getPos() + r_offset;
+        trans = glm::translate(mat4(), fakeHookPos);
         Model* hookMod = hook->getModels().at(0);
-        drawShade(*hookMod, perspectiveMatrix, hookMod->get_scaling(), rot, trans, reflectivity); // leave rot unchanged
+        drawShade(*hookMod, perspectiveMatrix, hookMod->get_scaling(), rot, trans, true); // leave rot unchanged
+
+        // Rotate by base_rot (.obj model-dependent), then by the angle around the rotation axis
+        quat none = quat(vec3(0.0f, 0.0f, 0.0f));
 
         // HookChain:
         HookChain* chain = hook->chain.get();
-        float HOOKCHAIN_ORIGIN = 1.1f;
-        flip = glm::rotate(base, (float)M_PI, hookDir);
-        model_rot = chain->getQRot();
+        vec3 hookDir = normalize(fakeHookPos - car_reflect_pos);
+        vec3 rot_axis = normalize(cross(vec3(0.0f, 0.0f, -1.0f), hookDir));
+
+        float angle = acos(-hookDir.z);
+        model_rot = glm::rotate(none, angle, rot_axis) * chain->getBaseRot();
+
         rot = glm::mat4_cast(model_rot);
-        trans = glm::translate(mat4(), chain->getPos() + r_offset * HOOKCHAIN_ORIGIN);
+        trans = glm::translate(mat4(), (fakeHookPos + car_reflect_pos) / 2.0f);
         Model* chainMod = chain->getModels().at(0);
-        drawShade(*chainMod, perspectiveMatrix, chainMod->get_scaling(), rot, trans, reflectivity);
+        drawShade(*chainMod, perspectiveMatrix, chainMod->get_scaling(), rot, trans, true);
     }
-
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, 0); // copy from default...
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, R_frameBuffer); // ...to temp
-    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
-        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-
-    glBindFramebuffer(GL_READ_FRAMEBUFFER, R_temp_frameBuffer); // copy from default...
-    glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // ...to temp
-    glBlitFramebuffer(0, 0, width, height, 0, 0, width, height,
-        GL_DEPTH_BUFFER_BIT, GL_NEAREST);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset to default
-    glDepthFunc(GL_LESS);
 }
 
+// Draw the track in 2 steps: opaque if Stencil::refDrawn not set, translucent otherwise
+void Renderer::drawTrack(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, float reflectivity) {
+    glUseProgram(shader[SHADER::DEFAULT]);
+
+    glBindVertexArray(model.vao[VAO::GEOMETRY]);
+
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, skybox->tex_id);
+    glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "skybox"), 2);
+    model.getTex()->load(GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
+
+    mat4 &camMatrix = cam->getMatrix();
+    mat4 model_matrix = trans * rot * scale;
+
+    glUniform1f(glGetUniformLocation(shader[SHADER::DEFAULT], "SkyR"), model.SkyR);
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "cameraMatrix"),
+        1,
+        false,
+        &camMatrix[0][0]);
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "perspectiveMatrix"),
+        1,
+        false,
+        &perspectiveMatrix[0][0]);
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "modelviewMatrix"),
+        1,
+        false,
+        &model_matrix[0][0]);
+
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, SM_depthTex);
+    glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "shadowMap"), 1);
+
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "depthBiasMVP"), 1, GL_FALSE, glm::value_ptr(depthMVP));
+
+    glUniform3f(glGetUniformLocation(shader[SHADER::DEFAULT], "lightPos"), light->getPos().x, light->getPos().y, light->getPos().z);
+    glUniform3f(glGetUniformLocation(shader[SHADER::DEFAULT], "lightDir"), light->getDir().x, light->getDir().y, light->getDir().z);
+    glUniform3fv(glGetUniformLocation(shader[SHADER::DEFAULT], "viewPos"), 1, &cam->pos[0]);
+
+    glEnablei(GL_BLEND, 0);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_DEPTH_TEST);
+
+    glUniform1f(glGetUniformLocation(shader[SHADER::DEFAULT], "intensity_factor"), 1.0); // draw opaque first
+    glEnable(GL_STENCIL_TEST);
+    glStencilFunc(GL_NOTEQUAL, Stencil::refDrawn, Stencil::refDrawn); // Set any stencil to our sb value
+    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); // no stencil writing
+    glStencilMask(Stencil::refDrawn);
+
+    glDrawElements(
+        GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+        model.num_indices(), //How many indices
+        GL_UNSIGNED_INT,	 //Type
+        (void*)0			 //Offset
+    );
+
+    glUniform1f(glGetUniformLocation(shader[SHADER::DEFAULT], "intensity_factor"), 1.0 - reflectivity); // draw translucent
+    glEnable(GL_STENCIL_TEST);
+    glStencilFunc(GL_EQUAL, Stencil::refDrawn, Stencil::refDrawn); // Set any stencil to our sb value
+   // glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP); // no stencil writing
+   // glStencilMask(0xFF); // Overwrite anything
+
+    glDrawElements(
+        GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+        model.num_indices(), //How many indices
+        GL_UNSIGNED_INT,	 //Type
+        (void*)0			 //Offset
+    );
+
+    CheckGLErrors("drawShade");
+    glDisablei(GL_BLEND, 0);
+    glBindVertexArray(0);
+}
 
 void Renderer::drawScene(const std::vector<Entity*>& ents)
 {
@@ -541,17 +600,16 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     glClearColor(0.f, 0.f, 0.f, 0.f);		//Color to clear the screen with (R, G, B, Alpha)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
 
-    glUseProgram(shader[SHADER::SKYBOX]);
-    drawSkybox(perspectiveMatrix);
-    
     glUseProgram(shader[SHADER::DEFAULT]);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, R_frameBuffer);
-    glClear(GL_DEPTH_BUFFER_BIT); // clear reflection-specific depthbuffer
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     
     glStencilFunc(GL_ALWAYS, 1, Stencil::clear); // Set any stencil to 1
   //  glClear(GL_STENCIL_BUFFER_BIT);
+
+    Track* track = NULL;
+    bool trackFound = false;
+    stencil_bit = Stencil::none;
 
     ///////////////////////////////////////
     //glm::mat4 depthBiasMVP = depthMVP;
@@ -562,18 +620,19 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
         // This is virtual function lookup for each entity, might be slow
         // Potentially optimize by using a single vec of Renderables
         if (e->canRender()) {
+
             // Careful here - static_cast is FAST, but potentially dangerous if an entity
             // hasn't been initialized properly
             Renderable* r = static_cast<Renderable*>(e);
-            Track* track = dynamic_cast<Track*>(e);
             int old_stencil = stencil_bit;
-            if (track) { // track pre-draw: modify stencil bit
-                stencil_bit = stencil_bit | Stencil::ref; // only track is reflective
-                glStencilMask(stencil_bit); // Write to stencil buffer
-                glClear(GL_STENCIL_BUFFER_BIT);
-            }
-
-            if (r->isCar()) {
+            if (!trackFound) { // track pre-draw: modify stencil bit
+                track = dynamic_cast<Track*>(e);
+                if (track) {
+                    stencil_bit = stencil_bit | Stencil::track; // only track is reflective
+                    glStencilMask(stencil_bit); // Write to stencil buffer
+                    glClear(GL_STENCIL_BUFFER_BIT);
+                }
+            } else if (r->isCar()) {
                 Car* car = static_cast<Car*>(e);
                 renderReflections(car, perspectiveMatrix);
             }
@@ -585,9 +644,32 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
                 renderModel(*model, perspectiveMatrix, scale, rot, base_trans);
             }
 
+            if (!trackFound && track) {
+                trackFound = true;
+
+                // Draw the skybox after filling the track stencil bit
+                glClear(GL_DEPTH_BUFFER_BIT);
+                glUseProgram(shader[SHADER::SKYBOX]);
+                drawSkybox(perspectiveMatrix);
+                glUseProgram(shader[SHADER::DEFAULT]);
+            }
+
             stencil_bit = old_stencil;
         }
     }
+
+    // draw track
+    if (trackFound) {
+        for (Model* model : track->getModels()) {
+            mat4 scale = model->get_scaling();
+            mat4 rot = glm::mat4_cast(track->getQRot());
+            mat4 trans = glm::translate(mat4(), track->getPos());
+            drawTrack(*model, perspectiveMatrix, scale, rot, trans, 0.2);
+        }
+    } else {
+        std::cout << "Warning: not rendering track" << std::endl;
+    }
+
     drawText();
 }
 
@@ -658,12 +740,4 @@ void Renderer::setDims(int width, int height) {
     this->width = width;
     this->height = height;
     cam->setDims(width, height);
-
-    // New dims => new framebuffer dims
-    glDeleteFramebuffers(1, &R_frameBuffer);
-    glDeleteFramebuffers(1, &R_temp_frameBuffer);
-    glDeleteTextures(1, &R_depthTex); // TODO; we should really make sure we delete the other textures used; I think they're causing the occasional artifacts we see when loading in
-    glDeleteTextures(1, &R_temp_depthTex);
-    initDepthFrameBuffer(R_frameBuffer, R_depthTex, width, height);
-    initDepthFrameBuffer(R_temp_frameBuffer, R_temp_depthTex, width, height);
 }

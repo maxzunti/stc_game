@@ -31,7 +31,7 @@ Text2D::Text2D(const char * texturePath) {
 void Text2D::printText2D(const char * text, int x, int y, int size, int width, int height) {
 
     glBindVertexArray(textVao[TEXT_VAO::GEOMETRY]);
-
+    glDisable(GL_STENCIL_TEST);
 
     unsigned int length = strlen(text);
     float kern_factor = 0.5; // space_reduction
@@ -99,8 +99,6 @@ void Text2D::printText2D(const char * text, int x, int y, int size, int width, i
     );
 
     glDisable(GL_BLEND);
-    glEnable(GL_DEPTH_TEST);
-
 
     CheckGLErrors("text render");
 }

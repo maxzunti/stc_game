@@ -37,6 +37,7 @@ HookChain::~HookChain() {
 
 void HookChain::reposition(glm::vec3 carPos, glm::vec3 hookPos) {
     if (enabled) {
+        this->carPos = carPos;
         // Rescale to length
         reset_scale();
         float len = glm::distance(hookPos, carPos);
@@ -74,4 +75,12 @@ void HookChain::setStuck(bool val) {
     else {
         models[0] = unattached;
     }
+}
+
+quat& HookChain::getBaseRot() {
+    return base_rot;
+}
+
+vec3& HookChain::getLocalCarPos() {
+    return carPos;
 }
