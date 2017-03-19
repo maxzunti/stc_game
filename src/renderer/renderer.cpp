@@ -465,7 +465,7 @@ void Renderer::renderReflections(Car* car, glm::mat4 &perspectiveMatrix, float r
 
     // Test that we only draw onto track, and mark the new areas that we draw with refDrawn
     glEnable(GL_STENCIL_TEST);
-    glStencilOp(GL_KEEP, GL_REPLACE, GL_REPLACE);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
     glStencilFunc(GL_EQUAL, Stencil::track | Stencil::refDrawn, Stencil::track); // MAX: set middle 'ref' to 'sil' as well? test after
     glStencilMask(Stencil::track | Stencil::refDrawn);
     
