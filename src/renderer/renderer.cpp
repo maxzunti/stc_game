@@ -371,6 +371,7 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
     glUniform3f(glGetUniformLocation(shader[SHADER::DEFAULT], "lightDir"), light->getDir().x, light->getDir().y, light->getDir().z);
     glUniform3fv(glGetUniformLocation(shader[SHADER::DEFAULT], "viewPos"), 1, &cam->pos[0]);	
     glUniform1f(glGetUniformLocation(shader[SHADER::DEFAULT], "intensity_factor"), 1.0); // full alpha
+    glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "alphaTest"), alphaTest); // full alpha
 
     if (!reflects) {
         // Draw shape as a stencil
@@ -573,6 +574,7 @@ void Renderer::drawTrack(const Model& model, glm::mat4 &perspectiveMatrix, glm::
         (void*)0			 //Offset
     );
 
+
     glUniform1f(glGetUniformLocation(shader[SHADER::DEFAULT], "intensity_factor"), 1.0 - reflectivity); // draw translucent
     glEnable(GL_STENCIL_TEST);
     glStencilFunc(GL_EQUAL, Stencil::refDrawn, Stencil::refDrawn); // Set any stencil to our sb value
@@ -585,6 +587,7 @@ void Renderer::drawTrack(const Model& model, glm::mat4 &perspectiveMatrix, glm::
         GL_UNSIGNED_INT,	 //Type
         (void*)0			 //Offset
     );
+
 
     CheckGLErrors("drawShade");
     glDisablei(GL_BLEND, 0);
@@ -634,6 +637,8 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
                     stencil_bit = stencil_bit | Stencil::track; // only track is reflective
                     glStencilMask(stencil_bit); // Write to stencil buffer
                     glClear(GL_STENCIL_BUFFER_BIT);
+                    alphaTest = true;
+
                 }
             } else if (r->isCar()) {
                 Car* car = static_cast<Car*>(e);
@@ -649,12 +654,14 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
 
             if (!trackFound && track) {
                 trackFound = true;
+                alphaTest = false;
 
                 // Draw the skybox after filling the track stencil bit
                 glClear(GL_DEPTH_BUFFER_BIT);
                 glUseProgram(shader[SHADER::SKYBOX]);
                 drawSkybox(perspectiveMatrix);
                 glUseProgram(shader[SHADER::DEFAULT]);
+
             }
 
             stencil_bit = old_stencil;

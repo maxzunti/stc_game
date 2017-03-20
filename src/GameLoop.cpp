@@ -58,18 +58,16 @@ int main(int argc, const char* argv[])
     //    m->tile_UV_X(2);
     }
 #else
-    Track * myTrack = new Track("assets/models/track/tracksurface.obj", "assets/textures/lg.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    Track * myTrack = new Track("assets/models/track/tracksurface.obj", "assets/textures/alum.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
 #endif
     entities.push_back(myTrack);
     StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/textures/tris.jpg", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
     entities.push_back(myTrackWalls);
     for (auto m : myTrackWalls->getModels()) {
-        m->tile_UV_Y(2);
-        m->tile_UV_X(2);
+        m->tile_UV_XY(2, 2);
     }
     for (auto m : myTrack->getModels()) {
-            m->tile_UV_Y(30);
-            m->tile_UV_X(1);
+            m->tile_UV_XY(3, 60);
     }
 
     StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks.obj", "assets/textures/trans_red.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST);

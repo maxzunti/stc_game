@@ -51,7 +51,7 @@ public:
 
     // used to tile textures
     void tile_UV_Y(double factor);
-    void tile_UV_X(double factor);
+    void tile_UV_XY(double x, double y);
     void scroll_UV_Y(float offset);
     void scroll_UV_X(float offset);
 

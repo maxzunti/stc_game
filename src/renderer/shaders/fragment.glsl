@@ -29,6 +29,7 @@ uniform vec3 lightPos;
 uniform vec3 viewPos;
 uniform float SkyR;
 uniform float intensity_factor;
+uniform bool alphaTest;
 
 
 vec2 poissonDisk[16] = vec2[]( 
@@ -135,6 +136,8 @@ void main()
 
 	// could be xyz instead of rgb (rgb usage due to the fact that its a color)
     vec4 color = texture(image, texture_coordinate);
+    if (alphaTest && color.a < 0.9)
+        discard;
     color.a = color.a * intensity_factor;
 
     vec3 normal = normalize(FragNormal);

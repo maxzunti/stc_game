@@ -149,7 +149,7 @@ void Model::scale(double &x_scl, double &y_scl, double &z_scl) {
 }
 
 void Model::tile_UV_Y(double factor) {
-    std::vector<glm::vec2> newUVs;;
+    std::vector<glm::vec2> newUVs;
 
     for (int i = 0; i < uvs.size(); i++) {
         glm::vec2 coords = uvs.at(i);
@@ -161,12 +161,13 @@ void Model::tile_UV_Y(double factor) {
     loadBuffer(vbo, points, normals, newUVs, indices);
 }
 
-void Model::tile_UV_X(double factor) {
-    std::vector<glm::vec2> newUVs;;
+void Model::tile_UV_XY(double X, double Y) {
+    std::vector<glm::vec2> newUVs;
 
     for (int i = 0; i < uvs.size(); i++) {
         glm::vec2 coords = uvs.at(i);
-        coords.x *= factor;
+        coords.x *= X;
+        coords.y *= Y;
         newUVs.push_back(std::move(coords));
     }
 
