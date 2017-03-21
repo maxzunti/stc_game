@@ -81,6 +81,14 @@ public:
     float BASE_ANGLE = -0.2;
     float DELTA = 0.001;
 
+    float MAX_FD = 5.0;
+    float MAX_RT = 5.0;
+    float MAX_DN = 5.0;
+
+    float FD_SPD = 0.2;
+    float RT_SPD = 0.2;
+    float DN_SPD = 0.2;
+
     // Frame counts for the follow-cam delay
     const static int FOLLOW_DELAY_POS = 2;
     const static int FOLLOW_DELAY_ROT = 1;
@@ -90,10 +98,14 @@ public:
     glm::vec3 up;
     glm::vec3 right;
     glm::vec3 pos;
+    // Directional offset values
+    float rOff = 0;
+    float uOff = 0;
+    float fOff = 0;
 	float zoom;
 	
 	//Camera();
-	Camera(glm::vec3 _dir, glm::vec3 _pos);
+	Camera(glm::vec3 _dir, glm::vec3 _pos, bool readVars = true);
 
     void registerController(Input *);
     void registerCar(Car *);
@@ -120,7 +132,7 @@ public:
     float getCarSpeed();
     Car * getCar();
 private:
-    Car * car;
+    Car * car = NULL;
     Input * controller;
     ConfigParser fc_parser;
 

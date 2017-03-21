@@ -10,10 +10,10 @@ out vec4 color;
 
 // Values that stay constant for the whole mesh.
 uniform sampler2D textTextureSample;
+uniform float alphaMod;
 
 void main(){
 
 	color = texture( textTextureSample, UV );
-	
-	
+	color.a *= alphaMod;
 }

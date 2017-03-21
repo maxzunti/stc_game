@@ -68,4 +68,7 @@ GLuint CompileShader(GLenum shaderType, const std::string &source);
 // creates and returns a program object linked from vertex and fragment shaders
 GLuint LinkProgram(GLuint vertexShader, GLuint fragmentShader);
 
+void screenshot(char filename[160], int x, int y); // http://www.flashbang.se/archives/155
+
 #endif // GL_UTIL_H
+

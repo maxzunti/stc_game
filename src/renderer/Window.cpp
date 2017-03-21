@@ -60,8 +60,9 @@ int Window::initGLFW() {
     return 0;
 }
 
-void Window::draw(const std::vector<Entity*>& ents) {
-    renderer->drawScene(ents);
+void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars) {
+    renderer->draw(ents, cars);
+
     // scene is rendered to the back buffer, so swap to front for display
     glfwSwapBuffers(window);
 

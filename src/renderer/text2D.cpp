@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "text2D.h"
 #include "GLUtil.h"
+#include <iostream>
 
 using namespace glm;
 using namespace std;
@@ -19,16 +20,37 @@ Text2D::Text2D(const char * texturePath) {
     glGenBuffers(1, &Text2DUVBufferID);
 
     // Initialize uniforms' IDs
+    // MAX: Are we still using these?
     Text2DShaderID = shader[SHADER::TEXT];
     Text2DUniformID = glGetUniformLocation(shader[SHADER::TEXT], "textTextureSample");
 
     glGenBuffers(TEXT_VBO::COUNT, textVbo);
     glGenVertexArrays(TEXT_VAO::COUNT, textVao);
     initVAO(textVao, textVbo);
-
 }
 
-void Text2D::printText2D(const char * text, int x, int y, int size, int width, int height) {
+Text2D::Text2D(Texture * tex) {
+    // Initialize texture "assets/textures/font.png"
+    fontTexture = tex;
+    Text2DTextureID = fontTexture->getID();
+
+    // Initialize VBO
+    glGenBuffers(1, &Text2DVertexBufferID);
+    glGenBuffers(1, &Text2DUVBufferID);
+
+    // Initialize uniforms' IDs
+    Text2DShaderID = shader[SHADER::TEXT];
+    Text2DUniformID = glGetUniformLocation(shader[SHADER::TEXT], "textTextureSample");
+
+    glGenBuffers(TEXT_VBO::COUNT, textVbo);
+    glGenVertexArrays(TEXT_VAO::COUNT, textVao);
+    initVAO(textVao, textVbo);
+}
+
+Text2D::~Text2D() { }
+
+
+void Text2D::printText2D(const char * text, int x, int y, int size, int width, int height, float alpha) {
 
     glBindVertexArray(textVao[TEXT_VAO::GEOMETRY]);
     glDisable(GL_STENCIL_TEST);
@@ -79,11 +101,11 @@ void Text2D::printText2D(const char * text, int x, int y, int size, int width, i
     // Bind shader
     glUseProgram(shader[SHADER::TEXT]);
 
-    
     loadBuffer(textVbo, vertices, UVs);
 
     glUniform1i(glGetUniformLocation(shader[SHADER::TEXT], "height"), height);
     glUniform1i(glGetUniformLocation(shader[SHADER::TEXT], "width"), width);
+    glUniform1f(glGetUniformLocation(shader[SHADER::TEXT], "alphaMod"), alpha);
 
     //Bind texture
     fontTexture->load(GL_TEXTURE0, shader[SHADER::TEXT], "textTextureSample");
@@ -101,6 +123,63 @@ void Text2D::printText2D(const char * text, int x, int y, int size, int width, i
     glDisable(GL_BLEND);
 
     CheckGLErrors("text render");
+}
+
+void Text2D::drawTexture(int x, int y, int width, int height, int sWidth, int sHeight, float alpha) {
+    glBindVertexArray(textVao[TEXT_VAO::GEOMETRY]);
+    glDisable(GL_STENCIL_TEST);
+
+    // Fill buffers
+    std::vector<glm::vec2> vertices;
+    std::vector<glm::vec2> UVs;
+
+    // Actually flipped horizontally
+    glm::vec2 vertex_up_left = glm::vec2(x + width, y);
+    glm::vec2 vertex_up_right = glm::vec2(x, y);
+    glm::vec2 vertex_down_right = glm::vec2(x, y + height);
+    glm::vec2 vertex_down_left = glm::vec2(x + width, y + height);
+
+    vertices.push_back(vertex_up_left);
+    vertices.push_back(vertex_down_left);
+    vertices.push_back(vertex_up_right);
+
+    vertices.push_back(vertex_down_right);
+    vertices.push_back(vertex_up_right);
+    vertices.push_back(vertex_down_left);
+
+    UVs.push_back(glm::vec2(0, 1));
+    UVs.push_back(glm::vec2(0, 0));
+    UVs.push_back(glm::vec2(1, 1));
+
+    UVs.push_back(glm::vec2(1, 0));
+    UVs.push_back(glm::vec2(1, 1));
+    UVs.push_back(glm::vec2(0, 0));
+
+    // Bind shader
+    glUseProgram(shader[SHADER::TEXT]);
+
+    loadBuffer(textVbo, vertices, UVs);
+
+    glUniform1i(glGetUniformLocation(shader[SHADER::TEXT], "height"), sHeight);
+    glUniform1i(glGetUniformLocation(shader[SHADER::TEXT], "width"), sWidth);
+    glUniform1f(glGetUniformLocation(shader[SHADER::TEXT], "alphaMod"), alpha);
+
+    //Bind texture
+    fontTexture->load(GL_TEXTURE0, shader[SHADER::TEXT], "textTextureSample");
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glDisable(GL_DEPTH_TEST);
+
+    glDrawArrays(
+        GL_TRIANGLES,		//What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+        0,                  // First position
+        vertices.size()		//how many points
+    );
+
+    glDisable(GL_BLEND);
+
+    CheckGLErrors("Text2D raw texture render");
 }
 
 //Describe the setup of the Vertex Array Object

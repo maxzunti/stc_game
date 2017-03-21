@@ -59,6 +59,7 @@ void Renderer::postGLInit() {
     initText();
 
     initDepthFrameBuffer(SM_frameBuffer, SM_depthTex, SM_res, SM_res);
+    initColorFrameBuffer(mm_frameBuffer, mm_tex, mmSize, mmSize);
 }
 
 void Renderer::initText() {
@@ -66,7 +67,9 @@ void Renderer::initText() {
     blackText = new Text2D("assets/textures/black_gg_font.png");
     redText = new Text2D("assets/textures/red_gg_font.png");
     whiteText = new Text2D("assets/textures/white_gg_font.png");
+    mmPips = new Text2D("assets/textures/mm_icons.png");
 }
+
 
 // Sets up the frame buffer and the shadowMap texture
 bool Renderer::initDepthFrameBuffer(GLuint &frameBuffer, GLuint &depthTex, int width, int height) {
@@ -100,16 +103,26 @@ bool Renderer::initDepthFrameBuffer(GLuint &frameBuffer, GLuint &depthTex, int w
 }
 
 // Not actually being used
-bool Renderer::initColorFrameBuffer(GLuint &frameBuffer, GLuint &renderBuffer, int width, int height) {
+bool Renderer::initColorFrameBuffer(GLuint &frameBuffer, GLuint &colorTex, int width, int height) {
     glGenFramebuffers(1, &frameBuffer);
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 
-    glGenRenderbuffers(1, &renderBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, renderBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA16, width, height);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderBuffer);
+    glGenTextures(1, &colorTex);
+    glBindTexture(GL_TEXTURE_2D, colorTex);
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);// To gl linear possibly
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+    GLfloat borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
+    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorTex, 0);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     // Always check that our framebuffer is ok
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -330,7 +343,7 @@ void Renderer::renderModel(const Model& model, mat4 &perspectiveMatrix, glm::mat
     }
 }
 
-void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, bool reflects) {
+void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, bool reflects, bool flipUV) {
     glUseProgram(shader[SHADER::DEFAULT]);
 
     glBindVertexArray(model.vao[VAO::GEOMETRY]);
@@ -381,9 +394,6 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
         glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
         glStencilMask(stencil_bit); // Clear the current stencil bit
         glClear(GL_STENCIL_BUFFER_BIT);
-        // glStencilMask(0xFF); // Overwrite anything
-        // Note: because we can't overwrite the track stencil bit without messing with reflections,
-        // reflections will appear in front of ANY track, whether or not it fails depth
     }
 
     glEnablei(GL_BLEND, 0);
@@ -447,7 +457,7 @@ void Renderer::drawSil(const Model& model, mat4 &perspectiveMatrix, glm::mat4 &m
 
 // Uses the stencil buffer drawn to when drawing the track, so all cars/other reflectable items must appear
 // after Track in the entity list
-void Renderer::renderReflections(Car* car, glm::mat4 &perspectiveMatrix, float reflectivity) {
+void Renderer::reflectCar(Car* car, glm::mat4 &perspectiveMatrix, float reflectivity) {
     RaycastResults raycast = car->doRaycast();
     if (raycast.distance <= 0) {
         return;
@@ -515,6 +525,27 @@ void Renderer::renderReflections(Car* car, glm::mat4 &perspectiveMatrix, float r
         drawShade(*chainMod, perspectiveMatrix, chainMod->get_scaling(), rot, trans, true);
     }
 }
+
+void Renderer::reflectWalls(Walls* walls, glm::mat4 &perspectiveMatrix, float reflectivity) {
+    vec3 wallPos = walls->getPos();
+    wallPos.y -= walls->height;
+    mat4 trans = glm::translate(mat4(), wallPos);
+    mat4 rot = glm::mat4_cast(walls->getQRot()); // order is important!
+
+    // Test that we only draw onto track, and mark the new areas that we draw with refDrawn
+    glEnable(GL_STENCIL_TEST);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    glStencilFunc(GL_EQUAL, Stencil::track | Stencil::refDrawn, Stencil::track); // MAX: set middle 'ref' to 'sil' as well? test after
+    glStencilMask(Stencil::track | Stencil::refDrawn);
+    glDepthFunc(GL_GEQUAL);
+
+    for (Model* mod : walls->getModels()) {
+        drawShade(*mod, perspectiveMatrix, mod->get_scaling(), rot, trans, true, true);
+    }
+    glDepthFunc(GL_LESS);
+
+}
+
 
 // Draw the track in 2 steps: opaque if Stencil::refDrawn not set, translucent otherwise
 void Renderer::drawTrack(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, float reflectivity) {
@@ -604,17 +635,20 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
 	//float fovy, float aspect, float zNear, float zFar
     mat4 perspectiveMatrix = cam->calcPerspective();
     glClearColor(0.f, 0.f, 0.f, 0.f);		//Color to clear the screen with (R, G, B, Alpha)
+  //  glStencilMask(0x00);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
 
     glUseProgram(shader[SHADER::DEFAULT]);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     
-    glStencilFunc(GL_ALWAYS, 1, Stencil::clear); // Set any stencil to 1
-  //  glClear(GL_STENCIL_BUFFER_BIT);
+    glStencilFunc(GL_ALWAYS, 0, Stencil::clear); // Set any stencil to 0
+    glClear(GL_STENCIL_BUFFER_BIT);
 
     Track* track = NULL;
     bool trackFound = false;
+    Walls* walls = NULL;
+    bool wallsFound = false;
     stencil_bit = Stencil::none;
 
     ///////////////////////////////////////
@@ -640,9 +674,10 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
                     alphaTest = true;
 
                 }
-            } else if (r->isCar()) {
+            }
+            else if (r->isCar()) {
                 Car* car = static_cast<Car*>(e);
-                renderReflections(car, perspectiveMatrix);
+                reflectCar(car, perspectiveMatrix);
             }
 
 			for (Model* model : r->getModels()) {
@@ -675,12 +710,13 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
             mat4 rot = glm::mat4_cast(track->getQRot());
             mat4 trans = glm::translate(mat4(), track->getPos());
             drawTrack(*model, perspectiveMatrix, scale, rot, trans, 0.2);
+
+
         }
     } else {
         std::cout << "Warning: not rendering track" << std::endl;
     }
 
-    drawText();
 }
 
 void Renderer::drawText() {
@@ -732,8 +768,8 @@ void Renderer::drawText() {
         sprintf(winText, "YOU WIN!");
         drawDropShadowText(winText, whiteText, blackText, xPlacement, yPlacement, 100, ds_offset);
     }
-
 }
+
 
 void Renderer::drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset) {
     back->printText2D(string, x, y, size, this->width, this->height);
@@ -750,4 +786,98 @@ void Renderer::setDims(int width, int height) {
     this->width = width;
     this->height = height;
     cam->setDims(width, height);
+    mmSize = height / 2;
+    glDeleteFramebuffers(1, &mm_frameBuffer);
+    glDeleteTextures(1, &mm_tex);
+    initColorFrameBuffer(mm_frameBuffer, mm_tex, mmSize, mmSize);
+}
+
+void Renderer::renderMiniMap(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float alpha) {
+    Camera * mapCam = new Camera(vec3(0.05, -0.9, 0.), vec3(-300, height, -124.5), false); // tuned to this specific map
+    mapCam->setDims(size, size);
+    glViewport(0, 0, size, size);
+    glBindFramebuffer(GL_FRAMEBUFFER, mm_frameBuffer);
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    mat4 perspectiveMatrix = mapCam->calcPerspective();
+    mat4 &camMatrix = mapCam->getMatrix();
+    for (auto& e : ents) {
+        // This is virtual function lookup for each entity, might be slow
+        // Potentially optimize by using a single vec of Renderables
+        if (e->canRender()) {
+            if (Track* track = dynamic_cast<Track*>(e)) {
+                Model* model = track->getModels().at(0);
+                mat4 scale = model->get_scaling();
+                mat4 rot = glm::mat4_cast(track->getQRot());
+                mat4 track_trans = glm::translate(mat4(), track->getPos());
+                mat4 mmatrix = track_trans * rot * scale;
+
+                glUseProgram(shader[SHADER::SIL]);
+
+                glBindVertexArray(model->vao[VAO::GEOMETRY]);
+                glDisable(GL_DEPTH_TEST);
+                glDisable(GL_STENCIL_TEST);
+
+                glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "cameraMatrix"),
+                    1,
+                    false,
+                    &camMatrix[0][0]);
+
+                glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "perspectiveMatrix"),
+                    1,
+                    false,
+                    &perspectiveMatrix[0][0]);
+
+                glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "modelviewMatrix"),
+                    1,
+                    false,
+                    &mmatrix[0][0]);
+
+                glUniform3f(glGetUniformLocation(shader[SHADER::SIL], "u_color1"), 1.0, 1.0, 1.0);
+
+                CheckGLErrors("loadUniforms");
+
+                // Still using default framebuffer => silhouettes update default framebuffer
+                glDrawElements(
+                    GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+                    model->num_indices(), //How many indices
+                    GL_UNSIGNED_INT,	 //Type
+                    (void*)0			 //Offset
+                );
+                CheckGLErrors("drawSil");
+
+               // screenshot(name, width, this->height);
+                break;
+            }
+        }
+    }
+    for (auto& c : cars) {
+        Model* model = c->getModels().at(0);
+        vec4 v = vec4(c->getPos(), 1.);
+        mat4 &camMatrix = mapCam->getMatrix();
+        mat4 perspectiveMatrix = mapCam->calcPerspective();
+        mat4 scale = model->get_scaling();
+        vec4 screen = perspectiveMatrix * camMatrix * v;
+        screen.x = (screen.x * 0.5 / screen.w + 0.5) * size;
+        screen.y = (screen.y * 0.5 / screen.w + 0.5) * size;
+        float pipSize = size / 10; // seems like a decent approximation
+        mmPips->printText2D(CarRenderInfo::getMinimapIndex(c->color), screen.x - pipSize, screen.y - pipSize / 2, pipSize, size, size);
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glEnable(GL_DEPTH_TEST);
+    delete mapCam;
+    glViewport(0, 0, this->width, this->height);
+
+    // At this point, minimap draw to texFB
+    Texture mmTex(mm_tex);
+    Text2D mmRenderer(&mmTex);
+    mmRenderer.drawTexture(xPos, yPos, size, size, this->width, this->height, alpha);
+}
+
+// Draw everything on the screen screeen
+void Renderer::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars) {
+    drawScene(ents);
+    drawText();
+    renderMiniMap(ents, cars, 1300, mmSize, width - mmSize, height / 4, 0.7);
 }

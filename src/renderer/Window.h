@@ -39,7 +39,7 @@ public:
     Window(int width, int height);
     ~Window();
 
-    void Window::draw(const std::vector<Entity*>& ents);
+    void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars);
     bool Window::shouldClose();
     static Renderer* getRenderer(); // delete once renderer is non-static
 };

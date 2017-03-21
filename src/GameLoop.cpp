@@ -17,6 +17,7 @@
 #include "entity/DynamicPhysicsObject.h"
 #include "entity/StaticPhysicsObject.h"
 #include "entity/Track.h"
+#include "entity/Walls.h"
 #include "entity/Car.h"
 #include "entity/AICar.h"
 #include "entity/Hook.h"
@@ -31,7 +32,7 @@ using namespace std;
 
 int main(int argc, const char* argv[])
 {
-    std::unique_ptr<Window> window(new Window(1024, 768));
+    std::unique_ptr<Window> window(new Window(1280, 720));
 
 	//Music
 	Jukebox *jb = new Jukebox();
@@ -52,7 +53,7 @@ int main(int argc, const char* argv[])
 
 
 #ifdef FAST_TRACK
-    Track * myTrack = new Track("assets/models/track/fast_track.obj", "assets/textures/lg.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    Track * myTrack = new Track("assets/models/track/fast_track.obj", "assets/textures/alum.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
     for (auto m : myTrack->getModels()) {
     //    m->tile_UV_Y(30);
     //    m->tile_UV_X(2);
@@ -61,7 +62,8 @@ int main(int argc, const char* argv[])
     Track * myTrack = new Track("assets/models/track/tracksurface.obj", "assets/textures/alum.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
 #endif
     entities.push_back(myTrack);
-    StaticPhysicsObject * myTrackWalls = new StaticPhysicsObject("assets/models/track/trackwalls.obj", "assets/textures/tris.jpg", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    Walls * myTrackWalls = new Walls("assets/models/track/trackwalls.obj", "assets/textures/tris.jpg", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    myTrackWalls->height = -10; // moving walls UP at the moment - depends on model
     entities.push_back(myTrackWalls);
     for (auto m : myTrackWalls->getModels()) {
         m->tile_UV_XY(2, 2);
@@ -78,7 +80,7 @@ int main(int argc, const char* argv[])
     myTrack->SIL_Z_SCALE = 1.1;
     myTrack->SIL_JITTER = 1.2;
     myTrack->scaleModels();
-    myTrack->setSil(false);
+    myTrack->setSil(true);
 
     myTrackWalls->SIL_X_SCALE = 1.01;
     myTrackWalls->SIL_Y_SCALE = 1.01;
@@ -95,22 +97,25 @@ int main(int argc, const char* argv[])
     myHookables->scaleModels();
     myHookables->setSil(true);
 
-    Car *car = new Car("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, input.get(), entities, jb, myTrack);
-    AICar *bot = new AICar("assets/models/car/testcar.obj", "assets/models/car/testcar_s1.png", nullptr, myPhysics, entities, myTrack);
-    window->getRenderer()->getCam()->registerController(input.get());
-    window->getRenderer()->getCam()->registerCar(car);
-
+    Car *car = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, input.get(), entities, jb, myTrack);
     cars.push_back(car);
     entities.push_back(car);
 
-    car->setPos(-300, 10, -200);
-
+    AICar *bot = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, entities, myTrack);
     cars.push_back(bot);
     entities.push_back(bot);
+
+    car->setPos(-300, 10, -200);
     car->setRot(0.0, -0.5, 0.0);
 
     bot->setPos(-325, 10, -225);
     bot->setRot(0.0, -1.2, 0.0);
+
+    window->getRenderer()->getCam()->registerController(input.get());
+    window->getRenderer()->getCam()->registerCar(car);
+
+
+
 
 
     //Renderable* plane = new Renderable("assets/models/plane/plane.obj", "assets/models/plane/logo_tile.png");
@@ -192,7 +197,7 @@ int main(int argc, const char* argv[])
         car->update();
        
 	// mySound->updateSound();
-		window->draw(entities);
+		window->draw(entities, cars);
 	}
 
 	delete myPhysics;

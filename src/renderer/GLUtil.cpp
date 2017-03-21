@@ -290,5 +290,26 @@ GLuint LinkProgram(GLuint vertexShader, GLuint fragmentShader)
 	return programObject;
 }
 
+// Taken from http://www.flashbang.se/archives/155
+void screenshot(char filename[160], int x, int y)
+{// get the image data
+    long imageSize = x * y * 3;
+    unsigned char *data = new unsigned char[imageSize];
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glReadPixels(0, 0, x, y, GL_BGR, GL_UNSIGNED_BYTE, data);// split x and y sizes into bytes
+    int xa = x % 256;
+    int xb = (x - xa) / 256; int ya = y % 256;
+    int yb = (y - ya) / 256;//assemble the header
+    unsigned char header[18] = { 0,0,2,0,0,0,0,0,0,0,0,0,(char)xa,(char)xb,(char)ya,(char)yb,24,0 };
+
+    // write header and data to file
+    fstream File(filename, ios::out | ios::binary);
+    File.write(reinterpret_cast<char *>(header), sizeof(char) * 18);
+    File.write(reinterpret_cast<char *>(data), sizeof(char)*imageSize);
+    File.close();
+
+    delete[] data;
+    data = NULL;
+}
 
 // ==========================================================================

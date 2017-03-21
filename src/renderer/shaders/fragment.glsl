@@ -18,7 +18,6 @@ in vec3 FragNormal;
 in vec2 FragUV;
 in vec3 lightDir;
 
-// NEW STUFF//////////////////////////////////////
 in vec4 ShadowCoord;
 
 // Values that stay constant for the whole mesh.

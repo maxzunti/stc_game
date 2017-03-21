@@ -13,8 +13,8 @@ using namespace glm;
 
 //The below functions would all need to be rewritten from their Car counterparts, at the least
 
-AICar::AICar(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject * track) :
-	Car(model_fname, tex_fname, actor, physicsManager, ents, track)
+AICar::AICar(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject * track) :
+	Car(col, model_fname, tex_fname, actor, physicsManager, ents, track)
 {
 }
 

@@ -37,8 +37,14 @@ Texture::Texture(const char* filename)
     }
 }
 
+Texture::Texture(GLuint& ID) {
+    filename = "none";
+    texID = ID;
+}
+
 Texture::~Texture() {
-    glDeleteTextures(1, &texID);
+    // MAX: Removing delete since we can now pass an already-created texture GLuint to a 'Texture' constrctor
+    // glDeleteTextures(1, &texID);
 }
 
 // Use program before loading texture

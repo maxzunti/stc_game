@@ -8,6 +8,8 @@ class Texture {
 
 public:
     Texture(const char* filename);
+    Texture(GLuint &ID); // reference an existing ID
+
     ~Texture();
 
     //Use program before loading texture

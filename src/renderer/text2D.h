@@ -18,6 +18,7 @@ public:
     };
 
     Text2D(const char * texturePath);
+    Text2D(Texture * tex);
     ~Text2D();
 
     GLuint textVao[TEXT_VAO::COUNT];
@@ -30,7 +31,8 @@ public:
     Texture *fontTexture;
 
    // void initText2D(const char * texturePath);
-    void printText2D(const char * text, int x, int y, int size, int width, int height);
+    void printText2D(const char * text, int x, int y, int size, int width, int height, float alpha = 1.0);
+    void drawTexture(int x, int y, int width, int height, int sWidth, int sHeight, float alpha = 1.0); // naively draw the entire texture
     bool initVAO(GLuint vao[], GLuint vbo[]);
     bool loadBuffer(GLuint vbo[], std::vector<glm::vec2>& points, std::vector<glm::vec2>& uvs);
 };

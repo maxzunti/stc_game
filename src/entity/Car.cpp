@@ -5,13 +5,33 @@
 
 using namespace glm;
 
-Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject* track) :
+const char* CarRenderInfo::getTex(CarColor col) {
+//    switch (col) {
+//    case PURPLE:
+        return "assets/models/car/car_purp.png"; // TODO: actually use different textures
+//    }
+}
+
+const char* CarRenderInfo::getMinimapIndex(CarColor col) {
+    switch (col) {
+    case PURPLE:
+        return "A";
+    case RED:
+        return "B";
+    case LB:
+        return "C";
+    case ORANGE:
+        return "D";
+    }
+}
+Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject* track) :
     DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
     arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
     myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, -5000.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
     car_parser("config/car_config", &carParams),
     hook_parser("config/hook_config", &hookParams)
 {
+    color = col;
     this->track = track;
     this->myJB = jb;
     physMan = physicsManager;
@@ -48,13 +68,14 @@ Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, Phy
 }
 
 
-Car::Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track) :
+Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track) :
 	DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
 	arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
 	myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
 	car_parser("config/car_config", &carParams),
     hook_parser("config/hook_config", &hookParams)
 {
+    color = col;
     this->track = track;
 	physMan = physicsManager;
 

@@ -132,6 +132,9 @@
     <ClCompile Include="src\entity\Wheel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\entity\Walls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="middleware\glm\detail\func_common.inl">
@@ -1048,6 +1051,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\entity\Wheel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entity\Walls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

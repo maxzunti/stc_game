@@ -21,13 +21,25 @@ struct RaycastResults {
     float distance = -1.0f;
 };
 
+enum CarColor {
+        PURPLE = 0,
+        RED,
+        LB,
+        ORANGE
+};
+
+struct CarRenderInfo {
+    static const char* getTex(CarColor);
+    static const char* getMinimapIndex(CarColor);
+};
+
 // Prototype for a car class - mostly used for testing some basic controller input,
 // plus maybe generating some functions that'll be useful for an actual car later on
 class Car : public DynamicPhysicsObject {
 
 public:
-    Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject * track);
-	Car(std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track);
+    Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject * track);
+	Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track);
     ~Car();
 
     int lap;
@@ -35,7 +47,7 @@ public:
     static const int NUM_WHEELS = 4;
 
     VehicleDesc initVehicleDesc();
-
+    CarColor color;
     virtual void update();
 
     virtual void applyGlobalForce(glm::vec3 direction, double magnitude);

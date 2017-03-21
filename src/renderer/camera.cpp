@@ -33,7 +33,7 @@ Camera::Camera():	dir(vec3(0, 0, -1)),
 
 }*/
 
-Camera::Camera(vec3 _dir, vec3 _pos) 
+Camera::Camera(vec3 _dir, vec3 _pos, bool readVars) 
     : dir(normalize(_dir)), pos(_pos),
       fc_parser("config/follow_cam", &follow_vars)
 {
@@ -47,31 +47,41 @@ Camera::Camera(vec3 _dir, vec3 _pos)
         prev_pos[i] = glm::vec3();
     }
 
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_CAM_ROT_SPEED"), &FOLLOW_X_CAM_ROT_SPEED));
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_CAM_ROT_SPEED"), &FOLLOW_Y_CAM_ROT_SPEED));
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_CAM_XBOX_SPEED"), &FOLLOW_X_CAM_XBOX_SPEED));
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_CAM_XBOX_SPEED"), &FOLLOW_Y_CAM_XBOX_SPEED));
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_MAX_ROT"), &FOLLOW_X_MAX_ROT));
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_MAX_ROT"), &FOLLOW_Y_MAX_ROT));
-    follow_vars.push_back(std::make_pair(std::string("SNAP_X"), &SNAP_X));
-    follow_vars.push_back(std::make_pair(std::string("SNAP_Y"), &SNAP_Y));
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_MAX_ROT_SPEED"), &FOLLOW_X_MAX_ROT_SPEED));
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_MAX_ROT_SPEED"), &FOLLOW_Y_MAX_ROT_SPEED));
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_MAX_XBOX_SPEED"), &FOLLOW_X_MAX_XBOX_SPEED));
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_MAX_XBOX_SPEED"), &FOLLOW_Y_MAX_XBOX_SPEED));
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_CAM_RETURN_SPEED"), &FOLLOW_X_CAM_RETURN_SPEED));
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_CAM_RETURN_SPEED"), &FOLLOW_Y_CAM_RETURN_SPEED));
-    follow_vars.push_back(std::make_pair(std::string("X_ASYMP_FACTOR"), &X_ASYMP_FACTOR));
-    follow_vars.push_back(std::make_pair(std::string("Y_ASYMP_FACTOR"), &Y_ASYMP_FACTOR));
-    follow_vars.push_back(std::make_pair(std::string("X_ASYMP_RET_FACTOR"), &X_ASYMP_RET_FACTOR));
-    follow_vars.push_back(std::make_pair(std::string("Y_ASYMP_RET_FACTOR"), &Y_ASYMP_RET_FACTOR));
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_DISTANCE"), &FOLLOW_DISTANCE));
-    follow_vars.push_back(std::make_pair(std::string("FOLLOW_HEIGHT"), &FOLLOW_HEIGHT));
-    follow_vars.push_back(std::make_pair(std::string("BASE_ANGLE"), &BASE_ANGLE));
-    follow_vars.push_back(std::make_pair(std::string("DELTA"), &DELTA));
-    follow_vars.push_back(std::make_pair(std::string("FOV_START_SPEED"), &FOV_START_SPEED));
-    follow_vars.push_back(std::make_pair(std::string("FOV_MAX_SPEED"), &FOV_MAX_SPEED));
-    fc_parser.updateFromFile();
+    if (readVars) {
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_CAM_ROT_SPEED"), &FOLLOW_X_CAM_ROT_SPEED));
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_CAM_ROT_SPEED"), &FOLLOW_Y_CAM_ROT_SPEED));
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_CAM_XBOX_SPEED"), &FOLLOW_X_CAM_XBOX_SPEED));
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_CAM_XBOX_SPEED"), &FOLLOW_Y_CAM_XBOX_SPEED));
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_MAX_ROT"), &FOLLOW_X_MAX_ROT));
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_MAX_ROT"), &FOLLOW_Y_MAX_ROT));
+        follow_vars.push_back(std::make_pair(std::string("SNAP_X"), &SNAP_X));
+        follow_vars.push_back(std::make_pair(std::string("SNAP_Y"), &SNAP_Y));
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_MAX_ROT_SPEED"), &FOLLOW_X_MAX_ROT_SPEED));
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_MAX_ROT_SPEED"), &FOLLOW_Y_MAX_ROT_SPEED));
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_MAX_XBOX_SPEED"), &FOLLOW_X_MAX_XBOX_SPEED));
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_MAX_XBOX_SPEED"), &FOLLOW_Y_MAX_XBOX_SPEED));
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_X_CAM_RETURN_SPEED"), &FOLLOW_X_CAM_RETURN_SPEED));
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_Y_CAM_RETURN_SPEED"), &FOLLOW_Y_CAM_RETURN_SPEED));
+        follow_vars.push_back(std::make_pair(std::string("X_ASYMP_FACTOR"), &X_ASYMP_FACTOR));
+        follow_vars.push_back(std::make_pair(std::string("Y_ASYMP_FACTOR"), &Y_ASYMP_FACTOR));
+        follow_vars.push_back(std::make_pair(std::string("X_ASYMP_RET_FACTOR"), &X_ASYMP_RET_FACTOR));
+        follow_vars.push_back(std::make_pair(std::string("Y_ASYMP_RET_FACTOR"), &Y_ASYMP_RET_FACTOR));
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_DISTANCE"), &FOLLOW_DISTANCE));
+        follow_vars.push_back(std::make_pair(std::string("FOLLOW_HEIGHT"), &FOLLOW_HEIGHT));
+        follow_vars.push_back(std::make_pair(std::string("BASE_ANGLE"), &BASE_ANGLE));
+        follow_vars.push_back(std::make_pair(std::string("DELTA"), &DELTA));
+        follow_vars.push_back(std::make_pair(std::string("FOV_START_SPEED"), &FOV_START_SPEED));
+        follow_vars.push_back(std::make_pair(std::string("FOV_MAX_SPEED"), &FOV_MAX_SPEED));
+
+        follow_vars.push_back(std::make_pair(std::string("MAX_FD"), &MAX_FD));
+        follow_vars.push_back(std::make_pair(std::string("MAX_RT"), &MAX_RT));
+        follow_vars.push_back(std::make_pair(std::string("MAX_DN"), &MAX_DN));
+        follow_vars.push_back(std::make_pair(std::string("FD_SPD"), &FD_SPD));
+        follow_vars.push_back(std::make_pair(std::string("RT_SPD"), &RT_SPD));
+        follow_vars.push_back(std::make_pair(std::string("DN_SPD"), &DN_SPD));
+
+        fc_parser.updateFromFile();
+    }
 }
 
 /*
@@ -105,20 +115,23 @@ mat4 Camera::getMatrix()
         vec4(-dir, 0),
         vec4(0, 0, 0, 1));
 
+    vec3 camPos = pos + (fOff * dir) + (rOff * right) + (uOff * up);
     mat4 translation = mat4(
         vec4(1, 0, 0, 0),
         vec4(0, 1, 0, 0),
         vec4(0, 0, 1, 0),
-        vec4(-pos, 1));
+        vec4(-camPos, 1));
 
     return transpose(cameraRotation)*translation;
 }
 
 glm::mat4 Camera::calcPerspective() {
     float FOV = 80;
-    float speed = car->getSpeed();
-    if (speed > FOV_START_SPEED) {// TODO: currently hardcoded; change to be a function of MAX_SPEED
-        FOV += FOV * (speed - FOV_START_SPEED) / FOV_MAX_SPEED;
+    if (car) {
+        float speed = car->getSpeed();
+        if (speed > FOV_START_SPEED) {// TODO: currently hardcoded; change to be a function of MAX_SPEED
+            FOV += FOV * (speed - FOV_START_SPEED) / FOV_MAX_SPEED;
+        }
     }
     return glm::perspective(radians(FOV), ((float)width)/((float)height), 0.1f, 3000.f);
 }
@@ -234,8 +247,6 @@ void Camera::update() {
     prev_rot[frame_counter % FOLLOW_DELAY_ROT] = car->getQRot();
     prev_pos[frame_counter % FOLLOW_DELAY_POS] = car->getPos();
 
-//    std::cout << "prev y = " << prev_x << std::endl;
-   // std::cout << "diff: " << glm::rotate(car->getQRot() * glm::inverse(prot), 0.0f, up).y << std::endl;
 
   //  glm::inverse(car->getQRot));
   //  prev_x = (car->getQRot() * glm::rotate(car->getQRot(), 0.0f, up)).y;
@@ -292,13 +303,45 @@ void Camera::calcXboxRotSpeeds() {
     if (!controller->RStick_InDeadzone()) {
         x_xbox_rot_speed -= controller->RightStick_Y() * FOLLOW_X_CAM_XBOX_SPEED;
         y_xbox_rot_speed -= controller->RightStick_X() * FOLLOW_Y_CAM_XBOX_SPEED;
+    
+        /*
+        if (controller->RightStick_Y() > 0) { // zoom it in
+            if (fOff <= MAX_FD && fOff >= -MAX_FD) {
+                fOff += FD_SPD * controller->RightStick_Y();
+            }
+            if (uOff <= MAX_DN && uOff >= -MAX_DN) {
+                uOff -= DN_SPD * controller->RightStick_Y();
+            }
+        }
+        if (rOff >= -MAX_RT && rOff <= MAX_RT) {
+            rOff += controller->RightStick_X() * RT_SPD;
+        } */
+        /*
+        // TODO: look into a soft clamp
+        if (RS_Y) {
+            soft_clamp_speed(y_cam_rot, y_rot_speed, FOLLOW_Y_MAX_ROT, -FOLLOW_Y_MAX_ROT, Y_ASYMP_FACTOR);
+        }
+        else {
+            if (y_rot_speed > 0) {
+                soft_clamp_speed(y_cam_rot, y_rot_speed, FOLLOW_Y_MAX_ROT, 0, Y_ASYMP_RET_FACTOR);
+            }
+            else {
+                soft_clamp_speed(y_cam_rot, y_rot_speed, 0, -FOLLOW_Y_MAX_ROT, Y_ASYMP_RET_FACTOR);
+            }
+            */
 
+        clamp(rOff, MAX_RT);
+        clamp(uOff, MAX_DN);
+        clamp(fOff, MAX_FD);
         clamp(x_xbox_rot_speed, FOLLOW_X_MAX_XBOX_SPEED);
         clamp(y_xbox_rot_speed, FOLLOW_Y_MAX_XBOX_SPEED);
     }
     else {
         converge(x_xbox_rot_speed, 0.0f, 0.2); // TODO: add a param for this step?
         converge(y_xbox_rot_speed, 0.0f, 0.2);
+        converge(fOff, 0.0f, 0.8);
+        converge(uOff, 0.0f, 0.8);
+        converge(rOff, 0.0f, 0.8);
     }
 
     RS_Y = (y_xbox_rot_speed <= DELTA && y_xbox_rot_speed >= -DELTA) ? false : true;
@@ -424,6 +467,17 @@ void Camera::calcFollowSpeeds() {
 
     x_cam_rot += x_rot_speed;
     clamp(x_cam_rot, FOLLOW_X_MAX_ROT);
+
+    /*
+    float y_dot = glm::dot(car->getAim(), dir);
+    float r_dot = glm::dot(car->getAim(), right);
+    if (r_dot > 0) {
+        soft_clamp_speed(y_cam_rot, y_rot_speed, 0, -y_dot, Y_ASYMP_RET_FACTOR);
+    }
+    else {
+        soft_clamp_speed(y_cam_rot, y_rot_speed, y_dot, 0, Y_ASYMP_RET_FACTOR);
+    }
+    */
 
     y_cam_rot += y_rot_speed;
     clamp(y_cam_rot, FOLLOW_Y_MAX_ROT);
