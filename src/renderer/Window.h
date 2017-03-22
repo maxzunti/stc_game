@@ -4,6 +4,11 @@
 #include <GLFW/glfw3.h>
 #include "../entity/Renderable.h"
 
+struct SSParams {
+    std::vector<renderWindowData> screenPos; // individual screen positions for splitscreen
+    int mapPos[2];                 // // xPos, yPos (renderer handles width, height, etc.)
+};
+
 class Window {
     static const int MAX_RENDERERS = 4;
 
@@ -11,7 +16,8 @@ class Window {
     // std::unique_ptr<GLFWwindow> window; 
     //std::unique_ptr<Renderer> renderers[MAX_RENDERERS];
     GLFWwindow* window = 0;
-    static Renderer* renderer;
+    // Renderer* renderer;
+    std::vector<Renderer*> renderers;
     static bool done_init;
 
     static glm::vec2 mousePos;
@@ -25,15 +31,13 @@ class Window {
     // reports GLFW errors
     static void ErrorCallback(int error, const char* description);
 
-    // handles input events
-    // TODO: stop using these callbacks to get user input; instead, use a proper input class
-    static void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
-    static void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
-    static void mousePosCallback(GLFWwindow* window, double xpos, double ypos);
     static void resizeCallback(GLFWwindow* window, int width, int height);
 
-    int width;
-    int height;
+    static int width;
+    static int height;
+    static bool update;
+    static SSParams getSSParams(int numPlayers);
+    int nps = 0;
 
 public:
     Window(int width, int height);
@@ -41,5 +45,6 @@ public:
 
     void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars);
     bool Window::shouldClose();
-    static Renderer* getRenderer(); // delete once renderer is non-static
+    void setSplitScreen(int numPlayers, const std::vector<Car*>& cars);
+    Renderer* getRenderer(int index = 0); // delete once renderer is non-static
 };

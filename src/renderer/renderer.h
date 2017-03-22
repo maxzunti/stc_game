@@ -10,6 +10,13 @@
 #include "model\Texture.h"
 #include "text2D.h"
 
+struct renderWindowData {
+    int xPos = 0;
+    int yPos = 0;
+    int width = 0;
+    int height = 0;
+};
+
 class Renderer {
 	int index;
     Camera * cam; // 1 cam per renderer
@@ -74,13 +81,16 @@ class Renderer {
     int frameCount = 0;
     bool alphaTest = false;
     int mmSize = 400;
+    float UIScale = 1.0;
+    int vpX, vpY = 0; // viewport dimensions
+    
 
 public:
 	Renderer(int);
 	~Renderer();
     void postGLInit(); // call init functions after Window's created the OpenGL env.
 	void drawScene(const std::vector<Entity*>& ents);
-    void setDims(int width, int height);
+    void setDims(renderWindowData& rwd);
 
     // Control a full screen draw
     void draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars);

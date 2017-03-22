@@ -1,10 +1,13 @@
 #include "Window.h"
 #include <iostream>
 
-Renderer* Window::renderer = new Renderer(0);
+//Renderer* Window::renderer = new Renderer(0);
 glm::vec2 Window::mousePos(0, 0);
 bool Window::mousePressed = false;
 bool Window::done_init = false;
+bool Window::update = false;
+int Window::width = 1280;
+int Window::height = 720;
 
 Window::Window(int width, int height) {
     this->width = width;
@@ -20,14 +23,24 @@ Window::Window(int width, int height) {
             done_init = true;
         }
     }
-    renderer->setDims(width, height);
-    renderer->postGLInit();
+    Renderer * r = new Renderer(0);
+    renderWindowData rwd;
+    rwd.height = height;
+    rwd.width = width;
+    rwd.xPos = 0;
+    rwd.yPos = 0;
+    r->setDims(rwd);
+    r->postGLInit();
+    renderers.push_back(r);
 }
 
 Window::~Window() {
     // clean up allocated resources before exit
     glfwDestroyWindow(window);
     glfwTerminate();
+    for (auto r : renderers) {
+        delete r;
+    }
 }
 
 // initialize the GLFW windowing system
@@ -51,9 +64,6 @@ int Window::initGLFW() {
     }
     
     // set keyboard callback function and make our context current (active)
-    glfwSetKeyCallback(window, this->keyCallback);
-    glfwSetMouseButtonCallback(window, this->mouseButtonCallback);
-    glfwSetCursorPosCallback(window, this->mousePosCallback);
     glfwSetWindowSizeCallback(window, this->resizeCallback);
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
@@ -61,7 +71,14 @@ int Window::initGLFW() {
 }
 
 void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars) {
-    renderer->draw(ents, cars);
+    if (update) {
+        setSplitScreen(nps, cars);
+        update = false;
+    }
+
+    for (auto r : renderers) {
+        r->draw(ents, cars);
+    }
 
     // scene is rendered to the back buffer, so swap to front for display
     glfwSwapBuffers(window);
@@ -91,61 +108,95 @@ void Window::ErrorCallback(int error, const char* description)
     std::cout << description << std::endl;
 }
 
-// handles keyboard input events
-void Window::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    Camera* cam = renderer->getCam();
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GL_TRUE);
-
-    float move = 0.05f;
-
-    if (key == GLFW_KEY_W) {
-        if (cam->zoom < -0.5) {
-            cam->pos += cam->dir*move;
-            cam->zoom += move;
-        }
-        else {
-            cam->zoom = -0.5f;
-        }
-    }
-    else if (key == GLFW_KEY_S) {
-        if (cam->zoom > -10) {
-            cam->pos -= cam->dir*move;
-            cam->zoom -= move;
-        }
-        else {
-            cam->zoom = -10.0f;
-        }
-    }
-}
-
-void Window::mouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
-{
-    if ((action == GLFW_PRESS) || (action == GLFW_RELEASE))
-        mousePressed = !mousePressed;
-}
-
-void Window::mousePosCallback(GLFWwindow* window, double xpos, double ypos)
-{
-    Camera* cam = renderer->getCam();
-    int vp[4];
-    glGetIntegerv(GL_VIEWPORT, vp);
-
-    vec2 newPos = vec2(xpos / (double)vp[2], -ypos / (double)vp[3])*2.f - vec2(1.f);
-
-    vec2 diff = newPos - mousePos;
-    if (mousePressed) {
-        cam->rotateAroundCenter(-diff.x, diff.y, vec3(0, 0, 0));
-    }
-    mousePos = newPos;
-}
-
-void Window::resizeCallback(GLFWwindow* window, int width, int height)
+void Window::resizeCallback(GLFWwindow* window, int nWidth, int nHeight)
 {
     int vp[4];
     glGetIntegerv(GL_VIEWPORT, vp);
-    renderer->setDims(width, height);
+    width = nWidth;
+    height = nHeight;
+    update = true;
 }
 
-Renderer* Window::getRenderer() { return renderer;  }
+void Window::setSplitScreen(int numPlayers, const std::vector<Car*>& cars) {
+    nps = numPlayers;
+    assert(cars.size() == numPlayers); // this check implies that numPlayers doesn't necessarily need to exist at all:
+    // however, it forces whoever's managing the window to make sure that "cars" has been managed appropriately
+    // also, AICars don't get a screen: MAKE SURE THEYRE PUSHED BACK TO CARS LAST
+
+    if (numPlayers > Window::MAX_RENDERERS || numPlayers < 1) {
+        std::cout << "Error: invalid number of players emtered" << std::endl;
+        return;
+    }
+    SSParams sParams = getSSParams(numPlayers);
+    assert(sParams.screenPos.size() == numPlayers); // this better be true
+    if (renderers.size() <= numPlayers) {
+        for (int i = 0; i < renderers.size(); i++) { // update existing renderers
+            renderers.at(i)->setDims(sParams.screenPos.at(i));
+        }
+        for (int i = renderers.size(); i < numPlayers; i++) { // create new ones
+            Renderer * r = new Renderer(i);
+            r->setDims(sParams.screenPos.at(i));
+            r->getCam()->registerCar(cars.at(i));
+            renderers.push_back(r);
+        }
+    }
+    else { // delete excess renderers from back
+        for (int i = renderers.size() - 1; i >= numPlayers; i--) {
+            renderers.pop_back();
+        }
+    }
+    std::cout << "rs size = " << renderers.size() << std::endl;
+}
+
+Renderer* Window::getRenderer(int index) { return renderers.at(index); }
+
+SSParams Window::getSSParams(int numPlayers) {
+    SSParams params;
+    switch (numPlayers) {
+    case 1: {
+        renderWindowData w1;
+        w1.xPos = 0;
+        w1.yPos = 0;
+        w1.width = width;
+        w1.height = height;
+        params.screenPos.push_back(w1); // xPos, yPos, width, height
+
+        params.mapPos[0] = width;
+        params.mapPos[1] = height;
+        break;
+    }
+    case 2: {
+        renderWindowData w1;
+        w1.xPos = 0;
+        w1.yPos = 0;
+        w1.width = width / 2;
+        w1.height = height;
+        params.screenPos.push_back(w1); // xPos, yPos, width, height
+        renderWindowData w2;
+        w2.xPos = width / 2;
+        w2.yPos = 0;
+        w2.width = width / 2;
+        w2.height = height;
+        params.screenPos.push_back(w2); // xPos, yPos, width, height
+
+        params.mapPos[0] = width / 2;
+        params.mapPos[1] = height;
+        break;
+    }
+        /* TODO:: get these working
+        case 3:
+            params.screenPos.push_back({ 0, 0, width, height }); // xPos, yPos, width, height
+            params.mapPos[0] = width;
+            params.mapPos[1] = height;
+            break;
+        case 4:
+            params.screenPos.push_back({ 0, 0, width, height }); // xPos, yPos, width, height
+            params.mapPos[0] = width;
+            params.mapPos[1] = height;
+            break;
+        */
+    }
+    return params;
+}
+
+

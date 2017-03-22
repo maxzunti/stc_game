@@ -629,7 +629,7 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
 {
     renderShadowMap(ents);
 
-    glViewport(0, 0, width, height); // Render on the whole framebuffer, complete from the lower left corner to the upper right
+    glViewport(vpX, vpY, width, height); // Render on the whole framebuffer, complete from the lower left corner to the upper right
     
     cam->update();
 	//float fovy, float aspect, float zNear, float zFar
@@ -716,7 +716,6 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     } else {
         std::cout << "Warning: not rendering track" << std::endl;
     }
-
 }
 
 void Renderer::drawText() {
@@ -782,14 +781,18 @@ Camera* Renderer::getCam() {
     return cam;
 }
 
-void Renderer::setDims(int width, int height) {
-    this->width = width;
-    this->height = height;
+void Renderer::setDims(renderWindowData& rwd) {
+    this->width = rwd.width;
+    this->height = rwd.height;
+    this->vpX = rwd.xPos;
+    this->vpY = rwd.yPos;
+
     cam->setDims(width, height);
     mmSize = height / 2;
     glDeleteFramebuffers(1, &mm_frameBuffer);
     glDeleteTextures(1, &mm_tex);
     initColorFrameBuffer(mm_frameBuffer, mm_tex, mmSize, mmSize);
+    UIScale = height / 1000.0f;
 }
 
 void Renderer::renderMiniMap(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float alpha) {

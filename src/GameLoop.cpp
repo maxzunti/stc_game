@@ -101,6 +101,10 @@ int main(int argc, const char* argv[])
     cars.push_back(car);
     entities.push_back(car);
 
+    Car *car2 = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, input.get(), entities, jb, myTrack);
+    cars.push_back(car2);
+    entities.push_back(car2);
+
     AICar *bot = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, entities, myTrack);
     cars.push_back(bot);
     entities.push_back(bot);
@@ -108,11 +112,23 @@ int main(int argc, const char* argv[])
     car->setPos(-300, 10, -200);
     car->setRot(0.0, -0.5, 0.0);
 
+    car2->setPos(-300, 10, -250);
+    car2->setRot(0.0, -0.5, 0.0);
+
     bot->setPos(-325, 10, -225);
     bot->setRot(0.0, -1.2, 0.0);
 
+
     window->getRenderer()->getCam()->registerController(input.get());
     window->getRenderer()->getCam()->registerCar(car);
+
+   // window->setSplitScreen(2, cars);
+
+    // TODO: stop using the same controller for both cars
+  //  window->getRenderer(1)->getCam()->registerController(input.get());
+  //  window->getRenderer(1)->getCam()->registerCar(car2);
+
+
 
 
 
