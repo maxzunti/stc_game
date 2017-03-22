@@ -135,6 +135,7 @@ void Window::setSplitScreen(int numPlayers, const std::vector<Car*>& cars) {
         }
         for (int i = renderers.size(); i < numPlayers; i++) { // create new ones
             Renderer * r = new Renderer(i);
+            r->postGLInit();
             r->setDims(sParams.screenPos.at(i));
             r->getCam()->registerCar(cars.at(i));
             renderers.push_back(r);

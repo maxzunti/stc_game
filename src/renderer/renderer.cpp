@@ -627,7 +627,11 @@ void Renderer::drawTrack(const Model& model, glm::mat4 &perspectiveMatrix, glm::
 
 void Renderer::drawScene(const std::vector<Entity*>& ents)
 {
+    // TODO: get this working in splitscreen
+#ifndef SPLITSCREEN
+    std::cout << "HOW" << std::endl;
     renderShadowMap(ents);
+#endif // !SPLITSCREEN
 
     glViewport(vpX, vpY, width, height); // Render on the whole framebuffer, complete from the lower left corner to the upper right
     
@@ -636,7 +640,7 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     mat4 perspectiveMatrix = cam->calcPerspective();
     glClearColor(0.f, 0.f, 0.f, 0.f);		//Color to clear the screen with (R, G, B, Alpha)
   //  glStencilMask(0x00);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
+    glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);		//Clear stencil and depth buffers
 
     glUseProgram(shader[SHADER::DEFAULT]);
 

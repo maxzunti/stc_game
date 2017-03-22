@@ -9,6 +9,7 @@
 #include "../entity/Walls.h"
 #include "model\Texture.h"
 #include "text2D.h"
+#include "../BuildFlags.h"
 
 struct renderWindowData {
     int xPos = 0;

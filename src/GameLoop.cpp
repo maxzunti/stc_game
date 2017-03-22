@@ -122,15 +122,12 @@ int main(int argc, const char* argv[])
     window->getRenderer()->getCam()->registerController(input.get());
     window->getRenderer()->getCam()->registerCar(car);
 
-   // window->setSplitScreen(2, cars);
+#ifdef SPLITSCREEN
+    window->setSplitScreen(2, cars);
 
     // TODO: stop using the same controller for both cars
-  //  window->getRenderer(1)->getCam()->registerController(input.get());
-  //  window->getRenderer(1)->getCam()->registerCar(car2);
-
-
-
-
+    window->getRenderer(1)->getCam()->registerController(input.get());
+#endif
 
 
 
