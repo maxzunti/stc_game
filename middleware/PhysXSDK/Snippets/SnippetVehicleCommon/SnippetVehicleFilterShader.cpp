@@ -45,8 +45,8 @@ PxFilterFlags VehicleFilterShader
 		{
 			//std::cout << "collision is hooked" << std::endl;
             // might need to change resolve to solve or simply add solve
-			pairFlags = PxPairFlag::eMODIFY_CONTACTS | PxPairFlag::eRESOLVE_CONTACTS | PxPairFlag::eDETECT_CCD_CONTACT 
-                | PxPairFlag::eDETECT_DISCRETE_CONTACT;
+            pairFlags = PxPairFlag::eMODIFY_CONTACTS | PxPairFlag::eRESOLVE_CONTACTS | PxPairFlag::eDETECT_CCD_CONTACT;
+               // | PxPairFlag::eDETECT_DISCRETE_CONTACT;
 			
 			return PxFilterFlag::eDEFAULT;
 		}
@@ -55,7 +55,7 @@ PxFilterFlags VehicleFilterShader
 	if( (0 == (filterData0.word0 & filterData1.word1)) && (0 == (filterData1.word0 & filterData0.word1)) )
 		return PxFilterFlag::eSUPPRESS;
 
-	pairFlags = PxPairFlag::eCONTACT_DEFAULT;
+	pairFlags = PxPairFlag::eCONTACT_DEFAULT | PxPairFlag::eDETECT_CCD_CONTACT;
 
 	return PxFilterFlags();
 }
