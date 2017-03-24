@@ -68,7 +68,7 @@ Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBo
 }
 
 
-Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track) :
+Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track, std::vector<RectTrigger*> AInodes) :
 	DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
 	arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
 	myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
@@ -78,7 +78,7 @@ Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBo
     color = col;
     this->track = track;
 	physMan = physicsManager;
-
+    this->nodes = AInodes;
     initParams();
     initHookParams();
 
@@ -246,6 +246,7 @@ void Car::make_physX_car() {
 
     physMan->mScene->addActor(*mVehicleNoDrive->getRigidDynamicActor());
     this->mActor = mVehicleNoDrive->getRigidDynamicActor();
+    this->mActor->setRigidBodyFlag(PxRigidBodyFlag::eENABLE_CCD, true);
     this->retracting = false;
 
     setPos(pos.x, pos.y + (2 * WHEEL_RAD) + (CHASSIS_Y)+1.0, pos.z);
@@ -335,6 +336,7 @@ void Car::update() {
 
     if (this->getPos().y < -200.0f)
     {
+        this->mActor->setLinearVelocity(PxVec3(0.0, 0.0, 0.0));
         switch (this->partoflap)
         {
         case 0:
@@ -359,10 +361,15 @@ void Car::update() {
         }
     }
     if (controller->GetButtonPressed(XButtonIDs::X)) {
+        std::cout << "x: " << this->getPos().x << ", y: " << this->getPos().y << ", z: " << this->getPos().z << std::endl;
+        std::cout << "wrot: " << this->getQRot().w << ", xrot: " << this->getQRot().x << ", yrot: " << this->getQRot().y << ", zrot: " << this->getQRot().z << std::endl;
+
+        std::cout << this->getDir().x << " " << this->getDir().y << " " << this->getDir().z << std::endl;
         car_parser.updateFromFile();
         hook_parser.updateFromFile();
         myHook->updateFromConfig();
         make_physX_car();
+        
     }
 
     if (controller->GetButtonPressed(XButtonIDs::A)) {

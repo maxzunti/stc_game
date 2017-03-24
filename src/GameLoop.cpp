@@ -97,6 +97,46 @@ int main(int argc, const char* argv[])
     myHookables->scaleModels();
     myHookables->setSil(true);
 
+    // Create a finish-line trigger
+    RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/checkers.png", 10., 20., 100., 0, true);
+
+    entities.push_back(finishLine);
+    finishLine->setPos(-150, 0, -350);
+    finishLine->scaleModels();
+    finishLine->setSil(false);
+
+    RectTrigger * checkpoint0 = new RectTrigger(myPhysics, "assets/models/track/green.png", 100., 20., 10., 1, true);
+    entities.push_back(checkpoint0);
+    checkpoint0->setPos(582.958, 2.29435, -153.876);
+    checkpoint0->setRot(glm::quat(0.511569, -2.44891e-05, -0.859242, -0.000041213));
+    checkpoint0->SIL_X_SCALE = 1.02;
+    checkpoint0->SIL_Y_SCALE = 1.02;
+    checkpoint0->SIL_Z_SCALE = 1.02;
+    checkpoint0->scaleModels();
+
+
+    RectTrigger * checkpoint1 = new RectTrigger(myPhysics, "assets/models/track/green.png", 50., 20., 100., 2);
+    entities.push_back(checkpoint1);
+    checkpoint1->setPos(80.1522, 61.2789, 161.581);
+    checkpoint1->SIL_X_SCALE = 1.02;
+    checkpoint1->SIL_Y_SCALE = 1.02;
+    checkpoint1->SIL_Z_SCALE = 1.02;
+    checkpoint1->scaleModels();
+
+    RectTrigger * checkpoint2 = new RectTrigger(myPhysics, "assets/models/track/green.png", 100., 20., 50., 3);
+
+    entities.push_back(checkpoint2);
+    checkpoint2->setPos(-950.594, 13.4629, -207.866);
+    checkpoint2->SIL_X_SCALE = 1.02;
+    checkpoint2->SIL_Y_SCALE = 1.02;
+    checkpoint2->SIL_Z_SCALE = 1.02;
+    checkpoint2->scaleModels();
+
+    std::vector<RectTrigger*> trackNodes;
+    trackNodes.push_back(finishLine);
+    trackNodes.push_back(checkpoint0);
+    trackNodes.push_back(checkpoint1);
+    trackNodes.push_back(checkpoint2);
     Car *car = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, input.get(), entities, jb, myTrack);
     cars.push_back(car);
     entities.push_back(car);
@@ -105,7 +145,7 @@ int main(int argc, const char* argv[])
     cars.push_back(car2);
     entities.push_back(car2);
 
-    AICar *bot = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, entities, myTrack);
+    AICar *bot = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, entities, myTrack, trackNodes);
     cars.push_back(bot);
     entities.push_back(bot);
 
@@ -166,31 +206,8 @@ int main(int argc, const char* argv[])
 	entities.push_back(wall3);
 	entities.push_back(wall4);*/
 
-    // Create a finish-line trigger
-    RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/checkers.png", 10., 20., 100., 0, true);
+ 
 
-    entities.push_back(finishLine);
-    finishLine->setPos(-150, 0, -350);
-    finishLine->scaleModels();
-    finishLine->setSil(false);
-
-    RectTrigger * checkpoint1 = new RectTrigger(myPhysics, "assets/models/track/green.png", 50., 20., 100., 1);
-
-    entities.push_back(checkpoint1);
-    checkpoint1->setPos(80.1522, 61.2789, 161.581);
-    checkpoint1->SIL_X_SCALE = 1.02;
-    checkpoint1->SIL_Y_SCALE = 1.02;
-    checkpoint1->SIL_Z_SCALE = 1.02;
-    checkpoint1->scaleModels();
-
-    RectTrigger * checkpoint2 = new RectTrigger(myPhysics, "assets/models/track/green.png", 100., 20., 50., 2);
-
-    entities.push_back(checkpoint2);
-    checkpoint2->setPos(-950.594, 13.4629, -207.866);
-    checkpoint2->SIL_X_SCALE = 1.02;
-    checkpoint2->SIL_Y_SCALE = 1.02;
-    checkpoint2->SIL_Z_SCALE = 1.02;
-    checkpoint2->scaleModels();
     //myPhysics->createGroundPlane();
     //myPhysics->mScene->addActor(*createDrivablePlane(myPhysics->mMaterial, myPhysics->mPhysics));
 	/*myPhysics->createWallPlane(0,5,-500,0,1);
@@ -202,7 +219,6 @@ int main(int argc, const char* argv[])
 	{
         input->Update();
         bot->update();
-		
         for (const auto& c : cars)
             c->stepForPhysics();
 		myPhysics->stepPhysics();

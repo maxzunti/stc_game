@@ -1,6 +1,7 @@
 #include "AICar.h"
 #include <glm/gtx/quaternion.hpp>
 #include <math.h>
+#include <glm/gtx/vector_angle.hpp>
 
 using namespace glm;
 
@@ -13,8 +14,8 @@ using namespace glm;
 
 //The below functions would all need to be rewritten from their Car counterparts, at the least
 
-AICar::AICar(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject * track) :
-	Car(col, model_fname, tex_fname, actor, physicsManager, ents, track)
+AICar::AICar(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject * track, std::vector<RectTrigger*> AInodes) :
+	Car(col, model_fname, tex_fname, actor, physicsManager, ents, track, AInodes)
 {
 }
 
@@ -92,80 +93,44 @@ void AICar::update()
         }
     }
 	//TODO: Acquire an ordered (?) vector of all the nodes, outlining the path
-	//std::vector<DynamicPhysicsObject*> nodes;
+	//
 	
 	vec3 start = this->getPos();
 
 	//getpos of destination node
-	//vec3 goal = nodes[tracker]->getPos();
-
-	//Either something like this, or we can detect a collision/trigger zone
-	/*if (start.x <= goal.x + DEV && start.x >= goal.x - DEV &&
-		start.y <= goal.y + DEV && start.y >= goal.y - DEV &&
-		start.z <= goal.z + DEV && start.z >= goal.z - DEV)
-	{
-		tracker++;
-		if (tracker == nodes.size())
-		{
-			tracker = 0;
-		}
-		goal = nodes[tracker]->getPos();
-	}*/
+	vec3 goal = nodes[this->partoflap]->getPos();
 
 	//pathfind; find the direction vector from here to node pos, compare it with dir
-	/*float x = start.x - goal.x;
+	float x = start.x - goal.x;
 	float y = start.y - goal.y;
 	float z = start.z - goal.z;
-	vec3 desDir = normalize(vec3(x, y, z));
-	vec3 dir = this->getDir();
+	vec3 desDir = -normalize(vec3(x, y, z));
+    vec3 mydir = glm::normalize(this->dir);
 	
-	if (this->mActor->getLinearVelocity().magnitude() <= 1)
+	/*if (this->mActor->getLinearVelocity().magnitude() <= 1)
 	{
 		applyWheelTurn(TURN_FACTOR);
-	}
-
-	if (dir.x > desDir.x)
+	}*/
+    float turnangle = glm::angle(dir, desDir);
+    std::cout << "xdir: " << mydir.x << " ydir: " << mydir.y << " zdir: " << mydir.z << std::endl;
+    std::cout << "turn angle: " << turnangle << std::endl;
+	if (dir.x*desDir.z-dir.z*desDir.x > 0)
 	{
 		//increase dir.x
-		applyWheelTurn(desDir.x-dir.x);
+		applyWheelTurn(turnangle*TURN_FACTOR);
 	}
-	else if (dir.x < desDir.x)
+	else if (dir.x*desDir.z - dir.z*desDir.x < 0)
 	{
 		//decrease dir.x
-		applyWheelTurn(dir.x - desDir.x);
+		applyWheelTurn(-turnangle*TURN_FACTOR);
 	}
-	if (dir.z > desDir.z)
-	{
-		//increase dir.z
-		applyWheelTurn(desDir.z - dir.z);
-	}
-	else if (dir.z < desDir.z)
-	{
-		//decrease dir.z
-		applyWheelTurn(dir.z - desDir.z);
-	}*/
-
-	//Apply turn according to the left stick angle 
-	//applyWheelTurn(controller->LStick_InDeadzone() ? 0.f : controller->LeftStick_X());
 
 	//Directly inputting forces
 	//When should a car not be accelerating?
 
-	if (this->mActor->getLinearVelocity().magnitude() != 0.1)
-	{
-		resetBrakes();
-		applyWheelTorque(ACCEL_FACTOR);
-	}
-	//When does it brake?
-	/*else if ((controller->LeftTrigger() - controller->RightTrigger()) > 0) {
-		resetBrakes();
-		applyWheelTorque(-1.f*(controller->LeftTrigger() - controller->RightTrigger()));
-	}*/
-	else {
-		resetBrakes();
-		applyWheelTurn(TURN_FACTOR);
-		applyWheelTorque(ACCEL_FACTOR);
-	}
+	resetBrakes();
+	applyWheelTorque(ACCEL_FACTOR);
+	
 
 	//Cap the max velocity of the car to 80
 	if (this->mActor->getLinearVelocity().magnitude() > MAX_SPEED && !this->retracting)
@@ -191,8 +156,9 @@ void AICar::update()
 	}*/
 
 	// Must fire after calc aim
+    
 	if ((!this->myHook->getShot() && !this->myHook->getStuck() && calcAim())) {
-		arrow->reposition(up, pos, aim, aim_rot);
+		//arrow->reposition(up, pos, aim, aim_rot);
 		fireHook();
 	}
 

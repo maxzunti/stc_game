@@ -11,6 +11,7 @@
 #include "../input/input.h"
 #include "Hook.h"
 #include "Wheel.h"
+#include "RectTrigger.h"
 
 #include "../util/ConfigParser.h"
 
@@ -39,7 +40,7 @@ class Car : public DynamicPhysicsObject {
 
 public:
     Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject * track);
-	Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track);
+	Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track, std::vector<RectTrigger*> AInodes);
     ~Car();
 
     int lap;
@@ -68,6 +69,7 @@ public:
     glm::vec3& getRight();
     glm::vec3& getUp();
     Hook * getHook();
+    std::vector<RectTrigger*> nodes;
 
 protected:
     Input * controller;
