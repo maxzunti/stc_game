@@ -2,13 +2,15 @@
 #include <glm/gtx/quaternion.hpp>
 #include <math.h>
 #include <glm/gtx/vector_angle.hpp>
+#include <time.h>
 
 using namespace glm;
 
 AICar::AICar(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject * track, std::vector<RectTrigger*> AInodes) :
 	Car(col, model_fname, tex_fname, actor, physicsManager, ents, track, AInodes)
 {
-	DEVIATION = rand() % 10;
+    srand(time(NULL));
+    this->mActor->setName("AICar");
 }
 
 AICar::~AICar()
@@ -19,32 +21,32 @@ AICar::~AICar()
 	physMan->mScene->removeActor(*mVehicleNoDrive->getRigidDynamicActor());
 }
 
-void AICar::navigate()
-{
-	//Not sure if we need this yet
+//Fires the hook
+void AICar::fireHook(glm::vec3 target) {
+    min_hookDist = 999999.0f;
+
+    //  this->myJB->playEffect(myJB->firehook);
+    glm::quat q;
+    glm::vec3 aim = target - this->getPos();
+    aim = glm::normalize(aim);
+    glm::vec3 upvec = glm::vec3(0, 1, 0);
+    glm::vec3 a = glm::cross(upvec, aim);
+    q.x = a.x;
+    q.y = a.y;
+    q.z = a.z;
+    q.w = sqrt((glm::length(upvec)*glm::length(upvec) * (glm::length(aim)*glm::length(aim)))) + glm::dot(upvec, aim);
+    q = glm::normalize(q);
+        
+
+    this->mPhysicsManager->mScene->addActor(*myHook->mActor);
+    myHook->setShot(true);
+    myHook->setRot(q);
+    
+    glm::vec3 b = this->getPos()+HOOK_START_DIST*this->getDir();
+    myHook->setPos(b.x + (HOOK_START_DIST*aim.x), b.y + HOOK_START_DIST, b.z + (HOOK_START_DIST*aim.z));
 }
 
-bool AICar::calcAim() {
-	vec3 right = normalize(cross(dir, vec3(0, 1, 0)));
-	up = normalize(cross(right, dir));
-	float angle = 0.0f;
-	/*if (!controller->RStick_InDeadzone()) {
-		angle = atan(controller->RightStick_Y() /
-			controller->RightStick_X()) - (M_PI / 2);
-		if (controller->RightStick_X() < 0) { // Stick in left half
-			angle -= M_PI;
-		}
-	}*/
-	bool lockOn = false;
-	//Something to search for nearest target
 
-
-
-	aim_rot = glm::rotate(qrot, angle, up);
-	aim = glm::rotate(aim_rot, vec3(0, 0, -1));
-
-	return lockOn;
-}
 
 void AICar::update()
 {
@@ -76,32 +78,24 @@ void AICar::update()
         }
     }
 	
+    if (devChange)
+    {
+        DEVIATION = (rand() % 20) - 10.0f;
+        devChange = false;
+    }
+
 	vec3 start = this->getPos();
 
 	//getpos of destination node
 	vec3 goal = nodes[this->partoflap]->getPos();
-	float x, y, z;
-
+    vec3 goalDir = vec3(goal - start);
 	//pathfind; find the direction vector from here to node pos, compare it with dir
-	if (rand() % 1 > 0)
-	{
-		x = start.x - (goal.x + DEVIATION);
-	}
-	else
-	{
-		x = start.x - (goal.x - DEVIATION);
-	}
-	if (rand() % 1 > 0)
-	{
-		z = start.z - (goal.z + DEVIATION);
-	}
-	else
-	{
-		z = start.z - (goal.z - DEVIATION);
-	}
-	y = start.y - goal.y;
-	vec3 desDir = -normalize(vec3(x, y, z));
+
     vec3 mydir = glm::normalize(this->dir);
+    vec3 binorm = glm::normalize(glm::cross(goalDir, vec3(0, 1, 0)));
+	goal += DEVIATION*binorm;
+    goalDir = (goal - start);
+	vec3 desDir = glm::normalize(goalDir);
 	
 	/*if (this->mActor->getLinearVelocity().magnitude() <= 1)
 	{
@@ -149,15 +143,32 @@ void AICar::update()
 		this->cancelHook();
 	}*/
 
+    if (myHook->getStuck()) {
+
+        PxVec3 hookDir = PxVec3(myHook->getPos().x, myHook->getPos().y, myHook->getPos().z) -
+            PxVec3(pos.x, pos.y, pos.z);
+        float hookDist = hookDir.normalize();
+
+        if (hookDist <= min_hookDist + 0.3) {
+            min_hookDist = hookDist;
+        }
+        else { // min_hookDist < curr hook
+            if (!swinging) {
+                cancelHook();
+            }
+        }
+    }
+
 	// Must fire after calc aim
-    
+    /*
 	if ((!this->myHook->getShot() && !this->myHook->getStuck() && calcAim())) {
 		//arrow->reposition(up, pos, aim, aim_rot);
 		fireHook();
-	}
+	}*/
 
-	if (this->myHook->getStuck() && controller->GetButtonPressed(XButtonIDs::R_Shoulder)) {
+	if (this->myHook->getStuck()) {
 		this->retracting = true;
+        //     this->myJB->playEffect(myJB->gravpull);
 	}
 
 	if (this->retracting)
@@ -165,5 +176,14 @@ void AICar::update()
 		this->retractHook();
 	}
 
+    //Defines the distance that the hook detaches at
+    if (((getHookDistance() > HOOK_MAX_LENGTH) && (myHook->getShot())) || ((getHookDistance() < HOOK_MIN_LENGTH) && (myHook->getStuck()))) {
+        cancelHook();
+    }
+
 	this->myHook->update(pos + (HOOK_FORWARD_OFFSET*dir) + (HOOK_UP_OFFSET*up));
 }
+
+
+
+

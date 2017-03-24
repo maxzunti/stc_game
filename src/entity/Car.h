@@ -71,6 +71,8 @@ public:
     Hook * getHook();
     std::vector<RectTrigger*> nodes;
 
+    bool devChange = true;
+
 protected:
     Input * controller;
     PhysicsManager * physMan;
