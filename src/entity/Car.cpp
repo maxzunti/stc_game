@@ -335,6 +335,14 @@ void Car::calcAim() {
 
 void Car::update() {
 
+	if (cooldownState == true)
+	{
+		duration = COOLDOWN - (std::clock() - start) / (double) CLOCKS_PER_SEC;
+		if (duration <= 0)
+		{
+			cooldownState = false;
+		}
+	}
     if (this->getPos().y < -200.0f)
     {
         this->mActor->setLinearVelocity(PxVec3(0.0, 0.0, 0.0));
@@ -441,7 +449,7 @@ void Car::update() {
     }
 
     // Must fire after calc aim
-    if ((!myHook->getShot() && !myHook->getStuck()) && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
+    if ((!myHook->getShot() && !myHook->getStuck()) && cooldownState == false && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
         fireHook();
     }
 
@@ -643,6 +651,9 @@ void Car::cancelHook() {
     myHook->mActor->setLinearVelocity(PxVec3(0.f, 0.f, 0.f));
     retracting = false;
     swinging = false;
+
+	cooldownState = true;
+	start = std::clock();
 }
 
 void Car::retractHook() {
