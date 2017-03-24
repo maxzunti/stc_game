@@ -18,7 +18,6 @@ StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string te
     {
         mActor = mPhysicsManager->createTriangleMesh(m, false, filterdata, filterdataagainst, myscale);
         mPhysicsManager->mScene->addActor(*mActor);
-        std::cout << "Cooking for " << model_fname << std::endl;
     }
 }
 

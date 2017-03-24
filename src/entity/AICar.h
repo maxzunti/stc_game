@@ -17,8 +17,8 @@
 class AICar : public Car {
 
 protected:
-	const float TURN_FACTOR = 0.5f;
-	const float ACCEL_FACTOR = 100.f;
+	const float TURN_FACTOR = 1.0f;
+	const float ACCEL_FACTOR = 1.f;
 
 	bool calcAim();
 	float heuristic(glm::vec3 node);

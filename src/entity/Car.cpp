@@ -24,7 +24,7 @@ const char* CarRenderInfo::getMinimapIndex(CarColor col) {
         return "D";
     }
 }
-Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject* track) :
+Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject* track, std::vector<RectTrigger*> AInodes) :
     DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
     arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
     myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, -5000.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
@@ -35,6 +35,7 @@ Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBo
     this->track = track;
     this->myJB = jb;
     physMan = physicsManager;
+    this->nodes = AInodes;
 
     initParams();
     initHookParams();

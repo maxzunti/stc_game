@@ -35,11 +35,11 @@ void TriggerListener::onTrigger(PxTriggerPair* pairs, PxU32 count) {
                 myCar->partoflap++;
                 
             }
-            if (myCar->partoflap == 4 && myTrig->triggerID == 0)
+            if (myCar->partoflap == myCar->nodes.size() && myTrig->triggerID == 0)
             {
                 if (myCar->lap == 3)
                 {
-                    myCar->partoflap = 5;
+                    myCar->partoflap = myCar->nodes.size()+1;
                 }
                 else
                 {

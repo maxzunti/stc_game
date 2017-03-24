@@ -135,33 +135,141 @@ int main(int argc, const char* argv[])
 
     RectTrigger * checkpoint3 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 4, true);
     entities.push_back(checkpoint3);
-    checkpoint3->setPos(665.245, 2.31042, 199.581);
-    checkpoint3->setRot(glm::quat(-0.352183, -0.00000424364, -0.935931, 0.0000363322));
+    checkpoint3->setPos(627.675, 2.30467, 242.062);
+    checkpoint3->setRot(glm::quat(-0.421243, 0.000119609, -0.906948, -0.000261445));
     checkpoint3->SIL_X_SCALE = 1.02;
     checkpoint3->SIL_Y_SCALE = 1.02;
     checkpoint3->SIL_Z_SCALE = 1.02;
     checkpoint3->scaleModels();
 
-    ///////////
     
 
     RectTrigger * checkpoint4 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 5, true);
     entities.push_back(checkpoint4);
-    checkpoint4->setPos(66.205, 55.1288, 151.158);
-    checkpoint4->setRot(glm::quat(-0.89978, -0.0834907, -0.426147, 0.042718));
+    checkpoint4->setPos(479.333, 2.96775, 297.108);
+    checkpoint4->setRot(glm::quat(-0.678676, -0.00527144, -0.734397, 0.00570051));
     checkpoint4->SIL_X_SCALE = 1.02;
     checkpoint4->SIL_Y_SCALE = 1.02;
     checkpoint4->SIL_Z_SCALE = 1.02;
     checkpoint4->scaleModels();
 
-    RectTrigger * checkpoint5 = new RectTrigger(myPhysics, "assets/models/track/green.png", 100., 20., 50., 6, true);
-
+    RectTrigger * checkpoint5 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 6, true);
     entities.push_back(checkpoint5);
-    checkpoint5->setPos(-950.594, 13.4629, -207.866);
+    checkpoint5->setPos(367.038, 6.9704, 292.648);
+    checkpoint5->setRot(glm::quat(-0.773841, -0.0194649, -0.632846, 0.0172303));
     checkpoint5->SIL_X_SCALE = 1.02;
     checkpoint5->SIL_Y_SCALE = 1.02;
     checkpoint5->SIL_Z_SCALE = 1.02;
     checkpoint5->scaleModels();
+
+    ///////////
+
+    RectTrigger * checkpoint6 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 7, true);
+    entities.push_back(checkpoint6);
+    checkpoint6->setPos(66.205, 55.1288, 151.158);
+    checkpoint6->setRot(glm::quat(-0.89978, -0.0834907, -0.426147, 0.042718));
+    checkpoint6->SIL_X_SCALE = 1.02;
+    checkpoint6->SIL_Y_SCALE = 1.02;
+    checkpoint6->SIL_Z_SCALE = 1.02;
+    checkpoint6->scaleModels();
+
+    RectTrigger * checkpoint7 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 8, true);
+    entities.push_back(checkpoint7);
+    checkpoint7->setPos(-546.029, 84.1273, -358.687);
+    checkpoint7->setRot(glm::quat(0.859496, -0.0671312, 0.50529, 0.0379721));
+    checkpoint7->SIL_X_SCALE = 1.02;
+    checkpoint7->SIL_Y_SCALE = 1.02;
+    checkpoint7->SIL_Z_SCALE = 1.02;
+    checkpoint7->scaleModels();
+
+    RectTrigger * checkpoint8 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 9, true);
+    entities.push_back(checkpoint8);
+    checkpoint8->setPos(-705.506, 57.0474, -408.905);
+    checkpoint8->setRot(glm::quat(0.6981, -0.0553387, 0.712099, 0.0500909));
+    checkpoint8->SIL_X_SCALE = 1.02;
+    checkpoint8->SIL_Y_SCALE = 1.02;
+    checkpoint8->SIL_Z_SCALE = 1.02;
+    checkpoint8->scaleModels();
+
+    RectTrigger * checkpoint9 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 10, true);
+    entities.push_back(checkpoint9);
+    checkpoint9->setPos(-865.046, 26.1215, -367.016);
+    checkpoint9->setRot(glm::quat(0.427347, -0.047236, 0.898499, 0.0885616));
+    checkpoint9->SIL_X_SCALE = 1.02;
+    checkpoint9->SIL_Y_SCALE = 1.02;
+    checkpoint9->SIL_Z_SCALE = 1.02;
+    checkpoint9->scaleModels();
+
+    RectTrigger * checkpoint10 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 11, true);
+    entities.push_back(checkpoint10);
+    checkpoint10->setPos(-950.594, 13.4629, -207.866);
+    checkpoint10->SIL_X_SCALE = 1.02;
+    checkpoint10->SIL_Y_SCALE = 1.02;
+    checkpoint10->SIL_Z_SCALE = 1.02;
+    checkpoint10->scaleModels();
+    
+    RectTrigger * checkpoint11 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 12, true);
+    entities.push_back(checkpoint11);
+    checkpoint11->setPos(-883.837, 2.28911, 122.058);
+    checkpoint11->setRot(glm::quat(0.272631, -0.00000391244, -0.962119, -0.0000143151));
+    checkpoint11->SIL_X_SCALE = 1.02;
+    checkpoint11->SIL_Y_SCALE = 1.02;
+    checkpoint11->SIL_Z_SCALE = 1.02;
+    checkpoint11->scaleModels();
+
+    RectTrigger * checkpoint12 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 13, true);
+    entities.push_back(checkpoint12);
+    checkpoint12->setPos(-744.606, 2.29449, 252.435);
+    checkpoint12->setRot(glm::quat(0.527757, -0.0000290464, -0.849395, -0.0000472041));
+    checkpoint12->SIL_X_SCALE = 1.02;
+    checkpoint12->SIL_Y_SCALE = 1.02;
+    checkpoint12->SIL_Z_SCALE = 1.02;
+    checkpoint12->scaleModels();
+
+    RectTrigger * checkpoint13 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 14, true);
+    entities.push_back(checkpoint13);
+    checkpoint13->setPos(-573.404, 2.29473, 290.003);
+    checkpoint13->setRot(glm::quat(0.722942, -0.0000329909, -0.690909, -0.000031511));
+    checkpoint13->SIL_X_SCALE = 1.02;
+    checkpoint13->SIL_Y_SCALE = 1.02;
+    checkpoint13->SIL_Z_SCALE = 1.02;
+    checkpoint13->scaleModels();
+
+    RectTrigger * checkpoint14 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 15, true);
+    entities.push_back(checkpoint14);
+    checkpoint14->setPos(-420.546, 2.29476, 239.476);
+    checkpoint14->setRot(glm::quat(0.90891, -0.000028612, -0.416991, -0.0000129683));
+    checkpoint14->SIL_X_SCALE = 1.02;
+    checkpoint14->SIL_Y_SCALE = 1.02;
+    checkpoint14->SIL_Z_SCALE = 1.02;
+    checkpoint14->scaleModels();
+
+    RectTrigger * checkpoint15 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 16, true);
+    entities.push_back(checkpoint15);
+    checkpoint15->setPos(-380.952, 2.29209, 176.553);
+    checkpoint15->setRot(glm::quat(0.986375, -0.000120485, -0.164515, -0.0000177607));
+    checkpoint15->SIL_X_SCALE = 1.02;
+    checkpoint15->SIL_Y_SCALE = 1.02;
+    checkpoint15->SIL_Z_SCALE = 1.02;
+    checkpoint15->scaleModels();
+
+    RectTrigger * checkpoint16 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 17, true);
+    entities.push_back(checkpoint16);
+    checkpoint16->setPos(-354.737, 1.3471, -186.251);
+    checkpoint16->setRot(glm::quat(0.985539, -0.00253063, -0.169429, -0.000370684));
+    checkpoint16->SIL_X_SCALE = 1.02;
+    checkpoint16->SIL_Y_SCALE = 1.02;
+    checkpoint16->SIL_Z_SCALE = 1.02;
+    checkpoint16->scaleModels();
+
+    RectTrigger * checkpoint17 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 18, true);
+    entities.push_back(checkpoint17);
+    checkpoint17->setPos(-310.232, 1.00723, -270.753);
+    checkpoint17->setRot(glm::quat(0.933793, -0.000355677, -0.357813, -0.000113032));
+    checkpoint17->SIL_X_SCALE = 1.02;
+    checkpoint17->SIL_Y_SCALE = 1.02;
+    checkpoint17->SIL_Z_SCALE = 1.02;
+    checkpoint17->scaleModels();
 
     std::vector<RectTrigger*> trackNodes;
     trackNodes.push_back(finishLine);
@@ -171,11 +279,25 @@ int main(int argc, const char* argv[])
     trackNodes.push_back(checkpoint3);
     trackNodes.push_back(checkpoint4);
     trackNodes.push_back(checkpoint5);
-    Car *car = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, input.get(), entities, jb, myTrack);
+    trackNodes.push_back(checkpoint6);
+    trackNodes.push_back(checkpoint7);
+    trackNodes.push_back(checkpoint8);
+    trackNodes.push_back(checkpoint9);
+    trackNodes.push_back(checkpoint10);
+    trackNodes.push_back(checkpoint11);
+    trackNodes.push_back(checkpoint12);
+    trackNodes.push_back(checkpoint13);
+    trackNodes.push_back(checkpoint14);
+    trackNodes.push_back(checkpoint15);
+    trackNodes.push_back(checkpoint16);
+    trackNodes.push_back(checkpoint17);
+
+
+    Car *car = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, input.get(), entities, jb, myTrack, trackNodes);
     cars.push_back(car);
     entities.push_back(car);
 
-    Car *car2 = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, input.get(), entities, jb, myTrack);
+    Car *car2 = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, input.get(), entities, jb, myTrack, trackNodes);
     cars.push_back(car2);
     entities.push_back(car2);
 
