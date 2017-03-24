@@ -13,15 +13,16 @@
 #include "RectTrigger.h"
 #include "../util/ConfigParser.h"
 #include <vector>
+#include <cstdlib>
 
 class AICar : public Car {
 
 protected:
-	const float TURN_FACTOR = 0.5f;
+	const float TURN_FACTOR = 2.f;
 	const float ACCEL_FACTOR = 100.f;
+	float DEVIATION;
 
 	bool calcAim();
-	float heuristic(glm::vec3 node);
 
 public:
 	AICar(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject * track, std::vector<RectTrigger*> AInodes);

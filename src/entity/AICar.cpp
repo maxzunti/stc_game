@@ -5,18 +5,10 @@
 
 using namespace glm;
 
-//Plays with their own controller...
-//Should we even use this?  Perhaps make an AIInput instead
-
-//This doesn't make any sense.  ProtoCar makes 0 decisions, so you would need to give AICar a way to do so
-//But then what does it output?  Directly to the PhsyX Car?
-//Where does it get input?  If it does not recieve input from a "controller" class, it would need to generate its own
-
-//The below functions would all need to be rewritten from their Car counterparts, at the least
-
 AICar::AICar(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject * track, std::vector<RectTrigger*> AInodes) :
 	Car(col, model_fname, tex_fname, actor, physicsManager, ents, track, AInodes)
 {
+	DEVIATION = rand() % 10;
 }
 
 AICar::~AICar()
@@ -30,16 +22,6 @@ AICar::~AICar()
 void AICar::navigate()
 {
 	//Not sure if we need this yet
-}
-
-float AICar::heuristic(vec3 node)
-{
-	float x = abs(this->getPos().x - node.x);
-	float y = abs(this->getPos().y - node.y);
-	float z = abs(this->getPos().z - node.z);
-
-	float out = sqrt(x*x + y*y + z*z);
-	return out;
 }
 
 bool AICar::calcAim() {
@@ -69,6 +51,7 @@ void AICar::update()
 
     if (this->getPos().y < -200.0f)
     {
+		//Respawn switches
         switch (this->partoflap)
         {
         case 0:
@@ -92,18 +75,31 @@ void AICar::update()
             break;
         }
     }
-	//TODO: Acquire an ordered (?) vector of all the nodes, outlining the path
-	//
 	
 	vec3 start = this->getPos();
 
 	//getpos of destination node
 	vec3 goal = nodes[this->partoflap]->getPos();
+	float x, y, z;
 
 	//pathfind; find the direction vector from here to node pos, compare it with dir
-	float x = start.x - goal.x;
-	float y = start.y - goal.y;
-	float z = start.z - goal.z;
+	if (rand() % 1 > 0)
+	{
+		x = start.x - (goal.x + DEVIATION);
+	}
+	else
+	{
+		x = start.x - (goal.x - DEVIATION);
+	}
+	if (rand() % 1 > 0)
+	{
+		z = start.z - (goal.z + DEVIATION);
+	}
+	else
+	{
+		z = start.z - (goal.z - DEVIATION);
+	}
+	y = start.y - goal.y;
 	vec3 desDir = -normalize(vec3(x, y, z));
     vec3 mydir = glm::normalize(this->dir);
 	
