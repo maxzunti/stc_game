@@ -112,8 +112,6 @@ void AICar::update()
 		applyWheelTurn(TURN_FACTOR);
 	}*/
     float turnangle = glm::angle(dir, desDir);
-    std::cout << "xdir: " << mydir.x << " ydir: " << mydir.y << " zdir: " << mydir.z << std::endl;
-    std::cout << "turn angle: " << turnangle << std::endl;
 	if (dir.x*desDir.z-dir.z*desDir.x > 0)
 	{
 		//increase dir.x

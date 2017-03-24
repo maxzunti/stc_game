@@ -17,7 +17,7 @@
 class AICar : public Car {
 
 protected:
-	const float TURN_FACTOR = 1.f;
+	const float TURN_FACTOR = 0.5f;
 	const float ACCEL_FACTOR = 100.f;
 
 	bool calcAim();
