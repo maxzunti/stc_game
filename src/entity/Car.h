@@ -47,7 +47,7 @@ public:
     int partoflap;
     static const int NUM_WHEELS = 4;
 
-	const int COOLDOWN = 5;
+	const int COOLDOWN = 3;
 	std::clock_t start;
 	double duration;
 	bool cooldownState = false;

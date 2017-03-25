@@ -51,28 +51,18 @@ void AICar::update()
 {
     if (this->getPos().y < -200.0f)
     {
-		//Respawn switches
-        switch (this->partoflap)
+        this->mActor->setLinearVelocity(PxVec3(0.0, 0.0, 0.0));
+        if (this->partoflap == 0 || this->partoflap >= this->nodes.size())
         {
-        case 0:
-            this->setPos(-300, 10, -200);
-            this->setRot(0.0, -0.5, 0.0);
-            break;
-        case 1:
-            this->setPos(-150, 10, -350);
-            this->setRot(0.0, -1.3, 0.0);
-            break;
-        case 2:
-            this->setPos(80.1522, 70, 161.581);
-            this->setRot(0.0, 1.57 / 2.0, 0.0);
-            break;
-        case 3:
-            this->setPos(-988.594, 23, -207.866);
-            this->setRot(0.0, 4.14 / 1.2, 0.0);
-            break;
-        default:
-            std::cout << "switch error: ai car ded" << std::endl;
-            break;
+            glm::vec3 temp = vec3(this->nodes[0]->getPos());
+            this->setPos(temp);
+            this->setRot(this->nodes[0]->getQRot());
+        }
+        else
+        {
+            glm::vec3 temp = vec3(this->nodes[this->partoflap - 1]->getPos());
+            this->setPos(temp);
+            this->setRot(this->nodes[this->partoflap - 1]->getQRot());
         }
     }
 	

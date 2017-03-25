@@ -40,7 +40,8 @@ PxFilterFlags VehicleFilterShader
 
 	if (((filterData0.word0 & filterData1.word1)>0) && ((filterData1.word0 & filterData0.word1)>0))
 	{
-		
+        std::cout << "COLLISION filterData0.word0: " << filterData0.word0 << " filterData1.word0: " << filterData1.word0 << std::endl;
+
 		if (filterData0.word0 == COLLISION_FLAG_HOOK || filterData1.word0 == COLLISION_FLAG_HOOK)
 		{
 			//std::cout << "collision is hooked" << std::endl;
@@ -52,8 +53,11 @@ PxFilterFlags VehicleFilterShader
 		}
 	}
 
-	if( (0 == (filterData0.word0 & filterData1.word1)) && (0 == (filterData1.word0 & filterData0.word1)) )
-		return PxFilterFlag::eSUPPRESS;
+    if ((0 == (filterData0.word0 & filterData1.word1)) && (0 == (filterData1.word0 & filterData0.word1)))
+    {
+        std::cout << "NO COLLISION filterData0.word0: " << filterData0.word0 << " filterData1.word0: " << filterData1.word0 << std::endl;
+        return PxFilterFlag::eSUPPRESS;
+    }
 
 	pairFlags = PxPairFlag::eCONTACT_DEFAULT | PxPairFlag::eDETECT_CCD_CONTACT;
 

@@ -72,7 +72,7 @@ int main(int argc, const char* argv[])
             m->tile_UV_XY(3, 60);
     }
 
-    StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks.obj", "assets/textures/trans_red.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST);
+    StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks.obj", "assets/textures/trans_red.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST, false);
     entities.push_back(myHookables);
     
     myTrack->SIL_X_SCALE = 1.1;
@@ -310,7 +310,7 @@ int main(int argc, const char* argv[])
     Car *car2 = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, input.get(), entities, jb, myTrack, trackNodes);
     cars.push_back(car2);
     entities.push_back(car2);
-
+    /*
     AICar *bot = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, entities, myTrack, trackNodes);
     cars.push_back(bot);
     entities.push_back(bot);
@@ -318,19 +318,19 @@ int main(int argc, const char* argv[])
     AICar *bot2 = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, entities, myTrack, trackNodes);
     cars.push_back(bot2);
     entities.push_back(bot2);
-
+    */
     car->setPos(-300, 10, -200);
     car->setRot(0.0, -0.5, 0.0);
 
     car2->setPos(-300, 10, -250);
     car2->setRot(0.0, -0.5, 0.0);
-
+    /*
     bot->setPos(-325, 10, -225);
     bot->setRot(0.0, -1.2, 0.0);
 
     bot2->setPos(-350, 10, -250);
     bot2->setRot(0.0, -1.2, 0.0);
-
+*/
 
     window->getRenderer()->getCam()->registerController(input.get());
     window->getRenderer()->getCam()->registerCar(car);
@@ -391,8 +391,8 @@ int main(int argc, const char* argv[])
     while (!window->shouldClose())
 	{
         input->Update();
-        bot->update();
-        bot2->update();
+      /*  bot->update();
+        bot2->update();*/
         for (const auto& c : cars)
             c->stepForPhysics();
 		myPhysics->stepPhysics();

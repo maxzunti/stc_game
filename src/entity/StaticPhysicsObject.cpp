@@ -4,7 +4,7 @@
 #define M_PI 3.14159265358979323846
 using namespace physx;
 
-StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string tex_fname, glm::vec3 scale, PhysicsManager* physicsManager, PxU32 filterdata, PxU32 filterdataagainst)
+StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string tex_fname, glm::vec3 scale, PhysicsManager* physicsManager, PxU32 filterdata, PxU32 filterdataagainst, bool drivable)
 
     : Renderable(model_fname, tex_fname)
 {
@@ -16,7 +16,7 @@ StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string te
     myscale.z = scale.z;
     for (Model* m : this->getModels())
     {
-        mActor = mPhysicsManager->createTriangleMesh(m, false, filterdata, filterdataagainst, myscale);
+        mActor = mPhysicsManager->createTriangleMesh(m, false, filterdata, filterdataagainst, myscale, drivable);
         mPhysicsManager->mScene->addActor(*mActor);
     }
 }

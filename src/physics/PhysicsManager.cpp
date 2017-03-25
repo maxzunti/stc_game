@@ -147,7 +147,7 @@ void PhysicsManager::stepPhysics()
 	mScene->fetchResults(true);
 }
 
-PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU32 filterdata, PxU32 filterdataagainst, PxVec3 scale)
+PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU32 filterdata, PxU32 filterdataagainst, PxVec3 scale, bool drivable)
 {
     
     std::vector<glm::vec3> points = mod->points;
@@ -195,7 +195,10 @@ PxRigidStatic* PhysicsManager::createTriangleMesh(Model* mod, bool dynamic, PxU3
     PxShape* triShape = triAct->createShape(geom, *mMaterial);
     //Set the query filter data of the ground plane so that the vehicle raycasts can hit the ground.
     physx::PxFilterData qryFilterData;
-    setupDrivableSurface(qryFilterData);
+    if (drivable)
+        setupDrivableSurface(qryFilterData);
+    else
+        setupNonDrivableSurface(qryFilterData);
     triShape->setQueryFilterData(qryFilterData);
     PxFilterData simFilterData;
     simFilterData.word0 = filterdata;

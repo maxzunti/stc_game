@@ -346,27 +346,17 @@ void Car::update() {
     if (this->getPos().y < -200.0f)
     {
         this->mActor->setLinearVelocity(PxVec3(0.0, 0.0, 0.0));
-        switch (this->partoflap)
+        if (this->partoflap == 0 || this->partoflap > this->nodes.size())
         {
-        case 0:
-            this->setPos(-300, 10, -200);
-            this->setRot(0.0, -0.5, 0.0);
-            break;
-        case 1: 
-            this->setPos(-150, 10, -350);
-            this->setRot(0.0, -1.3, 0.0);
-            break;
-        case 2:
-            this->setPos(80.1522, 70, 161.581);
-            this->setRot(0.0, 1.57/2.0, 0.0);
-            break;
-        case 3:
-            this->setPos(-988.594, 23, -207.866);
-            this->setRot(0.0, 4.14 / 1.2, 0.0);
-            break;
-        default:
-            std::cout << "switch error: you ded" << std::endl;
-            break;
+            glm::vec3 temp = vec3(this->nodes[this->partoflap]->getPos());
+            this->setPos(temp);
+            this->setRot(this->nodes[this->partoflap]->getQRot());
+        }
+        else
+        {
+            glm::vec3 temp = vec3(this->nodes[this->partoflap-1]->getPos());
+            this->setPos(temp);
+            this->setRot(this->nodes[this->partoflap-1]->getQRot());
         }
     }
     if (controller->GetButtonPressed(XButtonIDs::X)) {
@@ -454,9 +444,11 @@ void Car::update() {
     }
 
     if (myHook->getStuck() && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
+        if (retracting != true)
+            this->myJB->playEffect(myJB->gravpull);
         retracting = true;
+        
 
-        this->myJB->playEffect(myJB->gravpull);
     }
 
     if (swinging) {
