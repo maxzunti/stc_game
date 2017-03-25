@@ -230,8 +230,10 @@
     <ClCompile Include="src\entity\Track.cpp" />
     <ClCompile Include="src\entity\Walls.cpp" />
     <ClCompile Include="src\entity\Wheel.cpp" />
+    <ClCompile Include="src\GameState.cpp" />
     <ClCompile Include="src\Jukebox.cpp" />
     <ClCompile Include="src\entity\StaticPhysicsObject.cpp" />
+    <ClCompile Include="src\MenuLoop.cpp" />
     <ClCompile Include="src\physics\PhysicsManager.cpp" />
     <ClCompile Include="src\entity\Entity.cpp" />
     <ClCompile Include="src\entity\Renderable.cpp" />
@@ -240,6 +242,7 @@
     <ClCompile Include="src\physics\TriggerListener.cpp" />
     <ClCompile Include="src\renderer\GLUtil.cpp" />
     <ClCompile Include="src\renderer\junk\junk.cpp" />
+    <ClCompile Include="src\renderer\MenuRenderer.cpp" />
     <ClCompile Include="src\renderer\model\Texture.cpp" />
     <ClCompile Include="src\renderer\renderer.cpp" />
     <ClCompile Include="src\renderer\camera.cpp" />
@@ -392,6 +395,9 @@
     <ClInclude Include="src\entity\RectTrigger.h" />
     <ClInclude Include="src\entity\Walls.h" />
     <ClInclude Include="src\entity\Wheel.h" />
+    <ClInclude Include="src\GameLoop.h" />
+    <ClInclude Include="src\GameState.h" />
+    <ClInclude Include="src\renderer\MenuRenderer.h" />
     <ClInclude Include="src\renderer\text2D.h" />
     <ClInclude Include="src\Jukebox.h" />
     <ClInclude Include="src\physics\TriggerListener.h" />

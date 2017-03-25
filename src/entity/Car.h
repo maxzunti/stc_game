@@ -40,11 +40,12 @@ class Car : public DynamicPhysicsObject {
 public:
     Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject * track);
 	Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track);
-    ~Car();
+    virtual ~Car();
 
     int lap;
     int partoflap;
     static const int NUM_WHEELS = 4;
+    bool pauseGame = false;
 
     VehicleDesc initVehicleDesc();
     CarColor color;

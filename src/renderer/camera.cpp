@@ -240,6 +240,7 @@ void Camera::update() {
         else if (car && mode == camMode::FOLLOW) {
             followLook();
         }
+
     }
     calcFollowSpeeds();
 

@@ -8,7 +8,7 @@ protected:
     glm::vec3 dir; // forward-facing direction
 public:
     Light(glm::vec3 ipos, glm::vec3 idir);
-    ~Light();
+    virtual ~Light();
 
     glm::vec3& getPos();
     glm::vec3 getDir();

@@ -22,6 +22,8 @@ const char* CarRenderInfo::getMinimapIndex(CarColor col) {
         return "C";
     case ORANGE:
         return "D";
+    default:
+        return "A";
     }
 }
 Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject* track) :
@@ -110,9 +112,9 @@ Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBo
 }
 
 Car::~Car() {
-    for (int i = 0; i < NUM_WHEELS; i++) {
-        delete wheels[i];
-    }
+    //for (int i = 0; i < NUM_WHEELS; i++) {
+      //  delete wheels[i];   // Going to delete everything in entity list, so this is unnecessary
+    //}
     physMan->mScene->removeActor(*mVehicleNoDrive->getRigidDynamicActor());
 }
 
@@ -457,6 +459,12 @@ void Car::update() {
     }
 
     myHook->update(pos + (HOOK_FORWARD_OFFSET*dir) + (HOOK_UP_OFFSET*up));
+
+
+    if (controller->GetButtonPressed(XButtonIDs::Start)) {
+       std::cout << "Start Pressed: " << pauseGame<< std::endl;
+       pauseGame = true;
+    }
    
 }
 

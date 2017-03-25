@@ -16,7 +16,7 @@ protected:
 
 public:
     Renderable();
-    ~Renderable();
+    virtual ~Renderable();
     Renderable(std::string model_fname, std::string tex_fname);
 
     virtual bool canRender();

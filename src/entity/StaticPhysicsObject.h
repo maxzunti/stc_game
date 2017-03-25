@@ -13,7 +13,7 @@ public:
     PhysicsManager* mPhysicsManager;
 
     StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string tex_fname, glm::vec3 scale, PhysicsManager* physicsManager, PxU32 filterdata, PxU32 filterdataagainst);
-    StaticPhysicsObject::~StaticPhysicsObject();
+    virtual StaticPhysicsObject::~StaticPhysicsObject();
 
     void updatePosandRot();
     virtual void update();

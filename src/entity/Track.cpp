@@ -6,3 +6,7 @@ Track::Track(std::string model_fname, std::string tex_fname, glm::vec3 scale, Ph
     mActor->setName("track");
    // renderable = false;
 }
+
+Track::~Track()
+{
+}

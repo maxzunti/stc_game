@@ -19,7 +19,7 @@ protected:
 
 public:
 	Hook(std::string model_fname, std::string tex_fname, physx::PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents);
-    ~Hook();
+    virtual ~Hook();
     std::unique_ptr<HookChain> chain;
 
 	virtual void update(glm::vec3 carPos);

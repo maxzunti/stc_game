@@ -4,6 +4,10 @@
 
 Entity::Entity() { }
 
+Entity::~Entity()
+{
+}
+
 const glm::vec3& Entity::getPos() const {
     return pos;
 }

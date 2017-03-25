@@ -2,6 +2,8 @@
 #include <iostream>
 
 //Renderer* Window::renderer = new Renderer(0);
+
+MenuRenderer* Window::menuRenderer = new MenuRenderer();
 glm::vec2 Window::mousePos(0, 0);
 bool Window::mousePressed = false;
 bool Window::done_init = false;
@@ -32,6 +34,10 @@ Window::Window(int width, int height) {
     r->setDims(rwd);
     r->postGLInit();
     renderers.push_back(r);
+   // renderer->setDims(width, height);
+    //renderer->postGLInit();
+    menuRenderer->setDims(width, height);
+    menuRenderer->postGLInit();
 }
 
 Window::~Window() {
@@ -73,13 +79,33 @@ int Window::initGLFW() {
 void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars) {
     if (update) {
         setSplitScreen(nps, cars);
+        for (auto r : renderers) {
+            renderWindowData rwd;
+            rwd.height = height;
+            rwd.width = width;
+            rwd.xPos = 0;
+            rwd.yPos = 0;
+            r->setDims(rwd);
+        }
         update = false;
     }
 
     for (auto r : renderers) {
         r->draw(ents, cars);
     }
+    // scene is rendered to the back buffer, so swap to front for display
+    glfwSwapBuffers(window);
 
+    // sleep until next event before drawing again
+    glfwPollEvents();
+}
+
+void Window::drawMenu() {
+    if (menuRenderer->getShouldClose()) {
+        glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+    menuRenderer->drawScene();
+   
     // scene is rendered to the back buffer, so swap to front for display
     glfwSwapBuffers(window);
 
@@ -115,6 +141,7 @@ void Window::resizeCallback(GLFWwindow* window, int nWidth, int nHeight)
     width = nWidth;
     height = nHeight;
     update = true;
+    menuRenderer->setDims(width, height);
 }
 
 void Window::setSplitScreen(int numPlayers, const std::vector<Car*>& cars) {
@@ -150,6 +177,11 @@ void Window::setSplitScreen(int numPlayers, const std::vector<Car*>& cars) {
 }
 
 Renderer* Window::getRenderer(int index) { return renderers.at(index); }
+
+MenuRenderer * Window::getMenuRenderer()
+{
+    return menuRenderer;
+}
 
 SSParams Window::getSSParams(int numPlayers) {
     SSParams params;
@@ -199,5 +231,4 @@ SSParams Window::getSSParams(int numPlayers) {
     }
     return params;
 }
-
 

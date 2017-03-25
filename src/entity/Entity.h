@@ -13,7 +13,7 @@ protected:
 public:
 
 	Entity();
-	//~Entity(); currently have no specific behaviour
+	virtual ~Entity(); //currently have no specific behaviour
 
 	const glm::vec3& getPos() const;
     glm::quat getQRot() const;

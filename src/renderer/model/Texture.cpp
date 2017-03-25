@@ -57,7 +57,7 @@ bool Texture::load(GLuint texUnit, GLuint program, const char* uniformName) cons
     GLuint uniformLocation = glGetUniformLocation(program, uniformName);
     glUniform1i(uniformLocation, 0);
 
-    return !CheckGLErrors("load");
+    return !CheckGLErrors("load from Texture.cpp");
 }
 
 const std::string Texture::getName() & {

@@ -187,10 +187,10 @@ void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
     //Changing size can drastically affect the shadow map.
     // Smaller values capture less of the area but do allow for better shadows.
     // important area for tuning - especially in relation to mapsize 
-    float size = 860; // 900
+    float size = 860; // 900 860
 
     // Compute the MVP matrix from the light's point of view 
-    glm::mat4 depthProjectionMatrix = glm::ortho<float>(-size, 690, -size, size, 1.f, 1700.f); // 1500.0f
+    glm::mat4 depthProjectionMatrix = glm::ortho<float>(-size, 690, -size, size, 1.f, 1700.f); // 1700.0f 1500.0f // 690 in second place
     glm::mat4 depthViewMatrix = glm::lookAt(light->getPos(), glm::vec3(0.f), glm::vec3(0, 1, 0));
     depthMVP = depthProjectionMatrix * depthViewMatrix;
 
@@ -632,7 +632,11 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     std::cout << "HOW" << std::endl;
     renderShadowMap(ents);
 #endif // !SPLITSCREEN
-
+    
+    // We could turn on the shadow map with a lower resolution ( scale it based on number of players)
+    // This means that each car keeps track of their own shadows but they look worse the more players there are
+    // This is not a long term solution but it could be good for a submission
+    //renderShadowMap(ents);
     glViewport(vpX, vpY, width, height); // Render on the whole framebuffer, complete from the lower left corner to the upper right
     
     cam->update();
@@ -641,7 +645,7 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     glClearColor(0.f, 0.f, 0.f, 0.f);		//Color to clear the screen with (R, G, B, Alpha)
   //  glStencilMask(0x00);
     glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);		//Clear stencil and depth buffers
-
+    // clear color buffer bit too possibly
     glUseProgram(shader[SHADER::DEFAULT]);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -879,7 +883,7 @@ void Renderer::renderMiniMap(const std::vector<Entity*>& ents, const std::vector
     // At this point, minimap draw to texFB
     Texture mmTex(mm_tex);
     Text2D mmRenderer(&mmTex);
-    mmRenderer.drawTexture(xPos, yPos, size, size, this->width, this->height, alpha);
+    mmRenderer.drawTexture(xPos, yPos, size, size, this->width, this->height, alpha, true);
 }
 
 // Draw everything on the screen screeen

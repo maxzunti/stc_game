@@ -20,9 +20,9 @@ AICar::AICar(CarColor col, std::string model_fname, std::string tex_fname, PxRig
 
 AICar::~AICar()
 {
-	for (int i = 0; i < NUM_WHEELS; i++) {
-		delete wheels[i];
-	}
+	//for (int i = 0; i < NUM_WHEELS; i++) {
+	//	delete wheels[i];
+	//}
 	physMan->mScene->removeActor(*mVehicleNoDrive->getRigidDynamicActor());
 }
 

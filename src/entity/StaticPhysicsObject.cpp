@@ -24,6 +24,8 @@ StaticPhysicsObject::StaticPhysicsObject(std::string model_fname, std::string te
 
 StaticPhysicsObject::~StaticPhysicsObject()
 {
+    mPhysicsManager->mScene->removeActor(*mActor);
+    mActor->release();
 }
 
 void StaticPhysicsObject::update() {

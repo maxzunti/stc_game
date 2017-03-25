@@ -5,3 +5,7 @@ Walls::Walls(std::string model_fname, std::string tex_fname, glm::vec3 scale, Ph
 {
     // renderable = false;
 }
+
+Walls::~Walls()
+{
+}

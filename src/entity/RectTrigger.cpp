@@ -19,3 +19,7 @@ RectTrigger::RectTrigger(PhysicsManager* physicsManager, std::string texName, fl
     this->triggerID = id;
     physicsManager->mScene->addActor(*mActor);
 }
+
+RectTrigger::~RectTrigger()
+{
+}

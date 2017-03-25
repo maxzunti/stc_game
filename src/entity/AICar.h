@@ -27,7 +27,7 @@ protected:
 
 public:
 	AICar(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject * track);
-	~AICar();
+	virtual ~AICar();
 
 	void navigate();	
 	virtual void update();

@@ -3,6 +3,7 @@
 #include "renderer.h"
 #include <GLFW/glfw3.h>
 #include "../entity/Renderable.h"
+#include "MenuRenderer.h"
 
 struct SSParams {
     std::vector<renderWindowData> screenPos; // individual screen positions for splitscreen
@@ -18,6 +19,7 @@ class Window {
     GLFWwindow* window = 0;
     // Renderer* renderer;
     std::vector<Renderer*> renderers;
+    static MenuRenderer* menuRenderer;
     static bool done_init;
 
     static glm::vec2 mousePos;
@@ -44,7 +46,9 @@ public:
     ~Window();
 
     void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars);
+    void drawMenu();
     bool Window::shouldClose();
     void setSplitScreen(int numPlayers, const std::vector<Car*>& cars);
     Renderer* getRenderer(int index = 0); // delete once renderer is non-static
+    MenuRenderer* getMenuRenderer();
 };

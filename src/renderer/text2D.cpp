@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "text2D.h"
-#include "GLUtil.h"
+//#include "GLUtil.h"
 #include <iostream>
 
 using namespace glm;
@@ -26,7 +26,7 @@ Text2D::Text2D(const char * texturePath) {
 
     glGenBuffers(TEXT_VBO::COUNT, textVbo);
     glGenVertexArrays(TEXT_VAO::COUNT, textVao);
-    initVAO(textVao, textVbo);
+    Text2D::initVAO(textVao, textVbo);
 }
 
 Text2D::Text2D(Texture * tex) {
@@ -44,7 +44,7 @@ Text2D::Text2D(Texture * tex) {
 
     glGenBuffers(TEXT_VBO::COUNT, textVbo);
     glGenVertexArrays(TEXT_VAO::COUNT, textVao);
-    initVAO(textVao, textVbo);
+    Text2D::initVAO(textVao, textVbo);
 }
 
 Text2D::~Text2D() { }
@@ -125,7 +125,7 @@ void Text2D::printText2D(const char * text, int x, int y, int size, int width, i
     CheckGLErrors("text render");
 }
 
-void Text2D::drawTexture(int x, int y, int width, int height, int sWidth, int sHeight, float alpha) {
+void Text2D::drawTexture(int x, int y, int width, int height, int sWidth, int sHeight, float alpha, bool flipped) {
     glBindVertexArray(textVao[TEXT_VAO::GEOMETRY]);
     glDisable(GL_STENCIL_TEST);
 
@@ -133,11 +133,24 @@ void Text2D::drawTexture(int x, int y, int width, int height, int sWidth, int sH
     std::vector<glm::vec2> vertices;
     std::vector<glm::vec2> UVs;
 
-    // Actually flipped horizontally
-    glm::vec2 vertex_up_left = glm::vec2(x + width, y);
-    glm::vec2 vertex_up_right = glm::vec2(x, y);
-    glm::vec2 vertex_down_right = glm::vec2(x, y + height);
-    glm::vec2 vertex_down_left = glm::vec2(x + width, y + height);
+    glm::vec2 vertex_up_right;
+    glm::vec2 vertex_up_left;
+    glm::vec2 vertex_down_left;
+    glm::vec2 vertex_down_right;
+
+    if (flipped) {
+        // Actually flipped horizontally
+        vertex_up_left = glm::vec2(x + width, y);
+        vertex_up_right = glm::vec2(x, y);
+        vertex_down_right = glm::vec2(x, y + height);
+        vertex_down_left = glm::vec2(x + width, y + height);
+    }
+    else {
+        vertex_up_right = glm::vec2(x + width, y);
+        vertex_up_left = glm::vec2(x, y);
+        vertex_down_left = glm::vec2(x, y + height);
+        vertex_down_right = glm::vec2(x + width, y + height);
+    }
 
     vertices.push_back(vertex_up_left);
     vertices.push_back(vertex_down_left);
@@ -183,7 +196,7 @@ void Text2D::drawTexture(int x, int y, int width, int height, int sWidth, int sH
 }
 
 //Describe the setup of the Vertex Array Object
-bool Text2D::initVAO(GLuint vao[TEXT_VAO::COUNT], GLuint vbo[TEXT_VBO::COUNT])
+bool Text2D::initVAO(GLuint vao[], GLuint vbo[])
 {
     glBindVertexArray(vao[TEXT_VAO::GEOMETRY]);		//Set the active Vertex Array (should only have 1, right?)
 
@@ -209,7 +222,7 @@ bool Text2D::initVAO(GLuint vao[TEXT_VAO::COUNT], GLuint vbo[TEXT_VBO::COUNT])
         (void*)0
         );
 
-    return !CheckGLErrors("initTextVAO");		//Check for errors in initialize
+    return !CheckGLErrors("initTextVAO text2D.cpp");		//Check for errors in initialize
 }
 
 //Loads buffers with data

@@ -8,7 +8,7 @@ protected:
 
 public:
     DynamicPhysicsObject(std::string model_fname, std::string tex_fname, physx::PxRigidBody* actor, PhysicsManager* physicsManager);
-    ~DynamicPhysicsObject();
+    virtual ~DynamicPhysicsObject();
     void updatePosandRot();
     virtual void update();
     physx::PxRigidBody* mActor;
