@@ -21,6 +21,7 @@ protected:
 	const float TURN_FACTOR = 2.0f;
 	const float ACCEL_FACTOR = 1.f;
     bool swinging = false;
+    
 
     float DEVIATION;
 
@@ -31,4 +32,7 @@ public:
 	
 	virtual void update();
     void fireHook(glm::vec3 target);
+
+    bool firehookbool = false;
+    glm::vec3 firehooktarget;
 };

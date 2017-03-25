@@ -103,7 +103,7 @@ Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBo
 	Y_MODEL_SCALE = 1.;
 	Z_MODEL_SCALE = 1.;
 	scaleModels();
-//	scale(0.7f, 1.0f, 1.0f);
+	scale(0.7f, 1.0f, 1.0f);
     mActor->userData = this;
     mActor->setName("Car");
     this->lap = 1;
@@ -448,7 +448,7 @@ void Car::update() {
     if (myHook->getStuck() && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
         retracting = true;
 
-   //     this->myJB->playEffect(myJB->gravpull);
+        this->myJB->playEffect(myJB->gravpull);
     }
 
     if (swinging) {
@@ -623,7 +623,7 @@ void Car::stepForPhysics() {
 void Car::fireHook() {
     min_hookDist = 999999.0f;
 
-  //  this->myJB->playEffect(myJB->firehook);
+    this->myJB->playEffect(myJB->firehook);
     this->mPhysicsManager->mScene->addActor(*myHook->mActor);
     myHook->setShot(true);
     myHook->setRot(aim_rot);

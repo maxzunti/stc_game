@@ -293,7 +293,7 @@ int main(int argc, const char* argv[])
     trackNodes.push_back(checkpoint17);
 
     
-    RectTrigger * hookpoint = new RectTrigger(myPhysics, "assets/textures/trans_red.png", 90., 20., 10., RectTrigger::HOOKZONE, glm::vec3(-483.459,98.2245,-265.981), true);
+    RectTrigger * hookpoint = new RectTrigger(myPhysics, "assets/textures/trans_red.png", 90., 20., 10., RectTrigger::HOOKZONE, glm::vec3(-483.459,110.2245,-265.981), true);
     entities.push_back(hookpoint);
     hookpoint->setPos(-239.009, 102.55, -110.475);
     hookpoint->setRot(glm::quat(-0.906763, -0.0235591, -0.420852, 0.0104264));
@@ -315,6 +315,10 @@ int main(int argc, const char* argv[])
     cars.push_back(bot);
     entities.push_back(bot);
 
+    AICar *bot2 = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, entities, myTrack, trackNodes);
+    cars.push_back(bot2);
+    entities.push_back(bot2);
+
     car->setPos(-300, 10, -200);
     car->setRot(0.0, -0.5, 0.0);
 
@@ -323,6 +327,9 @@ int main(int argc, const char* argv[])
 
     bot->setPos(-325, 10, -225);
     bot->setRot(0.0, -1.2, 0.0);
+
+    bot2->setPos(-350, 10, -250);
+    bot2->setRot(0.0, -1.2, 0.0);
 
 
     window->getRenderer()->getCam()->registerController(input.get());
@@ -385,6 +392,7 @@ int main(int argc, const char* argv[])
 	{
         input->Update();
         bot->update();
+        bot2->update();
         for (const auto& c : cars)
             c->stepForPhysics();
 		myPhysics->stepPhysics();
