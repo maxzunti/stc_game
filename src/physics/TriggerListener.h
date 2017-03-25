@@ -2,6 +2,8 @@
 #include "PxPhysicsAPI.h"
 #include "PxSimulationEventCallback.h"
 #include "../entity/Car.h"
+#include "../entity/AICar.h"
+
 #include "../entity/RectTrigger.h"
 
 class TriggerListener : public physx::PxSimulationEventCallback {

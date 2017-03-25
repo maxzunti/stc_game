@@ -26,7 +26,7 @@ const char* CarRenderInfo::getMinimapIndex(CarColor col) {
         return "A";
     }
 }
-Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject* track) :
+Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input* cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject* track, std::vector<RectTrigger*> AInodes) :
     DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
     arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
     myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, -5000.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
@@ -37,6 +37,7 @@ Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBo
     this->track = track;
     this->myJB = jb;
     physMan = physicsManager;
+    this->nodes = AInodes;
 
     initParams();
     initHookParams();
@@ -70,7 +71,7 @@ Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBo
 }
 
 
-Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track) :
+Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track, std::vector<RectTrigger*> AInodes) :
 	DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
 	arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
 	myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
@@ -80,7 +81,7 @@ Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBo
     color = col;
     this->track = track;
 	physMan = physicsManager;
-
+    this->nodes = AInodes;
     initParams();
     initHookParams();
 
@@ -104,7 +105,7 @@ Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBo
 	Y_MODEL_SCALE = 1.;
 	Z_MODEL_SCALE = 1.;
 	scaleModels();
-//	scale(0.7f, 1.0f, 1.0f);
+	scale(0.7f, 1.0f, 1.0f);
     mActor->userData = this;
     mActor->setName("Car");
     this->lap = 1;
@@ -248,6 +249,7 @@ void Car::make_physX_car() {
 
     physMan->mScene->addActor(*mVehicleNoDrive->getRigidDynamicActor());
     this->mActor = mVehicleNoDrive->getRigidDynamicActor();
+    this->mActor->setRigidBodyFlag(PxRigidBodyFlag::eENABLE_CCD, true);
     this->retracting = false;
 
     setPos(pos.x, pos.y + (2 * WHEEL_RAD) + (CHASSIS_Y)+1.0, pos.z);
@@ -335,36 +337,40 @@ void Car::calcAim() {
 
 void Car::update() {
 
+	if (cooldownState == true)
+	{
+		duration = COOLDOWN - (std::clock() - start) / (double) CLOCKS_PER_SEC;
+		if (duration <= 0)
+		{
+			cooldownState = false;
+		}
+	}
     if (this->getPos().y < -200.0f)
     {
-        switch (this->partoflap)
+        this->mActor->setLinearVelocity(PxVec3(0.0, 0.0, 0.0));
+        if (this->partoflap == 0 || this->partoflap > this->nodes.size())
         {
-        case 0:
-            this->setPos(-300, 10, -200);
-            this->setRot(0.0, -0.5, 0.0);
-            break;
-        case 1: 
-            this->setPos(-150, 10, -350);
-            this->setRot(0.0, -1.3, 0.0);
-            break;
-        case 2:
-            this->setPos(80.1522, 70, 161.581);
-            this->setRot(0.0, 1.57/2.0, 0.0);
-            break;
-        case 3:
-            this->setPos(-988.594, 23, -207.866);
-            this->setRot(0.0, 4.14 / 1.2, 0.0);
-            break;
-        default:
-            std::cout << "switch error: you ded" << std::endl;
-            break;
+            glm::vec3 temp = vec3(this->nodes[0]->getPos());
+            this->setPos(temp);
+            this->setRot(this->nodes[0]->getQRot());
+        }
+        else
+        {
+            glm::vec3 temp = vec3(this->nodes[this->partoflap-1]->getPos());
+            this->setPos(temp);
+            this->setRot(this->nodes[this->partoflap-1]->getQRot());
         }
     }
     if (controller->GetButtonPressed(XButtonIDs::X)) {
-        car_parser.updateFromFile();
-        hook_parser.updateFromFile();
-        myHook->updateFromConfig();
-        make_physX_car();
+        std::cout << "x: " << this->getPos().x << ", y: " << this->getPos().y << ", z: " << this->getPos().z << std::endl;
+        std::cout << "wrot: " << this->getQRot().w << ", xrot: " << this->getQRot().x << ", yrot: " << this->getQRot().y << ", zrot: " << this->getQRot().z << std::endl;
+
+        std::cout << this->getDir().x << " " << this->getDir().y << " " << this->getDir().z << std::endl;
+        //car_parser.updateFromFile();
+        //hook_parser.updateFromFile();
+        //myHook->updateFromConfig();
+        //make_physX_car();
+        
     }
 
     if (controller->GetButtonPressed(XButtonIDs::A)) {
@@ -435,14 +441,16 @@ void Car::update() {
     }
 
     // Must fire after calc aim
-    if ((!myHook->getShot() && !myHook->getStuck()) && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
+    if ((!myHook->getShot() && !myHook->getStuck()) && cooldownState == false && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
         fireHook();
     }
 
     if (myHook->getStuck() && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
+        if (retracting != true)
+            this->myJB->playEffect(myJB->gravpull);
         retracting = true;
+        
 
-   //     this->myJB->playEffect(myJB->gravpull);
     }
 
     if (swinging) {
@@ -623,7 +631,7 @@ void Car::stepForPhysics() {
 void Car::fireHook() {
     min_hookDist = 999999.0f;
 
-  //  this->myJB->playEffect(myJB->firehook);
+    this->myJB->playEffect(myJB->firehook);
     this->mPhysicsManager->mScene->addActor(*myHook->mActor);
     myHook->setShot(true);
     myHook->setRot(aim_rot);
@@ -643,6 +651,9 @@ void Car::cancelHook() {
     myHook->mActor->setLinearVelocity(PxVec3(0.f, 0.f, 0.f));
     retracting = false;
     swinging = false;
+
+	cooldownState = true;
+	start = std::clock();
 }
 
 void Car::retractHook() {

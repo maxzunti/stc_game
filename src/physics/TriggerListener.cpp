@@ -1,5 +1,6 @@
 #include "TriggerListener.h"
 #include <iostream>
+#include <time.h>
 
 using namespace physx;
 
@@ -24,22 +25,39 @@ void TriggerListener::onTrigger(PxTriggerPair* pairs, PxU32 count) {
     
     for (PxU32 i = 0; i < count; i++)
     {
-        if ((pairs[i].otherShape->getActor()->getName() == "Car") &&
+
+        if ((pairs[i].otherShape->getActor()->getName() == "AICar") &&
+            (pairs[i].triggerShape->getActor()->getName() == "HookBox"))
+        {
+            AICar* myCar = static_cast<AICar*>(pairs[i].otherShape->getActor()->userData);
+            RectTrigger* myTrig = static_cast<RectTrigger*>(pairs[i].triggerShape->getActor()->userData);
+
+            if (!myCar->getHook()->getShot() && !myCar->getHook()->getStuck())
+            {
+                myCar->firehookbool = true;
+                myCar->firehooktarget = myTrig->target;
+                std::cout << "Set to Fire AI Hook" << std::endl;
+            }
+        }
+
+
+        if (((pairs[i].otherShape->getActor()->getName() == "Car") || (pairs[i].otherShape->getActor()->getName() == "AICar")) &&
             (pairs[i].triggerShape->getActor()->getName() == "LapBox"))
         {
             Car* myCar = static_cast<Car*>(pairs[i].otherShape->getActor()->userData);
             RectTrigger* myTrig = static_cast<RectTrigger*>(pairs[i].triggerShape->getActor()->userData);
-            
+
+            myCar->devChange = true;
             if (myCar->partoflap == myTrig->triggerID)
             {
                 myCar->partoflap++;
                 
             }
-            if (myCar->partoflap == 3 && myTrig->triggerID == 0)
+            if (myCar->partoflap == myCar->nodes.size() && myTrig->triggerID == 0)
             {
                 if (myCar->lap == 3)
                 {
-                    myCar->partoflap = 4;
+                    myCar->partoflap = myCar->nodes.size()+1;
                 }
                 else
                 {

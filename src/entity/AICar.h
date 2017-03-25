@@ -10,25 +10,30 @@
 #include "AimArrow.h"
 #include "../input/input.h"
 #include "Hook.h"
-
+#include "RectTrigger.h"
 #include "../util/ConfigParser.h"
+#include <vector>
+#include <cstdlib>
 
 class AICar : public Car {
 
 protected:
-	const float TURN_FACTOR = 100.f;
-	const float ACCEL_FACTOR = 100.f;
-	const float DEV = 2.f;
+	const float TURN_FACTOR = 2.0f;
+	const float ACCEL_FACTOR = 1.f;
+    bool swinging = false;
+    
 
-	int tracker = 0;
+    float DEVIATION;
 
-	bool calcAim();
-	float heuristic(glm::vec3 node);
 
 public:
-	AICar(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject * track);
-	virtual ~AICar();
 
-	void navigate();	
+	AICar(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject * track, std::vector<RectTrigger*> AInodes);
+	virtual ~AICar();
+	
 	virtual void update();
+    void fireHook(glm::vec3 target);
+
+    bool firehookbool = false;
+    glm::vec3 firehooktarget;
 };

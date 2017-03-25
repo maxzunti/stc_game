@@ -629,7 +629,6 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
 {
     // TODO: get this working in splitscreen
 #ifndef SPLITSCREEN
-    std::cout << "HOW" << std::endl;
     renderShadowMap(ents);
 #endif // !SPLITSCREEN
     
