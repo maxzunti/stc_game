@@ -47,6 +47,7 @@ public:
 
     void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars);
     void drawMenu();
+    void drawCountDown(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, int time);
     bool Window::shouldClose();
     void setSplitScreen(int numPlayers, const std::vector<Car*>& cars);
     Renderer* getRenderer(int index = 0); // delete once renderer is non-static

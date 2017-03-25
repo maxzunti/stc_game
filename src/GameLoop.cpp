@@ -84,7 +84,24 @@ int main(int argc, const char* argv[])
                 window->getRenderer()->getCam()->registerController(input);
                 window->getRenderer()->getCam()->registerCar(gameState.cars[0]);
 
-                glfwSetTime(0);
+                // Update physics one time 
+                // This will allow the wheels positions to be updated once and therfore will be rendered
+                for (const auto& c : gameState.cars) {
+                    c->stepForPhysics();
+                }
+
+                // Do the countdown
+                int time = 3;
+                float prevTime = clock();
+                while (time > 0) {
+                    float currentTime = clock();
+                    if ((currentTime-prevTime) > 1000) {
+                        time--;
+                        prevTime = currentTime;
+                    }
+                    window->drawCountDown(gameState.entities, gameState.cars,time);
+                    glfwSetTime(0);
+                }
             }
 
             break;
@@ -104,8 +121,15 @@ int main(int argc, const char* argv[])
                 c->update();
             }
             gameState.myPhysics->stepPhysics();
-            window->draw(gameState.entities, gameState.cars);
-                
+
+            // This Keeps the " GO " message up for a period of time after the race starts
+            if (glfwGetTime() > 2) {
+                window->draw(gameState.entities, gameState.cars);
+            }
+            else {
+                window->drawCountDown(gameState.entities, gameState.cars, 0);
+            }
+
             break;
         case GameState::PAUSED:
             input->Update();

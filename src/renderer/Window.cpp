@@ -113,6 +113,33 @@ void Window::drawMenu() {
     glfwPollEvents();
 }
 
+void Window::drawCountDown(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, int time) {
+
+    if (update) {
+        setSplitScreen(nps, cars);
+        for (auto r : renderers) {
+            renderWindowData rwd;
+            rwd.height = height;
+            rwd.width = width;
+            rwd.xPos = 0;
+            rwd.yPos = 0;
+            r->setDims(rwd);
+        }
+        update = false;
+    }
+
+    for (auto r : renderers) {
+        r->draw(ents, cars);
+    }
+ 
+    menuRenderer->drawCountDown(time);
+    // scene is rendered to the back buffer, so swap to front for display
+    glfwSwapBuffers(window);
+
+    // sleep until next event before drawing again
+    glfwPollEvents();
+}
+
 bool Window::shouldClose()
 {
     if (glfwWindowShouldClose(window))
