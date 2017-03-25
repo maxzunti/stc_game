@@ -348,9 +348,9 @@ void Car::update() {
         this->mActor->setLinearVelocity(PxVec3(0.0, 0.0, 0.0));
         if (this->partoflap == 0 || this->partoflap > this->nodes.size())
         {
-            glm::vec3 temp = vec3(this->nodes[this->partoflap]->getPos());
+            glm::vec3 temp = vec3(this->nodes[0]->getPos());
             this->setPos(temp);
-            this->setRot(this->nodes[this->partoflap]->getQRot());
+            this->setRot(this->nodes[0]->getQRot());
         }
         else
         {

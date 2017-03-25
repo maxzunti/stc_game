@@ -41,6 +41,7 @@ int main(int argc, const char* argv[])
 
     // Set up input
     std::unique_ptr<Input> input(new Input(0));
+    std::unique_ptr<Input> input2(new Input(1));
 
     StickListener stickListener;
     TriggerListener triggerListener;
@@ -307,7 +308,7 @@ int main(int argc, const char* argv[])
     cars.push_back(car);
     entities.push_back(car);
 
-    Car *car2 = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, input.get(), entities, jb, myTrack, trackNodes);
+    Car *car2 = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, input2.get(), entities, jb, myTrack, trackNodes);
     cars.push_back(car2);
     entities.push_back(car2);
     /*
@@ -339,7 +340,7 @@ int main(int argc, const char* argv[])
     window->setSplitScreen(2, cars);
 
     // TODO: stop using the same controller for both cars
-    window->getRenderer(1)->getCam()->registerController(input.get());
+    window->getRenderer(1)->getCam()->registerController(input2.get());
 #endif
 
 
@@ -391,6 +392,7 @@ int main(int argc, const char* argv[])
     while (!window->shouldClose())
 	{
         input->Update();
+        input2->Update();
       /*  bot->update();
         bot2->update();*/
         for (const auto& c : cars)
@@ -398,6 +400,7 @@ int main(int argc, const char* argv[])
 		myPhysics->stepPhysics();
    
         car->update();
+        car2->update();
        
 	// mySound->updateSound();
 		window->draw(entities, cars);
