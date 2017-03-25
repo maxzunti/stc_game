@@ -45,10 +45,11 @@ int main(int argc, const char* argv[])
 
     Input * input = new Input(0);
 
-Input * input2 = new Input(1);
+    //Input * input2 = new Input(1);
    // window->getRenderer()->getCam()->registerController(input.get());
-
    // window->getMenuRenderer()->registerController(input.get());
+
+
     window->getMenuRenderer()->registerController(input);
 
 
@@ -57,6 +58,16 @@ Input * input2 = new Input(1);
     PhysicsManager * myPhysics = new PhysicsManager(&triggerListener, &stickListener);
 
     GameState gameState = GameState(input, myPhysics);
+#ifdef MENU_SKIP
+    gameState.updateState(GameState::PLAYING);
+    gameState.initGame();
+    window->getRenderer()->getCam()->registerController(input);
+    window->getRenderer()->getCam()->registerCar(gameState.cars[0]);
+
+    glfwSetTime(0);
+#endif // !MENU_SKIP
+
+
 
     while (!window->shouldClose())
     {

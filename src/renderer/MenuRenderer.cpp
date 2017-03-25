@@ -9,6 +9,7 @@ bool pressed = false;
 bool aPressed = false;
 
 MenuRenderer::MenuRenderer() {
+
 }
 
 MenuRenderer::~MenuRenderer() {
