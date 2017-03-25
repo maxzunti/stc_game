@@ -2,7 +2,6 @@
 #include <glm/gtx/quaternion.hpp>
 #include <math.h>
 #include <glm/gtx/vector_angle.hpp>
-#include <time.h>
 
 using namespace glm;
 
@@ -50,7 +49,6 @@ void AICar::fireHook(glm::vec3 target) {
 
 void AICar::update()
 {
-
     if (this->getPos().y < -200.0f)
     {
 		//Respawn switches

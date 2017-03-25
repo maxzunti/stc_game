@@ -12,11 +12,11 @@
 #include "Hook.h"
 #include "Wheel.h"
 #include "RectTrigger.h"
-
 #include "../util/ConfigParser.h"
-
-
 #include "../Jukebox.h"
+#include <time.h>
+#include <ctime>
+
 struct RaycastResults {
     glm::vec3 normal;
     float distance = -1.0f;
@@ -46,6 +46,11 @@ public:
     int lap;
     int partoflap;
     static const int NUM_WHEELS = 4;
+
+	const int COOLDOWN = 5;
+	std::clock_t start;
+	double duration;
+	bool cooldownState = false;
 
     VehicleDesc initVehicleDesc();
     CarColor color;
