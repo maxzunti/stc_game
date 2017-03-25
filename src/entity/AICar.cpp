@@ -22,33 +22,45 @@ AICar::~AICar()
 
 //Fires the hook
 void AICar::fireHook(glm::vec3 target) {
-    min_hookDist = 999999.0f;
 
-    //  this->myJB->playEffect(myJB->firehook);
-    glm::quat q;
-    glm::vec3 aim = target - this->getPos();
-    aim = glm::normalize(aim);
-    glm::vec3 upvec = glm::vec3(0, 0, -1);
-    glm::vec3 a = glm::cross(upvec, aim);
-    q.x = a.x;
-    q.y = a.y;
-    q.z = a.z;
-    q.w = sqrt((glm::length(upvec)*glm::length(upvec) * (glm::length(aim)*glm::length(aim)))) + glm::dot(upvec, aim);
-    q = glm::normalize(q);
-        
+	//if (cooldownState == false)
+	//{
+		min_hookDist = 999999.0f;
 
-    this->mPhysicsManager->mScene->addActor(*myHook->mActor);
-    myHook->setShot(true);
-    myHook->setRot(q);
-    
-    glm::vec3 b = this->getPos()+2.0f*HOOK_START_DIST*this->getDir();
-    myHook->setPos(b.x + (HOOK_START_DIST*aim.x), b.y + HOOK_START_DIST+5.0f, b.z + (HOOK_START_DIST*aim.z));
+		//  this->myJB->playEffect(myJB->firehook);
+		glm::quat q;
+		glm::vec3 aim = target - this->getPos();
+		aim = glm::normalize(aim);
+		glm::vec3 upvec = glm::vec3(0, 1, 0);
+		glm::vec3 a = glm::cross(upvec, aim);
+		q.x = a.x;
+		q.y = a.y;
+		q.z = a.z;
+		q.w = sqrt((glm::length(upvec)*glm::length(upvec) * (glm::length(aim)*glm::length(aim)))) + glm::dot(upvec, aim);
+		q = glm::normalize(q);
+
+
+		this->mPhysicsManager->mScene->addActor(*myHook->mActor);
+		myHook->setShot(true);
+		myHook->setRot(q);
+
+		glm::vec3 b = this->getPos() + HOOK_START_DIST*this->getDir();
+		myHook->setPos(b.x + (HOOK_START_DIST*aim.x), b.y + HOOK_START_DIST, b.z + (HOOK_START_DIST*aim.z));
+	//}
 }
 
 
 
 void AICar::update()
 {
+	/*if (cooldownState == true)
+	{
+		duration = COOLDOWN - (std::clock() - start) / (double)CLOCKS_PER_SEC;
+		if (duration <= 0)
+		{
+			cooldownState = false;
+		}
+	}*/
     if (this->getPos().y < -200.0f)
     {
         this->mActor->setLinearVelocity(PxVec3(0.0, 0.0, 0.0));
