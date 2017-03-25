@@ -22,6 +22,7 @@ AICar::~AICar()
 
 //Fires the hook
 void AICar::fireHook(glm::vec3 target) {
+
 	//if (cooldownState == false)
 	//{
 		min_hookDist = 999999.0f;
@@ -89,14 +90,16 @@ void AICar::update()
 	
     if (devChange)
     {
-        DEVIATION = (rand() % 20) - 10.0f;
+        DEVIATION = (rand() % 40) - 20.0f;
         devChange = false;
     }
 
 	vec3 start = this->getPos();
 
 	//getpos of destination node
-	vec3 goal = nodes[this->partoflap]->getPos();
+    
+
+	vec3 goal = this->nodes[this->partoflap%this->nodes.size()]->getPos();
     vec3 goalDir = vec3(goal - start);
 	//pathfind; find the direction vector from here to node pos, compare it with dir
 
@@ -111,6 +114,10 @@ void AICar::update()
 		applyWheelTurn(TURN_FACTOR);
 	}*/
     float turnangle = glm::angle(dir, desDir);
+
+    if (glm::abs(turnangle) > M_PI / 4.0f)
+        turnangle = glm::sign(turnangle)*M_PI / 8.0f;
+
 	if (dir.x*desDir.z-dir.z*desDir.x > 0)
 	{
 		//increase dir.x
@@ -169,11 +176,11 @@ void AICar::update()
     }
 
 	// Must fire after calc aim
-    /*
-	if ((!this->myHook->getShot() && !this->myHook->getStuck() && calcAim())) {
+	if (this->firehookbool) {
 		//arrow->reposition(up, pos, aim, aim_rot);
-		fireHook();
-	}*/
+        this->firehookbool = false;
+		fireHook(this->firehooktarget);
+	}
 
 	if (this->myHook->getStuck()) {
 		this->retracting = true;

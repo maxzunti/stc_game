@@ -31,10 +31,12 @@ void TriggerListener::onTrigger(PxTriggerPair* pairs, PxU32 count) {
         {
             AICar* myCar = static_cast<AICar*>(pairs[i].otherShape->getActor()->userData);
             RectTrigger* myTrig = static_cast<RectTrigger*>(pairs[i].triggerShape->getActor()->userData);
+
             if (!myCar->getHook()->getShot() && !myCar->getHook()->getStuck())
             {
-                myCar->fireHook(myTrig->target);
-                std::cout << "Fired AI Hook" << std::endl;
+                myCar->firehookbool = true;
+                myCar->firehooktarget = myTrig->target;
+                std::cout << "Set to Fire AI Hook" << std::endl;
             }
         }
 
