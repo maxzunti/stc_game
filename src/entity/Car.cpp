@@ -490,13 +490,11 @@ void Car::update() {
     if ((!myHook->getShot() && !myHook->getStuck()) && cooldownState == false && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
         fireHook();
     }
-
-    if (myHook->getStuck() && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
+    
+    if (myHook->getStuck() ) {
         if (retracting != true)
             this->myJB->playEffect(myJB->gravpull);
         retracting = true;
-        
-
     }
 
     if (swinging) {

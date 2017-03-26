@@ -100,7 +100,7 @@ void GameState::initGame(int numberOfPlayers)
         m->tile_UV_XY(3, 60);
     }
 
-    StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks.obj", "assets/textures/trans_red.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST, false);
+    StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks2.obj", "assets/textures/trans_red.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST, false);
     entities.push_back(myHookables);
 
     myTrack->SIL_X_SCALE = 1.1;
