@@ -16,6 +16,7 @@
 #include "../Jukebox.h"
 #include <time.h>
 #include <ctime>
+#include <vector>
 
 struct RaycastResults {
     glm::vec3 normal;
@@ -44,6 +45,10 @@ public:
 	Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track, std::vector<RectTrigger*> AInodes);
     virtual ~Car();
 
+    bool operator< (const Car &other) const {
+        return score < other.score;
+    }
+
     int lap;
     int partoflap;
     static const int NUM_WHEELS = 4;
@@ -65,6 +70,9 @@ public:
     virtual void applyGlobalForce(glm::vec3 direction, double magnitude);
     virtual void applyLocalForce(float forward, float right, float up);
     virtual bool isCar(); // yes, it is.
+
+   static std::vector<Car*> Car::sortByScore(std::vector<Car*> cars);
+   static bool Car::compByScore(Car* a, Car* b);
 
     glm::vec3 getAim() const;
     glm::quat getAimRot() const;

@@ -829,3 +829,15 @@ glm::vec3& Car::getUp() {
 Hook * Car::getHook() {
     return myHook.get();
 }
+
+std::vector<Car*> Car::sortByScore(std::vector<Car*> cars)
+{
+    std::vector<Car*> cars_copy = cars;
+    std::sort(cars_copy.begin(), cars_copy.end(), Car::compByScore);
+    return cars_copy;
+}
+
+bool Car::compByScore(Car* a, Car* b)
+{
+    return a->score < b->score;
+}

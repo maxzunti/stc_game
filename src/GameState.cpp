@@ -336,13 +336,13 @@ void GameState::initGame(int numberOfPlayers)
 
 
     for (int i = 0; i < numberOfPlayers; i++) {
-        Car *car = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, inputs[i], entities, jb, myTrack, trackNodes);
+        Car *car = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(CarColor(i)), nullptr, myPhysics, inputs[i], entities, jb, myTrack, trackNodes);
         cars.push_back(car);
         entities.push_back(car);
     }
 
     for (int i = 0; i < (4 - numberOfPlayers); i++) {
-        AICar *bot = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, entities, myTrack, trackNodes);
+        AICar *bot = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(CarColor(i+numberOfPlayers)), nullptr, myPhysics, entities, myTrack, trackNodes);
         cars.push_back(bot);
         entities.push_back(bot);
     }
