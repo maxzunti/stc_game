@@ -181,6 +181,13 @@ void Window::setSplitScreen(int numPlayers, const std::vector<Car*>& cars) {
         std::cout << "Error: invalid number of players emtered" << std::endl;
         return;
     }
+
+    // We need to trim the number of renderers according to the number of players
+    // The two should be equal
+    for (int i = renderers.size() - 1; i >= numPlayers; i--) {
+        renderers.pop_back();
+    }
+
     SSParams sParams = getSSParams(numPlayers);
     assert(sParams.screenPos.size() == numPlayers); // this better be true
     if (renderers.size() <= numPlayers) {
@@ -195,11 +202,11 @@ void Window::setSplitScreen(int numPlayers, const std::vector<Car*>& cars) {
             renderers.push_back(r);
         }
     }
-    else { // delete excess renderers from back
-        for (int i = renderers.size() - 1; i >= numPlayers; i--) {
-            renderers.pop_back();
-        }
-    }
+    //else { // delete excess renderers from back
+    //    for (int i = renderers.size() - 1; i >= numPlayers; i--) {
+    //        renderers.pop_back();
+    //    }
+    //}
     std::cout << "rs size = " << renderers.size() << std::endl;
 }
 

@@ -32,12 +32,26 @@ GameState::GameState()
 {
 }
 
+GameState::GameState(Input * newInput, PhysicsManager * newPhysics)
+{
+    input = newInput;
+    myPhysics = newPhysics;
+}
+
 GameState::GameState(Input * newInput, PhysicsManager * newPhysics, Jukebox * music)
 {
     input = newInput;
     myPhysics = newPhysics;
     jb = music;
 }
+
+GameState::GameState(std::vector<Input*> newInputs, PhysicsManager * newPhysics, Jukebox * music )
+{
+    inputs = newInputs;
+    myPhysics = newPhysics;
+    jb = music;
+}
+
 
 GameState::~GameState()
 {
@@ -48,7 +62,7 @@ void GameState::updateState(State state)
     currentState = state;
 }
 
-void GameState::initGame()
+void GameState::initGame(int numberOfPlayers)
 {
     
 
@@ -111,11 +125,11 @@ void GameState::initGame()
     myHookables->scaleModels();
     myHookables->setSil(true);
 
-    
 
 
-  //  window->getRenderer()->getCam()->registerController(input.get());
-  //  window->getRenderer()->getCam()->registerCar(car);
+
+    //  window->getRenderer()->getCam()->registerController(input.get());
+    //  window->getRenderer()->getCam()->registerCar(car);
 
 #ifdef SPLITSCREEN
     window->setSplitScreen(2, cars);
@@ -124,7 +138,7 @@ void GameState::initGame()
     window->getRenderer(1)->getCam()->registerController(input2.get());
 #endif
 
-   
+
 
     // Create a finish-line trigger
     RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/checkers.png", 10., 20., 100., 0, glm::vec3(0, 0, 0), true);
@@ -321,14 +335,21 @@ void GameState::initGame()
     trackNodes.push_back(checkpoint17);
 
 
-    Car *car = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, input, entities, jb, myTrack, trackNodes);
-    cars.push_back(car);
-    entities.push_back(car);
+    for (int i = 0; i < numberOfPlayers; i++) {
+        Car *car = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, inputs[i], entities, jb, myTrack, trackNodes);
+        cars.push_back(car);
+        entities.push_back(car);
+    }
 
+    for (int i = 0; i < (4 - numberOfPlayers); i++) {
+        AICar *bot = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, entities, myTrack, trackNodes);
+        cars.push_back(bot);
+        entities.push_back(bot);
+    }
     //  Car *car2 = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, input2, entities, jb, myTrack, trackNodes);
     // cars.push_back(car2);
     // entities.push_back(car2);
-
+/*
     AICar *bot = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, entities, myTrack, trackNodes);
     cars.push_back(bot);
     entities.push_back(bot);
@@ -336,20 +357,24 @@ void GameState::initGame()
     AICar *bot2 = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, entities, myTrack, trackNodes);
     cars.push_back(bot2);
     entities.push_back(bot2);
+//*/
+//
+//    car->setPos(-300, 10, -200);
+//    car->setRot(0.0, -0.5, 0.0);
+//
+//    //  car2->setPos(-300, 10, -250);
+//    //  car2->setRot(0.0, -0.5, 0.0);
+//
+//    bot->setPos(-325, 10, -225);
+//    bot->setRot(0.0, -1.2, 0.0);
+//
+//    bot2->setPos(-350, 10, -250);
+//    bot2->setRot(0.0, -1.2, 0.0);
 
-    car->setPos(-300, 10, -200);
-    car->setRot(0.0, -0.5, 0.0);
-
-    //  car2->setPos(-300, 10, -250);
-    //  car2->setRot(0.0, -0.5, 0.0);
-
-    bot->setPos(-325, 10, -225);
-    bot->setRot(0.0, -1.2, 0.0);
-
-    bot2->setPos(-350, 10, -250);
-    bot2->setRot(0.0, -1.2, 0.0);
-
-
+    for (int i = 0; i < cars.size(); i ++) {
+        cars[i]->setPos(-300 - (25*i), 10, -200 - (25 * i));
+        cars[i]->setRot(0.0, -0.5, 0.0);
+    }
 
     RectTrigger * hookpoint = new RectTrigger(myPhysics, "assets/textures/trans_red.png", 90., 20., 10., RectTrigger::HOOKZONE, glm::vec3(-483.459, 110.2245, -265.981), false);
     entities.push_back(hookpoint);

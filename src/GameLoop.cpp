@@ -44,8 +44,17 @@ int main(int argc, const char* argv[])
    // std::unique_ptr<Input> input(new Input(0));
 
     Input * input = new Input(0);
+    Input * input2 = new Input(1);
+    Input * input3 = new Input(2);
+    Input * input4 = new Input(3);
 
-    //Input * input2 = new Input(1);
+    vector<Input*> inputs;
+
+    inputs.push_back(input);
+    inputs.push_back(input2);
+    inputs.push_back(input3);
+    inputs.push_back(input4);
+
    // window->getRenderer()->getCam()->registerController(input.get());
    // window->getMenuRenderer()->registerController(input.get());
 
@@ -57,8 +66,12 @@ int main(int argc, const char* argv[])
     TriggerListener triggerListener;
     PhysicsManager * myPhysics = new PhysicsManager(&triggerListener, &stickListener);
 
+    //GameState gameState = GameState(inputs, myPhysics);
 
-    GameState gameState = GameState(input, myPhysics, jb);
+    // For each renderer in window, register a controller and a car for it if multiplayer is selected
+
+
+    GameState gameState = GameState(inputs, myPhysics, jb);
 #ifdef MENU_SKIP
     gameState.updateState(GameState::PLAYING);
     gameState.initGame();
@@ -79,11 +92,20 @@ int main(int argc, const char* argv[])
 
             if (window->getMenuRenderer()->getPlaying()) {
                 gameState.updateState(GameState::PLAYING);
-               
-                gameState.initGame();
+                int numOfPlayers = window->getMenuRenderer()->getNumOfPlayers();
+                gameState.initGame(numOfPlayers);
+
+                window->setSplitScreen(numOfPlayers, gameState.cars);
+
+                for (int i = 0; i < numOfPlayers; i++ ) {
+                    window->getRenderer(i)->getCam()->registerController(gameState.inputs[i]);
+                    window->getRenderer(i)->getCam()->registerCar(gameState.cars[i]);
+                }
+
+/*
                 window->getRenderer()->getCam()->registerController(input);
                 window->getRenderer()->getCam()->registerCar(gameState.cars[0]);
-
+*/
                 // Update physics one time 
                 // This will allow the wheels positions to be updated once and therfore will be rendered
                 for (const auto& c : gameState.cars) {
@@ -106,6 +128,10 @@ int main(int argc, const char* argv[])
 
             break;
         case GameState::PLAYING:
+
+            for (Input * in : gameState.inputs) {
+                in->Update();
+            }
             for (const auto& c : gameState.cars) {
                 if (c->pauseGame) {
                     gameState.updateState(GameState::PAUSED);
@@ -115,7 +141,7 @@ int main(int argc, const char* argv[])
                 }
             }
 
-            input->Update();
+           // input->Update();
             for (const auto& c : gameState.cars) {
                 c->stepForPhysics();
                 c->update();
@@ -151,7 +177,6 @@ int main(int argc, const char* argv[])
                 for (const auto& c : gameState.cars) {
                     c->pauseGame = false;
                 }
-                //window->getMenuRenderer()->postGLInit();
                 gameState.endGame();
             }
 
