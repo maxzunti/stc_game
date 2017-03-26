@@ -36,8 +36,15 @@ void TriggerListener::onTrigger(PxTriggerPair* pairs, PxU32 count) {
             {
                 myCar->firehookbool = true;
                 myCar->firehooktarget = myTrig->target;
-                std::cout << "Set to Fire AI Hook" << std::endl;
             }
+        }
+
+        if ((pairs[i].otherShape->getActor()->getName() == "AICar") &&
+            (pairs[i].triggerShape->getActor()->getName() == "FallBox"))
+        {
+            AICar* myCar = static_cast<AICar*>(pairs[i].otherShape->getActor()->userData);
+
+                myCar->partoflap = 0;
         }
 
 
@@ -70,5 +77,5 @@ void TriggerListener::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 }
 
 void TriggerListener::onContact(const PxContactPairHeader& pairHeader, const PxContactPair* pairs, PxU32 nbPairs) {
-    std::cout << "TriggerListener::onContact called" << std::endl;
+    
 }

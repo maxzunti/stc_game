@@ -22,6 +22,11 @@ protected:
 	const float ACCEL_FACTOR = 1.f;
     bool swinging = false;
     
+    const float reverseTime = 2.0f;
+    std::clock_t reverseClock;
+
+
+#include <ctime>
 
     float DEVIATION;
 
@@ -35,5 +40,6 @@ public:
     void fireHook(glm::vec3 target);
 
     bool firehookbool = false;
+    bool reverseMode = false;
     glm::vec3 firehooktarget;
 };

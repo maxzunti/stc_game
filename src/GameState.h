@@ -3,6 +3,8 @@
 #include "input\input.h"
 #include "physics/PhysicsManager.h"
 
+#include "Jukebox.h"
+
 class GameState {
    
 public:
@@ -15,14 +17,16 @@ public:
 
     Input * input;
     PhysicsManager * myPhysics;
+    Jukebox * jb;
 
     std::vector<Entity*> entities;
     std::vector<Car*> cars;
+    std::vector<RectTrigger*> trackNodes;
 
     float savedTime = 0.f;
 
     GameState();
-    GameState(Input * newInput, PhysicsManager * myPhysics);
+    GameState(Input * newInput, PhysicsManager * myPhysics, Jukebox * music);
 
     ~GameState();
 

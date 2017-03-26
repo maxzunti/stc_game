@@ -51,6 +51,7 @@ public:
 
 	const int COOLDOWN = 3;
 	std::clock_t start;
+    
 	double duration;
 	bool cooldownState = false;
 
@@ -98,6 +99,11 @@ protected:
     bool retracting = false;
     bool swinging = false;
     float min_hookDist; // min hook distance
+    const float maxtipangle = 75.f; // max angle before we autoflip car
+    glm::vec3 movePoint; //this is used to calculate if the car is stuck
+    const float moveRadius = 5.0f; // the radius that must be breached from movePoint to reset clock
+    const float flipTime = 2.0f;
+    std::clock_t flipClock;
 
     PxVehicleNoDrive*	mVehicleNoDrive = NULL;
     PxVehicleDrivableSurfaceToTireFrictionPairs * mFrictionPairs = NULL;

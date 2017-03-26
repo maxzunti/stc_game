@@ -56,7 +56,7 @@ Input * input2 = new Input(1);
     TriggerListener triggerListener;
     PhysicsManager * myPhysics = new PhysicsManager(&triggerListener, &stickListener);
 
-    GameState gameState = GameState(input, myPhysics);
+    GameState gameState = GameState(input, myPhysics, jb);
 
     while (!window->shouldClose())
     {
@@ -123,7 +123,10 @@ Input * input2 = new Input(1);
             // if menurenderer on main menu again, set gamestate to 
             break;
         }
-    }   
+    }
+    gameState.endGame();
+    delete jb;
 	delete gameState.myPhysics;
+
 	return 0;
 }

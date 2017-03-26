@@ -15,7 +15,8 @@ DynamicPhysicsObject::DynamicPhysicsObject(std::string model_fname, std::string 
 
 DynamicPhysicsObject::~DynamicPhysicsObject()
 {
-    mPhysicsManager->mScene->removeActor(*mActor);
+    if (mActor->getScene() != NULL)
+        mPhysicsManager->mScene->removeActor(*mActor);
     mActor->release();
 }
 
