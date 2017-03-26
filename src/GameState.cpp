@@ -138,10 +138,15 @@ void GameState::initGame(int numberOfPlayers)
     window->getRenderer(1)->getCam()->registerController(input2.get());
 #endif
 
-
+    Renderable * finishflag = new Renderable("assets/models/Crate/Crate1.obj", "assets/textures/checkers.png");
+    entities.push_back(finishflag);
+    finishflag->setPos(-160.176, 33.68377, -334.572);
+    finishflag->scale(10., 10., 80.);
+    finishflag->scaleModels();
+    finishflag->setSil(false);
 
     // Create a finish-line trigger
-    RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/checkers.png", 10., 20., 100., 0, glm::vec3(0, 0, 0), true);
+    RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/checkers.png", 10., 20., 100., 0, glm::vec3(0, 0, 0), false);
 
     entities.push_back(finishLine);
     finishLine->setPos(-150, 0, -350);
