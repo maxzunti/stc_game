@@ -21,10 +21,11 @@ public:
     void Jukebox::stop(int channel);
     int Jukebox::isPlaying(int channel);
     void Jukebox::setup();
+    void Jukebox::stopMusic();
 
     enum soundEffects
         {
-            firehook, gravpull, metalhit, hollowhit, revengine, idle
+            firehook, gravpull, metalhit, hollowhit, revengine, idle, menumove, menuselect
     };
 };
 

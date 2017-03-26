@@ -39,6 +39,7 @@ int main(int argc, const char* argv[])
 	Jukebox *jb = new Jukebox();
     jb->setup();
     jb->play();
+    window->getMenuRenderer()->registerJukebox(jb);
 
     // Set up input
    // std::unique_ptr<Input> input(new Input(0));
@@ -134,6 +135,7 @@ int main(int argc, const char* argv[])
             }
             for (const auto& c : gameState.cars) {
                 if (c->pauseGame) {
+                    jb->playEffect(Jukebox::menuselect);
                     gameState.updateState(GameState::PAUSED);
                     window->getMenuRenderer()->setPage(MenuRenderer::PAUSED);
                     window->getMenuRenderer()->setPlaying(false);
@@ -184,6 +186,7 @@ int main(int argc, const char* argv[])
 
             //Resume game
             if (window->getMenuRenderer()->getPlaying()) {
+                jb->playEffect(Jukebox::menuselect);
                 gameState.updateState(GameState::PLAYING);
 
                 for (const auto& c : gameState.cars) {
@@ -194,6 +197,9 @@ int main(int argc, const char* argv[])
 
             //Back to main menu
             if (window->getMenuRenderer()->getPage() == MenuRenderer::page::MAIN) {
+                jb->playEffect(Jukebox::menuselect);
+                jb->loadMusic("assets/sound/shootingstars.mp3");
+                jb->play();
                 gameState.updateState(GameState::MENU);
                 for (const auto& c : gameState.cars) {
                     c->pauseGame = false;

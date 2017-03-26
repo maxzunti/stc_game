@@ -9,7 +9,6 @@ bool pressed = false;
 bool aPressed = false;
 
 MenuRenderer::MenuRenderer() {
-
 }
 
 MenuRenderer::~MenuRenderer() {
@@ -402,11 +401,13 @@ void MenuRenderer::updateMenu()
         if (pressed == false) {
             if(page == MULTI){
                 if (controller->LeftStick_X() < -0.98f) {
+                    jb->playEffect(Jukebox::menumove);
                     (selection == 0) ? selection += (numberOfItems - 1) : selection--;
                     cout << selection << endl;
                     pressed = true;
                 }
                 else if (controller->LeftStick_X() > 0.98f) {
+                    jb->playEffect(Jukebox::menumove);
                     selection = ((selection + 1) % numberOfItems);
                     cout << selection << endl;
                     pressed = true;
@@ -414,11 +415,13 @@ void MenuRenderer::updateMenu()
             }
             else {
                 if (controller->LeftStick_Y() > 0.98f) {
+                    jb->playEffect(Jukebox::menumove);
                     (selection == 0) ? selection += (numberOfItems - 1) : selection--;
                     cout << selection << endl;
                     pressed = true;
                 }
                 else if (controller->LeftStick_Y() < -0.98f) {
+                    jb->playEffect(Jukebox::menumove);
                     selection = ((selection + 1) % numberOfItems);
                     cout << selection << endl;
                     pressed = true;
@@ -434,6 +437,8 @@ void MenuRenderer::updateMenu()
     case MAIN:
         if (controller->GetButtonDown(XButtonIDs::A)) {
             if (aPressed == false) {
+
+                jb->playEffect(Jukebox::menuselect);
                 switch (selection) {
                 case 0:
                     // page = SINGLE;
@@ -462,6 +467,7 @@ void MenuRenderer::updateMenu()
         }
 
         if (controller->GetButtonDown(XButtonIDs::B)) {
+
             selection = 0;
             page = MAIN;
         }
@@ -475,6 +481,8 @@ void MenuRenderer::updateMenu()
     case PAUSED:
         if (controller->GetButtonDown(XButtonIDs::A)) {
             if (aPressed == false) {
+
+                jb->playEffect(Jukebox::menuselect);
                 switch (selection) {
                 case 0:
                     // page = SINGLE;
@@ -505,6 +513,8 @@ void MenuRenderer::updateMenu()
     case MULTI:
         if (controller->GetButtonDown(XButtonIDs::A)) {
             if (aPressed == false) {
+
+                jb->playEffect(Jukebox::menuselect);
                 switch (selection) {
                 case 0:
                     // page = SINGLE;
@@ -591,4 +601,9 @@ int MenuRenderer::getNumberOfItems(int page)
 int MenuRenderer::getNumOfPlayers()
 {
     return numOfPlayers;
+}
+
+void MenuRenderer::registerJukebox(Jukebox* jb)
+{
+    this->jb = jb;
 }

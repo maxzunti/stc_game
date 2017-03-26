@@ -46,6 +46,11 @@ void Jukebox::play()
 	Mix_PlayMusic(clip, -1);
 }
 
+void Jukebox::stopMusic()
+{
+    Mix_HaltMusic();
+}
+
 
 void Jukebox::playEffect(int effect)
 {
@@ -73,7 +78,7 @@ int Jukebox::isPlaying(int channel)
 
 void Jukebox::setup()
 {
-    this->loadMusic("assets/sound/dmw.mp3");
+    this->loadMusic("assets/sound/shootingstars.mp3");
     Mix_VolumeMusic(MIX_MAX_VOLUME*0.5f);
     this->loadEffect("assets/sound/laser.mp3");
     this->loadEffect("assets/sound/pull.mp3");
@@ -83,4 +88,6 @@ void Jukebox::setup()
     Mix_VolumeChunk(this->effects.at(Jukebox::revengine),MIX_MAX_VOLUME*0.5f);
     this->loadEffect("assets/sound/idle.mp3");
     Mix_VolumeChunk(this->effects.at(Jukebox::idle), MIX_MAX_VOLUME*0.5f);
+    this->loadEffect("assets/sound/menumove.mp3");
+    this->loadEffect("assets/sound/menuselect.mp3");
 }

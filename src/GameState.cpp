@@ -419,5 +419,6 @@ void GameState::endGame() {
     entities.clear();
     cars.clear();
     trackNodes.clear();
+    this->jb->stop(-1);
     
 }
