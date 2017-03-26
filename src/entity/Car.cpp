@@ -7,10 +7,18 @@
 using namespace glm;
 
 const char* CarRenderInfo::getTex(CarColor col) {
-//    switch (col) {
-//    case PURPLE:
-        return "assets/models/car/car_purp.png"; // TODO: actually use different textures
-//    }
+    switch (col) {
+    case PURPLE:
+        return "assets/models/car/car_purp.png";
+	case RED:
+		return "assets/models/car/car_red.png";
+	case LB:
+		return "assets/models/car/car_lb.png";
+	case ORANGE:
+		return "assets/models/car/car_orange.png";
+	default:
+		return "A";
+    }
 }
 
 const char* CarRenderInfo::getMinimapIndex(CarColor col) {
