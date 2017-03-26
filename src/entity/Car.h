@@ -49,6 +49,9 @@ public:
     static const int NUM_WHEELS = 4;
     bool pauseGame = false;
 
+	float score;
+	int rank = 0;
+
 	const int COOLDOWN = 3;
 	std::clock_t start;
 	double duration;
