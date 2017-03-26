@@ -48,7 +48,7 @@ public:
     int partoflap;
     static const int NUM_WHEELS = 4;
     bool pauseGame = false;
-
+    bool doneRace = false;
 	float score;
 	int rank = 0;
 
@@ -82,6 +82,8 @@ public:
     Hook * getHook();
     std::vector<RectTrigger*> nodes;
 
+    Jukebox* myJB;
+
     bool devChange = true;
 
 protected:
@@ -89,7 +91,6 @@ protected:
     PhysicsManager * physMan;
     std::unique_ptr<AimArrow> arrow;
     StaticPhysicsObject * track;
-    Jukebox* myJB;
 
     ConfigParser car_parser;
     ConfigParser hook_parser;

@@ -73,7 +73,7 @@ void Hook::update(glm::vec3 carPos) {
 }
 
 void Hook::setStuck(bool val) {
-    mStuck = val;
+    this->mStuck = val;
     chain->setStuck(mStuck);
 
     // Update active model

@@ -37,12 +37,24 @@ PxFilterFlags VehicleFilterShader
         return PxFilterFlag::eDEFAULT;
     }
 
+    if (((filterData0.word0 & filterData1.word1)>0) && ((filterData1.word0 & filterData0.word1)>0))
+    {
+
+        if (filterData0.word0 == COLLISION_FLAG_CHASSIS || filterData1.word0 == COLLISION_FLAG_CHASSIS)
+        {
+            
+            pairFlags = PxPairFlag::eNOTIFY_TOUCH_FOUND | PxPairFlag::eRESOLVE_CONTACTS | PxPairFlag::eDETECT_CCD_CONTACT;
+            
+
+            return PxFilterFlag::eDEFAULT;
+        }
+    }
 
 	if (((filterData0.word0 & filterData1.word1)>0) && ((filterData1.word0 & filterData0.word1)>0))
 	{
 
 		if (filterData0.word0 == COLLISION_FLAG_HOOK || filterData1.word0 == COLLISION_FLAG_HOOK)
-		{
+		{ 
 			//std::cout << "collision is hooked" << std::endl;
             // might need to change resolve to solve or simply add solve
             pairFlags = PxPairFlag::eMODIFY_CONTACTS | PxPairFlag::eRESOLVE_CONTACTS | PxPairFlag::eDETECT_CCD_CONTACT;

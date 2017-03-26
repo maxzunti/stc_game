@@ -21,7 +21,7 @@ public:
 
     enum soundEffects
         {
-            firehook, gravpull
+            firehook, gravpull, metalhit, hollowhit
     };
 };
 
