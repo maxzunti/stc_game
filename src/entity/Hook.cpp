@@ -17,7 +17,6 @@ Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, P
     ents.push_back(chain.get());
     initHookParams();
     updateFromConfig();
-
     // At this point, we've loaded a single hook model using the PhysicsObject constructor
     assert(models.size() == 1);
     unattached = models[0];
@@ -34,10 +33,12 @@ Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, P
 
 Hook::~Hook() {
     // Delete whichever model isn't in 'models' (since Renderable's destructor will catch anything that is)
+    std::cout << "Hook destructor" << std::endl;
     if (mStuck)
         delete unattached;
     else
         delete attached;
+    this->chain.release();
 }
 
 void Hook::initHookParams() {
@@ -72,7 +73,7 @@ void Hook::update(glm::vec3 carPos) {
 }
 
 void Hook::setStuck(bool val) {
-    mStuck = val;
+    this->mStuck = val;
     chain->setStuck(mStuck);
 
     // Update active model

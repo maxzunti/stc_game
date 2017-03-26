@@ -1,6 +1,7 @@
 #include "Car.h"
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtx/vector_angle.hpp>
 #include <math.h>
 
 using namespace glm;
@@ -68,13 +69,14 @@ Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBo
     mActor->setName("Car");
     this->lap = 1;
     this->partoflap = 0;
+    movePoint = this->getPos();
 }
 
 
 Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track, std::vector<RectTrigger*> AInodes) :
 	DynamicPhysicsObject(model_fname, tex_fname, actor, physicsManager),
 	arrow(new AimArrow("assets/models/AimArrow/AimArrow.obj", "assets/models/AimArrow/blue.png")),
-	myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, 100.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
+	myHook(new Hook("assets/models/sphere/sphere.obj", "assets/models/sphere/blue.png", physicsManager->createHook(0.f, -5000.0f, 0.0f, 0.25f, 0.25f, 0.25f), physicsManager, ents)),
 	car_parser("config/car_config", &carParams),
     hook_parser("config/hook_config", &hookParams)
 {
@@ -110,13 +112,17 @@ Car::Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBo
     mActor->setName("Car");
     this->lap = 1;
     this->partoflap = 0;
+    movePoint = this->getPos();
 }
 
 Car::~Car() {
+    this->arrow.release();
+    this->myHook.release();
     //for (int i = 0; i < NUM_WHEELS; i++) {
       //  delete wheels[i];   // Going to delete everything in entity list, so this is unnecessary
     //}
-    physMan->mScene->removeActor(*mVehicleNoDrive->getRigidDynamicActor());
+    //physMan->mScene->removeActor(*mActor); // delete the old car
+    //mActor->release();
 }
 
 void Car::initParams() {
@@ -188,7 +194,8 @@ void Car::initHookParams() {
 //Create a vehicle that will drive on the plane.
 void Car::make_physX_car() {
     if (mVehicleNoDrive) {
-        physMan->mScene->removeActor(*mVehicleNoDrive->getRigidDynamicActor()); // delete the old car
+        physMan->mScene->removeActor(*mActor); // delete the old car
+        mActor->release();
     }
 
     for (int i = 0; i < NUM_WHEELS; i++) {
@@ -336,6 +343,24 @@ void Car::calcAim() {
 }
 
 void Car::update() {
+    PxQuat tempquat = this->mActor->getGlobalPose().q;
+    
+    float tempAngle = glm::angle(glm::vec3(tempquat.getBasisVector1().x, tempquat.getBasisVector1().y, tempquat.getBasisVector1().z), glm::vec3(0, 1, 0))*(180.0f / M_PI);
+   
+    if (glm::length(this->getPos() - this->movePoint) > moveRadius)
+    {
+        movePoint = this->getPos();
+        this->flipClock = std::clock();
+        
+    }
+    else if (((std::clock() - this->flipClock) / (double)CLOCKS_PER_SEC) > this->flipTime && tempAngle > this->maxtipangle)
+    {
+        this->setRot(this->nodes.at(this->partoflap)->getQRot());
+        if (this->myHook->getStuck())
+            this->cancelHook();
+        movePoint = this->getPos();
+        this->flipClock = std::clock();
+    }
 
 	if (cooldownState == true)
 	{
@@ -643,7 +668,7 @@ void Car::fireHook() {
 }
 
 void Car::cancelHook() {
-    if (!this->myHook->getStuck())
+    //if (!this->myHook->getStuck())
         this->mPhysicsManager->mScene->removeActor(*myHook->mActor);
     myHook->setShot(false);
     myHook->setStuck(false);

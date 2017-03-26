@@ -10,6 +10,7 @@ AICar::AICar(CarColor col, std::string model_fname, std::string tex_fname, PxRig
 {
     srand(time(NULL));
     this->mActor->setName("AICar");
+    this->movePoint = this->getPos();
 }
 
 AICar::~AICar()
@@ -17,7 +18,7 @@ AICar::~AICar()
 	//for (int i = 0; i < NUM_WHEELS; i++) {
 	//	delete wheels[i];
 	//}
-	physMan->mScene->removeActor(*mVehicleNoDrive->getRigidDynamicActor());
+	//physMan->mScene->removeActor(*mVehicleNoDrive->getRigidDynamicActor());
 }
 
 //Fires the hook
@@ -31,7 +32,7 @@ void AICar::fireHook(glm::vec3 target) {
 		glm::quat q;
 		glm::vec3 aim = target - this->getPos();
 		aim = glm::normalize(aim);
-		glm::vec3 upvec = glm::vec3(0, 1, 0);
+		glm::vec3 upvec = glm::vec3(0, 0, -1);
 		glm::vec3 a = glm::cross(upvec, aim);
 		q.x = a.x;
 		q.y = a.y;
@@ -61,6 +62,31 @@ void AICar::update()
 			cooldownState = false;
 		}
 	}*/
+
+    PxQuat tempquat = this->mActor->getGlobalPose().q;
+
+    float tempAngle = glm::angle(glm::vec3(tempquat.getBasisVector1().x, tempquat.getBasisVector1().y, tempquat.getBasisVector1().z), glm::vec3(0, 1, 0))*(180.0f / M_PI);
+
+    if (glm::length(this->getPos() - this->movePoint) > moveRadius)
+    {
+        movePoint = this->getPos();
+        this->reverseClock = std::clock();
+        this->reverseMode = false;
+        this->flipClock = std::clock();
+    }
+    else if (((std::clock() - this->flipClock) / (double)CLOCKS_PER_SEC) > this->flipTime && tempAngle > this->maxtipangle)
+    {
+        this->setRot(this->nodes.at(this->partoflap)->getQRot());
+        if (this->myHook->getStuck())
+            this->cancelHook();
+        movePoint = this->getPos();
+        this->flipClock = std::clock();
+    }
+    else if (((std::clock() - this->reverseClock)/(double)CLOCKS_PER_SEC) > this->reverseTime)
+    {
+        this->reverseMode = true;
+    }
+    
     if (this->getPos().y < -200.0f)
     {
         this->mActor->setLinearVelocity(PxVec3(0.0, 0.0, 0.0));
@@ -80,7 +106,7 @@ void AICar::update()
 	
     if (devChange)
     {
-        DEVIATION = (rand() % 40) - 20.0f;
+        DEVIATION = (rand() % 30) - 15.0f;
         devChange = false;
     }
 
@@ -108,6 +134,9 @@ void AICar::update()
     if (glm::abs(turnangle) > M_PI / 4.0f)
         turnangle = glm::sign(turnangle)*M_PI / 8.0f;
 
+    if (this->reverseMode)
+        turnangle = -turnangle;
+
 	if (dir.x*desDir.z-dir.z*desDir.x > 0)
 	{
 		//increase dir.x
@@ -123,7 +152,10 @@ void AICar::update()
 	//When should a car not be accelerating?
 
 	resetBrakes();
-	applyWheelTorque(ACCEL_FACTOR);
+    if (!this->reverseMode)
+	    applyWheelTorque(ACCEL_FACTOR);
+    else
+        applyWheelTorque(-ACCEL_FACTOR);
 	
 
 	//Cap the max velocity of the car to 80

@@ -25,7 +25,6 @@
 #include "entity/RectTrigger.h"
 #include "GameState.h"
 
-#include "Jukebox.h"
 #include <ctime>
 #include "util/ConfigParser.h"
 
@@ -39,10 +38,18 @@ GameState::GameState(Input * newInput, PhysicsManager * newPhysics)
     myPhysics = newPhysics;
 }
 
-GameState::GameState(std::vector<Input*> newInputs, PhysicsManager * newPhysics)
+GameState::GameState(Input * newInput, PhysicsManager * newPhysics, Jukebox * music)
+{
+    input = newInput;
+    myPhysics = newPhysics;
+    jb = music;
+}
+
+GameState::GameState(std::vector<Input*> newInputs, PhysicsManager * newPhysics, Jukebox * music )
 {
     inputs = newInputs;
     myPhysics = newPhysics;
+    jb = music;
 }
 
 
@@ -57,10 +64,7 @@ void GameState::updateState(State state)
 
 void GameState::initGame(int numberOfPlayers)
 {
-    //Music
-    Jukebox *jb = new Jukebox();
-    jb->setup();
-    //jb->play();
+    
 
     ///////////////////////////////////////////////////////////////////////////////////////
     /// THE FOLLOWING CAN BE DONE IN THE GAME STATE                                     ///
@@ -310,7 +314,6 @@ void GameState::initGame(int numberOfPlayers)
     checkpoint17->SIL_Z_SCALE = 1.02;
     checkpoint17->scaleModels();
 
-    std::vector<RectTrigger*> trackNodes;
     trackNodes.push_back(finishLine);
     trackNodes.push_back(checkpoint0);
     trackNodes.push_back(checkpoint1);
@@ -373,7 +376,7 @@ void GameState::initGame(int numberOfPlayers)
         cars[i]->setRot(0.0, -0.5, 0.0);
     }
 
-    RectTrigger * hookpoint = new RectTrigger(myPhysics, "assets/textures/trans_red.png", 90., 20., 10., RectTrigger::HOOKZONE, glm::vec3(-483.459, 110.2245, -265.981), true);
+    RectTrigger * hookpoint = new RectTrigger(myPhysics, "assets/textures/trans_red.png", 90., 20., 10., RectTrigger::HOOKZONE, glm::vec3(-483.459, 110.2245, -265.981), false);
     entities.push_back(hookpoint);
     hookpoint->setPos(-239.009, 102.55, -110.475);
     hookpoint->setRot(glm::quat(-0.906763, -0.0235591, -0.420852, 0.0104264));
@@ -382,12 +385,34 @@ void GameState::initGame(int numberOfPlayers)
     hookpoint->SIL_Z_SCALE = 1.02;
     hookpoint->scaleModels();
 
+    RectTrigger * fallpoint = new RectTrigger(myPhysics, "assets/textures/trans_red.png", 90., 5., 120., RectTrigger::FALLZONE, glm::vec3(0,0,0), false);
+    entities.push_back(fallpoint);
+    fallpoint->setPos(-333.785, 80.24237, -201.133);
+    fallpoint->setRot(glm::quat(-0.925566, 0.0023519, 0.378579, -0.0000170884));
+    fallpoint->SIL_X_SCALE = 1.02;
+    fallpoint->SIL_Y_SCALE = 1.02;
+    fallpoint->SIL_Z_SCALE = 1.02;
+    fallpoint->scaleModels();
+
+
+    jb->loadMusic("assets/sound/dmw.mp3");
+    jb->play();
+        
     ///////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////
 }
 
 void GameState::endGame() {
+    int i = 0;
+    
+    for (Entity* e : entities)
+    {
+        std::cout << entities.size() << std::endl;
+        delete e;
+    }
     entities.clear();
     cars.clear();
+    trackNodes.clear();
+    
 }

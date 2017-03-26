@@ -17,29 +17,31 @@ void StickListener::onContactModify(PxContactModifyPair *const pairs, PxU32 coun
 	for (PxU32 i = 0; i < count; i++)
 	{
 	//PxTransform pointOfContact;
-		if (pairs->actor[0]->getName() == "Hook")
+        
+		if (pairs[i].actor[0]->getName() == "Hook")
 		{
             // Set velocity to zero if wall, or car's velocity if car.
-            for (PxU32 i = 0; i < pairs->contacts.size(); ++i) {
-                pairs->contacts.setTargetVelocity(i, PxVec3(0, 0, 0));
+            for (PxU32 j = 0; j < pairs[i].contacts.size(); ++j) {
+                pairs[i].contacts.setTargetVelocity(j, PxVec3(0, 0, 0));
             }
-            Hook* temp = static_cast<Hook*>(pairs->actor[0]->userData);
+            Hook* temp = static_cast<Hook*>(pairs[i].actor[0]->userData);
             temp->setStuck(true);
-
+            std::cout << "Set Hook to Stuck" << std::endl;
             temp->mActor->setLinearVelocity(PxVec3(0, 0, 0));
             temp->mActor->setAngularVelocity(PxVec3(0, 0, 0));
             temp->mActor->setGlobalPose(temp->mActor->getGlobalPose());
         }
 
-        else if (pairs->actor[1]->getName() == "Hook")
+        else if (pairs[i].actor[1]->getName() == "Hook")
         {
             // Set velocity to zero if wall, or car's velocity if car.
-            for (PxU32 i = 0; i < pairs->contacts.size(); ++i) {
-                pairs->contacts.setTargetVelocity(i, PxVec3(0, 0, 0));
+            for (PxU32 j = 0; j < pairs[i].contacts.size(); ++j) {
+                pairs[i].contacts.setTargetVelocity(j, PxVec3(0, 0, 0));
             }
-
-            Hook* temp = static_cast<Hook*>(pairs->actor[1]->userData);
+            
+            Hook* temp = static_cast<Hook*>(pairs[i].actor[1]->userData);
             temp->setStuck(true);
+            std::cout << "Set Hook to Stuck" << std::endl;
             temp->mActor->setLinearVelocity(PxVec3(0, 0, 0));
             temp->mActor->setAngularVelocity(PxVec3(0, 0, 0));
             temp->mActor->setGlobalPose(temp->mActor->getGlobalPose());

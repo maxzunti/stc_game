@@ -36,8 +36,15 @@ void TriggerListener::onTrigger(PxTriggerPair* pairs, PxU32 count) {
             {
                 myCar->firehookbool = true;
                 myCar->firehooktarget = myTrig->target;
-                std::cout << "Set to Fire AI Hook" << std::endl;
             }
+        }
+
+        if ((pairs[i].otherShape->getActor()->getName() == "AICar") &&
+            (pairs[i].triggerShape->getActor()->getName() == "FallBox"))
+        {
+            AICar* myCar = static_cast<AICar*>(pairs[i].otherShape->getActor()->userData);
+
+                myCar->partoflap = 0;
         }
 
 
@@ -57,7 +64,8 @@ void TriggerListener::onTrigger(PxTriggerPair* pairs, PxU32 count) {
             {
                 if (myCar->lap == 3)
                 {
-                    myCar->partoflap = myCar->nodes.size()+1;
+                    myCar->partoflap = 1;
+                    myCar->doneRace = true;
                 }
                 else
                 {
@@ -70,5 +78,26 @@ void TriggerListener::onTrigger(PxTriggerPair* pairs, PxU32 count) {
 }
 
 void TriggerListener::onContact(const PxContactPairHeader& pairHeader, const PxContactPair* pairs, PxU32 nbPairs) {
-    std::cout << "TriggerListener::onContact called" << std::endl;
+    
+    for (PxU32 i = 0; i < nbPairs; i++)
+    {
+        const PxContactPair& cp = pairs[i];
+
+        if (cp.events & PxPairFlag::eNOTIFY_TOUCH_FOUND)
+        {
+            if ((pairHeader.actors[0]->getName() == "Car") || (pairHeader.actors[1]->getName() == "Car"))
+            {
+                Car* myCar = static_cast<Car*>(pairHeader.actors[0]->getName() == "Car" ? pairHeader.actors[0]->userData : pairHeader.actors[1]->userData);
+                
+                if ((double)rand()/RAND_MAX < 0.5f)
+                    myCar->myJB->playEffect(Jukebox::hollowhit);
+                else
+                    myCar->myJB->playEffect(Jukebox::metalhit);
+                
+                break;
+            }
+        }
+    }
+
+
 }

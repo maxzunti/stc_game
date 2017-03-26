@@ -13,5 +13,6 @@ public:
     int triggerID;
     static const int HOOKZONE = 1000;
     static const int SWINGZONE = 1001;
+    static const int FALLZONE = 1002;
     glm::vec3 target;
 };

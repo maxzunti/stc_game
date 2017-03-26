@@ -13,7 +13,7 @@ class HookChain : public Renderable {
 
 public:
     HookChain(std::string model_fname, std::string tex_fname);
-    ~HookChain();
+    virtual ~HookChain();
     void reposition(glm::vec3 carPos, glm::vec3 hookPos);
     void enable(bool);
     void setStuck(bool);

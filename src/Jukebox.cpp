@@ -46,9 +46,9 @@ void Jukebox::play()
 	Mix_PlayMusic(clip, -1);
 }
 
+
 void Jukebox::playEffect(int effect)
 {
-    std::cout << this->effects.at(0) << std::endl;
     Mix_PlayChannel(-1, this->effects.at(effect), 0);
 }
 
@@ -57,4 +57,6 @@ void Jukebox::setup()
     this->loadMusic("assets/sound/dmw.mp3");
     this->loadEffect("assets/sound/laser.mp3");
     this->loadEffect("assets/sound/pull.mp3");
+    this->loadEffect("assets/sound/metal.mp3");
+    this->loadEffect("assets/sound/shoot.mp3");
 }

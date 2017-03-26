@@ -758,7 +758,7 @@ void Renderer::drawText() {
     yPlacement = this->height - 150;
 
     char posText[256];
-    sprintf(posText, "1ST");
+    sprintf(posText, "%i", cam->getCar()->rank);
     drawDropShadowText(posText, whiteText, blackText, xPlacement, yPlacement, 100, ds_offset);
 
     xPlacement = this->width - 300;

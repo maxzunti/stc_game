@@ -19,6 +19,8 @@ RectTrigger::RectTrigger(PhysicsManager* physicsManager, std::string texName, fl
         mActor->setName("HookBox");
     else if (id == RectTrigger::SWINGZONE)
         mActor->setName("SwingBox");
+    else if (id == RectTrigger::FALLZONE)
+        mActor->setName("FallBox");
     else   
         mActor->setName("LapBox");  
     mActor->userData = this;

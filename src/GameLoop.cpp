@@ -38,7 +38,7 @@ int main(int argc, const char* argv[])
 	//Music
 	Jukebox *jb = new Jukebox();
     jb->setup();
-    //jb->play();
+    jb->play();
 
     // Set up input
    // std::unique_ptr<Input> input(new Input(0));
@@ -66,11 +66,12 @@ int main(int argc, const char* argv[])
     TriggerListener triggerListener;
     PhysicsManager * myPhysics = new PhysicsManager(&triggerListener, &stickListener);
 
-    GameState gameState = GameState(inputs, myPhysics);
-
+    //GameState gameState = GameState(inputs, myPhysics);
 
     // For each renderer in window, register a controller and a car for it if multiplayer is selected
 
+
+    GameState gameState = GameState(inputs, myPhysics, jb);
 #ifdef MENU_SKIP
     gameState.updateState(GameState::PLAYING);
     gameState.initGame();
@@ -79,7 +80,6 @@ int main(int argc, const char* argv[])
 
     glfwSetTime(0);
 #endif // !MENU_SKIP
-
 
 
     while (!window->shouldClose())
@@ -183,7 +183,10 @@ int main(int argc, const char* argv[])
             // if menurenderer on main menu again, set gamestate to 
             break;
         }
-    }   
+    }
+    gameState.endGame();
+    delete jb;
 	delete gameState.myPhysics;
+
 	return 0;
 }
