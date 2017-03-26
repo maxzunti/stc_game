@@ -46,12 +46,6 @@ void MenuRenderer::drawScene()
     // (Likely) use a new shader program
 
     glUseProgram(shader[SHADER::TEXT]);
-
-    // Render Background
-
-    logo->drawTexture(0, 0, width/5, height/5, width, height, 1.f, false);
-  
-    //Render the background of the scene here
         
     drawText();
 }
@@ -60,6 +54,9 @@ void MenuRenderer::drawText() {
     // Draw text here
     if (page == MAIN) {
         drawMenu();
+    }
+    else if(page == MULTI){
+        drawMultiplayerMenu();
     }
     else if (page == CREDITS) {
         drawCredits();
@@ -81,6 +78,7 @@ void MenuRenderer::drawMenu() {
     // Show the title at the top of the menu
     blueTitle->drawTexture(0, height*(2.f / 3.f), height, height / 3.f, width, height, 1.f, false);
 
+    logo->drawTexture(0, 0, width / 5, height / 5, width, height, 1.f, false);
     //Position - insert real position info here
     // X pos calculation is done by dividing the size by 2 (the kerning factor in the function halves it)
     // and then multiplying this by half of the string length
@@ -141,6 +139,88 @@ void MenuRenderer::drawMenu() {
         drawDropShadowText(qText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
 }
+
+void MenuRenderer::drawMultiplayerMenu() {
+    int xPlacement;
+    int yPlacement;
+    int ds_offset = 3;
+    int size = 75 * (height / (720.f));
+
+    // Show the title at the top of the menu
+  //  blueTitle->drawTexture(0, height*(2.f / 3.f), height, height / 3.f, width, height, 1.f, false);
+
+
+    char sText[512];
+    sprintf(sText, "SELECT NUMBER OF PLAYERS:");
+
+    xPlacement = (this->width / 2.f) - (size / 2.f) * (strlen(sText) / 2.f);
+    yPlacement = (this->height * (3.f / 4.f));
+
+    drawDropShadowText(sText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+   
+   
+    // Set the size of the Numbers to be much larger so that they stand out
+    size = 200 * (height / (720.f));
+
+    //Position - insert real position info here
+    // X pos calculation is done by dividing the size by 2 (the kerning factor in the function halves it)
+    // and then multiplying this by half of the string length
+
+    char spText[512];
+    sprintf(spText, "1");
+
+   // xPlacement = (this->width / 4.f)/* - (size / 2.f) * (4)*/;
+    xPlacement = 0;
+
+    yPlacement = this->height / 2.f - size;
+
+    if (selection == 0) {
+        drawDropShadowText(spText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+    else {
+        drawDropShadowText(spText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+
+    char mpText[512];
+    sprintf(mpText, "2");
+
+    xPlacement = (this->width / 4.f);
+    yPlacement = (this->height / 2.f) - size;
+
+    if (selection == 1) {
+        drawDropShadowText(mpText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+    else {
+        drawDropShadowText(mpText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+
+    char cText[512];
+    sprintf(cText, "3");
+
+    xPlacement = (this->width / 2.f);
+    yPlacement = (this->height / 2.f) - size;
+
+    if (selection == 2) {
+        drawDropShadowText(cText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+    else {
+        drawDropShadowText(cText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+
+    char qText[512];
+    sprintf(qText, "4");
+
+    xPlacement = (this->width / 4.f) + (this->width / 2.f);
+    yPlacement = (this->height / 2.f) - size;
+
+    if (selection == 3) {
+        drawDropShadowText(qText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+    else {
+        drawDropShadowText(qText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+}
+
 
 void MenuRenderer::drawCredits() {
     blueTitle->drawTexture(0, height*(2.f / 3.f), height, height / 3.f, width, height, 1.f, false);
@@ -320,15 +400,29 @@ void MenuRenderer::updateMenu()
     int numberOfItems = getNumberOfItems(page);
     if (!(controller->LStick_InDeadzone())) {
         if (pressed == false) {
-            if (controller->LeftStick_Y() > 0.98f) {
-                (selection == 0) ? selection += (numberOfItems-1) : selection--;
-                cout << selection << endl;
-                pressed = true;
+            if(page == MULTI){
+                if (controller->LeftStick_X() < -0.98f) {
+                    (selection == 0) ? selection += (numberOfItems - 1) : selection--;
+                    cout << selection << endl;
+                    pressed = true;
+                }
+                else if (controller->LeftStick_X() > 0.98f) {
+                    selection = ((selection + 1) % numberOfItems);
+                    cout << selection << endl;
+                    pressed = true;
+                }
             }
-            else if (controller->LeftStick_Y() < -0.98f) {
-                selection = ((selection + 1) % numberOfItems);
-                cout << selection << endl;
-                pressed = true;
+            else {
+                if (controller->LeftStick_Y() > 0.98f) {
+                    (selection == 0) ? selection += (numberOfItems - 1) : selection--;
+                    cout << selection << endl;
+                    pressed = true;
+                }
+                else if (controller->LeftStick_Y() < -0.98f) {
+                    selection = ((selection + 1) % numberOfItems);
+                    cout << selection << endl;
+                    pressed = true;
+                }
             }
         }
     }
@@ -336,14 +430,15 @@ void MenuRenderer::updateMenu()
         pressed = false;
     }
 
-switch (page) {
-   case MAIN:
+    switch (page) {
+    case MAIN:
         if (controller->GetButtonDown(XButtonIDs::A)) {
             if (aPressed == false) {
-            switch (selection) {
+                switch (selection) {
                 case 0:
                     // page = SINGLE;
                     page = LOADING;
+                    numOfPlayers = 1;
                     playing = true;
                     break;
                 case 1:
@@ -359,24 +454,25 @@ switch (page) {
                 }
 
                 selection = 0;
-              aPressed = !aPressed;
+                aPressed = !aPressed;
+            }
         }
-    } else {
+        else {
             aPressed = false;
         }
 
-    if (controller->GetButtonDown(XButtonIDs::B)) {
-        selection = 0;
-        page = MAIN;
-    }
-  break;
-   case CREDITS:
-       if (controller->GetButtonDown(XButtonIDs::B)) {
-           selection = 0;
-           page = MAIN;
-       }
-       break;
-   case PAUSED:
+        if (controller->GetButtonDown(XButtonIDs::B)) {
+            selection = 0;
+            page = MAIN;
+        }
+        break;
+    case CREDITS:
+        if (controller->GetButtonDown(XButtonIDs::B)) {
+            selection = 0;
+            page = MAIN;
+        }
+        break;
+    case PAUSED:
         if (controller->GetButtonDown(XButtonIDs::A)) {
             if (aPressed == false) {
                 switch (selection) {
@@ -406,8 +502,47 @@ switch (page) {
             playing = true;
         }
         break;
+    case MULTI:
+        if (controller->GetButtonDown(XButtonIDs::A)) {
+            if (aPressed == false) {
+                switch (selection) {
+                case 0:
+                    // page = SINGLE;
+                    page = LOADING;
+                    playing = true;
+                    numOfPlayers = 1;
+                    break;
+                case 1:
+                    page = LOADING;
+                    playing = true;
+                    numOfPlayers = 2;
+                    break;
+                case 2:
+                    page = LOADING;
+                    playing = true;
+                    numOfPlayers = 3;
+                    break;
+                case 3:
+                    page = LOADING;
+                    numOfPlayers = 4;
+                    playing = true;
+                    break;
+                }
+
+                selection = 0;
+                aPressed = !aPressed;
+            }
+        }
+        else {
+            aPressed = false;
+        }
+
+        if (controller->GetButtonDown(XButtonIDs::B)) {
+            selection = 0;
+            page = MAIN;
+        }
+        break;
     }
-    
 
 }
 
@@ -442,6 +577,8 @@ int MenuRenderer::getNumberOfItems(int page)
     case MAIN:
         return 4;
         break;
+    case MULTI:
+        return 4;
     case PAUSED:
         return 3;
         break;
@@ -449,4 +586,9 @@ int MenuRenderer::getNumberOfItems(int page)
         return 1;
         break;
     }
+}
+
+int MenuRenderer::getNumOfPlayers()
+{
+    return numOfPlayers;
 }

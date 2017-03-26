@@ -22,6 +22,8 @@ class MenuRenderer {
     bool shouldClose = false;
     int selection = 0;
     int page = MAIN;
+    int numOfPlayers = 1;
+
     Input * controller;
 
     void drawText();
@@ -45,6 +47,7 @@ public:
     void drawScene();
 
     void drawMenu();
+    void drawMultiplayerMenu();
     void drawCredits();
     void drawLoadScreen();
     void drawPause();
@@ -61,4 +64,5 @@ public:
     void setPage(int newPage);
     int getPage();
     int getNumberOfItems(int page);
+    int getNumOfPlayers();
 };

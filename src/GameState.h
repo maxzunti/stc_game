@@ -16,6 +16,7 @@ public:
     Input * input;
     PhysicsManager * myPhysics;
 
+    std::vector<Input*> inputs;
     std::vector<Entity*> entities;
     std::vector<Car*> cars;
 
@@ -23,12 +24,13 @@ public:
 
     GameState();
     GameState(Input * newInput, PhysicsManager * myPhysics);
+    GameState(std::vector<Input*> newInputs, PhysicsManager * myPhysics);
 
     ~GameState();
 
     int currentState = MENU;
 
     void GameState::updateState(State state);
-    void initGame();
+    void initGame(int numberOfPlayers);
     void endGame();
 };
