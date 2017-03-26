@@ -25,9 +25,9 @@ struct RaycastResults {
 
 enum CarColor {
         PURPLE = 0,
-        RED,
-        LB,
-        ORANGE
+        RED = 1,
+        LB = 2,
+        ORANGE = 3
 };
 
 struct CarRenderInfo {
