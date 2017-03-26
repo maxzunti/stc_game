@@ -410,16 +410,37 @@ void Car::update() {
     if ((controller->RightTrigger() - controller->LeftTrigger()) > 0) {
         resetBrakes();
         applyWheelTorque((controller->RightTrigger() - controller->LeftTrigger()));
+        this->engineSoundPlay = true;
     }
     else if ((controller->LeftTrigger() - controller->RightTrigger()) > 0) {
         resetBrakes();
         applyWheelTorque(-1.f*(controller->LeftTrigger() - controller->RightTrigger()));
+        this->engineSoundPlay = true;
     }
     else {
         applyWheelTorque(0);
         startBrakeMode();
+        this->engineSoundPlay = false;
     }
-
+/*
+    std::cout << "Engine Is Playing: " << this->myJB->isPlaying(this->engineSoundChannel) << std::endl;
+    std::cout << "Idle Is Playing: " << this->myJB->isPlaying(this->idleSoundChannel) << std::endl;*/
+    if (engineSoundPlay && !this->myJB->isPlaying(this->engineSoundChannel))
+    {
+        std::cout << "Startup Rev Sound" << std::endl;
+        this->myJB->stop(this->idleSoundChannel);
+        std::cout << "Stop Idle Sound: " << this->myJB->isPlaying(this->idleSoundChannel) << std::endl;
+        this->engineSoundChannel = this->myJB->revEngine(false);
+        std::cout << "Rev Channel: " << this->engineSoundChannel << std::endl;
+    }
+    else if (!engineSoundPlay && !this->myJB->isPlaying(this->idleSoundChannel))
+    {
+        std::cout << "Startup Idle Sound" << std::endl;
+        this->myJB->stop(this->engineSoundChannel);
+        std::cout << "Stop Rev Sound" << std::endl;
+        this->idleSoundChannel = this->myJB->revEngine(true);
+        std::cout << "Idle Channel: " << this->idleSoundChannel << std::endl;
+    }
     //Cap the max velocity of the car to 80
     if (this->mActor->getLinearVelocity().magnitude() > MAX_SPEED && !this->retracting)
     {

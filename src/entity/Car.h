@@ -85,6 +85,9 @@ public:
     Jukebox* myJB;
 
     bool devChange = true;
+    bool engineSoundPlay = false;
+    int engineSoundChannel = 100;
+    int idleSoundChannel = 101;
 
 protected:
     Input * controller;
