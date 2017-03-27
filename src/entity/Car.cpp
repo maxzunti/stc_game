@@ -435,19 +435,13 @@ void Car::update() {
     std::cout << "Idle Is Playing: " << this->myJB->isPlaying(this->idleSoundChannel) << std::endl;*/
     if (engineSoundPlay && !this->myJB->isPlaying(this->engineSoundChannel))
     {
-        std::cout << "Startup Rev Sound" << std::endl;
         this->myJB->stop(this->idleSoundChannel);
-        std::cout << "Stop Idle Sound: " << this->myJB->isPlaying(this->idleSoundChannel) << std::endl;
         this->engineSoundChannel = this->myJB->revEngine(false);
-        std::cout << "Rev Channel: " << this->engineSoundChannel << std::endl;
     }
     else if (!engineSoundPlay && !this->myJB->isPlaying(this->idleSoundChannel))
     {
-        std::cout << "Startup Idle Sound" << std::endl;
         this->myJB->stop(this->engineSoundChannel);
-        std::cout << "Stop Rev Sound" << std::endl;
         this->idleSoundChannel = this->myJB->revEngine(true);
-        std::cout << "Idle Channel: " << this->idleSoundChannel << std::endl;
     }
     //Cap the max velocity of the car to 80
     if (this->mActor->getLinearVelocity().magnitude() > MAX_SPEED && !this->retracting)
@@ -499,6 +493,7 @@ void Car::update() {
         fireHook();
     }
     
+    //&& !controller->GetButtonPressed(XButtonIDs::L_Shoulder)
     if (myHook->getStuck() ) {
         if (retracting != true)
             this->myJB->playEffect(myJB->gravpull);
