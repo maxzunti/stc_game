@@ -782,7 +782,7 @@ void Renderer::drawText() {
     size = 100 * (width / 1280.f);
     if (cam->getCar()->doneRace) {
         char winText[256];
-        sprintf(winText, "RACE COMPLETE");
+        sprintf(winText, "FINISHED");
 
         xPlacement = (width /2) - ((size/2)* ((strlen(winText)/2.f)+1));
         yPlacement = height - 5*size;

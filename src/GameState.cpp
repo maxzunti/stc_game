@@ -146,10 +146,11 @@ void GameState::initGame(int numberOfPlayers)
     finishflag->setSil(false);
 
     // Create a finish-line trigger
-    RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/checkers.png", 10., 20., 100., 0, glm::vec3(0, 0, 0), false);
+    RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/checkers.png", 90., 20., 10., 0, glm::vec3(0, 0, 0), false);
 
     entities.push_back(finishLine);
-    finishLine->setPos(-150, 0, -350);
+    finishLine->setPos(-160.176, 0, -334.572);
+    finishLine->setRot(glm::quat(0.712873, 0.00192498, -0.701288, 0.00172225));
     finishLine->scaleModels();
     finishLine->setSil(false);
 

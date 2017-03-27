@@ -73,7 +73,7 @@ PxConvexMesh* createChassisMesh(const PxVec3 dims, PxPhysics& physics, PxCooking
 		PxVec3(x,y,z),
 		PxVec3(x,-y,z),
 		PxVec3(x,-y,-z),
-		PxVec3(-x,y,-z), 
+		PxVec3(-x,y,-z),
 		PxVec3(-x,y,z),
 		PxVec3(-x,-y,z),
 		PxVec3(-x,-y,-z)
