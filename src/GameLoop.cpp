@@ -60,8 +60,12 @@ int main(int argc, const char* argv[])
    // window->getMenuRenderer()->registerController(input.get());
 
 
-    window->getMenuRenderer()->registerController(input);
+//   window->getMenuRenderer()->registerController(input);
 
+    window->getMenuRenderer()->registerControllers(input);
+    window->getMenuRenderer()->registerControllers(input2);
+    window->getMenuRenderer()->registerControllers(input3);
+    window->getMenuRenderer()->registerControllers(input4);
 
     StickListener stickListener;
     TriggerListener triggerListener;

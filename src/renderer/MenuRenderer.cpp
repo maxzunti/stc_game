@@ -370,38 +370,57 @@ void MenuRenderer::registerController(Input * newCont)
     controller = newCont;
 }
 
+void MenuRenderer::registerControllers(Input * newCont)
+{
+    controllers.push_back(newCont);
+    controller = controllers[0];
+}
+
 void MenuRenderer::updateMenu()
 {
     int numberOfItems = getNumberOfItems(page);
-    if (!(controller->LStick_InDeadzone())) {
-        if (pressed == false) {
-            if(page == MULTI){
-                if (controller->LeftStick_X() < -0.80f) {
-                    jb->playEffect(Jukebox::menumove);
-                    (selection == 0) ? selection += (numberOfItems - 1) : selection--;
-                    pressed = true;
+
+    for (int i = 0; i < controllers.size(); i++) {
+        if (!(controllers[i]->LStick_InDeadzone())) {
+            if (pressed == false) {
+                if (page == MULTI) {
+                    if (controllers[i]->LeftStick_X() < -0.80f) {
+                        jb->playEffect(Jukebox::menumove);
+                        (selection == 0) ? selection += (numberOfItems - 1) : selection--;
+                        pressed = true;
+                    }
+                    else if (controllers[i]->LeftStick_X() > 0.80f) {
+                        jb->playEffect(Jukebox::menumove);
+                        selection = ((selection + 1) % numberOfItems);
+                        pressed = true;
+                    }
                 }
-                else if (controller->LeftStick_X() > 0.80f) {
-                    jb->playEffect(Jukebox::menumove);
-                    selection = ((selection + 1) % numberOfItems);
-                    pressed = true;
-                }
-            }
-            else {
-                if (controller->LeftStick_Y() > 0.80f) {
-                    jb->playEffect(Jukebox::menumove);
-                    (selection == 0) ? selection += (numberOfItems - 1) : selection--;
-                    pressed = true;
-                }
-                else if (controller->LeftStick_Y() < -0.80f) {
-                    jb->playEffect(Jukebox::menumove);
-                    selection = ((selection + 1) % numberOfItems);
-                    pressed = true;
+                else {
+                    if (controllers[i]->LeftStick_Y() > 0.80f) {
+                        jb->playEffect(Jukebox::menumove);
+                        (selection == 0) ? selection += (numberOfItems - 1) : selection--;
+                        pressed = true;
+                    }
+                    else if (controllers[i]->LeftStick_Y() < -0.80f) {
+                        jb->playEffect(Jukebox::menumove);
+                        selection = ((selection + 1) % numberOfItems);
+                        pressed = true;
+                    }
                 }
             }
         }
+      //  else {
+        //    pressed = false;
+        //}
     }
-    else {
+
+    int test = 0;
+    for (int i = 0; i < controllers.size(); i++) {
+        if ((controllers[i]->LStick_InDeadzone())) {
+            test++;
+        }
+    }
+    if (test == 4) {
         pressed = false;
     }
 
@@ -452,35 +471,37 @@ void MenuRenderer::updateMenu()
         }
         break;
     case PAUSED:
-        if (controller->GetButtonDown(XButtonIDs::A)) {
-            if (aPressed == false) {
+        for (auto c : controllers) {
+            if (c->GetButtonDown(XButtonIDs::A)) {
+                if (aPressed == false) {
 
-                jb->playEffect(Jukebox::menuselect);
-                switch (selection) {
-                case 0:
-                    // page = SINGLE;
-                    //page = LOADING;
-                    playing = true;
-                    break;
-                case 1:
-                    page = MAIN;
-                    playing = false;
-                    break;
-                case 2:
-                    shouldClose = true;
-                    break;
+                    jb->playEffect(Jukebox::menuselect);
+                    switch (selection) {
+                    case 0:
+                        // page = SINGLE;
+                        //page = LOADING;
+                        playing = true;
+                        break;
+                    case 1:
+                        page = MAIN;
+                        playing = false;
+                        break;
+                    case 2:
+                        shouldClose = true;
+                        break;
+                    }
+
+                    selection = 0;
+                    aPressed = !aPressed;
                 }
-
-                selection = 0;
-                aPressed = !aPressed;
             }
-        }
-        else {
-            aPressed = false;
-        }
+            else {
+                aPressed = false;
+            }
 
-        if (controller->GetButtonDown(XButtonIDs::B)) {
-            playing = true;
+            if (c->GetButtonDown(XButtonIDs::B)) {
+                playing = true;
+            }
         }
         break;
     case MULTI:

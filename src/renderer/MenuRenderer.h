@@ -26,6 +26,7 @@ class MenuRenderer {
     int numOfPlayers = 1;
 
     Input * controller;
+    std::vector<Input*> controllers;
 
     void drawText();
     void drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset);
@@ -57,6 +58,7 @@ public:
 
     void setDims(int width, int height);
     void registerController(Input * newCont);
+    void registerControllers(Input * newCont);
     void updateMenu();
 
     bool getPlaying();
