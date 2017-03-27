@@ -784,7 +784,7 @@ void Renderer::drawText() {
         xPlacement = width/4;
         yPlacement = height-200;
         char winText[256];
-        sprintf(winText, "RACE COMPLETE");
+        sprintf(winText, "FINISHED");
         drawDropShadowText(winText, whiteText, blackText, xPlacement, yPlacement, 100, ds_offset);
     }
 }

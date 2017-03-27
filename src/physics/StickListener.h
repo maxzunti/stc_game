@@ -3,6 +3,7 @@
 #include "PxPhysicsAPI.h"
 #include "PxContactModifyCallback.h"
 #include "../entity/Hook.h"
+#include "../entity/Car.h"
 
 class StickListener : public physx::PxContactModifyCallback
 {
