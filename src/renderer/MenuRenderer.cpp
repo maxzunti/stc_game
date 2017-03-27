@@ -376,30 +376,26 @@ void MenuRenderer::updateMenu()
     if (!(controller->LStick_InDeadzone())) {
         if (pressed == false) {
             if(page == MULTI){
-                if (controller->LeftStick_X() < -0.98f) {
+                if (controller->LeftStick_X() < -0.80f) {
                     jb->playEffect(Jukebox::menumove);
                     (selection == 0) ? selection += (numberOfItems - 1) : selection--;
-                    cout << selection << endl;
                     pressed = true;
                 }
-                else if (controller->LeftStick_X() > 0.98f) {
+                else if (controller->LeftStick_X() > 0.80f) {
                     jb->playEffect(Jukebox::menumove);
                     selection = ((selection + 1) % numberOfItems);
-                    cout << selection << endl;
                     pressed = true;
                 }
             }
             else {
-                if (controller->LeftStick_Y() > 0.98f) {
+                if (controller->LeftStick_Y() > 0.80f) {
                     jb->playEffect(Jukebox::menumove);
                     (selection == 0) ? selection += (numberOfItems - 1) : selection--;
-                    cout << selection << endl;
                     pressed = true;
                 }
-                else if (controller->LeftStick_Y() < -0.98f) {
+                else if (controller->LeftStick_Y() < -0.80f) {
                     jb->playEffect(Jukebox::menumove);
                     selection = ((selection + 1) % numberOfItems);
-                    cout << selection << endl;
                     pressed = true;
                 }
             }
@@ -421,8 +417,10 @@ void MenuRenderer::updateMenu()
                     page = LOADING;
                     numOfPlayers = 1;
                     playing = true;
+                    selection = 0;
                     break;
                 case 1:
+                    selection = 0;
                     page = MULTI;
                     break;
                 case 2:
@@ -434,7 +432,6 @@ void MenuRenderer::updateMenu()
                     break;
                 }
 
-                selection = 0;
                 aPressed = !aPressed;
             }
         }
