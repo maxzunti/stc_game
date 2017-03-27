@@ -125,6 +125,7 @@ void Text2D::printText2D(const char * text, int x, int y, int size, int width, i
     CheckGLErrors("text render");
 }
 
+//screenwidth and screenheight
 void Text2D::drawTexture(int x, int y, int width, int height, int sWidth, int sHeight, float alpha, bool flipped) {
     glBindVertexArray(textVao[TEXT_VAO::GEOMETRY]);
     glDisable(GL_STENCIL_TEST);
