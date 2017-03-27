@@ -57,7 +57,9 @@ class Renderer {
     Text2D * redText;
     Text2D * whiteText;
     Text2D * mmPips;
-    Text2D * hookNotReady;
+    Text2D * hookNotReady1;
+    Text2D * hookNotReady2;
+    Text2D * hookNotReady3;
     Text2D * hookReady;
     
     // Init a frame buffer for a depth map, used for shadow mapping + silhouetting

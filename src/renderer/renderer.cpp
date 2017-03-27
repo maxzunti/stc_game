@@ -74,7 +74,10 @@ void Renderer::initText() {
     whiteText = new Text2D("assets/textures/white_gg_font.png");
     mmPips = new Text2D("assets/textures/mm_icons.png");
     hookReady = new Text2D("assets/textures/hookcdcharged.png");
-    hookNotReady = new Text2D("assets/textures/hookcdicondepleted.png");
+    hookNotReady1 = new Text2D("assets/textures/hookcdicondepleted1.png");
+    hookNotReady2 = new Text2D("assets/textures/hookcdicondepleted2.png");
+    hookNotReady3 = new Text2D("assets/textures/hookcdicondepleted3.png");
+
 }
 
 
@@ -792,9 +795,17 @@ void Renderer::drawText() {
         yPlacement = height - 3*size;
         drawDropShadowText(winText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
-
     if (cam->getCar()->cooldownState) {
-        hookNotReady->drawTexture((width / 2) - (size/2.f), 0, size, size, width, height, 1, true);
+
+        if((clock() - cam->getCar()->start) / double(CLOCKS_PER_SEC) > 2.f) {
+            hookNotReady3->drawTexture((width / 2) - (size / 2.f), 0, size, size, width, height, 1, true);
+        }
+        else if((clock() - cam->getCar()->start)/ double(CLOCKS_PER_SEC) > 1.f) {
+            hookNotReady2->drawTexture((width / 2) - (size / 2.f), 0, size, size, width, height, 1, true);
+        }
+        else if((clock() - cam->getCar()->start) / double(CLOCKS_PER_SEC) > 0.f) {
+            hookNotReady1->drawTexture((width / 2) - (size / 2.f), 0, size, size, width, height, 1, true);
+        }
     }
     else {
         hookReady->drawTexture((width / 2) - (size/2.f), 0, size, size, width, height, 1, true);
