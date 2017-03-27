@@ -729,8 +729,9 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
 void Renderer::drawText() {
     // Draw text here
 
-    int xPlacement = 30;
-    int yPlacement = this->height - 100;
+    float size = 60 * (height / (720.f));
+    int xPlacement = (size/2.f);//30
+    int yPlacement = this->height - (size*1.66);//-100
     int ds_offset = 3;
 
     //Lap Placement - insert real lap information here
@@ -738,27 +739,24 @@ void Renderer::drawText() {
     char lapText[256];
     
     sprintf(lapText, "\n%i\\3",cam->getCar()->getLap());
-    drawDropShadowText("LAP", blueText, blackText, xPlacement, yPlacement, 60, ds_offset);
-    drawDropShadowText(lapText, whiteText, blackText, xPlacement, yPlacement, 60, ds_offset);
+    drawDropShadowText("LAP", blueText, blackText, xPlacement, yPlacement, size, ds_offset);
+    drawDropShadowText(lapText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
 
     //Timer Text - insert real timer info here
-    xPlacement = 30;
-    yPlacement = 100;
+    xPlacement = (size/2.f);//30
+    yPlacement = (size*1.66f);//100
     char timeText[256];
     double currentTime = glfwGetTime();
-    frameCount++;
-    if (frameCount >= 59) {
-        frameCount = 0;
-      //  std::cout << "timePassed = " << currentTime << std::endl;
-    }
+    
     sprintf(timeText, "\n%.2i:%.2i", int(currentTime)/60,int(currentTime)%60);
-    drawDropShadowText("TIME", blueText, blackText, xPlacement, yPlacement, 60, ds_offset);
-    drawDropShadowText(timeText, whiteText, blackText, xPlacement, yPlacement, 60, ds_offset);
+    drawDropShadowText("TIME", blueText, blackText, xPlacement, yPlacement, size, ds_offset);
+    drawDropShadowText(timeText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
 
+
+    size = 100 * (height / (720.f));
     //Position - insert real position info here
-    xPlacement = this->width - 300;
-    yPlacement = this->height - 150;
-
+    xPlacement = this->width - (size*2.5);//300
+    yPlacement = this->height - (size*1.5f);//150
     char posText[256];
     switch (cam->getCar()->rank)
     {
@@ -773,20 +771,22 @@ void Renderer::drawText() {
 
     }
     
-    drawDropShadowText(posText, whiteText, blackText, xPlacement, yPlacement, 100, ds_offset);
-
-    xPlacement = this->width - 300;
-    yPlacement = 50;
+    drawDropShadowText(posText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+    size = 100 * (width / 1280.f);
+    
+    xPlacement = this->width - (size*3);
+    yPlacement = size;
     int speed_int = (int)cam->getCarSpeed();
     std::string speed_str = std::to_string(speed_int);
-    drawDropShadowText(speed_str.c_str(), whiteText, blackText, xPlacement, yPlacement, 100, ds_offset);
-
+    drawDropShadowText(speed_str.c_str(), whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+    size = 100 * (width / 1280.f);
     if (cam->getCar()->doneRace) {
-        xPlacement = width/4;
-        yPlacement = height-200;
         char winText[256];
         sprintf(winText, "RACE COMPLETE");
-        drawDropShadowText(winText, whiteText, blackText, xPlacement, yPlacement, 100, ds_offset);
+
+        xPlacement = (width /2) - ((size/2)* ((strlen(winText)/2.f)+1));
+        yPlacement = height - 5*size;
+        drawDropShadowText(winText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
 }
 
