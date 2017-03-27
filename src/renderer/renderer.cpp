@@ -73,6 +73,8 @@ void Renderer::initText() {
     redText = new Text2D("assets/textures/red_gg_font.png");
     whiteText = new Text2D("assets/textures/white_gg_font.png");
     mmPips = new Text2D("assets/textures/mm_icons.png");
+    hookReady = new Text2D("assets/textures/hookcdcharged.png");
+    hookNotReady = new Text2D("assets/textures/hookcdicondepleted.png");
 }
 
 
@@ -729,7 +731,9 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
 void Renderer::drawText() {
     // Draw text here
 
-    float size = 60 * (height / (720.f));
+//    (width*height) / (1280 * 720);
+//    (height / 720.f)
+    float size = 60 * (height / 720.f);
     int xPlacement = (size/2.f);//30
     int yPlacement = this->height - (size*1.66);//-100
     int ds_offset = 3;
@@ -753,9 +757,9 @@ void Renderer::drawText() {
     drawDropShadowText(timeText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
 
 
-    size = 100 * (height / (720.f));
+    size = 100 * (height / 720.f);
     //Position - insert real position info here
-    xPlacement = this->width - (size*2.5);//300
+    xPlacement = this->width - (size*3.5);//300
     yPlacement = this->height - (size*1.5f);//150
     char posText[256];
     switch (cam->getCar()->rank)
@@ -772,22 +776,30 @@ void Renderer::drawText() {
     }
     
     drawDropShadowText(posText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
-    size = 100 * (width / 1280.f);
+    size = 100 * (height / 720.f);
     
     xPlacement = this->width - (size*3);
     yPlacement = size;
     int speed_int = (int)cam->getCarSpeed();
     std::string speed_str = std::to_string(speed_int);
     drawDropShadowText(speed_str.c_str(), whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
-    size = 100 * (width / 1280.f);
+    size = 100 * (height / 720.f);
     if (cam->getCar()->doneRace) {
         char winText[256];
         sprintf(winText, "FINISHED");
 
         xPlacement = (width /2) - ((size/2)* ((strlen(winText)/2.f)+1));
-        yPlacement = height - 5*size;
+        yPlacement = height - 3*size;
         drawDropShadowText(winText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
+
+    if (cam->getCar()->cooldownState) {
+        hookNotReady->drawTexture((width / 2) - (size/2.f), 0, size, size, width, height, 1, true);
+    }
+    else {
+        hookReady->drawTexture((width / 2) - (size/2.f), 0, size, size, width, height, 1, true);
+    }
+
 }
 
 
@@ -819,6 +831,8 @@ void Renderer::drawCountDown(int time)
     yPlacement = (this->height / 2.f)*(2.f / 3.f);
 
     drawDropShadowText(text, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+
+
 }
 
 int Renderer::getMMSize()
