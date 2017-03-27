@@ -57,12 +57,17 @@ void Jukebox::playEffect(int effect)
     int playchannel = Mix_PlayChannel(-1, this->effects.at(effect), 0);
 }
 
-int Jukebox::revEngine(bool idle)
+int Jukebox::revEngine(bool idle, int channel)
 {
     if (!idle)
-        return Mix_PlayChannel(100, this->effects.at(Jukebox::revengine), -1);
+        return Mix_PlayChannel(channel, this->effects.at(Jukebox::revengine), -1);
     else
-        return Mix_PlayChannel(101, this->effects.at(Jukebox::idle), -1);
+        return Mix_PlayChannel(channel, this->effects.at(Jukebox::idle), -1);
+}
+
+int Jukebox::honkHorn(int channel)
+{
+    return Mix_PlayChannel(channel, this->effects.at(Jukebox::horn), 0);
 }
 
 
@@ -85,9 +90,10 @@ void Jukebox::setup()
     this->loadEffect("assets/sound/metal.mp3");
     this->loadEffect("assets/sound/shoot.mp3");
     this->loadEffect("assets/sound/revengine.mp3");
-    Mix_VolumeChunk(this->effects.at(Jukebox::revengine),MIX_MAX_VOLUME*0.5f);
+    Mix_VolumeChunk(this->effects.at(Jukebox::revengine),MIX_MAX_VOLUME*0.12f);
     this->loadEffect("assets/sound/idle.mp3");
-    Mix_VolumeChunk(this->effects.at(Jukebox::idle), MIX_MAX_VOLUME*0.5f);
+    Mix_VolumeChunk(this->effects.at(Jukebox::idle), MIX_MAX_VOLUME*0.3f);
     this->loadEffect("assets/sound/menumove.mp3");
     this->loadEffect("assets/sound/menuselect.mp3");
+    this->loadEffect("assets/sound/horn.mp3");
 }

@@ -407,10 +407,10 @@ void Car::update() {
         
     }*/
 
-    /*if (controller->GetButtonPressed(XButtonIDs::A)) {
-        setPos(-50, 100, 72);
-        setRot(0.0, 1.57 / 2.0, 0.0);
-    }*/
+    if (controller->GetButtonPressed(XButtonIDs::A)) {
+        if (!this->myJB->isPlaying(this->hornSoundChannel))
+            this->myJB->honkHorn(this->hornSoundChannel);
+    }
 
     //Apply turn according to the left stick angle 
     applyWheelTurn(controller->LStick_InDeadzone() ? 0.f : controller->LeftStick_X());
@@ -437,12 +437,12 @@ void Car::update() {
     if (engineSoundPlay && !this->myJB->isPlaying(this->engineSoundChannel))
     {
         this->myJB->stop(this->idleSoundChannel);
-        this->engineSoundChannel = this->myJB->revEngine(false);
+        this->engineSoundChannel = this->myJB->revEngine(false,this->engineSoundChannel);
     }
     else if (!engineSoundPlay && !this->myJB->isPlaying(this->idleSoundChannel))
     {
         this->myJB->stop(this->engineSoundChannel);
-        this->idleSoundChannel = this->myJB->revEngine(true);
+        this->idleSoundChannel = this->myJB->revEngine(true, this->idleSoundChannel);
     }
     //Cap the max velocity of the car to 80
     if (this->mActor->getLinearVelocity().magnitude() > MAX_SPEED && !this->retracting)

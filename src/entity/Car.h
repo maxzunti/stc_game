@@ -96,6 +96,7 @@ public:
     bool engineSoundPlay = false;
     int engineSoundChannel = 100;
     int idleSoundChannel = 101;
+    int hornSoundChannel = 102;
 
 protected:
     Input * controller;
