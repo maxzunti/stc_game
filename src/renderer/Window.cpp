@@ -214,7 +214,7 @@ void Window::setSplitScreen(int numPlayers, const std::vector<Car*>& cars) {
     //        renderers.pop_back();
     //    }
     //}
-    std::cout << "rs size = " << renderers.size() << std::endl;
+    //std::cout << "rs size = " << renderers.size() << std::endl;
 }
 
 Renderer* Window::getRenderer(int index) { return renderers.at(index); }

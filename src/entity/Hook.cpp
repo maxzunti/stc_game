@@ -33,7 +33,6 @@ Hook::Hook(std::string model_fname, std::string tex_fname, PxRigidBody* actor, P
 
 Hook::~Hook() {
     // Delete whichever model isn't in 'models' (since Renderable's destructor will catch anything that is)
-    std::cout << "Hook destructor" << std::endl;
     if (mStuck)
         delete unattached;
     else

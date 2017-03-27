@@ -418,7 +418,6 @@ void GameState::endGame() {
     
     for (Entity* e : entities)
     {
-        std::cout << entities.size() << std::endl;
         delete e;
     }
     entities.clear();

@@ -518,7 +518,6 @@ void Car::update() {
 
 
     if (controller->GetButtonPressed(XButtonIDs::Start)) {
-       std::cout << "Start Pressed: " << pauseGame<< std::endl;
        pauseGame = true;
     }
    
