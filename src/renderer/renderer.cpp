@@ -33,6 +33,8 @@
 using namespace std;
 using namespace glm;
 
+GLuint Renderer::SM_depthTex;
+glm::mat4 Renderer::depthMVP;
 struct Stencil {
     const static int none = 0x00;
     const static int sil = 0x01;
@@ -58,8 +60,11 @@ void Renderer::postGLInit() {
     initSkybox();
     initText();
 
-    initDepthFrameBuffer(SM_frameBuffer, SM_depthTex, SM_res, SM_res);
     initColorFrameBuffer(mm_frameBuffer, mm_tex, mmSize, mmSize);
+}
+
+void Renderer::initFrameBuffer() {
+    initDepthFrameBuffer(SM_frameBuffer, Renderer::SM_depthTex, SM_res, SM_res);
 }
 
 void Renderer::initText() {
@@ -192,7 +197,7 @@ void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
     // Compute the MVP matrix from the light's point of view 
     glm::mat4 depthProjectionMatrix = glm::ortho<float>(-size, 690, -size, size, 1.f, 1700.f); // 1700.0f 1500.0f // 690 in second place
     glm::mat4 depthViewMatrix = glm::lookAt(light->getPos(), glm::vec3(0.f), glm::vec3(0, 1, 0));
-    depthMVP = depthProjectionMatrix * depthViewMatrix;
+    Renderer::depthMVP = depthProjectionMatrix * depthViewMatrix;
 
     // Use our shader
     glUseProgram(shader[SHADER::SHADOW]);
@@ -233,7 +238,7 @@ void Renderer::addToShadowMap(const Model& model, mat4 model_matrix, int startEl
     glEnable(GL_CULL_FACE);
   //  glCullFace(GL_BACK);
 
-    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SHADOW], "depthMVP"), 1, false, &depthMVP[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SHADOW], "depthMVP"), 1, false, &Renderer::depthMVP[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SHADOW], "model"), 1, false, &model_matrix[0][0]);
 
     // Set object-specific VAO
@@ -375,10 +380,10 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
         &model_matrix[0][0]);
 
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, SM_depthTex);
+    glBindTexture(GL_TEXTURE_2D, Renderer::SM_depthTex);
     glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "shadowMap"), 1);
    
-    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "depthBiasMVP"), 1, GL_FALSE, glm::value_ptr(depthMVP));
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "depthBiasMVP"), 1, GL_FALSE, glm::value_ptr(Renderer::depthMVP));
 
     glUniform3f(glGetUniformLocation(shader[SHADER::DEFAULT], "lightPos"), light->getPos().x, light->getPos().y, light->getPos().z);
     glUniform3f(glGetUniformLocation(shader[SHADER::DEFAULT], "lightDir"), light->getDir().x, light->getDir().y, light->getDir().z);
@@ -546,7 +551,6 @@ void Renderer::reflectWalls(Walls* walls, glm::mat4 &perspectiveMatrix, float re
 
 }
 
-
 // Draw the track in 2 steps: opaque if Stencil::refDrawn not set, translucent otherwise
 void Renderer::drawTrack(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, float reflectivity) {
     glUseProgram(shader[SHADER::DEFAULT]);
@@ -579,10 +583,10 @@ void Renderer::drawTrack(const Model& model, glm::mat4 &perspectiveMatrix, glm::
         &model_matrix[0][0]);
 
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, SM_depthTex);
+    glBindTexture(GL_TEXTURE_2D, Renderer::SM_depthTex);
     glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "shadowMap"), 1);
 
-    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "depthBiasMVP"), 1, GL_FALSE, glm::value_ptr(depthMVP));
+    glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "depthBiasMVP"), 1, GL_FALSE, glm::value_ptr(Renderer::depthMVP));
 
     glUniform3f(glGetUniformLocation(shader[SHADER::DEFAULT], "lightPos"), light->getPos().x, light->getPos().y, light->getPos().z);
     glUniform3f(glGetUniformLocation(shader[SHADER::DEFAULT], "lightDir"), light->getDir().x, light->getDir().y, light->getDir().z);
@@ -627,10 +631,7 @@ void Renderer::drawTrack(const Model& model, glm::mat4 &perspectiveMatrix, glm::
 
 void Renderer::drawScene(const std::vector<Entity*>& ents)
 {
-    // TODO: get this working in splitscreen
-#ifndef SPLITSCREEN
-    renderShadowMap(ents);
-#endif // !SPLITSCREEN
+  //renderShadowMap(ents);
     
     // We could turn on the shadow map with a lower resolution ( scale it based on number of players)
     // This means that each car keeps track of their own shadows but they look worse the more players there are

@@ -47,16 +47,6 @@ class Renderer {
     // Draw reflections onto the track surface
     void drawTrack(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, float reflectivity = 0.0f);
 
-    // Shadow mapping functions
-    void renderShadowMap(const std::vector<Entity*>& ents);
-    void addToShadowMap(const Model& model, glm::mat4 model_matrix, int startElement);
-
-    // The following are all required for shadow mapping 
-    // We need to decide of we want to move them to a seperate location or not 
-    GLuint SM_frameBuffer;
-    GLuint SM_depthTex;
-    glm::mat4 depthMVP;
-
     GLuint mm_frameBuffer;
     GLuint mm_tex;
 
@@ -74,7 +64,7 @@ class Renderer {
 
     int width;
     int height;
-    float SM_res = 8192/4;
+    float SM_res = 8192;
     void drawText();
     void drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset);
     int frameCount = 0;
@@ -85,9 +75,24 @@ class Renderer {
     
 
 public:
+
+    static bool shadowsInitialized;
+    static bool shadowsFilled;
+
+    // Shadow mapping functions
+    void renderShadowMap(const std::vector<Entity*>& ents);
+    void addToShadowMap(const Model& model, glm::mat4 model_matrix, int startElement);
+
+    // The following are all required for shadow mapping 
+    // We need to decide of we want to move them to a seperate location or not 
+    GLuint SM_frameBuffer;
+    static GLuint SM_depthTex;
+    static glm::mat4 depthMVP;
+
 	Renderer(int);
 	~Renderer();
     void postGLInit(); // call init functions after Window's created the OpenGL env.
+    void initFrameBuffer();
 	void drawScene(const std::vector<Entity*>& ents);
     void renderMiniMap(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha = 0.8);
     void setDims(renderWindowData& rwd);
