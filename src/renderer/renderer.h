@@ -51,8 +51,6 @@ class Renderer {
     void renderShadowMap(const std::vector<Entity*>& ents);
     void addToShadowMap(const Model& model, glm::mat4 model_matrix, int startElement);
 
-    void renderMiniMap(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float alpha = 0.8);
-
     // The following are all required for shadow mapping 
     // We need to decide of we want to move them to a seperate location or not 
     GLuint SM_frameBuffer;
@@ -76,7 +74,7 @@ class Renderer {
 
     int width;
     int height;
-    float SM_res = 8192*2;
+    float SM_res = 8192/4;
     void drawText();
     void drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset);
     int frameCount = 0;
@@ -91,10 +89,15 @@ public:
 	~Renderer();
     void postGLInit(); // call init functions after Window's created the OpenGL env.
 	void drawScene(const std::vector<Entity*>& ents);
+    void renderMiniMap(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha = 0.8);
     void setDims(renderWindowData& rwd);
 
     // Control a full screen draw
     void draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars);
+    void drawCountDown(int time);
+    int getMMSize();
+    int getWidth();
+    int getHeight();
 
     Camera* getCam();
 };

@@ -355,30 +355,6 @@ void MenuRenderer::drawPause()
     }
 }
 
-void MenuRenderer::drawCountDown(int time)
-{
-    glViewport(0, 0, width, height);
-    glUseProgram(shader[SHADER::TEXT]);
-
-    glDisable(GL_CULL_FACE);
-    int xPlacement;
-    int yPlacement;
-    int ds_offset = 3;
-    int size = 200 * (height / (720.f));
-
-    char text[512];
-    if (time == 0) {
-        sprintf(text, "GO");
-    }
-    else {
-        sprintf(text, "%i", time);
-    }
-    xPlacement = (this->width / 2.f) - (size / 2.f) * (strlen(text) / 2.f) - (size);
-    yPlacement = (this->height / 2.f)*(2.f/3.f);
-
-    drawDropShadowText(text, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
-}
-
 void MenuRenderer::drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset) {
     back->printText2D(string, x, y, size, this->width, this->height);
     front->printText2D(string, x + offset, y - offset, size, this->width, this->height);

@@ -782,6 +782,47 @@ void Renderer::drawDropShadowText(const char* string, Text2D* front, Text2D* bac
     front->printText2D(string, x + offset, y - offset, size, this->width, this->height);
 }
 
+void Renderer::drawCountDown(int time)
+{
+    //glViewport(0, 0, width, height);
+    glViewport(vpX, vpY, width, height);
+    glUseProgram(shader[SHADER::TEXT]);
+
+    glDisable(GL_CULL_FACE);
+    int xPlacement;
+    int yPlacement;
+    int ds_offset = 3;
+    int size = 200 * (height / (720.f));
+
+    char text[512];
+    if (time == 0) {
+        sprintf(text, "GO");
+    }
+    else {
+        sprintf(text, "%i", time);
+    }
+    xPlacement = (this->width / 2.f) - (size / 2.f) * (strlen(text) / 2.f) - (size);
+    yPlacement = (this->height / 2.f)*(2.f / 3.f);
+
+    drawDropShadowText(text, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+}
+
+int Renderer::getMMSize()
+{
+    return mmSize;
+}
+
+int Renderer::getWidth()
+{
+    return width;
+}
+
+int Renderer::getHeight()
+{
+    return height;
+}
+
+
 
 // This seems kinda dangerous
 Camera* Renderer::getCam() {
@@ -802,10 +843,12 @@ void Renderer::setDims(renderWindowData& rwd) {
     UIScale = height / 1000.0f;
 }
 
-void Renderer::renderMiniMap(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float alpha) {
+void Renderer::renderMiniMap(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha) {
     Camera * mapCam = new Camera(vec3(0.05, -0.9, 0.), vec3(-300, height, -124.5), false); // tuned to this specific map
     mapCam->setDims(size, size);
     glViewport(0, 0, size, size);
+   // glViewport(0, 0, this->width, this->height);
+
     glBindFramebuffer(GL_FRAMEBUFFER, mm_frameBuffer);
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -877,17 +920,17 @@ void Renderer::renderMiniMap(const std::vector<Entity*>& ents, const std::vector
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glEnable(GL_DEPTH_TEST);
     delete mapCam;
-    glViewport(0, 0, this->width, this->height);
+    glViewport(0, 0, sWidth, sHeight);
 
     // At this point, minimap draw to texFB
     Texture mmTex(mm_tex);
     Text2D mmRenderer(&mmTex);
-    mmRenderer.drawTexture(xPos, yPos, size, size, this->width, this->height, alpha, true);
+    mmRenderer.drawTexture(xPos, yPos, size, size, sWidth, sHeight, alpha, true);
 }
 
 // Draw everything on the screen screeen
 void Renderer::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars) {
     drawScene(ents);
     drawText();
-    renderMiniMap(ents, cars, 1300, mmSize, width - mmSize, height / 4, 0.7);
+    //renderMiniMap(ents, cars, 1300, mmSize, width - mmSize, height / 4, 0.7);
 }

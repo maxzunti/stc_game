@@ -77,15 +77,15 @@ int Window::initGLFW() {
 }
 
 void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars) {
+    SSParams params = getSSParams(nps);
     if (update) {
-        setSplitScreen(nps, cars);
-        for (auto r : renderers) {
+        for (int i = 0; i < renderers.size(); i++) {
             renderWindowData rwd;
-            rwd.height = height;
-            rwd.width = width;
-            rwd.xPos = 0;
-            rwd.yPos = 0;
-            r->setDims(rwd);
+            rwd.height = params.screenPos[i].height;
+            rwd.width = params.screenPos[i].width;
+            rwd.xPos = params.screenPos[i].xPos;
+            rwd.yPos = params.screenPos[i].yPos;
+            renderers[i]->setDims(rwd);
         }
         update = false;
     }
@@ -93,6 +93,9 @@ void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& car
     for (auto r : renderers) {
         r->draw(ents, cars);
     }
+
+    renderers[0]->renderMiniMap(ents, cars, 1300, renderers[0]->getMMSize(), params.mapPos[0]- (renderers[0]->getMMSize() /2), params.mapPos[1] - (renderers[0]->getMMSize() / 2), width, height, 0.7);
+    
     // scene is rendered to the back buffer, so swap to front for display
     glfwSwapBuffers(window);
 
@@ -115,24 +118,27 @@ void Window::drawMenu() {
 
 void Window::drawCountDown(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, int time) {
 
+
+    SSParams params = getSSParams(nps);
     if (update) {
-        setSplitScreen(nps, cars);
-        for (auto r : renderers) {
+        for (int i = 0; i < renderers.size(); i ++) {
             renderWindowData rwd;
-            rwd.height = height;
-            rwd.width = width;
-            rwd.xPos = 0;
-            rwd.yPos = 0;
-            r->setDims(rwd);
+            rwd.height = params.screenPos[i].height;
+            rwd.width = params.screenPos[i].width;
+            rwd.xPos = params.screenPos[i].xPos;
+            rwd.yPos = params.screenPos[i].yPos;
+            renderers[i]->setDims(rwd);
         }
         update = false;
     }
 
     for (auto r : renderers) {
         r->draw(ents, cars);
+        r->drawCountDown(time);
     }
- 
-    menuRenderer->drawCountDown(time);
+
+    renderers[0]->renderMiniMap(ents, cars, 1300, renderers[0]->getMMSize(), params.mapPos[0] - (renderers[0]->getMMSize() / 2), params.mapPos[1] - (renderers[0]->getMMSize() / 2), width, height, 0.7);
+
     // scene is rendered to the back buffer, so swap to front for display
     glfwSwapBuffers(window);
 
@@ -228,8 +234,8 @@ SSParams Window::getSSParams(int numPlayers) {
         w1.height = height;
         params.screenPos.push_back(w1); // xPos, yPos, width, height
 
-        params.mapPos[0] = width;
-        params.mapPos[1] = height;
+        params.mapPos[0] = width-400;
+        params.mapPos[1] = height/4.;
         break;
     }
     case 2: {
@@ -246,22 +252,75 @@ SSParams Window::getSSParams(int numPlayers) {
         w2.height = height;
         params.screenPos.push_back(w2); // xPos, yPos, width, height
 
-        params.mapPos[0] = width / 2;
-        params.mapPos[1] = height;
+        params.mapPos[0] = (width / 2.f);
+        params.mapPos[1] = (height/2.f);
         break;
     }
-        /* TODO:: get these working
-        case 3:
-            params.screenPos.push_back({ 0, 0, width, height }); // xPos, yPos, width, height
-            params.mapPos[0] = width;
-            params.mapPos[1] = height;
-            break;
-        case 4:
-            params.screenPos.push_back({ 0, 0, width, height }); // xPos, yPos, width, height
-            params.mapPos[0] = width;
-            params.mapPos[1] = height;
-            break;
-        */
+        //TODO:: get these working
+    case 3: {
+        //params.screenPos.push_back({ 0, 0, width, height }); // xPos, yPos, width, height
+        //params.mapPos[0] = width;
+        //params.mapPos[1] = height;
+
+        renderWindowData w1;
+        w1.xPos = 0;
+        w1.yPos = 0;
+        w1.width = width / 2;
+        w1.height = height;
+        params.screenPos.push_back(w1); // xPos, yPos, width, height
+
+        renderWindowData w2;
+        w2.xPos = width / 2;
+        w2.yPos = height / 2;
+        w2.width = width / 2;
+        w2.height = height / 2;
+        params.screenPos.push_back(w2); // xPos, yPos, width, height
+
+        renderWindowData w3;
+        w3.xPos = width / 2;
+        w3.yPos = 0;
+        w3.width = width / 2;
+        w3.height = height / 2;
+        params.screenPos.push_back(w3); // xPos, yPos, width, height
+
+        params.mapPos[0] = (width / 2.f);
+        params.mapPos[1] = (height / 2.f);
+        break;
+    }
+    case 4: {
+        renderWindowData w1;
+        w1.xPos = 0;
+        w1.yPos = height / 2;
+        w1.width = width / 2;
+        w1.height = height / 2;
+        params.screenPos.push_back(w1); // xPos, yPos, width, height
+
+        renderWindowData w2;
+        w2.xPos = width / 2;
+        w2.yPos = height / 2;
+        w2.width = width / 2;
+        w2.height = height / 2;
+        params.screenPos.push_back(w2); // xPos, yPos, width, height
+
+        renderWindowData w3;
+        w3.xPos = 0;
+        w3.yPos = 0;
+        w3.width = width / 2;
+        w3.height = height / 2;
+        params.screenPos.push_back(w3); // xPos, yPos, width, height
+
+        renderWindowData w4;
+        w4.xPos = width / 2;
+        w4.yPos = 0;
+        w4.width = width / 2;
+        w4.height = height / 2;
+        params.screenPos.push_back(w4); // xPos, yPos, width, height
+
+
+        params.mapPos[0] = (width / 2.f);
+        params.mapPos[1] = (height / 2.f);
+        break;
+    }
     }
     return params;
 }

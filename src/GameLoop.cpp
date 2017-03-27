@@ -87,7 +87,11 @@ int main(int argc, const char* argv[])
         switch (gameState.currentState) {
         case GameState::MENU:
 
-            input->Update();
+            //input->Update();
+            for (Input * in : gameState.inputs) {
+                in->Update();
+            }
+
             window->drawMenu();
 
             if (window->getMenuRenderer()->getPlaying()) {
@@ -158,7 +162,11 @@ int main(int argc, const char* argv[])
 
             break;
         case GameState::PAUSED:
-            input->Update();
+            //input->Update();
+            
+            for (Input * in : gameState.inputs) {
+                in->Update();
+            }
             window->drawMenu();
 
             //Resume game

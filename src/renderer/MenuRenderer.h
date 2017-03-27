@@ -52,8 +52,6 @@ public:
     void drawLoadScreen();
     void drawPause();
 
-    void drawCountDown(int time);
-
     void setDims(int width, int height);
     void registerController(Input * newCont);
     void updateMenu();
