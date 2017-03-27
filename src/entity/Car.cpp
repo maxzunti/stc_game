@@ -394,6 +394,7 @@ void Car::update() {
             this->setRot(this->nodes[this->partoflap-1]->getQRot());
         }
     }
+    /*
     if (controller->GetButtonPressed(XButtonIDs::X)) {
         std::cout << "x: " << this->getPos().x << ", y: " << this->getPos().y << ", z: " << this->getPos().z << std::endl;
         std::cout << "wrot: " << this->getQRot().w << ", xrot: " << this->getQRot().x << ", yrot: " << this->getQRot().y << ", zrot: " << this->getQRot().z << std::endl;
@@ -404,12 +405,12 @@ void Car::update() {
         //myHook->updateFromConfig();
         //make_physX_car();
         
-    }
+    }*/
 
-    if (controller->GetButtonPressed(XButtonIDs::A)) {
+    /*if (controller->GetButtonPressed(XButtonIDs::A)) {
         setPos(-50, 100, 72);
         setRot(0.0, 1.57 / 2.0, 0.0);
-    }
+    }*/
 
     //Apply turn according to the left stick angle 
     applyWheelTurn(controller->LStick_InDeadzone() ? 0.f : controller->LeftStick_X());
