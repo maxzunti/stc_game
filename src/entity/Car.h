@@ -16,6 +16,7 @@
 #include "../Jukebox.h"
 #include <time.h>
 #include <ctime>
+#include <vector>
 
 struct RaycastResults {
     glm::vec3 normal;
@@ -24,9 +25,9 @@ struct RaycastResults {
 
 enum CarColor {
         PURPLE = 0,
-        RED,
-        LB,
-        ORANGE
+        RED = 1,
+        LB = 2,
+        ORANGE = 3
 };
 
 struct CarRenderInfo {
@@ -43,6 +44,10 @@ public:
     Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, Input * cont, std::vector<Entity*> &ents, Jukebox* jb, StaticPhysicsObject * track, std::vector<RectTrigger*> AInodes);
 	Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track, std::vector<RectTrigger*> AInodes);
     virtual ~Car();
+
+    bool operator< (const Car &other) const {
+        return score < other.score;
+    }
 
     int lap;
     int partoflap;
@@ -66,6 +71,9 @@ public:
     virtual void applyLocalForce(float forward, float right, float up);
     virtual bool isCar(); // yes, it is.
 
+   static std::vector<Car*> Car::sortByScore(std::vector<Car*> cars);
+   static bool Car::compByScore(Car* a, Car* b);
+
     glm::vec3 getAim() const;
     glm::quat getAimRot() const;
     double getSpeed();
@@ -85,6 +93,9 @@ public:
     Jukebox* myJB;
 
     bool devChange = true;
+    bool engineSoundPlay = false;
+    int engineSoundChannel = 100;
+    int idleSoundChannel = 101;
 
 protected:
     Input * controller;

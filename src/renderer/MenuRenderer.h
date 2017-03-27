@@ -3,6 +3,7 @@
 #include "model\Texture.h"
 #include "text2D.h"
 #include "../input/input.h"
+#include "../Jukebox.h"
 
 class MenuRenderer {
     //Text rendering
@@ -42,6 +43,8 @@ public:
     MenuRenderer();
     ~MenuRenderer();
 
+    void registerJukebox(Jukebox* jb);
+
     void postGLInit(); // call init functions after Window's created the OpenGL env.
     
     void drawScene();
@@ -63,4 +66,6 @@ public:
     int getPage();
     int getNumberOfItems(int page);
     int getNumOfPlayers();
+
+    Jukebox* jb;
 };

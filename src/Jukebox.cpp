@@ -46,17 +46,48 @@ void Jukebox::play()
 	Mix_PlayMusic(clip, -1);
 }
 
+void Jukebox::stopMusic()
+{
+    Mix_HaltMusic();
+}
+
 
 void Jukebox::playEffect(int effect)
 {
-    Mix_PlayChannel(-1, this->effects.at(effect), 0);
+    int playchannel = Mix_PlayChannel(-1, this->effects.at(effect), 0);
+}
+
+int Jukebox::revEngine(bool idle)
+{
+    if (!idle)
+        return Mix_PlayChannel(100, this->effects.at(Jukebox::revengine), -1);
+    else
+        return Mix_PlayChannel(101, this->effects.at(Jukebox::idle), -1);
+}
+
+
+void Jukebox::stop(int channel)
+{
+    Mix_HaltChannel(channel);
+}
+
+int Jukebox::isPlaying(int channel)
+{
+    return Mix_Playing(channel);
 }
 
 void Jukebox::setup()
 {
-    this->loadMusic("assets/sound/dmw.mp3");
+    this->loadMusic("assets/sound/shootingstars.mp3");
+    Mix_VolumeMusic(MIX_MAX_VOLUME*0.5f);
     this->loadEffect("assets/sound/laser.mp3");
     this->loadEffect("assets/sound/pull.mp3");
     this->loadEffect("assets/sound/metal.mp3");
     this->loadEffect("assets/sound/shoot.mp3");
+    this->loadEffect("assets/sound/revengine.mp3");
+    Mix_VolumeChunk(this->effects.at(Jukebox::revengine),MIX_MAX_VOLUME*0.5f);
+    this->loadEffect("assets/sound/idle.mp3");
+    Mix_VolumeChunk(this->effects.at(Jukebox::idle), MIX_MAX_VOLUME*0.5f);
+    this->loadEffect("assets/sound/menumove.mp3");
+    this->loadEffect("assets/sound/menuselect.mp3");
 }

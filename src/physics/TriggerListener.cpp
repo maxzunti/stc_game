@@ -39,10 +39,10 @@ void TriggerListener::onTrigger(PxTriggerPair* pairs, PxU32 count) {
             }
         }
 
-        if ((pairs[i].otherShape->getActor()->getName() == "AICar") &&
+        if ((pairs[i].otherShape->getActor()->getName() == "Car") &&
             (pairs[i].triggerShape->getActor()->getName() == "FallBox"))
         {
-            AICar* myCar = static_cast<AICar*>(pairs[i].otherShape->getActor()->userData);
+            Car* myCar = static_cast<Car*>(pairs[i].otherShape->getActor()->userData);
 
                 myCar->partoflap = 0;
         }

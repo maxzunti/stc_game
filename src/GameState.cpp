@@ -100,7 +100,7 @@ void GameState::initGame(int numberOfPlayers)
         m->tile_UV_XY(3, 60);
     }
 
-    StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks.obj", "assets/textures/trans_red.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST, false);
+    StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks2.obj", "assets/textures/trans_red.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST, false);
     entities.push_back(myHookables);
 
     myTrack->SIL_X_SCALE = 1.1;
@@ -138,10 +138,15 @@ void GameState::initGame(int numberOfPlayers)
     window->getRenderer(1)->getCam()->registerController(input2.get());
 #endif
 
-
+    Renderable * finishflag = new Renderable("assets/models/Crate/Crate1.obj", "assets/textures/checkers.png");
+    entities.push_back(finishflag);
+    finishflag->setPos(-160.176, 33.68377, -334.572);
+    finishflag->scale(10., 10., 80.);
+    finishflag->scaleModels();
+    finishflag->setSil(false);
 
     // Create a finish-line trigger
-    RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/checkers.png", 10., 20., 100., 0, glm::vec3(0, 0, 0), true);
+    RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/textures/checkers.png", 10., 20., 100., 0, glm::vec3(0, 0, 0), false);
 
     entities.push_back(finishLine);
     finishLine->setPos(-150, 0, -350);
@@ -336,13 +341,13 @@ void GameState::initGame(int numberOfPlayers)
 
 
     for (int i = 0; i < numberOfPlayers; i++) {
-        Car *car = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, inputs[i], entities, jb, myTrack, trackNodes);
+        Car *car = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(CarColor(i)), nullptr, myPhysics, inputs[i], entities, jb, myTrack, trackNodes);
         cars.push_back(car);
         entities.push_back(car);
     }
 
     for (int i = 0; i < (4 - numberOfPlayers); i++) {
-        AICar *bot = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(PURPLE), nullptr, myPhysics, entities, myTrack, trackNodes);
+        AICar *bot = new AICar(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(CarColor(i + numberOfPlayers)), nullptr, myPhysics, entities, myTrack, trackNodes);
         cars.push_back(bot);
         entities.push_back(bot);
     }
@@ -414,5 +419,6 @@ void GameState::endGame() {
     entities.clear();
     cars.clear();
     trackNodes.clear();
+    this->jb->stop(-1);
     
 }

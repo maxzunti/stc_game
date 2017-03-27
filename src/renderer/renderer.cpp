@@ -735,6 +735,7 @@ void Renderer::drawText() {
     //Lap Placement - insert real lap information here
 
     char lapText[256];
+    
     sprintf(lapText, "\n%i\\3",cam->getCar()->getLap());
     drawDropShadowText("LAP", blueText, blackText, xPlacement, yPlacement, 60, ds_offset);
     drawDropShadowText(lapText, whiteText, blackText, xPlacement, yPlacement, 60, ds_offset);
@@ -758,7 +759,19 @@ void Renderer::drawText() {
     yPlacement = this->height - 150;
 
     char posText[256];
-    sprintf(posText, "%i", cam->getCar()->rank);
+    switch (cam->getCar()->rank)
+    {
+    case 1: sprintf(posText, "1ST");
+        break;
+    case 2: sprintf(posText, "2ND");
+        break;
+    case 3: sprintf(posText, "3RD");
+        break;
+    case 4: sprintf(posText, "4TH");
+        break;
+
+    }
+    
     drawDropShadowText(posText, whiteText, blackText, xPlacement, yPlacement, 100, ds_offset);
 
     xPlacement = this->width - 300;
@@ -767,11 +780,11 @@ void Renderer::drawText() {
     std::string speed_str = std::to_string(speed_int);
     drawDropShadowText(speed_str.c_str(), whiteText, blackText, xPlacement, yPlacement, 100, ds_offset);
 
-    if ((cam->getCar()->getLap() == 3) && (cam->getCar()->getPartOfLap() == 4)) {
+    if (cam->getCar()->doneRace) {
         xPlacement = width/4;
         yPlacement = height-200;
         char winText[256];
-        sprintf(winText, "YOU WIN!");
+        sprintf(winText, "RACE COMPLETE");
         drawDropShadowText(winText, whiteText, blackText, xPlacement, yPlacement, 100, ds_offset);
     }
 }

@@ -7,10 +7,18 @@
 using namespace glm;
 
 const char* CarRenderInfo::getTex(CarColor col) {
-//    switch (col) {
-//    case PURPLE:
-        return "assets/models/car/car_purp.png"; // TODO: actually use different textures
-//    }
+    switch (col) {
+    case PURPLE:
+        return "assets/models/car/car_purp.png";
+	case RED:
+		return "assets/models/car/car_red.png";
+	case LB:
+		return "assets/models/car/car_lb.png";
+	case ORANGE:
+		return "assets/models/car/car_orange.png";
+	default:
+		return "A";
+    }
 }
 
 const char* CarRenderInfo::getMinimapIndex(CarColor col) {
@@ -410,16 +418,37 @@ void Car::update() {
     if ((controller->RightTrigger() - controller->LeftTrigger()) > 0) {
         resetBrakes();
         applyWheelTorque((controller->RightTrigger() - controller->LeftTrigger()));
+        this->engineSoundPlay = true;
     }
     else if ((controller->LeftTrigger() - controller->RightTrigger()) > 0) {
         resetBrakes();
         applyWheelTorque(-1.f*(controller->LeftTrigger() - controller->RightTrigger()));
+        this->engineSoundPlay = true;
     }
     else {
         applyWheelTorque(0);
         startBrakeMode();
+        this->engineSoundPlay = false;
     }
-
+/*
+    std::cout << "Engine Is Playing: " << this->myJB->isPlaying(this->engineSoundChannel) << std::endl;
+    std::cout << "Idle Is Playing: " << this->myJB->isPlaying(this->idleSoundChannel) << std::endl;*/
+    if (engineSoundPlay && !this->myJB->isPlaying(this->engineSoundChannel))
+    {
+        std::cout << "Startup Rev Sound" << std::endl;
+        this->myJB->stop(this->idleSoundChannel);
+        std::cout << "Stop Idle Sound: " << this->myJB->isPlaying(this->idleSoundChannel) << std::endl;
+        this->engineSoundChannel = this->myJB->revEngine(false);
+        std::cout << "Rev Channel: " << this->engineSoundChannel << std::endl;
+    }
+    else if (!engineSoundPlay && !this->myJB->isPlaying(this->idleSoundChannel))
+    {
+        std::cout << "Startup Idle Sound" << std::endl;
+        this->myJB->stop(this->engineSoundChannel);
+        std::cout << "Stop Rev Sound" << std::endl;
+        this->idleSoundChannel = this->myJB->revEngine(true);
+        std::cout << "Idle Channel: " << this->idleSoundChannel << std::endl;
+    }
     //Cap the max velocity of the car to 80
     if (this->mActor->getLinearVelocity().magnitude() > MAX_SPEED && !this->retracting)
     {
@@ -469,13 +498,11 @@ void Car::update() {
     if ((!myHook->getShot() && !myHook->getStuck()) && cooldownState == false && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
         fireHook();
     }
-
-    if (myHook->getStuck() && (controller->GetButtonPressed(XButtonIDs::R_Shoulder) || controller->GetButtonPressed(XButtonIDs::L_Shoulder))) {
+    
+    if (myHook->getStuck() ) {
         if (retracting != true)
             this->myJB->playEffect(myJB->gravpull);
         retracting = true;
-        
-
     }
 
     if (swinging) {
@@ -807,4 +834,16 @@ glm::vec3& Car::getUp() {
 
 Hook * Car::getHook() {
     return myHook.get();
+}
+
+std::vector<Car*> Car::sortByScore(std::vector<Car*> cars)
+{
+    std::vector<Car*> cars_copy = cars;
+    std::sort(cars_copy.begin(), cars_copy.end(), Car::compByScore);
+    return cars_copy;
+}
+
+bool Car::compByScore(Car* a, Car* b)
+{
+    return a->score < b->score;
 }

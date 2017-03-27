@@ -39,6 +39,7 @@ int main(int argc, const char* argv[])
 	Jukebox *jb = new Jukebox();
     jb->setup();
     jb->play();
+    window->getMenuRenderer()->registerJukebox(jb);
 
     // Set up input
    // std::unique_ptr<Input> input(new Input(0));
@@ -101,15 +102,15 @@ int main(int argc, const char* argv[])
 
                 window->setSplitScreen(numOfPlayers, gameState.cars);
 
-                for (int i = 0; i < numOfPlayers; i++ ) {
+                for (int i = 0; i < numOfPlayers; i++) {
                     window->getRenderer(i)->getCam()->registerController(gameState.inputs[i]);
                     window->getRenderer(i)->getCam()->registerCar(gameState.cars[i]);
                 }
 
-/*
-                window->getRenderer()->getCam()->registerController(input);
-                window->getRenderer()->getCam()->registerCar(gameState.cars[0]);
-*/
+                /*
+                                window->getRenderer()->getCam()->registerController(input);
+                                window->getRenderer()->getCam()->registerCar(gameState.cars[0]);
+                */
                 // Update physics one time 
                 // This will allow the wheels positions to be updated once and therfore will be rendered
                 for (const auto& c : gameState.cars) {
@@ -121,11 +122,11 @@ int main(int argc, const char* argv[])
                 float prevTime = clock();
                 while (time > 0) {
                     float currentTime = clock();
-                    if ((currentTime-prevTime) > 1000) {
+                    if ((currentTime - prevTime) > 1000) {
                         time--;
                         prevTime = currentTime;
                     }
-                    window->drawCountDown(gameState.entities, gameState.cars,time);
+                    window->drawCountDown(gameState.entities, gameState.cars, time);
                     glfwSetTime(0);
                 }
             }
@@ -138,6 +139,7 @@ int main(int argc, const char* argv[])
             }
             for (const auto& c : gameState.cars) {
                 if (c->pauseGame) {
+                    jb->playEffect(Jukebox::menuselect);
                     gameState.updateState(GameState::PAUSED);
                     window->getMenuRenderer()->setPage(MenuRenderer::PAUSED);
                     window->getMenuRenderer()->setPlaying(false);
@@ -145,12 +147,33 @@ int main(int argc, const char* argv[])
                 }
             }
 
-           // input->Update();
+            // input->Update();
+            {
+            vector<Car*> sortcars;
+            for (Car * c : gameState.cars)
+            {
+                if (!c->doneRace)
+                {
+                    sortcars.push_back(c);
+                    //////// Calc positions
+                    float dist = glm::length(c->nodes.at(c->partoflap % c->nodes.size())->getPos() - c->getPos());
+                    float maxdist = glm::length(c->nodes.at(c->partoflap %c->nodes.size())->getPos() - c->nodes.at(((c->partoflap) - 1) % c->nodes.size())->getPos());
+                    c->score = c->lap * 100 + c->partoflap + (1.0f - dist / maxdist);
+                }
+            }
+                
             for (const auto& c : gameState.cars) {
                 c->stepForPhysics();
                 c->update();
             }
+
+            sortcars = Car::sortByScore(sortcars);
+            for (int i = 0; i < sortcars.size(); i++)
+                sortcars.at(i)->rank = 4-i;
+           }
             gameState.myPhysics->stepPhysics();
+
+            
 
             // This Keeps the " GO " message up for a period of time after the race starts
             if (glfwGetTime() > 2) {
@@ -171,6 +194,7 @@ int main(int argc, const char* argv[])
 
             //Resume game
             if (window->getMenuRenderer()->getPlaying()) {
+                jb->playEffect(Jukebox::menuselect);
                 gameState.updateState(GameState::PLAYING);
 
                 for (const auto& c : gameState.cars) {
@@ -181,6 +205,9 @@ int main(int argc, const char* argv[])
 
             //Back to main menu
             if (window->getMenuRenderer()->getPage() == MenuRenderer::page::MAIN) {
+                jb->playEffect(Jukebox::menuselect);
+                jb->loadMusic("assets/sound/shootingstars.mp3");
+                jb->play();
                 gameState.updateState(GameState::MENU);
                 for (const auto& c : gameState.cars) {
                     c->pauseGame = false;
@@ -198,3 +225,4 @@ int main(int argc, const char* argv[])
 
 	return 0;
 }
+
