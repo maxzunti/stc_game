@@ -33,6 +33,7 @@ Window::Window(int width, int height) {
     rwd.yPos = 0;
     r->setDims(rwd);
     r->postGLInit();
+    r->initFrameBuffer();
     renderers.push_back(r);
    // renderer->setDims(width, height);
     //renderer->postGLInit();
@@ -90,6 +91,7 @@ void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& car
         update = false;
     }
 
+    renderers[0]->renderShadowMap(ents);
     for (auto r : renderers) {
         r->draw(ents, cars);
     }
@@ -117,8 +119,6 @@ void Window::drawMenu() {
 }
 
 void Window::drawCountDown(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, int time) {
-
-
     SSParams params = getSSParams(nps);
     if (update) {
         for (int i = 0; i < renderers.size(); i ++) {
@@ -132,6 +132,7 @@ void Window::drawCountDown(const std::vector<Entity*>& ents, const std::vector<C
         update = false;
     }
 
+    renderers[0]->renderShadowMap(ents);
     for (auto r : renderers) {
         r->draw(ents, cars);
         r->drawCountDown(time);
@@ -234,8 +235,8 @@ SSParams Window::getSSParams(int numPlayers) {
         w1.height = height;
         params.screenPos.push_back(w1); // xPos, yPos, width, height
 
-        params.mapPos[0] = width-400;
-        params.mapPos[1] = height/4.;
+        params.mapPos[0] = width - height/4;
+        params.mapPos[1] = height/2.f;
         break;
     }
     case 2: {
