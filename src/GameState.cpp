@@ -345,6 +345,10 @@ void GameState::initGame(int numberOfPlayers)
         Car *car = new Car(static_cast<CarColor>(cars.size()), "assets/models/car/testcar.obj", CarRenderInfo::getTex(CarColor(i)), nullptr, myPhysics, inputs[i], entities, jb, myTrack, trackNodes);
         cars.push_back(car);
         entities.push_back(car);
+        car->engineSoundChannel = 100 + 5 * i;
+        car->idleSoundChannel = 101 + 5 * i;
+        car->hornSoundChannel = 102 + 5 * i;
+
     }
 
     for (int i = 0; i < (4 - numberOfPlayers); i++) {

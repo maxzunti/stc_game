@@ -17,15 +17,16 @@ public:
     void Jukebox::loadEffect(const char* effect);
 	void Jukebox::play();
     void Jukebox::playEffect(int);
-    int Jukebox::revEngine(bool idle);
+    int Jukebox::revEngine(bool idle, int channel);
     void Jukebox::stop(int channel);
     int Jukebox::isPlaying(int channel);
     void Jukebox::setup();
     void Jukebox::stopMusic();
+    int Jukebox::honkHorn(int channel);
 
     enum soundEffects
         {
-            firehook, gravpull, metalhit, hollowhit, revengine, idle, menumove, menuselect
+            firehook, gravpull, metalhit, hollowhit, revengine, idle, menumove, menuselect, horn
     };
 };
 
