@@ -425,52 +425,68 @@ void MenuRenderer::updateMenu()
     }
 
     switch (page) {
-    case MAIN:
-        if (controller->GetButtonDown(XButtonIDs::A)) {
-            if (aPressed == false) {
+    case MAIN: {
+        for (auto c : controllers) {
+            if (c->GetButtonDown(XButtonIDs::A)) {
+                if (aPressed == false) {
 
-                jb->playEffect(Jukebox::menuselect);
-                switch (selection) {
-                case 0:
-                    // page = SINGLE;
-                    page = LOADING;
-                    numOfPlayers = 1;
-                    playing = true;
-                    selection = 0;
-                    break;
-                case 1:
-                    selection = 0;
-                    page = MULTI;
-                    break;
-                case 2:
-                    selection = 0;
-                    page = CREDITS;
-                    break;
-                case 3:
-                    shouldClose = true;
-                    break;
+                    jb->playEffect(Jukebox::menuselect);
+                    switch (selection) {
+                    case 0:
+                        // page = SINGLE;
+                        page = LOADING;
+                        numOfPlayers = 1;
+                        playing = true;
+                        selection = 0;
+                        break;
+                    case 1:
+                        selection = 0;
+                        page = MULTI;
+                        break;
+                    case 2:
+                        selection = 0;
+                        page = CREDITS;
+                        break;
+                    case 3:
+                        shouldClose = true;
+                        break;
+                    }
+
+                    aPressed = !aPressed;
                 }
+            }
+            //else {
+            //    aPressed = false;
+            //}
+        }
+        for (auto c : controllers) {
+            if (c->GetButtonDown(XButtonIDs::B)) {
 
-                aPressed = !aPressed;
+                selection = 0;
+                page = MAIN;
             }
         }
-        else {
+
+        int test2 = 0;
+        for (int i = 0; i < controllers.size(); i++) {
+            if (!(controllers[i]->GetButtonPressed(XButtonIDs::A))) {
+                test2++;
+            }
+        }
+        if (test2 == 4) {
             aPressed = false;
         }
-
-        if (controller->GetButtonDown(XButtonIDs::B)) {
-
-            selection = 0;
-            page = MAIN;
-        }
         break;
+    }
     case CREDITS:
-        if (controller->GetButtonDown(XButtonIDs::B)) {
-            selection = 0;
-            page = MAIN;
+        for (auto c : controllers) {
+            if (c->GetButtonDown(XButtonIDs::B)) {
+                selection = 0;
+                page = MAIN;
+            }
         }
         break;
-    case PAUSED:
+    case PAUSED: {
         for (auto c : controllers) {
             if (c->GetButtonDown(XButtonIDs::A)) {
                 if (aPressed == false) {
@@ -495,56 +511,80 @@ void MenuRenderer::updateMenu()
                     aPressed = !aPressed;
                 }
             }
-            else {
-                aPressed = false;
-            }
+        }
 
+        for (auto c : controllers) {
             if (c->GetButtonDown(XButtonIDs::B)) {
                 playing = true;
             }
         }
-        break;
-    case MULTI:
-        if (controller->GetButtonDown(XButtonIDs::A)) {
-            if (aPressed == false) {
-
-                jb->playEffect(Jukebox::menuselect);
-                switch (selection) {
-                case 0:
-                    // page = SINGLE;
-                    page = LOADING;
-                    playing = true;
-                    numOfPlayers = 1;
-                    break;
-                case 1:
-                    page = LOADING;
-                    playing = true;
-                    numOfPlayers = 2;
-                    break;
-                case 2:
-                    page = LOADING;
-                    playing = true;
-                    numOfPlayers = 3;
-                    break;
-                case 3:
-                    page = LOADING;
-                    numOfPlayers = 4;
-                    playing = true;
-                    break;
-                }
-
-                selection = 0;
-                aPressed = !aPressed;
+        int test2 = 0;
+        for (int i = 0; i < controllers.size(); i++) {
+            if (!(controllers[i]->GetButtonPressed(XButtonIDs::A))) {
+                test2++;
             }
         }
-        else {
+        if (test2 == 4) {
             aPressed = false;
         }
+        break;
+    }
+    case MULTI: {
+        for (auto c : controllers) {
+            if (c->GetButtonDown(XButtonIDs::A)) {
+                if (aPressed == false) {
 
-        if (controller->GetButtonDown(XButtonIDs::B)) {
-            selection = 0;
-            page = MAIN;
+                    jb->playEffect(Jukebox::menuselect);
+                    switch (selection) {
+                    case 0:
+                        // page = SINGLE;
+                        page = LOADING;
+                        playing = true;
+                        numOfPlayers = 1;
+                        break;
+                    case 1:
+                        page = LOADING;
+                        playing = true;
+                        numOfPlayers = 2;
+                        break;
+                    case 2:
+                        page = LOADING;
+                        playing = true;
+                        numOfPlayers = 3;
+                        break;
+                    case 3:
+                        page = LOADING;
+                        numOfPlayers = 4;
+                        playing = true;
+                        break;
+                    }
+
+                    selection = 0;
+                    aPressed = !aPressed;
+                }
+            }
+            // else {
+            //     aPressed = false;
+            // }
         }
+        for (auto c : controllers) {
+            if (c->GetButtonDown(XButtonIDs::B)) {
+
+                selection = 0;
+                page = MAIN;
+            }
+        }
+
+        int test2 = 0;
+        for (int i = 0; i < controllers.size(); i++) {
+            if (!(controllers[i]->GetButtonPressed(XButtonIDs::A))) {
+                test2++;
+            }
+        }
+        if (test2 == 4) {
+            aPressed = false;
+        }
+    }
         break;
     }
 
