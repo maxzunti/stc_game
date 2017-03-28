@@ -124,15 +124,21 @@ int main(int argc, const char* argv[])
                 // Do the countdown
                 int time = 3;
                 float prevTime = clock();
+
+                jb->playEffect(Jukebox::soundEffects::menumove);
                 while (time > 0) {
                     float currentTime = clock();
                     if ((currentTime - prevTime) > 1000) {
                         time--;
                         prevTime = currentTime;
+                        if (time!=0)
+                            jb->playEffect(Jukebox::soundEffects::menumove);
                     }
                     window->drawCountDown(gameState.entities, gameState.cars, time);
                     glfwSetTime(0);
                 }
+
+                jb->playEffect(Jukebox::soundEffects::horn);
             }
 
             break;
