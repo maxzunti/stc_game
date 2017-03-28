@@ -759,11 +759,10 @@ void Renderer::drawText() {
     if (cam->getCar()->doneRace) {
         currentTime = cam->getCar()->raceTime;
     }
-    cout << cam->getCar()->raceTime << endl;
+
     sprintf(timeText, "\n%.2i:%.2i", int(currentTime)/60,int(currentTime)%60);
     drawDropShadowText("TIME", blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     drawDropShadowText(timeText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
-
 
     size = 100 * (height / 720.f);
     //Position - insert real position info here
