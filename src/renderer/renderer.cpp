@@ -755,12 +755,16 @@ void Renderer::drawText() {
     xPlacement = (size/2.f);//30
     yPlacement = (size*1.66f);//100
     char timeText[256];
+   
     double currentTime = glfwGetTime();
-    
+   
+    if (cam->getCar()->doneRace) {
+        currentTime = cam->getCar()->raceTime;
+    }
+
     sprintf(timeText, "\n%.2i:%.2i", int(currentTime)/60,int(currentTime)%60);
     drawDropShadowText("TIME", blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     drawDropShadowText(timeText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
-
 
     size = 100 * (height / 720.f);
     //Position - insert real position info here
@@ -790,6 +794,9 @@ void Renderer::drawText() {
     drawDropShadowText(speed_str.c_str(), whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
     size = 100 * (height / 720.f);
     if (cam->getCar()->doneRace) {
+        if (cam->getCar()->raceTime == 0) {
+            cam->getCar()->raceTime = glfwGetTime();
+        }
         char winText[256];
         sprintf(winText, "FINISHED");
 

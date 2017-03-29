@@ -98,6 +98,8 @@ public:
     int idleSoundChannel = 101;
     int hornSoundChannel = 102;
 
+    double raceTime = 0.;
+
 protected:
     Input * controller;
     PhysicsManager * physMan;
