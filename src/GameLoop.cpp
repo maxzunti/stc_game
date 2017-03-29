@@ -79,7 +79,7 @@ int main(int argc, const char* argv[])
     GameState gameState = GameState(inputs, myPhysics, jb);
 #ifdef MENU_SKIP
     gameState.updateState(GameState::PLAYING);
-    gameState.initGame();
+    gameState.initGame(1);
     window->getRenderer()->getCam()->registerController(input);
     window->getRenderer()->getCam()->registerCar(gameState.cars[0]);
 

@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "grav_grapplers", "grav_grapplers.vcxproj", "{1E53CF5D-A9AC-4E15-9DCF-A237A7FCDC4D}"
 EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		checked|x64 = checked|x64
 		checked|x86 = checked|x86

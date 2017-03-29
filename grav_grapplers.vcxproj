@@ -227,6 +227,7 @@
     <ClCompile Include="src\entity\Obstacle.cpp" />
     <ClCompile Include="src\entity\HookChain.cpp" />
     <ClCompile Include="src\entity\RectTrigger.cpp" />
+    <ClCompile Include="src\entity\Skyline.cpp" />
     <ClCompile Include="src\entity\Track.cpp" />
     <ClCompile Include="src\entity\Walls.cpp" />
     <ClCompile Include="src\entity\Wheel.cpp" />
@@ -393,6 +394,7 @@
     <ClInclude Include="src\entity\Obstacle.h" />
     <ClInclude Include="src\entity\HookChain.h" />
     <ClInclude Include="src\entity\RectTrigger.h" />
+    <ClInclude Include="src\entity\Skyline.h" />
     <ClInclude Include="src\entity\Walls.h" />
     <ClInclude Include="src\entity\Wheel.h" />
     <ClInclude Include="src\GameLoop.h" />

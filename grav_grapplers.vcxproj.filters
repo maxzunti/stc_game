@@ -42,6 +42,7 @@
     <ClCompile Include="src\physics\StickListener.cpp" />
     <ClCompile Include="src\util\ConfigParser.cpp" />
     <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\entity\Skyline.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="middleware\PhysXSDK\Include\PxContactModifyCallback.h" />
@@ -235,6 +236,7 @@
     <ClInclude Include="src\physics\StickListener.h" />
     <ClInclude Include="src\GameState.h" />
     <ClInclude Include="src\GameLoop.h" />
+    <ClInclude Include="src\entity\Skyline.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="middleware\glfw\glfw3.lib" />

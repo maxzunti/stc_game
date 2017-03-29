@@ -48,7 +48,10 @@ class Renderer {
     void drawTrack(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, float reflectivity = 0.0f);
 
     GLuint mm_frameBuffer;
+    GLuint mm_pips_frameBuffer;
     GLuint mm_tex;
+    GLuint mm_pips_tex;
+    bool mm_bg_drawn = false;
 
     //Text rendering
     void Renderer::initText();
@@ -99,6 +102,7 @@ public:
     void initFrameBuffer();
 	void drawScene(const std::vector<Entity*>& ents);
     void renderMiniMap(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha = 0.8);
+    void renderMiniMapBG(const std::vector<Entity*>& ents, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha = 0.8);
     void setDims(renderWindowData& rwd);
 
     // Control a full screen draw

@@ -54,6 +54,19 @@ Renderer::Renderer(int index) :
 Renderer::~Renderer()
 {
     delete cam;
+    GLuint mm_frameBuffer;
+    GLuint mm_pips_frameBuffer;
+    GLuint mm_tex;
+    GLuint mm_pips_tex;
+    glDeleteFramebuffers(1, &mm_frameBuffer);
+    glDeleteFramebuffers(1, &mm_pips_frameBuffer);
+    glDeleteTextures(1, &mm_tex);
+    glDeleteTextures(1, &mm_pips_tex);
+    if (index == 0) {
+        glDeleteFramebuffers(1, &SM_frameBuffer);
+        glDeleteTextures(1, &SM_depthTex);
+    }
+
 }
 
 void Renderer::postGLInit() {
@@ -62,6 +75,7 @@ void Renderer::postGLInit() {
 
     if (index == 0) {
         initColorFrameBuffer(mm_frameBuffer, mm_tex, mmSize, mmSize);
+        initColorFrameBuffer(mm_pips_frameBuffer, mm_pips_tex, mmSize, mmSize);
     }
 }
 
@@ -888,23 +902,26 @@ void Renderer::setDims(renderWindowData& rwd) {
         mmSize = height / 2;
         glDeleteFramebuffers(1, &mm_frameBuffer);
         glDeleteTextures(1, &mm_tex);
+        glDeleteFramebuffers(1, &mm_pips_frameBuffer);
+        glDeleteTextures(1, &mm_pips_tex);
         initColorFrameBuffer(mm_frameBuffer, mm_tex, mmSize, mmSize);
+        initColorFrameBuffer(mm_pips_frameBuffer, mm_pips_tex, mmSize, mmSize);
+        mm_bg_drawn = false;
     }
     UIScale = height / 1000.0f;
 }
 
-void Renderer::renderMiniMap(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha) {
+void Renderer::renderMiniMapBG(const std::vector<Entity*>& ents, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha) {
     Camera * mapCam = new Camera(vec3(0.05, -0.9, 0.), vec3(-300, height, -124.5), false); // tuned to this specific map
     mapCam->setDims(size, size);
     glViewport(0, 0, size, size);
-   // glViewport(0, 0, this->width, this->height);
-
     glBindFramebuffer(GL_FRAMEBUFFER, mm_frameBuffer);
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
     mat4 perspectiveMatrix = mapCam->calcPerspective();
     mat4 &camMatrix = mapCam->getMatrix();
+
     for (auto& e : ents) {
         // This is virtual function lookup for each entity, might be slow
         // Potentially optimize by using a single vec of Renderables
@@ -950,11 +967,31 @@ void Renderer::renderMiniMap(const std::vector<Entity*>& ents, const std::vector
                 );
                 CheckGLErrors("drawSil");
 
-               // screenshot(name, width, this->height);
+                // screenshot(name, width, this->height);
                 break;
             }
         }
     }
+    mm_bg_drawn = true;
+}
+
+void Renderer::renderMiniMap(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha) {
+    Camera * mapCam = new Camera(vec3(0.05, -0.9, 0.), vec3(-300, height, -124.5), false); // tuned to this specific map
+    mapCam->setDims(size, size);
+    glViewport(0, 0, size, size);
+   // glViewport(0, 0, this->width, this->height);
+    if (!mm_bg_drawn) {
+        renderMiniMapBG(ents, height, size, xPos, yPos, sWidth, sHeight, alpha);
+    }
+
+    glBindFramebuffer(GL_FRAMEBUFFER, mm_pips_frameBuffer);
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    mat4 perspectiveMatrix = mapCam->calcPerspective();
+    mat4 &camMatrix = mapCam->getMatrix();
+
+    // render pips
     for (auto& c : cars) {
         Model* model = c->getModels().at(0);
         vec4 v = vec4(c->getPos(), 1.);
@@ -976,6 +1013,10 @@ void Renderer::renderMiniMap(const std::vector<Entity*>& ents, const std::vector
     Texture mmTex(mm_tex);
     Text2D mmRenderer(&mmTex);
     mmRenderer.drawTexture(xPos, yPos, size, size, sWidth, sHeight, alpha, true);
+
+    Texture mmTexPips(mm_pips_tex);
+    Text2D mmPipsRenderer(&mmTexPips);
+    mmPipsRenderer.drawTexture(xPos, yPos, size, size, sWidth, sHeight, alpha, true);
 }
 
 // Draw everything on the screen screeen
