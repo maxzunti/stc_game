@@ -46,7 +46,7 @@ struct Stencil {
 Renderer::Renderer(int index) :
     cam(new Camera(vec3(0, -1, -1), vec3(0, 10, 10)))
 {
-    index = index;
+    this->index = index;
     // (glm::vec3(200, 400, 200)
     light = new Light(glm::vec3(200, 600, 350), glm::vec3(-400, -500, -100)); // TODO: stop hard-coding this
 }
@@ -60,7 +60,9 @@ void Renderer::postGLInit() {
     initSkybox();
     initText();
 
-    initColorFrameBuffer(mm_frameBuffer, mm_tex, mmSize, mmSize);
+    if (index == 0) {
+        initColorFrameBuffer(mm_frameBuffer, mm_tex, mmSize, mmSize);
+    }
 }
 
 void Renderer::initFrameBuffer() {
@@ -875,10 +877,12 @@ void Renderer::setDims(renderWindowData& rwd) {
     this->vpY = rwd.yPos;
 
     cam->setDims(width, height);
-    mmSize = height / 2;
-    glDeleteFramebuffers(1, &mm_frameBuffer);
-    glDeleteTextures(1, &mm_tex);
-    initColorFrameBuffer(mm_frameBuffer, mm_tex, mmSize, mmSize);
+    if (index == 0) {
+        mmSize = height / 2;
+        glDeleteFramebuffers(1, &mm_frameBuffer);
+        glDeleteTextures(1, &mm_tex);
+        initColorFrameBuffer(mm_frameBuffer, mm_tex, mmSize, mmSize);
+    }
     UIScale = height / 1000.0f;
 }
 
