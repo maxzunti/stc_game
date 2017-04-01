@@ -89,6 +89,9 @@ void Renderer::initText() {
     redText = new Text2D("assets/textures/red_gg_font.png");
     whiteText = new Text2D("assets/textures/white_gg_font.png");
     mmPips = new Text2D("assets/textures/mm_icons.png");
+
+    blackBar = new Text2D("assets/textures/blackbar.png");
+
     hookReady = new Text2D("assets/textures/hookcdcharged.png");
     hookNotReady1 = new Text2D("assets/textures/hookcdicondepleted1.png");
     hookNotReady2 = new Text2D("assets/textures/hookcdicondepleted2.png");
@@ -836,6 +839,11 @@ void Renderer::drawText() {
 
 }
 
+void Renderer::drawBlackBarText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset, int sWidth, int sHeight) {
+    blackBar->drawTexture(0, y, width, size, width, sHeight, 0.4);
+   // back->printText2D(string, x, y, size, this->width, this->height);
+    front->printText2D(string, x, y, size, sWidth, sHeight);
+}
 
 void Renderer::drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset) {
     back->printText2D(string, x, y, size, this->width, this->height);
@@ -865,8 +873,54 @@ void Renderer::drawCountDown(int time)
     yPlacement = (this->height / 2.f)*(2.f / 3.f);
 
     drawDropShadowText(text, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+}
 
 
+void Renderer::drawScores(const std::vector<Car*>& cars, float screenWidth, float screenHeight, int numberOfPlayers, int time)
+{
+    //screenWidth = width;
+    //screenHeight = height;
+    //glViewport(0, 0, width, height);
+    glViewport(0, 0, screenWidth, screenHeight);
+    glUseProgram(shader[SHADER::TEXT]);
+
+    glDisable(GL_CULL_FACE);
+    float xPlacement;
+    float yPlacement;
+    int ds_offset = 3;
+    int size = 80 * (screenHeight / (720.f));
+
+    char text[512];
+    xPlacement = (screenWidth / 2.f) - (size / 2.f) * ((strlen(text) / 2.f)+0.5);
+    yPlacement = screenHeight*0.15f;
+
+
+    char complete[512];
+    sprintf(complete, "RACE COMPLETE");
+
+    //drawDropShadowText(complete, blueText, blackText, xPlacement , screenHeight* 0.85f, size, ds_offset);
+    
+    drawBlackBarText(complete, blueText, blackText, xPlacement, screenHeight* 0.85f, size, ds_offset, screenWidth, screenHeight);
+
+
+    xPlacement = (screenWidth / 8.f) - (size / 2.f) * (strlen(text) / 2.f);
+
+    for (Car * c : cars) {
+        float currentTime = c->raceTime;
+        if (c->isAI()) {
+            sprintf(text, "%i. CPU %i     TIME: %.2i:%.2i", c->rank, (c->color + 1)- numberOfPlayers, int(currentTime) / 60, int(currentTime) % 60);
+        }
+        else {
+            sprintf(text, "%i. PLAYER %i  TIME: %.2i:%.2i ", c->rank, c->color + 1, int(currentTime) / 60, int(currentTime) % 60);
+        }
+        drawBlackBarText(text, whiteText, blackText,0, screenHeight - ((c->rank - 0.5f) * yPlacement)-(1.5*yPlacement), size, ds_offset, screenWidth, screenHeight);
+    }
+
+    size = size = 40 * (screenHeight / (720.f));
+    char timer[512];
+    sprintf(timer, "RETURNING TO MENU IN:    %is", time);
+    drawBlackBarText(timer, redText, blackText, 0, yPlacement, size, ds_offset, screenWidth, screenHeight);
+    //drawDropShadowText(timer, redText, blackText, 0, yPlacement, size, ds_offset);
 }
 
 int Renderer::getMMSize()
@@ -1024,4 +1078,8 @@ void Renderer::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& c
     drawScene(ents);
     drawText();
     //renderMiniMap(ents, cars, 1300, mmSize, width - mmSize, height / 4, 0.7);
+}
+
+void Renderer::drawNoText(const std::vector<Entity*>& ents, const std::vector<Car*>& cars) {
+    drawScene(ents);
 }

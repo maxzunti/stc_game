@@ -60,6 +60,7 @@ class Renderer {
     Text2D * redText;
     Text2D * whiteText;
     Text2D * mmPips;
+    Text2D * blackBar;
     Text2D * hookNotReady1;
     Text2D * hookNotReady2;
     Text2D * hookNotReady3;
@@ -71,8 +72,9 @@ class Renderer {
 
     int width;
     int height;
-    float SM_res = 8192*2;
+    float SM_res = 8192;
     void drawText();
+    void drawBlackBarText(const char * string, Text2D * front, Text2D * back, int x, int y, int size, int offset, int sWifth, int sHeight);
     void drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset);
     int frameCount = 0;
     bool alphaTest = false;
@@ -107,7 +109,9 @@ public:
 
     // Control a full screen draw
     void draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars);
+    void drawNoText(const std::vector<Entity*>& ents, const std::vector<Car*>& cars);
     void drawCountDown(int time);
+    void drawScores(const std::vector<Car*>& cars, float screenWidth, float screenHeight, int numberOfPlayers, int time);
     int getMMSize();
     int getWidth();
     int getHeight();

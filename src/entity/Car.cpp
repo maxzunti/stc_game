@@ -133,6 +133,11 @@ Car::~Car() {
     //mActor->release();
 }
 
+bool Car::isAI()
+{
+    return false;
+}
+
 void Car::initParams() {
     carParams.push_back(std::make_pair(std::string("CHASSIS_MASS"), &CHASSIS_MASS));
     carParams.push_back(std::make_pair(std::string("CHASSIS_X"), &CHASSIS_X));

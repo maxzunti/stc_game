@@ -45,6 +45,8 @@ public:
 	Car(CarColor col, std::string model_fname, std::string tex_fname, PxRigidBody* actor, PhysicsManager* physicsManager, std::vector<Entity*> &ents, StaticPhysicsObject* track, std::vector<RectTrigger*> AInodes);
     virtual ~Car();
 
+    virtual bool isAI();
+
     bool operator< (const Car &other) const {
         return score < other.score;
     }

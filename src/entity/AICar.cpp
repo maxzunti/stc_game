@@ -222,6 +222,11 @@ void AICar::update()
 	this->myHook->update(pos + (HOOK_FORWARD_OFFSET*dir) + (HOOK_UP_OFFSET*up));
 }
 
+bool AICar::isAI()
+{
+    return true;
+}
+
 
 
 

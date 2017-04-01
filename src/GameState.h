@@ -25,6 +25,9 @@ public:
     std::vector<RectTrigger*> trackNodes;
 
     float savedTime = 0.f;
+    // Change countdown max to change the countdown time
+    int countDownLength;
+    int countDownMax = 11;
 
     GameState();
     GameState(Input * newInput, PhysicsManager * myPhysics);
@@ -35,6 +38,7 @@ public:
     int currentState = MENU;
 
     void GameState::updateState(State state);
+    bool isRaceComplete();
     void initGame(int numberOfPlayers);
     void endGame();
 };
