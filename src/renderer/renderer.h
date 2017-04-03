@@ -47,6 +47,8 @@ class Renderer {
     // Draw reflections onto the track surface
     void drawTrack(const Model& model, glm::mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans, float reflectivity = 0.0f);
 
+    void drawSkyline(const std::vector<Renderable*>& cubes);
+
     GLuint mm_frameBuffer;
     GLuint mm_pips_frameBuffer;
     GLuint mm_tex;
@@ -87,8 +89,9 @@ public:
     static bool shadowsFilled;
 
     // Shadow mapping functions
-    void renderShadowMap(const std::vector<Entity*>& ents);
+    void renderShadowMap(const std::vector<Renderable*>& ents);
     void addToShadowMap(const Model& model, glm::mat4 model_matrix, int startElement);
+    void drawSkylineShadows(const std::vector<Renderable*>& cubes);
 
     // The following are all required for shadow mapping 
     // We need to decide of we want to move them to a seperate location or not 
@@ -100,13 +103,14 @@ public:
 	~Renderer();
     void postGLInit(); // call init functions after Window's created the OpenGL env.
     void initFrameBuffer();
-	void drawScene(const std::vector<Entity*>& ents);
-    void renderMiniMap(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha = 0.8);
-    void renderMiniMapBG(const std::vector<Entity*>& ents, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha = 0.8);
+	void drawScene(const std::vector<Renderable*>& ents, const std::vector<Renderable*>& cubes);
+    void renderMiniMap(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha = 0.8);
+    void renderMiniMapBG(const std::vector<Renderable*>& ents, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha = 0.8);
     void setDims(renderWindowData& rwd);
+    GLuint& getMiniMapBG();
 
     // Control a full screen draw
-    void draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars);
+    void draw(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, const std::vector<Renderable*>& cubes);
     void drawCountDown(int time);
     int getMMSize();
     int getWidth();

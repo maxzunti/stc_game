@@ -45,11 +45,15 @@ public:
     Window(int width, int height);
     ~Window();
 
-    void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars);
+    void Window::draw(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, const std::vector<Renderable*>& cubes);
+    void Window::drawMMOnly(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars);
+
     void drawMenu();
-    void drawCountDown(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, int time);
+    void drawCountDown(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, const std::vector<Renderable*>& cubes, int time, bool swapBuffer = true);
     bool Window::shouldClose();
     void setSplitScreen(int numPlayers, const std::vector<Car*>& cars);
     Renderer* getRenderer(int index = 0); // delete once renderer is non-static
     MenuRenderer* getMenuRenderer();
+    GLuint& getMiniMapBG();
+    int getMMSize();
 };

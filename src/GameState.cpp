@@ -81,15 +81,16 @@ void GameState::initGame(int numberOfPlayers)
     */
 
 #ifdef FAST_TRACK
-    Track * myTrack = new Track("assets/models/track/fast_track.obj", "assets/textures/alum.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    myTrack = new Track("assets/models/track/fast_track.obj", "assets/textures/alum.png", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
     for (auto m : myTrack->getModels()) {
         //    m->tile_UV_Y(30);
         //    m->tile_UV_X(2);
     }
 #else
-    Track * myTrack = new Track("assets/models/track/tracksurface.obj", "assets/textures/alum.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    myTrack = new Track("assets/models/track/tracksurface.obj", "assets/textures/alum.png", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
 #endif
     entities.push_back(myTrack);
+
     Walls * myTrackWalls = new Walls("assets/models/track/trackwalls.obj", "assets/textures/tris.jpg", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
     myTrackWalls->height = -10; // moving walls UP at the moment - depends on model
     entities.push_back(myTrackWalls);
@@ -124,8 +125,6 @@ void GameState::initGame(int numberOfPlayers)
     myHookables->SIL_JITTER = 1.0;
     myHookables->scaleModels();
     myHookables->setSil(true);
-
-
 
 
     //  window->getRenderer()->getCam()->registerController(input.get());
@@ -404,6 +403,11 @@ void GameState::initGame(int numberOfPlayers)
     fallpoint->SIL_Z_SCALE = 1.02;
     fallpoint->scaleModels();
 
+    for (auto& e : entities) {
+        if (e->canRender() || dynamic_cast<HookChain*>(e)) {
+            renderables.push_back(static_cast<Renderable*>(e));
+        }
+    }
 
     jb->loadMusic("assets/sound/dmw.mp3");
     jb->play();
@@ -420,9 +424,11 @@ void GameState::endGame() {
     {
         delete e;
     }
+    cubes.clear();
+    delete skyline;
     entities.clear();
+    renderables.clear();
     cars.clear();
     trackNodes.clear();
     this->jb->stop(-1);
-    
 }

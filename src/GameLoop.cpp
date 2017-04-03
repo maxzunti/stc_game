@@ -23,6 +23,7 @@
 #include "entity/Hook.h"
 #include "entity/Obstacle.h"
 #include "entity/RectTrigger.h"
+#include "entity/Skyline.h"
 #include "GameState.h"
 
 #include "Jukebox.h"
@@ -76,7 +77,9 @@ int main(int argc, const char* argv[])
     // For each renderer in window, register a controller and a car for it if multiplayer is selected
 
 
+
     GameState gameState = GameState(inputs, myPhysics, jb);
+
 #ifdef MENU_SKIP
     gameState.updateState(GameState::PLAYING);
     gameState.initGame(1);
@@ -85,7 +88,6 @@ int main(int argc, const char* argv[])
 
     glfwSetTime(0);
 #endif // !MENU_SKIP
-
 
     while (!window->shouldClose())
     {
@@ -126,6 +128,8 @@ int main(int argc, const char* argv[])
                 float prevTime = clock();
 
                 jb->playEffect(Jukebox::soundEffects::menumove);
+                window->drawCountDown(gameState.renderables, gameState.cars, gameState.cubes, time, false);
+                gameState.skyline = new Skyline(window->getMMSize(), window->getMiniMapBG(), 50, gameState.cubes, input);
                 while (time > 0) {
                     float currentTime = clock();
                     if ((currentTime - prevTime) > 1000) {
@@ -134,7 +138,8 @@ int main(int argc, const char* argv[])
                         if (time!=0)
                             jb->playEffect(Jukebox::soundEffects::menumove);
                     }
-                    window->drawCountDown(gameState.entities, gameState.cars, time);
+                    gameState.skyline->update();
+                    window->drawCountDown(gameState.renderables, gameState.cars, gameState.cubes, time);
                     glfwSetTime(0);
                 }
 
@@ -143,7 +148,7 @@ int main(int argc, const char* argv[])
 
             break;
         case GameState::PLAYING:
-
+            gameState.skyline->update();
             for (Input * in : gameState.inputs) {
                 in->Update();
             }
@@ -180,19 +185,18 @@ int main(int argc, const char* argv[])
             sortcars = Car::sortByScore(sortcars);
             for (int i = 0; i < sortcars.size(); i++)
                 sortcars.at(i)->rank = 4-i;
-           }
+            }
             gameState.myPhysics->stepPhysics();
 
             
 
             // This Keeps the " GO " message up for a period of time after the race starts
             if (glfwGetTime() > 2) {
-                window->draw(gameState.entities, gameState.cars);
+                window->draw(gameState.renderables, gameState.cars, gameState.cubes);
             }
             else {
-                window->drawCountDown(gameState.entities, gameState.cars, 0);
+                window->drawCountDown(gameState.renderables, gameState.cars, gameState.cubes, 0);
             }
-
             break;
         case GameState::PAUSED:
             //input->Update();

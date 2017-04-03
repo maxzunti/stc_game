@@ -54,10 +54,6 @@ Renderer::Renderer(int index) :
 Renderer::~Renderer()
 {
     delete cam;
-    GLuint mm_frameBuffer;
-    GLuint mm_pips_frameBuffer;
-    GLuint mm_tex;
-    GLuint mm_pips_tex;
     glDeleteFramebuffers(1, &mm_frameBuffer);
     glDeleteFramebuffers(1, &mm_pips_frameBuffer);
     glDeleteTextures(1, &mm_tex);
@@ -208,7 +204,7 @@ void Renderer::drawSkybox(glm::mat4 &perspectiveMatrix)
 }
 
 
-void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
+void Renderer::renderShadowMap(const std::vector<Renderable*>& ents) {
 
     //Changing size can drastically affect the shadow map.
     // Smaller values capture less of the area but do allow for better shadows.
@@ -229,22 +225,17 @@ void Renderer::renderShadowMap(const std::vector<Entity*>& ents) {
     glClear(GL_DEPTH_BUFFER_BIT);
 
     // Render each of the entities to the shadowMap texture in a first pass
-    for (auto& e : ents) {
-        // This is virtual function lookup for each entity, might be slow
-        // Potentially optimize by using a single vec of Renderables
-        if (e->canRender()) {
-            // Careful here - static_cast is FAST, but potentially dangerous if an entity
-            // hasn't been initialized properly
-            Renderable* r = static_cast<Renderable*>(e);
+    for (auto& r : ents) {
+        if (!r->canRender()) {
+            continue;
+        }
+        for (Model* model : r->getModels()) {
+            mat4 scale = model->get_scaling();
+            mat4 rot = glm::mat4_cast(r->getQRot());
+            mat4 trans = glm::translate(mat4(), r->getPos());
+            mat4 mmatrix = trans * rot * scale;
 
-            for (Model* model : r->getModels()) {
-                mat4 scale = model->get_scaling();
-                mat4 rot = glm::mat4_cast(r->getQRot());
-                mat4 trans = glm::translate(mat4(), r->getPos());
-                mat4 mmatrix = trans * rot * scale;
-
-                addToShadowMap(*model, mmatrix, 0);
-            }
+            addToShadowMap(*model, mmatrix, 0);
         }
     }
     //Back to base frame buffer
@@ -650,7 +641,7 @@ void Renderer::drawTrack(const Model& model, glm::mat4 &perspectiveMatrix, glm::
     glBindVertexArray(0);
 }
 
-void Renderer::drawScene(const std::vector<Entity*>& ents)
+void Renderer::drawScene(const std::vector<Renderable*>& ents, const std::vector<Renderable*>& cubes)
 {
   //renderShadowMap(ents);
     
@@ -685,52 +676,52 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
     //glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "depthBiasMVP"), 1, GL_FALSE, &depthBiasMVP[0][0]);
     ///////////////////////////////////////
 
-    for (auto& e : ents) {
-        // This is virtual function lookup for each entity, might be slow
-        // Potentially optimize by using a single vec of Renderables
-        if (e->canRender()) {
-
-            // Careful here - static_cast is FAST, but potentially dangerous if an entity
-            // hasn't been initialized properly
-            Renderable* r = static_cast<Renderable*>(e);
-            int old_stencil = stencil_bit;
-            if (!trackFound) { // track pre-draw: modify stencil bit
-                track = dynamic_cast<Track*>(e);
-                if (track) {
-                    stencil_bit = stencil_bit | Stencil::track; // only track is reflective
-                    glStencilMask(stencil_bit); // Write to stencil buffer
-                    glClear(GL_STENCIL_BUFFER_BIT);
-                    alphaTest = true;
-
-                }
-            }
-            else if (r->isCar()) {
-                Car* car = static_cast<Car*>(e);
-                reflectCar(car, perspectiveMatrix);
-            }
-
-			for (Model* model : r->getModels()) {
-                mat4 scale = model->get_scaling();
-                mat4 rot = glm::mat4_cast(r->getQRot());
-                mat4 base_trans = glm::translate(mat4(), r->getPos());
-                renderModel(*model, perspectiveMatrix, scale, rot, base_trans);
-            }
-
-            if (!trackFound && track) {
-                trackFound = true;
-                alphaTest = false;
-
-                // Draw the skybox after filling the track stencil bit
-                glClear(GL_DEPTH_BUFFER_BIT);
-                glUseProgram(shader[SHADER::SKYBOX]);
-                drawSkybox(perspectiveMatrix);
-                glUseProgram(shader[SHADER::DEFAULT]);
-
-            }
-
-            stencil_bit = old_stencil;
+    for (auto& r : ents) {
+        if (!r->canRender()) {
+            continue;
         }
+        int old_stencil = stencil_bit;
+        // MAX: commented while debugging
+         if (!trackFound) { // track pre-draw: modify stencil bit
+            std::cout << "ents size = " << ents.size() << endl;
+            track = dynamic_cast<Track*>(r);
+            if (track) {
+                stencil_bit = stencil_bit | Stencil::track; // only track is reflective
+                glStencilMask(stencil_bit); // Write to stencil buffer
+                glClear(GL_STENCIL_BUFFER_BIT);
+                alphaTest = true;
+
+            }
+        }
+        else if (r->isCar()) {
+            Car* car = static_cast<Car*>(r);
+            reflectCar(car, perspectiveMatrix);
+        }
+
+		for (Model* model : r->getModels()) {
+            mat4 scale = model->get_scaling();
+            mat4 rot = glm::mat4_cast(r->getQRot());
+            mat4 base_trans = glm::translate(mat4(), r->getPos());
+            renderModel(*model, perspectiveMatrix, scale, rot, base_trans);
+        }
+
+        if (!trackFound && track) {
+            trackFound = true;
+            alphaTest = false;
+
+            // Draw the skybox after filling the track stencil bit
+            glClear(GL_DEPTH_BUFFER_BIT);
+            glUseProgram(shader[SHADER::SKYBOX]);
+            drawSkybox(perspectiveMatrix);
+            glUseProgram(shader[SHADER::DEFAULT]);
+
+        }
+
+        stencil_bit = old_stencil;
     }
+
+    // draw skyline
+    drawSkyline(cubes);
 
     // draw track
     if (trackFound) {
@@ -739,13 +730,12 @@ void Renderer::drawScene(const std::vector<Entity*>& ents)
             mat4 rot = glm::mat4_cast(track->getQRot());
             mat4 trans = glm::translate(mat4(), track->getPos());
             drawTrack(*model, perspectiveMatrix, scale, rot, trans, 0.2);
-
-
         }
     } else {
         std::cout << "Warning: not rendering track" << std::endl;
     }
 }
+
 
 void Renderer::drawText() {
     // Draw text here
@@ -865,8 +855,6 @@ void Renderer::drawCountDown(int time)
     yPlacement = (this->height / 2.f)*(2.f / 3.f);
 
     drawDropShadowText(text, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
-
-
 }
 
 int Renderer::getMMSize()
@@ -911,11 +899,12 @@ void Renderer::setDims(renderWindowData& rwd) {
     UIScale = height / 1000.0f;
 }
 
-void Renderer::renderMiniMapBG(const std::vector<Entity*>& ents, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha) {
+void Renderer::renderMiniMapBG(const std::vector<Renderable*>& ents, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha) {
     Camera * mapCam = new Camera(vec3(0.05, -0.9, 0.), vec3(-300, height, -124.5), false); // tuned to this specific map
     mapCam->setDims(size, size);
     glViewport(0, 0, size, size);
     glBindFramebuffer(GL_FRAMEBUFFER, mm_frameBuffer);
+
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -925,57 +914,60 @@ void Renderer::renderMiniMapBG(const std::vector<Entity*>& ents, float height, i
     for (auto& e : ents) {
         // This is virtual function lookup for each entity, might be slow
         // Potentially optimize by using a single vec of Renderables
-        if (e->canRender()) {
-            if (Track* track = dynamic_cast<Track*>(e)) {
-                Model* model = track->getModels().at(0);
-                mat4 scale = model->get_scaling();
-                mat4 rot = glm::mat4_cast(track->getQRot());
-                mat4 track_trans = glm::translate(mat4(), track->getPos());
-                mat4 mmatrix = track_trans * rot * scale;
+        if (Track* track = dynamic_cast<Track*>(e)) {
+            Model* model = track->getModels().at(0);
+            mat4 scale = model->get_scaling();
+            mat4 rot = glm::mat4_cast(track->getQRot());
+            mat4 track_trans = glm::translate(mat4(), track->getPos());
+            mat4 mmatrix = track_trans * rot * scale;
 
-                glUseProgram(shader[SHADER::SIL]);
+            glUseProgram(shader[SHADER::SIL]);
 
-                glBindVertexArray(model->vao[VAO::GEOMETRY]);
-                glDisable(GL_DEPTH_TEST);
-                glDisable(GL_STENCIL_TEST);
+            glBindVertexArray(model->vao[VAO::GEOMETRY]);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_STENCIL_TEST);
+            glDrawBuffer(GL_FRONT_AND_BACK);
 
-                glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "cameraMatrix"),
-                    1,
-                    false,
-                    &camMatrix[0][0]);
+            glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "cameraMatrix"),
+                1,
+                false,
+                &camMatrix[0][0]);
 
-                glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "perspectiveMatrix"),
-                    1,
-                    false,
-                    &perspectiveMatrix[0][0]);
+            glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "perspectiveMatrix"),
+                1,
+                false,
+                &perspectiveMatrix[0][0]);
 
-                glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "modelviewMatrix"),
-                    1,
-                    false,
-                    &mmatrix[0][0]);
+            glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "modelviewMatrix"),
+                1,
+                false,
+                &mmatrix[0][0]);
 
-                glUniform3f(glGetUniformLocation(shader[SHADER::SIL], "u_color1"), 1.0, 1.0, 1.0);
+            glUniform3f(glGetUniformLocation(shader[SHADER::SIL], "u_color1"), 1.0, 1.0, 1.0);
 
-                CheckGLErrors("loadUniforms");
+            CheckGLErrors("loadUniforms");
 
-                // Still using default framebuffer => silhouettes update default framebuffer
-                glDrawElements(
-                    GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
-                    model->num_indices(), //How many indices
-                    GL_UNSIGNED_INT,	 //Type
-                    (void*)0			 //Offset
-                );
-                CheckGLErrors("drawSil");
+            // Still using default framebuffer => silhouettes update default framebuffer
+            glDrawElements(
+                GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+                model->num_indices(), //How many indices
+                GL_UNSIGNED_INT,	 //Type
+                (void*)0			 //Offset
+            );
+            CheckGLErrors("drawSil");
 
-                // screenshot(name, width, this->height);
-                break;
-            }
+            // screenshot(name, width, this->height);
+            break;
         }
     }
+  //  Texture mmTex(mm_tex);
+  //  Text2D mmRenderer(&mmTex);
+  //  mmRenderer.drawTexture(xPos, yPos, size, size, sWidth, sHeight, alpha, true);
+
     mm_bg_drawn = true;
 }
 
-void Renderer::renderMiniMap(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha) {
+void Renderer::renderMiniMap(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha) {
     Camera * mapCam = new Camera(vec3(0.05, -0.9, 0.), vec3(-300, height, -124.5), false); // tuned to this specific map
     mapCam->setDims(size, size);
     glViewport(0, 0, size, size);
@@ -1019,9 +1011,188 @@ void Renderer::renderMiniMap(const std::vector<Entity*>& ents, const std::vector
     mmPipsRenderer.drawTexture(xPos, yPos, size, size, sWidth, sHeight, alpha, true);
 }
 
+GLuint& Renderer::getMiniMapBG() {
+    return mm_frameBuffer;
+}
+
+
 // Draw everything on the screen screeen
-void Renderer::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars) {
-    drawScene(ents);
+void Renderer::draw(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, const std::vector<Renderable*>& cubes) {
+    drawScene(ents, cubes);
     drawText();
     //renderMiniMap(ents, cars, 1300, mmSize, width - mmSize, height / 4, 0.7);
+}
+
+void Renderer::drawSkylineShadows(const std::vector<Renderable*>& cubes) {
+    if (cubes.size() > 0) {
+        glViewport(0, 0, SM_res, SM_res);
+        glBindFramebuffer(GL_FRAMEBUFFER, SM_frameBuffer);
+
+        Model* master = cubes.at(0)->getModels().at(0);
+        mat4 scale = master->get_scaling();
+        mat4 rot = glm::mat4_cast(cubes.at(0)->getQRot());
+        mat4 rs = rot * scale;
+        mat4 trans; // uninit
+
+        // Make sure depth testing is enabled and cull front faces
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+        //  glCullFace(GL_BACK);
+
+        glUseProgram(shader[SHADER::SHADOW]);
+
+        glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SHADOW], "depthMVP"), 1, false, &Renderer::depthMVP[0][0]);
+
+        // Set object-specific VAO
+        glBindVertexArray(master->vao[VAO::GEOMETRY]);
+
+        for (auto &cube : cubes) {
+            trans = glm::translate(mat4(), cube->getPos());
+            mat4 model_matrix = trans * rs;
+
+            glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SHADOW], "model"), 1, false, &model_matrix[0][0]);
+
+            glDrawElements(
+                GL_TRIANGLES,		    //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+                master->num_indices(),    //How many indices
+                GL_UNSIGNED_INT,	    //Type
+                (void*)0			    //Offset
+            );
+        }
+
+        //Switch back to the original frame buffer and reset face culling to back face culling
+        glCullFace(GL_BACK);
+        glBindVertexArray(0);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+}
+
+void Renderer::drawSkyline(const std::vector<Renderable*>& cubes) {
+    if (cubes.size() > 0) {
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClear(GL_STENCIL_BUFFER_BIT);
+        Model* master = cubes.at(0)->getModels().at(0);
+        mat4 &camMatrix = cam->getMatrix();
+        mat4 scale = master->get_scaling();
+        mat4 rot = glm::mat4_cast(cubes.at(0)->getQRot());
+        mat4 rs = rot * scale;
+        mat4 trans; // uninit
+        mat4 perspectiveMatrix = cam->calcPerspective();
+
+        // Default shading
+        glUseProgram(shader[SHADER::DEFAULT]);
+
+        glBindVertexArray(master->vao[VAO::GEOMETRY]);
+
+        glEnable(GL_DEPTH_TEST);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, skybox->tex_id);
+        glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "skybox"), 2);
+
+        glUniform1f(glGetUniformLocation(shader[SHADER::DEFAULT], "SkyR"), master->SkyR);
+
+        glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "cameraMatrix"),
+            1,
+            false,
+            &camMatrix[0][0]);
+
+        glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "perspectiveMatrix"),
+            1,
+            false,
+            &perspectiveMatrix[0][0]);
+
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, Renderer::SM_depthTex);
+        glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "shadowMap"), 1);
+
+        glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "depthBiasMVP"), 1, GL_FALSE, glm::value_ptr(Renderer::depthMVP));
+
+        glUniform3f(glGetUniformLocation(shader[SHADER::DEFAULT], "lightPos"), light->getPos().x, light->getPos().y, light->getPos().z);
+        glUniform3f(glGetUniformLocation(shader[SHADER::DEFAULT], "lightDir"), light->getDir().x, light->getDir().y, light->getDir().z);
+        glUniform3fv(glGetUniformLocation(shader[SHADER::DEFAULT], "viewPos"), 1, &cam->pos[0]);
+        glUniform1f(glGetUniformLocation(shader[SHADER::DEFAULT], "intensity_factor"), 1.0); // full alpha
+        glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "alphaTest"), alphaTest); // full alpha
+
+        glEnable(GL_STENCIL_TEST);
+        stencil_bit = stencil_bit | Stencil::sil;
+        glStencilFunc(GL_ALWAYS, stencil_bit, 0xFF); // Set any stencil to our sb value
+        glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+        glStencilMask(stencil_bit); // Clear the current stencil bit
+        glClear(GL_STENCIL_BUFFER_BIT);
+
+        glEnablei(GL_BLEND, 0);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        CheckGLErrors("loadUniforms in render");
+
+        for (auto &cube : cubes) {
+            trans = glm::translate(mat4(), cube->getPos());
+            mat4 model_matrix = trans * rs;
+
+            cube->getModels().at(0)->getTex()->load(GL_TEXTURE0, shader[SHADER::DEFAULT], "image");
+
+            glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "modelviewMatrix"),
+                1,
+                false,
+                &model_matrix[0][0]);
+
+            glDrawElements(
+                GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+                master->num_indices(), //How many indices
+                GL_UNSIGNED_INT,	 //Type
+                (void*)0			 //Offset
+            );
+        }
+
+        CheckGLErrors("drawShade");
+        glDisablei(GL_BLEND, 0);
+        glBindVertexArray(0);
+
+        // Silling
+        scale = scale * glm::scale(glm::vec3(master->sil_x, master->sil_y, master->sil_z));
+        rs = rot * scale;
+        glUseProgram(shader[SHADER::SIL]);
+
+        glBindVertexArray(master->vao[VAO::GEOMETRY]);
+
+        glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "cameraMatrix"),
+            1,
+            false,
+            &camMatrix[0][0]);
+
+        glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "perspectiveMatrix"),
+            1,
+            false,
+            &perspectiveMatrix[0][0]);
+
+        CheckGLErrors("loadUniforms");
+
+        glDepthMask(GL_TRUE); // enable writes to Z-buffer
+
+        glUniform3f(glGetUniformLocation(shader[SHADER::SIL], "u_color1"), 0.0, 0.0, 0.0);
+
+        glStencilFunc(GL_NOTEQUAL, 1, Stencil::sil); // Pass test if stencil value is 1
+        glStencilMask(Stencil::none); // Don't write anything to stencil buffer
+
+        // Still using default framebuffer => silhouettes update default framebuffer
+
+        for (auto &cube : cubes) {
+            trans = glm::translate(mat4(), cube->getPos());
+            mat4 model_matrix = trans * rs;
+            glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "modelviewMatrix"),
+                1,
+                false,
+                &model_matrix[0][0]);
+
+            glDrawElements(
+                GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+                master->num_indices(), //How many indices
+                GL_UNSIGNED_INT,	 //Type
+                (void*)0			 //Offset
+            );
+        }
+
+        CheckGLErrors("drawSil");
+        glBindVertexArray(0);
+    }
 }

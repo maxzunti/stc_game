@@ -12,11 +12,11 @@ const glm::vec3& Entity::getPos() const {
     return pos;
 }
 
-glm::quat Entity::getQRot() const {
+glm::quat& Entity::getQRot() {
     return qrot;
 }
 
-glm::vec3 Entity::getDir() const {
+glm::vec3& Entity::getDir() {
     return dir;
 }
 

@@ -13,11 +13,13 @@ protected:
     std::vector<Model*> models;
     bool model_loaded = false;
     bool renderable = true;
+    bool copied = false; // generated from a copy
 
 public:
     Renderable();
     virtual ~Renderable();
     Renderable(std::string model_fname, std::string tex_fname);
+    Renderable(std::vector<Model*> &mods); // reuse an existing model
 
     virtual bool canRender();
     std::vector<Model*>& getModels();

@@ -77,7 +77,7 @@ int Window::initGLFW() {
     return 0;
 }
 
-void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& cars) {
+void Window::draw(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, const std::vector<Renderable*>& cubes) {
     SSParams params = getSSParams(nps);
     if (update) {
         for (int i = 0; i < renderers.size(); i++) {
@@ -92,8 +92,9 @@ void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& car
     }
 
     renderers[0]->renderShadowMap(ents);
+    renderers[0]->drawSkylineShadows(cubes);
     for (auto r : renderers) {
-        r->draw(ents, cars);
+        r->draw(ents, cars, cubes);
     }
 
     renderers[0]->renderMiniMap(ents, cars, 1300, renderers[0]->getMMSize(), params.mapPos[0]- (renderers[0]->getMMSize() /2), params.mapPos[1] - (renderers[0]->getMMSize() / 2), width, height, 0.7);
@@ -103,6 +104,22 @@ void Window::draw(const std::vector<Entity*>& ents, const std::vector<Car*>& car
 
     // sleep until next event before drawing again
     glfwPollEvents();
+}
+
+void Window::drawMMOnly(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars) {
+    SSParams params = getSSParams(nps);
+    if (update) {
+        for (int i = 0; i < renderers.size(); i++) {
+            renderWindowData rwd;
+            rwd.height = params.screenPos[i].height;
+            rwd.width = params.screenPos[i].width;
+            rwd.xPos = params.screenPos[i].xPos;
+            rwd.yPos = params.screenPos[i].yPos;
+            renderers[i]->setDims(rwd);
+        }
+        update = false;
+    }
+    renderers[0]->renderMiniMap(ents, cars, 1300, renderers[0]->getMMSize(), params.mapPos[0] - (renderers[0]->getMMSize() / 2), params.mapPos[1] - (renderers[0]->getMMSize() / 2), width, height, 0.7);
 }
 
 void Window::drawMenu() {
@@ -118,7 +135,7 @@ void Window::drawMenu() {
     glfwPollEvents();
 }
 
-void Window::drawCountDown(const std::vector<Entity*>& ents, const std::vector<Car*>& cars, int time) {
+void Window::drawCountDown(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, const std::vector<Renderable*>& cubes, int time, bool swapBuffer) {
     SSParams params = getSSParams(nps);
     if (update) {
         for (int i = 0; i < renderers.size(); i ++) {
@@ -133,19 +150,32 @@ void Window::drawCountDown(const std::vector<Entity*>& ents, const std::vector<C
     }
 
     renderers[0]->renderShadowMap(ents);
+    renderers[0]->drawSkylineShadows(cubes);
     for (auto r : renderers) {
-        r->draw(ents, cars);
+        r->draw(ents, cars, cubes);
         r->drawCountDown(time);
     }
 
     renderers[0]->renderMiniMap(ents, cars, 1300, renderers[0]->getMMSize(), params.mapPos[0] - (renderers[0]->getMMSize() / 2), params.mapPos[1] - (renderers[0]->getMMSize() / 2), width, height, 0.7);
 
     // scene is rendered to the back buffer, so swap to front for display
-    glfwSwapBuffers(window);
+    if (swapBuffer) {
+        glfwSwapBuffers(window);
+    }
 
     // sleep until next event before drawing again
     glfwPollEvents();
 }
+
+// Call only after we've done at least one regular draw call
+GLuint& Window::getMiniMapBG() {
+    return renderers[0]->getMiniMapBG();
+}
+
+int Window::getMMSize() {
+    return renderers[0]->getMMSize();
+}
+
 
 bool Window::shouldClose()
 {
