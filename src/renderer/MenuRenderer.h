@@ -15,6 +15,7 @@ class MenuRenderer {
     Text2D * whiteText;
     Text2D * blueTitle;
     Text2D * logo;
+    Text2D * icons;
 
     int width;
     int height;
@@ -38,7 +39,8 @@ public:
         MULTI,
         CREDITS,
         PAUSED, 
-        LOADING
+        LOADING,
+        TRACK
     };
 
     MenuRenderer();
@@ -55,6 +57,7 @@ public:
     void drawCredits();
     void drawLoadScreen();
     void drawPause();
+    void drawTrackSelect();
 
     void setDims(int width, int height);
     void registerController(Input * newCont);

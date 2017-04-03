@@ -26,6 +26,8 @@ void MenuRenderer::initText() {
     whiteText = new Text2D("assets/textures/white_gg_font.png");
     blueTitle = new Text2D("assets/logo/gg_blue.png");
     logo = new Text2D("assets/models/plane/stcTrans.png");
+    //icons = new Text2D("assets/textures/menuIconsTrans.png");
+    icons = new Text2D("assets/textures/buttonsIcons.png");
 }
 
 
@@ -137,6 +139,9 @@ void MenuRenderer::drawMenu() {
     else {
         drawDropShadowText(qText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
+
+    size = 250 * (height / (720.f));
+    icons->drawTexture(width - size, 0, size, size / 3.24, width, height);
 }
 
 void MenuRenderer::drawMultiplayerMenu() {
@@ -218,6 +223,9 @@ void MenuRenderer::drawMultiplayerMenu() {
     else {
         drawDropShadowText(qText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
+
+    size = 250 * (height / (720.f));
+    icons->drawTexture(width - size, 0, size, size / 3.24, width, height);
 }
 
 
@@ -352,6 +360,80 @@ void MenuRenderer::drawPause()
     else {
         drawDropShadowText(qText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
+
+    size = 250 * (height / (720.f));
+    icons->drawTexture(width - size, 0, size, size / 3.24, width, height);
+}
+
+void MenuRenderer::drawTrackSelect()
+{
+    int xPlacement;
+    int yPlacement;
+    int ds_offset = 3;
+    int size = 100 * (height / (720.f));
+
+    //Position - insert real position info here
+    // X pos calculation is done by dividing the size by 2 (the kerning factor in the function halves it)
+    // and then multiplying this by half of the string length
+
+
+    char gpText[512];
+    sprintf(gpText, "SELECT A TRACK");
+
+    xPlacement = (width / 2.f) - ((size / 2.f) * ((strlen(gpText) + 3) / 2.f));
+    yPlacement = height / 2.f + 2 * size;
+
+    drawDropShadowText(gpText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+
+    size = 50 * (height / (720.f));
+
+
+    //Singleplayer Option
+    char spText[512];
+    sprintf(spText, "CONTINUE RACE");
+
+    xPlacement = (this->width / 2.f) - (size / 2.f) * ((strlen(spText) + 2) / 2.f);
+    yPlacement = this->height / 2.f;
+
+    if (selection == 0) {
+        drawDropShadowText(spText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+    else {
+        drawDropShadowText(spText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+    //Multi-player Option
+    char mpText[512];
+    sprintf(mpText, "MAIN MENU");
+
+    xPlacement = (this->width / 2.f) - (size / 2.f) * ((strlen(mpText) + 2) / 2.f);
+    yPlacement = (this->height / 2.f) - size;
+
+    // drawDropShadowText(mpText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
+    if (selection == 1) {
+        drawDropShadowText(mpText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+    else {
+        drawDropShadowText(mpText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+
+    //Quit Option
+    char qText[512];
+    sprintf(qText, "QUIT GAME");
+
+    xPlacement = (this->width / 2.f) - (size / 2.f) * ((strlen(qText) + 2) / 2.f);
+    yPlacement = (this->height / 2.f) - (4 * size);
+
+    //drawDropShadowText(qText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
+    if (selection == 2) {
+        drawDropShadowText(qText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+    else {
+        drawDropShadowText(qText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
+    }
+
+    size = 250 * (height / (720.f));
+    // 3.24 is the aspect ratio of the image!
+    icons->drawTexture(width - size, 0, size, size / 3.24, width, height);
 }
 
 void MenuRenderer::drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset) {

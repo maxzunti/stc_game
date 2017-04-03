@@ -780,7 +780,7 @@ void Renderer::drawText() {
     }
 
     sprintf(timeText, "\n%.2i:%.2i", int(currentTime)/60,int(currentTime)%60);
-    drawDropShadowText("TIME", blueText, blackText, xPlacement, yPlacement, size, ds_offset);
+    drawDropShadowText("TIME", cam->getCar()->raceTime?redText:blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     drawDropShadowText(timeText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
 
     size = 100 * (height / 720.f);
