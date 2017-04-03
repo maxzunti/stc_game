@@ -16,6 +16,8 @@ class MenuRenderer {
     Text2D * blueTitle;
     Text2D * logo;
     Text2D * icons;
+    Text2D * backButton;
+    Text2D * selectButton;
 
     int width;
     int height;

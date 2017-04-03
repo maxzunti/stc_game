@@ -28,6 +28,8 @@ void MenuRenderer::initText() {
     logo = new Text2D("assets/models/plane/stcTrans.png");
     //icons = new Text2D("assets/textures/menuIconsTrans.png");
     icons = new Text2D("assets/textures/buttonsIcons.png");
+    backButton = new Text2D("assets/textures/backButton.png");
+    selectButton = new Text2D("assets/textures/selectButton.png");
 }
 
 
@@ -140,8 +142,9 @@ void MenuRenderer::drawMenu() {
         drawDropShadowText(qText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
 
-    size = 250 * (height / (720.f));
-    icons->drawTexture(width - size, 0, size, size / 3.24, width, height);
+    //2.013 is the aspect ratio of the image
+    size = 100 * (height / (720.f));
+    selectButton->drawTexture(width - size, 0, size, size / 2.013, width, height);
 }
 
 void MenuRenderer::drawMultiplayerMenu() {
@@ -224,6 +227,7 @@ void MenuRenderer::drawMultiplayerMenu() {
         drawDropShadowText(qText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
 
+    //3.24 is the aspect ratio of the image
     size = 250 * (height / (720.f));
     icons->drawTexture(width - size, 0, size, size / 3.24, width, height);
 }
@@ -271,7 +275,11 @@ void MenuRenderer::drawCredits() {
     yPlacement = (this->height / 2.f) - size*3;
 
     drawDropShadowText(qText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
- 
+
+
+    size = 100 * (height / (720.f));
+    //2.06 is the aspect ratio of the image
+    backButton->drawTexture(width - size, 0, size, size / 2.06, width, height);
 }
 
 void MenuRenderer::drawLoadScreen()
@@ -284,7 +292,7 @@ void MenuRenderer::drawLoadScreen()
     // Show the title at the top of the menu
     blueTitle->drawTexture(0, height*(2.f / 3.f), height, height / 3.f, width, height, 1.f, false);
 
-   
+
     char text[512];
     sprintf(text, "LOADING...");
 
@@ -292,7 +300,6 @@ void MenuRenderer::drawLoadScreen()
     yPlacement = this->height / 2.f;
 
     drawDropShadowText(text, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
-   
 }
 
 void MenuRenderer::drawPause()
@@ -361,6 +368,7 @@ void MenuRenderer::drawPause()
         drawDropShadowText(qText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
 
+    // 3.24 is the aspect ratio of the image
     size = 250 * (height / (720.f));
     icons->drawTexture(width - size, 0, size, size / 3.24, width, height);
 }
