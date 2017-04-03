@@ -59,7 +59,7 @@ class Skyline : public Entity {
 
     int dark_prob = 30;
     int purp_prob = 10;
-    int density_prob = 100;
+    int density_prob = 30;
 
 public:
     Skyline(int mmSize, GLuint &mm_frameBuffer, float scale, std::vector<Renderable*>& ents, Input* cont = NULL);

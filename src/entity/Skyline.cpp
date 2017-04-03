@@ -18,7 +18,6 @@ Skyline::Skyline(int mmSize, GLuint &mm_frameBuffer, float scale, std::vector<Re
 
     for (int i = 0; i < NUM_X; i++) {
         for (int j = 0; j < NUM_Y; j++) {
-            cout << "i = " << i << ", j=  " << j << endl;
             cubes[i][j] = NULL;
         }
     }
@@ -50,12 +49,10 @@ Skyline::Skyline(int mmSize, GLuint &mm_frameBuffer, float scale, std::vector<Re
                 glReadPixels(i, j, 1, 1, GL_RGBA, GL_FLOAT, pix);
                 GLfloat pixel = *pix;
                 if (pixel == 0) {
-                    //     cout << "zero!" << endl;
                     z++;
                     yVals.push_back(1);
                 }
                 else {
-                    //    cout << "nonzero:" << pixel <<  endl;
                     yVals.push_back(0);
                     nz++;
                 }
@@ -160,10 +157,8 @@ void Skyline::makeBuildings(std::vector<std::vector<int>> grid, float scale, std
 
                     int rnum = rand() % 100;
                     Renderable* building;
-                    cout << "rand = " << rnum << endl;
                     if (rnum < purp_prob) {
                         building = new Renderable(init3->getModels());
-                        cout << "purp" << endl;
                     }
                     else if (rnum < (dark_prob + purp_prob)) {
                         building = new Renderable(init2->getModels());

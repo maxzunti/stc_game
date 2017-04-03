@@ -686,7 +686,6 @@ void Renderer::drawScene(const std::vector<Renderable*>& ents, const std::vector
         int old_stencil = stencil_bit;
         // MAX: commented while debugging
          if (!trackFound) { // track pre-draw: modify stencil bit
-            std::cout << "ents size = " << ents.size() << endl;
             track = dynamic_cast<Track*>(r);
             if (track) {
                 stencil_bit = stencil_bit | Stencil::track; // only track is reflective
