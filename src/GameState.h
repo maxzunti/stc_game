@@ -2,6 +2,8 @@
 #include "renderer\Window.h"
 #include "input\input.h"
 #include "physics/PhysicsManager.h"
+#include "entity\Track.h"
+#include "entity/Skyline.h"
 
 #include "Jukebox.h"
 
@@ -14,15 +16,20 @@ public:
         MENU,
         PAUSED
     };
+    float trackScale = 50.0f;
 
     Input * input;
     PhysicsManager * myPhysics;
     Jukebox * jb;
+    Skyline* skyline;
 
     std::vector<Input*> inputs;
     std::vector<Entity*> entities;
+    std::vector<Renderable*> renderables;
+    std::vector<Renderable*> cubes;
     std::vector<Car*> cars;
     std::vector<RectTrigger*> trackNodes;
+    Track* myTrack;
 
     float savedTime = 0.f;
     // Change countdown max to change the countdown time

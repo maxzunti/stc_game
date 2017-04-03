@@ -13,11 +13,23 @@ Renderable::Renderable(std::string model_fname, std::string tex_fname)
     scaleModels();
 }
 
-Renderable::~Renderable() {
-    for (Model* m : models) {
-        delete m;
+Renderable::Renderable(std::vector<Model*>& mods) {
+    // reuse an existing model
+    models = mods;
+    if (models.size() > 0) {
+        model_loaded = true;
+        renderable = true;
+        copied = true;
     }
-    models.clear();
+}
+
+Renderable::~Renderable() {
+    if (!copied) {
+        for (Model* m : models) {
+            delete m;
+        }
+        models.clear();
+    }
 }
 
 void Renderable::scaleModels() {

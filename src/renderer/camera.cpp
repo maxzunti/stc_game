@@ -92,7 +92,7 @@ Camera::Camera(vec3 _dir, vec3 _pos, bool readVars)
 */
 
 void Camera::setMode() {
-    /*static int framecount = 0; // hacky workaround - remove me at some point
+    static int framecount = 0; // hacky workaround - remove me at some point
     framecount++;
     // Toggle camera mode
     if (controller->GetButtonPressed(XButtonIDs::Y) && framecount >= 10) {
@@ -103,7 +103,7 @@ void Camera::setMode() {
         else if (mode == camMode::FREE) {
             mode = camMode::FOLLOW;
         }
-    }*/
+    }
 }
 
 

@@ -16,8 +16,8 @@ public:
 	virtual ~Entity(); //currently have no specific behaviour
 
 	const glm::vec3& getPos() const;
-    glm::quat getQRot() const;
-    glm::vec3 getDir() const;
+    glm::quat& getQRot();
+    glm::vec3& getDir();
 
     virtual void setPos(double x, double y, double z);
     virtual void setPos(glm::vec3 newPos);
