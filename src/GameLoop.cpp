@@ -162,7 +162,6 @@ int main(int argc, const char* argv[])
                 }
             }
 
-            // input->Update();
             {
             vector<Car*> sortcars;
             for (Car * c : gameState.cars)
@@ -188,14 +187,43 @@ int main(int argc, const char* argv[])
             }
             gameState.myPhysics->stepPhysics();
 
-            
-
             // This Keeps the " GO " message up for a period of time after the race starts
-            if (glfwGetTime() > 2) {
-                window->draw(gameState.renderables, gameState.cars, gameState.cubes);
+            // It will also display the results of the screen as an overlay omce everyone has completed the race
+            if (glfwGetTime() < 2) {
+                window->drawCountDown(gameState.renderables, gameState.cars, gameState.cubes, 0);
+            }
+            else if (gameState.isRaceComplete()==true) {
+                // Do the countdown
+                if (gameState.countDownLength == gameState.countDownMax) {
+                    gameState.savedTime = clock();
+                    gameState.countDownLength--;
+                }
+
+                float currentTime = clock();
+                if ((currentTime - gameState.savedTime) > 1000) {
+                    gameState.countDownLength--;
+                    gameState.savedTime = currentTime;
+                    if (gameState.countDownLength != 0)
+                        jb->playEffect(Jukebox::soundEffects::menumove);
+                }
+                window->drawFinalScores(gameState.renderables, gameState.cars, gameState.cubes, gameState.countDownLength);
+
+                if (gameState.countDownLength == 0) {
+                    window->getMenuRenderer()->setPage(MenuRenderer::MAIN);
+                    window->getMenuRenderer()->setPlaying(false);
+                    jb->playEffect(Jukebox::menuselect);
+                    jb->loadMusic("assets/sound/shootingstars.mp3");
+                    jb->play();
+                    gameState.updateState(GameState::MENU);
+                    for (const auto& c : gameState.cars) {
+                        c->pauseGame = false;
+                    }
+                    gameState.countDownLength = gameState.countDownMax;
+                    gameState.endGame();
+                }
             }
             else {
-                window->drawCountDown(gameState.renderables, gameState.cars, gameState.cubes, 0);
+                window->draw(gameState.renderables, gameState.cars, gameState.cubes);
             }
             break;
         case GameState::PAUSED:
@@ -226,6 +254,7 @@ int main(int argc, const char* argv[])
                 for (const auto& c : gameState.cars) {
                     c->pauseGame = false;
                 }
+                gameState.countDownLength = gameState.countDownMax;
                 gameState.endGame();
             }
 

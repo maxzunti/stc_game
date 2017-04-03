@@ -50,6 +50,7 @@ public:
 
     void drawMenu();
     void drawCountDown(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, const std::vector<Renderable*>& cubes, int time, bool swapBuffer = true);
+    void drawFinalScores(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, const std::vector<Renderable*>& cubes, int time);
     bool Window::shouldClose();
     void setSplitScreen(int numPlayers, const std::vector<Car*>& cars);
     Renderer* getRenderer(int index = 0); // delete once renderer is non-static

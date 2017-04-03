@@ -37,6 +37,7 @@ public:
 	virtual ~AICar();
 	
 	virtual void update();
+    virtual bool isAI();
     void fireHook(glm::vec3 target);
 
     bool firehookbool = false;

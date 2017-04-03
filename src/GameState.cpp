@@ -36,6 +36,7 @@ GameState::GameState(Input * newInput, PhysicsManager * newPhysics)
 {
     input = newInput;
     myPhysics = newPhysics;
+    countDownLength = countDownMax;
 }
 
 GameState::GameState(Input * newInput, PhysicsManager * newPhysics, Jukebox * music)
@@ -43,6 +44,7 @@ GameState::GameState(Input * newInput, PhysicsManager * newPhysics, Jukebox * mu
     input = newInput;
     myPhysics = newPhysics;
     jb = music;
+    countDownLength = countDownMax;
 }
 
 GameState::GameState(std::vector<Input*> newInputs, PhysicsManager * newPhysics, Jukebox * music )
@@ -50,6 +52,7 @@ GameState::GameState(std::vector<Input*> newInputs, PhysicsManager * newPhysics,
     inputs = newInputs;
     myPhysics = newPhysics;
     jb = music;
+    countDownLength = countDownMax;
 }
 
 
@@ -62,6 +65,21 @@ void GameState::updateState(State state)
     currentState = state;
 }
 
+bool GameState::isRaceComplete()
+{
+    int complete = 0;
+    for (auto c : cars) {
+        if (c->doneRace) {
+            complete++;
+        }
+    }
+    if (complete == 4) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 void GameState::initGame(int numberOfPlayers)
 {
     

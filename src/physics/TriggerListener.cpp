@@ -1,6 +1,7 @@
 #include "TriggerListener.h"
 #include <iostream>
 #include <time.h>
+#include "glfw\glfw3.h"
 
 using namespace physx;
 
@@ -66,6 +67,8 @@ void TriggerListener::onTrigger(PxTriggerPair* pairs, PxU32 count) {
                 {
                     myCar->partoflap = 1;
                     myCar->doneRace = true;
+                    if (myCar->raceTime == 0)
+                        myCar->raceTime = glfwGetTime();
                 }
                 else
                 {

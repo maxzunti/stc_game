@@ -176,6 +176,36 @@ int Window::getMMSize() {
     return renderers[0]->getMMSize();
 }
 
+void Window::drawFinalScores(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, const std::vector<Renderable*>& cubes, int time)
+{
+    SSParams params = getSSParams(nps);
+    if (update) {
+        for (int i = 0; i < renderers.size(); i++) {
+            renderWindowData rwd;
+            rwd.height = params.screenPos[i].height;
+            rwd.width = params.screenPos[i].width;
+            rwd.xPos = params.screenPos[i].xPos;
+            rwd.yPos = params.screenPos[i].yPos;
+            renderers[i]->setDims(rwd);
+        }
+        update = false;
+    }
+
+    renderers[0]->renderShadowMap(ents);
+    renderers[0]->drawSkylineShadows(cubes);
+    for (auto r : renderers) {
+        r->drawNoText(ents, cubes);
+    }
+
+    renderers[0]->drawScores(cars, width, height, getMenuRenderer()->getNumOfPlayers(), time);
+   // renderers[0]->renderMiniMap(ents, cars, 1300, renderers[0]->getMMSize(), params.mapPos[0] - (renderers[0]->getMMSize() / 2), params.mapPos[1] - (renderers[0]->getMMSize() / 2), width, height, 0.7);
+
+    // scene is rendered to the back buffer, so swap to front for display
+    glfwSwapBuffers(window);
+
+    // sleep until next event before drawing again
+    glfwPollEvents();
+}
 
 bool Window::shouldClose()
 {
