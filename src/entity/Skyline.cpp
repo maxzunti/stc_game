@@ -258,7 +258,7 @@ void Skyline::updateFromConfig() {
     
     for (int i = 0; i < NUM_X; i++) {
         for (int j = 0; j < NUM_Y; j++) {
-            if (cubes[i][j]) {
+            if (cubes[i][j] != NULL) {
                 glm::vec3 newPos = glm::vec3(i * 0.5, 0.0, j * 0.5) * TOTAL_SCALE * CUBE_SPACING;
                 newPos.x += CENTER_X;
                 newPos.y += CENTER_Y;

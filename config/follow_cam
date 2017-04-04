@@ -1,12 +1,12 @@
 // Follow cam variables
-FOLLOW_X_CAM_ROT_SPEED=0.2
-FOLLOW_Y_CAM_ROT_SPEED=0.15
+FOLLOW_X_CAM_ROT_SPEED=0.6
+FOLLOW_Y_CAM_ROT_SPEED=0.5
 FOLLOW_X_CAM_XBOX_SPEED=0.003
 FOLLOW_Y_CAM_XBOX_SPEED=0.003
 
  // max allowed (+/-) rotation angle, in radians
 FOLLOW_X_MAX_ROT=0.3 
-FOLLOW_Y_MAX_ROT=0.5 
+FOLLOW_Y_MAX_ROT=0.3
 
  // small threshold values which determine when we automatically set the cam speeds and rot to 0
 SNAP_X=0.003 

@@ -293,6 +293,7 @@ GLuint LinkProgram(GLuint vertexShader, GLuint fragmentShader)
 // Taken from http://www.flashbang.se/archives/155
 void screenshot(char filename[160], int x, int y)
 {// get the image data
+
     long imageSize = x * y * 3;
     unsigned char *data = new unsigned char[imageSize];
     glBindFramebuffer(GL_FRAMEBUFFER, 0);

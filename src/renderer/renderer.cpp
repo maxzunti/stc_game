@@ -1010,7 +1010,8 @@ void Renderer::renderMiniMapBG(const std::vector<Renderable*>& ents, float heigh
             );
             CheckGLErrors("drawSil");
 
-            // screenshot(name, width, this->height);
+           // screenshot("ss.tga", width, height);
+
             break;
         }
     }

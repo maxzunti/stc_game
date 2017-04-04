@@ -148,6 +148,7 @@ void Car::initParams() {
     carParams.push_back(std::make_pair(std::string("WHEEL_WIDTH"), &WHEEL_WIDTH));
     carParams.push_back(std::make_pair(std::string("WHEEL_MOI"), &WHEEL_MOI));
     carParams.push_back(std::make_pair(std::string("STEER_VEL_FACTOR"), &STEER_VEL_FACTOR));
+    carParams.push_back(std::make_pair(std::string("STEER_FACTOR"), &STEER_FACTOR));
     carParams.push_back(std::make_pair(std::string("BASE_STEER"), &BASE_STEER));
     carParams.push_back(std::make_pair(std::string("DRIVE_TORQUE"), &DRIVE_TORQUE));
     carParams.push_back(std::make_pair(std::string("BRAKE_TORQUE"), &BRAKE_TORQUE));
@@ -537,41 +538,18 @@ void Car::update() {
 
 */
 void Car::applyWheelTurn(float factor) {
-   double vdiff_2 = (this->mActor->getLinearVelocity().magnitude() / MAX_STEER_SPEED) * (this->mActor->getLinearVelocity().magnitude() / MAX_STEER_SPEED);
+  // double vdiff_2 = (this->mActor->getLinearVelocity().magnitude() / MAX_STEER_SPEED) * (this->mActor->getLinearVelocity().magnitude() / MAX_STEER_SPEED);
    double f_2 = factor < 0 ? (factor * factor) : -(factor * factor);
    double f_3 = -factor * factor * factor;
+   double vdiff_2 = ((this->mActor->getLinearVelocity().magnitude() + BASE_STEER) / MAX_STEER_SPEED) *
+                    ((this->mActor->getLinearVelocity().magnitude() + BASE_STEER) / MAX_STEER_SPEED);
 
-   this->mVehicleNoDrive->setSteerAngle(0, f_3 / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
-   this->mVehicleNoDrive->setSteerAngle(1, f_3 / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
- /*   PxReal currAngle = mVehicleNoDrive->getSteerAngle(0);
-    PxReal newAngle = currAngle - (factor / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
-    float LS_steer_deadzone = 0.25;
-    bool LS_used = (controller->LeftStick_X() > LS_steer_deadzone || controller->LeftStick_X() < -LS_steer_deadzone) ||
-                   (controller->LeftStick_Y() > LS_steer_deadzone || controller->LeftStick_Y() < -LS_steer_deadzone);
-    std::cout << "LS_used = " << LS_used << std::endl;
-    std::cout << "LSX = " << controller->LeftStick_X() << "    LSY = " << controller->LeftStick_Y() << std::endl;
-    if (!LS_used && mActor->getLinearVelocity().magnitude() > 1) {
-        if (newAngle > STEER_DECAY) {
-            newAngle -= STEER_DECAY;
-        }
-        else if (newAngle < -STEER_DECAY) {
-            newAngle += STEER_DECAY;
-        }
-        else {
-            newAngle = 0;
-        }
-    }
 
-    if (newAngle > MAX_STEER_ANGLE) {
-        newAngle = MAX_STEER_ANGLE;
-    }
-    else if (newAngle < -MAX_STEER_ANGLE) {
-        newAngle = -MAX_STEER_ANGLE;
-    }
-    mVehicleNoDrive->setSteerAngle(0, newAngle);
-    mVehicleNoDrive->setSteerAngle(1, newAngle);*/
-
-    //  this->mVehicleNoDrive->mWheelsDynData.pose
+  // this->mVehicleNoDrive->setSteerAngle(0, f_3 / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
+  // this->mVehicleNoDrive->setSteerAngle(1, f_3 / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
+   PxReal newAngle = (f_3 / ((STEER_VEL_FACTOR * vdiff_2) + BASE_STEER));
+   mVehicleNoDrive->setSteerAngle(0, newAngle);
+   mVehicleNoDrive->setSteerAngle(1, newAngle);
 }
 
 void Car::applyWheelTorque(float factor) {

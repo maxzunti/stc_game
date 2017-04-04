@@ -262,7 +262,10 @@ int main(int argc, const char* argv[])
             break;
         }
     }
-    gameState.endGame();
+    // Check that we haven't already ended the game elsewhere
+    if (gameState.entities.size() > 0) {
+        gameState.endGame();
+    }
     delete jb;
 	delete gameState.myPhysics;
 

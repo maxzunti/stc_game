@@ -206,6 +206,7 @@ protected:
 
     // Driving paramters
     float STEER_VEL_FACTOR = 15.0f; // controls how much we can steer as a factor of current velocity
+    float STEER_FACTOR = 1.0f;
     float MAX_STEER_ANGLE = 0.3;
     float STEER_DECAY = 0.02;
     float MAX_STEER_SPEED = 250.0f;
