@@ -427,7 +427,7 @@ void GameState::initGame(int numberOfPlayers)
         }
     }
 
-    jb->loadMusic("assets/sound/dmw.mp3");
+    jb->loadMusic("assets/sound/BigBlue.mp3");
     jb->play();
         
     ///////////////////////////////////////////////////////////////////////////////////////
