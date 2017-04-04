@@ -18,6 +18,9 @@ class MenuRenderer {
     Text2D * icons;
     Text2D * backButton;
     Text2D * selectButton;
+    Text2D * map1MiniIcon;
+    Text2D * map1MiniIcon2;
+    Text2D * whitebar;
 
     int width;
     int height;
@@ -26,7 +29,9 @@ class MenuRenderer {
     bool shouldClose = false;
     int selection = 0;
     int page = MAIN;
+    int previousPage = MAIN;
     int numOfPlayers = 1;
+    int track = 0;
 
     Input * controller;
     std::vector<Input*> controllers;
@@ -73,6 +78,7 @@ public:
     int getPage();
     int getNumberOfItems(int page);
     int getNumOfPlayers();
+    int getTrackSelection();
 
     Jukebox* jb;
 };

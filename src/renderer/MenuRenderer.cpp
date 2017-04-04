@@ -7,6 +7,7 @@ using namespace glm;
 
 bool pressed = false;
 bool aPressed = false;
+bool bPressed = false;
 
 MenuRenderer::MenuRenderer() {
 }
@@ -30,8 +31,10 @@ void MenuRenderer::initText() {
     icons = new Text2D("assets/textures/buttonsIcons.png");
     backButton = new Text2D("assets/textures/backButton.png");
     selectButton = new Text2D("assets/textures/selectButton.png");
+    map1MiniIcon = new Text2D("assets/textures/map1Purple.png");
+    map1MiniIcon2 = new Text2D("assets/textures/map1Black.png");
+    whitebar = new Text2D("assets/textures/whitebar.png");
 }
-
 
 void MenuRenderer::drawScene()
 {
@@ -69,6 +72,9 @@ void MenuRenderer::drawText() {
     }
     else if (page == PAUSED) {
         drawPause();
+    }
+    else if (page == TRACK) {
+        drawTrackSelect();
     }
 }
 
@@ -379,11 +385,13 @@ void MenuRenderer::drawTrackSelect()
     int yPlacement;
     int ds_offset = 3;
     int size = 100 * (height / (720.f));
+    int selectionOffset = 5;
 
     //Position - insert real position info here
     // X pos calculation is done by dividing the size by 2 (the kerning factor in the function halves it)
     // and then multiplying this by half of the string length
 
+    int mapIconSize = 0;
 
     char gpText[512];
     sprintf(gpText, "SELECT A TRACK");
@@ -392,51 +400,43 @@ void MenuRenderer::drawTrackSelect()
     yPlacement = height / 2.f + 2 * size;
 
     drawDropShadowText(gpText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
-
-    size = 50 * (height / (720.f));
-
-
+    size = 40 * (height / (720.f));
+    mapIconSize = (strlen(gpText)* size/2.f);
+   
     //Singleplayer Option
     char spText[512];
-    sprintf(spText, "CONTINUE RACE");
+    sprintf(spText, "FIGURE GRATE");
 
-    xPlacement = (this->width / 2.f) - (size / 2.f) * ((strlen(spText) + 2) / 2.f);
-    yPlacement = this->height / 2.f;
+    xPlacement = (this->width / 3.f) - (size / 2.f) * ((strlen(spText) + 1) / 2.f);
+    yPlacement = this->height / 4.f;
 
     if (selection == 0) {
+        whitebar->drawTexture(xPlacement - selectionOffset, yPlacement - selectionOffset, mapIconSize + 2 * selectionOffset, mapIconSize + 2 * selectionOffset, width, height);
+        map1MiniIcon->drawTexture(xPlacement, yPlacement, mapIconSize, mapIconSize, width, height);
         drawDropShadowText(spText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
     else {
+        map1MiniIcon->drawTexture(xPlacement, yPlacement, mapIconSize, mapIconSize, width, height);
         drawDropShadowText(spText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
-    //Multi-player Option
-    char mpText[512];
-    sprintf(mpText, "MAIN MENU");
 
-    xPlacement = (this->width / 2.f) - (size / 2.f) * ((strlen(mpText) + 2) / 2.f);
-    yPlacement = (this->height / 2.f) - size;
+  //Multi-player Option
+    char mpText[512];
+    sprintf(mpText, "COMING SOON");
+
+    xPlacement = (this->width * (2.f/3.f)) - (size / 2.f) * ((strlen(mpText) + 1) / 2.f);
+    yPlacement = (this->height / 4.f);
+   // mapIconSize = (strlen(mpText)* size / 2.f);
 
     // drawDropShadowText(mpText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     if (selection == 1) {
+        whitebar->drawTexture(xPlacement - selectionOffset, yPlacement - selectionOffset, mapIconSize + 2 * selectionOffset, mapIconSize + 2 * selectionOffset, width, height);
+        map1MiniIcon2->drawTexture(xPlacement, yPlacement, mapIconSize, mapIconSize, width, height);
         drawDropShadowText(mpText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
     else {
+        map1MiniIcon2->drawTexture(xPlacement, yPlacement, mapIconSize, mapIconSize, width, height);
         drawDropShadowText(mpText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
-    }
-
-    //Quit Option
-    char qText[512];
-    sprintf(qText, "QUIT GAME");
-
-    xPlacement = (this->width / 2.f) - (size / 2.f) * ((strlen(qText) + 2) / 2.f);
-    yPlacement = (this->height / 2.f) - (4 * size);
-
-    //drawDropShadowText(qText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
-    if (selection == 2) {
-        drawDropShadowText(qText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
-    }
-    else {
-        drawDropShadowText(qText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
 
     size = 250 * (height / (720.f));
@@ -473,7 +473,7 @@ void MenuRenderer::updateMenu()
     for (int i = 0; i < controllers.size(); i++) {
         if (!(controllers[i]->LStick_InDeadzone())) {
             if (pressed == false) {
-                if (page == MULTI) {
+                if (page == MULTI || page == TRACK) {
                     if (controllers[i]->LeftStick_X() < -0.80f) {
                         jb->playEffect(Jukebox::menumove);
                         (selection == 0) ? selection += (numberOfItems - 1) : selection--;
@@ -524,14 +524,19 @@ void MenuRenderer::updateMenu()
                     switch (selection) {
                     case 0:
                         // page = SINGLE;
-                        page = LOADING;
+                        page = TRACK;
+                        selection = 0;
+                        numOfPlayers = 1;
+                        previousPage = MAIN;
+                       /* page = LOADING;
                         numOfPlayers = 1;
                         playing = true;
-                        selection = 0;
+                        selection = 0;*/
                         break;
                     case 1:
                         selection = 0;
-                        page = MULTI;
+                        page = TRACK;
+                        previousPage = MULTI;
                         break;
                     case 2:
                         selection = 0;
@@ -629,23 +634,27 @@ void MenuRenderer::updateMenu()
                     case 0:
                         // page = SINGLE;
                         page = LOADING;
+                       // page = TRACK;
                         playing = true;
                         numOfPlayers = 1;
                         break;
                     case 1:
                         page = LOADING;
+                        //page = TRACK;
                         playing = true;
                         numOfPlayers = 2;
                         break;
                     case 2:
                         page = LOADING;
+                        //page = TRACK;
                         playing = true;
                         numOfPlayers = 3;
                         break;
                     case 3:
                         page = LOADING;
-                        numOfPlayers = 4;
+                        //page = TRACK;
                         playing = true;
+                        numOfPlayers = 4;
                         break;
                     }
 
@@ -659,22 +668,97 @@ void MenuRenderer::updateMenu()
         }
         for (auto c : controllers) {
             if (c->GetButtonDown(XButtonIDs::B)) {
+                if (bPressed == false) {
+                    selection = 0;
+                    page = TRACK;
 
-                selection = 0;
-                page = MAIN;
+                    bPressed = !bPressed;
+                }
             }
         }
 
-        int test2 = 0;
+        int testA = 0;
         for (int i = 0; i < controllers.size(); i++) {
             if (!(controllers[i]->GetButtonPressed(XButtonIDs::A))) {
-                test2++;
+                testA++;
             }
         }
-        if (test2 == 4) {
+        if (testA == 4) {
             aPressed = false;
         }
+
+        int testB = 0;
+        for (int i = 0; i < controllers.size(); i++) {
+            if (!(controllers[i]->GetButtonPressed(XButtonIDs::B))) {
+                testB++;
+            }
+        }
+        if (testB == 4) {
+            bPressed = false;
+        }
+
     }
+        break;
+    case TRACK: {
+        for (auto c : controllers) {
+            if (c->GetButtonDown(XButtonIDs::A)) {
+                if (aPressed == false) {
+
+                    jb->playEffect(Jukebox::menuselect);
+                    switch (selection) {
+                    case 0:
+                        // page = SINGLE;
+                        track = 1;
+                        page = (previousPage == MULTI) ? MULTI : LOADING;
+                        playing = (previousPage == MULTI) ? false: true;
+                        break;
+                    case 1:
+                        track = 2;
+                        page = (previousPage == MULTI) ? MULTI : LOADING;
+                        playing = (previousPage == MULTI) ? false : true;
+                        break;
+                    }
+
+                    selection = 0;
+                    aPressed = !aPressed;
+                }
+            }
+            // else {
+            //     aPressed = false;
+            // }
+        }
+        for (auto c : controllers) {
+             if (c->GetButtonDown(XButtonIDs::B)) {
+                 if (bPressed == false) {
+                    selection = 0;
+                    page = MAIN;
+
+                    bPressed = !bPressed;
+                }  
+            }
+        }
+
+        int testA = 0;
+        for (int i = 0; i < controllers.size(); i++) {
+            if (!(controllers[i]->GetButtonPressed(XButtonIDs::A))) {
+                testA++;
+            }
+        }
+        if (testA == 4) {
+            aPressed = false;
+        }
+
+        int testB = 0;
+        for (int i = 0; i < controllers.size(); i++) {
+            if (!(controllers[i]->GetButtonPressed(XButtonIDs::B))) {
+                testB++;
+            }
+        }
+        if (testB == 4) {
+            bPressed = false;
+        }
+
+        }
         break;
     }
 
@@ -716,6 +800,9 @@ int MenuRenderer::getNumberOfItems(int page)
     case PAUSED:
         return 3;
         break;
+    case TRACK:
+        return 2;
+        break;
     default:
         return 1;
         break;
@@ -725,6 +812,11 @@ int MenuRenderer::getNumberOfItems(int page)
 int MenuRenderer::getNumOfPlayers()
 {
     return numOfPlayers;
+}
+
+int MenuRenderer::getTrackSelection()
+{
+    return track;
 }
 
 void MenuRenderer::registerJukebox(Jukebox* jb)
