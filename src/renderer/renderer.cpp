@@ -30,6 +30,8 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
+#include <omp.h>
+
 using namespace std;
 using namespace glm;
 
@@ -228,7 +230,9 @@ void Renderer::renderShadowMap(const std::vector<Renderable*>& ents) {
     glClear(GL_DEPTH_BUFFER_BIT);
 
     // Render each of the entities to the shadowMap texture in a first pass
-    for (auto& r : ents) {
+    #pragma omp parallel for
+    for (auto &it = ents.begin(); it < ents.end(); it++) {
+        Renderable* r = *it;
         if (!r->canRender()) {
             continue;
         }
@@ -679,7 +683,9 @@ void Renderer::drawScene(const std::vector<Renderable*>& ents, const std::vector
     //glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "depthBiasMVP"), 1, GL_FALSE, &depthBiasMVP[0][0]);
     ///////////////////////////////////////
 
-    for (auto& r : ents) {
+    #pragma omp parallel for
+    for (auto &it = ents.begin(); it < ents.end(); it++) {
+        Renderable* r = *it;
         if (!r->canRender()) {
             continue;
         }
@@ -1101,7 +1107,9 @@ void Renderer::drawSkylineShadows(const std::vector<Renderable*>& cubes) {
         // Set object-specific VAO
         glBindVertexArray(master->vao[VAO::GEOMETRY]);
 
-        for (auto &cube : cubes) {
+        #pragma omp parallel for
+        for (auto &it = cubes.begin(); it < cubes.end(); it++) {
+            Renderable* cube = *it;
             trans = glm::translate(mat4(), cube->getPos());
             mat4 model_matrix = trans * rs;
 
@@ -1180,7 +1188,9 @@ void Renderer::drawSkyline(const std::vector<Renderable*>& cubes) {
 
         CheckGLErrors("loadUniforms in render");
 
-        for (auto &cube : cubes) {
+        #pragma omp parallel for
+        for (auto &it = cubes.begin(); it < cubes.end(); it++) {
+            Renderable* cube = *it;
             trans = glm::translate(mat4(), cube->getPos());
             mat4 model_matrix = trans * rs;
 
@@ -1231,7 +1241,9 @@ void Renderer::drawSkyline(const std::vector<Renderable*>& cubes) {
 
         // Still using default framebuffer => silhouettes update default framebuffer
 
-        for (auto &cube : cubes) {
+        #pragma omp parallel for
+        for (auto &it = cubes.begin(); it < cubes.end(); it++) {
+            Renderable* cube = *it;
             trans = glm::translate(mat4(), cube->getPos());
             mat4 model_matrix = trans * rs;
             glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "modelviewMatrix"),

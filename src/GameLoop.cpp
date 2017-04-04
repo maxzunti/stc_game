@@ -119,7 +119,9 @@ int main(int argc, const char* argv[])
                 */
                 // Update physics one time 
                 // This will allow the wheels positions to be updated once and therfore will be rendered
-                for (const auto& c : gameState.cars) {
+                #pragma omp parallel for
+                for (auto &it = gameState.cars.begin(); it < gameState.cars.end(); it++) {
+                    Car* c = *it;
                     c->stepForPhysics();
                 }
 
@@ -176,7 +178,9 @@ int main(int argc, const char* argv[])
                 }
             }
                 
-            for (const auto& c : gameState.cars) {
+            #pragma omp parallel for
+            for (auto &it = gameState.cars.begin(); it < gameState.cars.end(); it++) {
+                Car* c = *it;
                 c->stepForPhysics();
                 c->update();
             }

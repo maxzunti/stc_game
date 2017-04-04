@@ -93,7 +93,10 @@ void Window::draw(const std::vector<Renderable*>& ents, const std::vector<Car*>&
 
     renderers[0]->renderShadowMap(ents);
     renderers[0]->drawSkylineShadows(cubes);
-    for (auto r : renderers) {
+    // This will allow the wheels positions to be updated once and therfore will be rendered
+    #pragma omp parallel for
+    for (auto &it = renderers.begin(); it < renderers.end(); it++) {
+        Renderer* r = *it;
         r->draw(ents, cars, cubes);
     }
 
