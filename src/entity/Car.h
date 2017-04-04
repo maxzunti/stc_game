@@ -214,6 +214,7 @@ protected:
     float DRIVE_TORQUE = 10000.0f;
     float BRAKE_TORQUE = DRIVE_TORQUE * 100000.0f;
     float MAX_SPEED = 60.f;
+    float MAX_HOOK_SPEED = 60.f;
     float SLOWDOWN = 2.0f; // determines how much we slow down per frame
 
                            // material-related values (supposedly, these won't actually affect our tire driving-friction, but we include them as part of the config anyway)

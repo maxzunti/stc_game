@@ -7,7 +7,14 @@
 
 class Jukebox
 {
+    std::vector<Mix_Chunk*> engine_sounds;
+    void loadEngineSounds();
+    std::string engine_sound_prefix = "assets/sound/mix_engine/car";
+
 public:
+    const int max_engine_sounds = 30;
+    const int num_engine_sounds = 20;
+    const float engine_volume_mul = .1;
 	Mix_Music *clip;
     std::vector<Mix_Chunk*> effects;
 
@@ -23,10 +30,11 @@ public:
     void Jukebox::setup();
     void Jukebox::stopMusic();
     int Jukebox::honkHorn(int channel);
+    int playEngineSound(int speedNum, int channel);
 
     enum soundEffects
-        {
-            firehook, gravpull, metalhit, hollowhit, revengine, idle, menumove, menuselect, horn
+    {
+        firehook, gravpull, metalhit, hollowhit, revengine, idle, menumove, menuselect, horn
     };
 };
 

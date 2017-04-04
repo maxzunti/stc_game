@@ -153,6 +153,7 @@ void Car::initParams() {
     carParams.push_back(std::make_pair(std::string("DRIVE_TORQUE"), &DRIVE_TORQUE));
     carParams.push_back(std::make_pair(std::string("BRAKE_TORQUE"), &BRAKE_TORQUE));
     carParams.push_back(std::make_pair(std::string("MAX_SPEED"), &MAX_SPEED));
+    carParams.push_back(std::make_pair(std::string("MAX_HOOK_SPEED"), &MAX_HOOK_SPEED));
     carParams.push_back(std::make_pair(std::string("TIRE_FRICTION"), &TIRE_FRICTION));
     carParams.push_back(std::make_pair(std::string("MAT_STATIC"), &MAT_STATIC));
     carParams.push_back(std::make_pair(std::string("MAT_DYNAMIC"), &MAT_DYNAMIC));
@@ -439,10 +440,15 @@ void Car::update() {
 /*
     std::cout << "Engine Is Playing: " << this->myJB->isPlaying(this->engineSoundChannel) << std::endl;
     std::cout << "Idle Is Playing: " << this->myJB->isPlaying(this->idleSoundChannel) << std::endl;*/
-    if (engineSoundPlay && !this->myJB->isPlaying(this->engineSoundChannel))
+    if (engineSoundPlay) //&& !this->myJB->isPlaying(this->engineSoundChannel))
     {
         this->myJB->stop(this->idleSoundChannel);
-        this->engineSoundChannel = this->myJB->revEngine(false,this->engineSoundChannel);
+     //   this->engineSoundChannel = this->myJB->revEngine(false,this->engineSoundChannel);
+        int engineNum = pow((mActor->getLinearVelocity().magnitude() / MAX_HOOK_SPEED), 0.25) * (myJB->num_engine_sounds - 1); //* 1.4;
+        if (engineNum > myJB->num_engine_sounds - 1) {
+            engineNum = myJB->num_engine_sounds - 1;
+        }
+        myJB->playEngineSound(engineNum, engineSoundChannel);
     }
     else if (!engineSoundPlay && !this->myJB->isPlaying(this->idleSoundChannel))
     {
@@ -459,7 +465,7 @@ void Car::update() {
     {
         PxVec3 temp = this->mActor->getLinearVelocity();
         temp.normalize();
-        this->mActor->setLinearVelocity(MAX_SPEED * 1.5f * temp);
+        this->mActor->setLinearVelocity(MAX_HOOK_SPEED * temp);
     }
 
     //Handbrake - Possibly remove in future

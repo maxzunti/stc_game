@@ -90,10 +90,39 @@ void Jukebox::setup()
     this->loadEffect("assets/sound/metal.mp3");
     this->loadEffect("assets/sound/shoot.mp3");
     this->loadEffect("assets/sound/revengine.mp3");
-    Mix_VolumeChunk(this->effects.at(Jukebox::revengine),MIX_MAX_VOLUME*0.12f);
+    Mix_VolumeChunk(this->effects.at(Jukebox::revengine), MIX_MAX_VOLUME*0.12f);
     this->loadEffect("assets/sound/idle.mp3");
     Mix_VolumeChunk(this->effects.at(Jukebox::idle), MIX_MAX_VOLUME*0.3f);
     this->loadEffect("assets/sound/menumove.mp3");
     this->loadEffect("assets/sound/menuselect.mp3");
     this->loadEffect("assets/sound/horn.mp3");
+    loadEngineSounds();
+}
+
+void Jukebox::loadEngineSounds() {
+    for (int i =  1; i <= max_engine_sounds; i++) {
+        std::string fname = engine_sound_prefix + std::to_string(i) + ".wav";
+        if (Mix_LoadWAV(fname.c_str()) == NULL) {
+            std::cout << "WARNING: couldn't load " << fname << std::endl;
+        }
+        else {
+            engine_sounds.push_back(Mix_LoadWAV(fname.c_str()));
+            Mix_VolumeChunk(engine_sounds.at(i - 1), MIX_MAX_VOLUME * engine_volume_mul);
+        }
+    }
+}
+
+int Jukebox::playEngineSound(int speedNum, int channel) {
+    int playNum = speedNum +(max_engine_sounds - num_engine_sounds) - 1;
+    if (playNum > max_engine_sounds) {
+        std::cout << "WARNING: Attempted to play engine sound '" << speedNum << "', but max is " << max_engine_sounds << std::endl;
+        return -1;
+    }
+    if (!isPlaying(channel)) {
+         Mix_PlayChannel(channel, this->engine_sounds.at(playNum), 0);
+         return 0;
+    }
+    else {
+        return -1;
+    }
 }
