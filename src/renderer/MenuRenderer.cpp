@@ -179,28 +179,28 @@ void MenuRenderer::drawMultiplayerMenu() {
     // X pos calculation is done by dividing the size by 2 (the kerning factor in the function halves it)
     // and then multiplying this by half of the string length
 
-    char spText[512];
-    sprintf(spText, "1");
+   // char spText[512];
+   // sprintf(spText, "1");
 
-   // xPlacement = (this->width / 4.f)/* - (size / 2.f) * (4)*/;
-    xPlacement = 0;
+   //// xPlacement = (this->width / 4.f)/* - (size / 2.f) * (4)*/;
+   // xPlacement = 0;
 
-    yPlacement = this->height / 2.f - size;
+   // yPlacement = this->height / 2.f - size;
 
-    if (selection == 0) {
-        drawDropShadowText(spText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
-    }
-    else {
-        drawDropShadowText(spText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
-    }
+   // if (selection == 0) {
+   //     drawDropShadowText(spText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+   // }
+   // else {
+   //     drawDropShadowText(spText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
+   // }
 
     char mpText[512];
     sprintf(mpText, "2");
 
-    xPlacement = (this->width / 4.f);
+    xPlacement = (this->width / 4.f) - (size);
     yPlacement = (this->height / 2.f) - size;
 
-    if (selection == 1) {
+    if (selection == 0) {
         drawDropShadowText(mpText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
     else {
@@ -210,10 +210,10 @@ void MenuRenderer::drawMultiplayerMenu() {
     char cText[512];
     sprintf(cText, "3");
 
-    xPlacement = (this->width / 2.f);
+    xPlacement = (this->width / 2.f) - (size);
     yPlacement = (this->height / 2.f) - size;
 
-    if (selection == 2) {
+    if (selection == 1) {
         drawDropShadowText(cText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
     else {
@@ -223,10 +223,10 @@ void MenuRenderer::drawMultiplayerMenu() {
     char qText[512];
     sprintf(qText, "4");
 
-    xPlacement = (this->width / 4.f) + (this->width / 2.f);
+    xPlacement = (this->width / 4.f) + (this->width / 2.f) - (size);
     yPlacement = (this->height / 2.f) - size;
 
-    if (selection == 3) {
+    if (selection == 2) {
         drawDropShadowText(qText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
     else {
@@ -631,26 +631,26 @@ void MenuRenderer::updateMenu()
 
                     jb->playEffect(Jukebox::menuselect);
                     switch (selection) {
+                    //case 0:
+                    //    // page = SINGLE;
+                    //    page = LOADING;
+                    //   // page = TRACK;
+                    //    playing = true;
+                    //    numOfPlayers = 1;
+                    //    break;
                     case 0:
-                        // page = SINGLE;
-                        page = LOADING;
-                       // page = TRACK;
-                        playing = true;
-                        numOfPlayers = 1;
-                        break;
-                    case 1:
                         page = LOADING;
                         //page = TRACK;
                         playing = true;
                         numOfPlayers = 2;
                         break;
-                    case 2:
+                    case 1:
                         page = LOADING;
                         //page = TRACK;
                         playing = true;
                         numOfPlayers = 3;
                         break;
-                    case 3:
+                    case 2:
                         page = LOADING;
                         //page = TRACK;
                         playing = true;
@@ -796,7 +796,7 @@ int MenuRenderer::getNumberOfItems(int page)
         return 4;
         break;
     case MULTI:
-        return 4;
+        return 3;
     case PAUSED:
         return 3;
         break;
