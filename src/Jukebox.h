@@ -12,8 +12,8 @@ class Jukebox
     std::string engine_sound_prefix = "assets/sound/mix_engine/car";
 
 public:
-    const int max_engine_sounds = 30;
-    const int num_engine_sounds = 20;
+    const int max_engine_sounds = 38;
+    const int num_engine_sounds = 35;
     const float engine_volume_mul = .1;
 	Mix_Music *clip;
     std::vector<Mix_Chunk*> effects;

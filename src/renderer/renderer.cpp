@@ -63,6 +63,8 @@ Renderer::~Renderer()
     if (index == 0) {
         glDeleteFramebuffers(1, &SM_frameBuffer);
         glDeleteTextures(1, &SM_depthTex);
+        glDeleteFramebuffers(1, &skyline_mm_buffer);
+        glDeleteTextures(1, &skyline_mm_tex);
     }
 
 }
@@ -74,6 +76,7 @@ void Renderer::postGLInit() {
     if (index == 0) {
         initColorFrameBuffer(mm_frameBuffer, mm_tex, mmSize, mmSize);
         initColorFrameBuffer(mm_pips_frameBuffer, mm_pips_tex, mmSize, mmSize);
+        initColorFrameBuffer(skyline_mm_buffer, skyline_mm_tex, skyline_mm_size, skyline_mm_size);
     }
 }
 
@@ -1021,6 +1024,63 @@ void Renderer::renderMiniMapBG(const std::vector<Renderable*>& ents, float heigh
             break;
         }
     }
+    mapCam->setDims(skyline_mm_size, skyline_mm_size);
+    glViewport(0, 0, skyline_mm_size, skyline_mm_size);
+    glBindFramebuffer(GL_FRAMEBUFFER, skyline_mm_buffer);
+
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    for (auto& e : ents) {
+        // This is virtual function lookup for each entity, might be slow
+        // Potentially optimize by using a single vec of Renderables
+        if (Track* track = dynamic_cast<Track*>(e)) {
+            Model* model = track->getModels().at(0);
+            mat4 scale = model->get_scaling();
+            mat4 rot = glm::mat4_cast(track->getQRot());
+            mat4 track_trans = glm::translate(mat4(), track->getPos());
+            mat4 mmatrix = track_trans * rot * scale;
+
+            glUseProgram(shader[SHADER::SIL]);
+
+            glBindVertexArray(model->vao[VAO::GEOMETRY]);
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_STENCIL_TEST);
+            glDrawBuffer(GL_FRONT_AND_BACK);
+
+            glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "cameraMatrix"),
+                1,
+                false,
+                &camMatrix[0][0]);
+
+            glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "perspectiveMatrix"),
+                1,
+                false,
+                &perspectiveMatrix[0][0]);
+
+            glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SIL], "modelviewMatrix"),
+                1,
+                false,
+                &mmatrix[0][0]);
+
+            glUniform3f(glGetUniformLocation(shader[SHADER::SIL], "u_color1"), 1.0, 1.0, 1.0);
+
+            CheckGLErrors("loadUniforms");
+
+            // Still using default framebuffer => silhouettes update default framebuffer
+            glDrawElements(
+                GL_TRIANGLES,		 //What shape we're drawing	- GL_TRIANGLES, GL_LINES, GL_POINTS, GL_QUADS, GL_TRIANGLE_STRIP
+                model->num_indices(), //How many indices
+                GL_UNSIGNED_INT,	 //Type
+                (void*)0			 //Offset
+            );
+            CheckGLErrors("drawSil");
+
+            // screenshot("ss.tga", width, height);
+
+            break;
+        }
+    }
   //  Texture mmTex(mm_tex);
   //  Text2D mmRenderer(&mmTex);
   //  mmRenderer.drawTexture(xPos, yPos, size, size, sWidth, sHeight, alpha, true);
@@ -1073,7 +1133,7 @@ void Renderer::renderMiniMap(const std::vector<Renderable*>& ents, const std::ve
 }
 
 GLuint& Renderer::getMiniMapBG() {
-    return mm_frameBuffer;
+    return skyline_mm_buffer;
 }
 
 

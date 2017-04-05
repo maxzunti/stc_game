@@ -27,6 +27,7 @@ class Renderer {
     Light * light;
 
     int stencil_bit = 0;
+    const int skyline_mm_size = 360; // off-magic
 
     void initSkybox();
     void drawSkybox(glm::mat4 &perspectiveMatrix);
@@ -53,6 +54,8 @@ class Renderer {
     GLuint mm_pips_frameBuffer;
     GLuint mm_tex;
     GLuint mm_pips_tex;
+    GLuint skyline_mm_buffer;
+    GLuint skyline_mm_tex;
     bool mm_bg_drawn = false;
 
     //Text rendering

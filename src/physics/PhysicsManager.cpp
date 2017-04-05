@@ -47,7 +47,7 @@ PhysicsManager::PhysicsManager(PxSimulationEventCallback *event_callback, PxCont
     sceneDesc.contactModifyCallback = mod_callback;
 	mScene = mPhysics->createScene(sceneDesc);
 
-	mMaterial = mPhysics->createMaterial(.3f, .3f, 0.1f);
+	mMaterial = mPhysics->createMaterial(.3f, .3f, 0.01f);
 
     /////////////////////////////////////////////
     PxInitVehicleSDK(*mPhysics);
