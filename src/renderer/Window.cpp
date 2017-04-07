@@ -100,7 +100,7 @@ void Window::draw(const std::vector<Renderable*>& ents, const std::vector<Car*>&
         r->draw(ents, cars, cubes);
     }
 
-    renderers[0]->renderMiniMap(ents, cars, 1300, renderers[0]->getMMSize(), params.mapPos[0]- (renderers[0]->getMMSize() /2), params.mapPos[1] - (renderers[0]->getMMSize() / 2), width, height, 0.7);
+    renderers[0]->renderMiniMap(ents, cars, MM_camHeight, renderers[0]->getMMSize(), params.mapPos[0]- (renderers[0]->getMMSize() /2), params.mapPos[1] - (renderers[0]->getMMSize() / 2), width, height, 0.7);
     
     // scene is rendered to the back buffer, so swap to front for display
     glfwSwapBuffers(window);
@@ -122,7 +122,7 @@ void Window::drawMMOnly(const std::vector<Renderable*>& ents, const std::vector<
         }
         update = false;
     }
-    renderers[0]->renderMiniMap(ents, cars, 1300, renderers[0]->getMMSize(), params.mapPos[0] - (renderers[0]->getMMSize() / 2), params.mapPos[1] - (renderers[0]->getMMSize() / 2), width, height, 0.7);
+    renderers[0]->renderMiniMap(ents, cars, MM_camHeight, renderers[0]->getMMSize(), params.mapPos[0] - (renderers[0]->getMMSize() / 2), params.mapPos[1] - (renderers[0]->getMMSize() / 2), width, height, 0.7);
 }
 
 void Window::drawMenu() {
@@ -159,7 +159,7 @@ void Window::drawCountDown(const std::vector<Renderable*>& ents, const std::vect
         r->drawCountDown(time);
     }
 
-    renderers[0]->renderMiniMap(ents, cars, 1300, renderers[0]->getMMSize(), params.mapPos[0] - (renderers[0]->getMMSize() / 2), params.mapPos[1] - (renderers[0]->getMMSize() / 2), width, height, 0.7);
+    renderers[0]->renderMiniMap(ents, cars, MM_camHeight, renderers[0]->getMMSize(), params.mapPos[0] - (renderers[0]->getMMSize() / 2), params.mapPos[1] - (renderers[0]->getMMSize() / 2), width, height, 0.7);
 
     // scene is rendered to the back buffer, so swap to front for display
     if (swapBuffer) {

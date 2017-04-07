@@ -133,7 +133,7 @@ glm::mat4 Camera::calcPerspective() {
             FOV += FOV * (speed - FOV_START_SPEED) / FOV_MAX_SPEED;
         }
     }
-    return glm::perspective(radians(FOV), ((float)width)/((float)height), 0.1f, 3000.f);
+    return glm::perspective(radians(FOV), ((float)width)/((float)height), 0.1f, 10000.f);
 }
 
 void Camera::rotateAroundCenter(float x, float y, vec3 focus)

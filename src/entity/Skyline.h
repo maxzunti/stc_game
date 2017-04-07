@@ -12,13 +12,13 @@ class Skyline : public Entity {
     fp_vars slParams;
 
     int frameCounter = 0; // update once per frame
-    static const int NUM_X = 26; // number of buildings in the x-dir
-    static const int NUM_Y = 26; // '' y-dir
+    static const int NUM_X = 60; // number of buildings in the x-dir map 1 is 26
+    static const int NUM_Y = 60; // '' y-dir map 1 is 26
     // use even no's
 
     // pixel widths, used for sampling the minimap texture
-    float X_PIXEL_SPACING = 20;
-    float Y_PIXEL_SPACING = 20;
+    float X_PIXEL_SPACING = 6; // map 1 is 20
+    float Y_PIXEL_SPACING = 6; // map 1 is 20
 
     // proportions of each 'block' to occupy (could randomize, but let's try this)
     float X_SCL = 20.0;
@@ -59,7 +59,7 @@ class Skyline : public Entity {
 
     int dark_prob = 30;
     int purp_prob = 10;
-    int density_prob = 30;
+    int density_prob = 20; // map 1 is 30
 
 public:
     Skyline(int mmSize, GLuint &mm_frameBuffer, float scale, std::vector<Renderable*>& ents, Input* cont = NULL);

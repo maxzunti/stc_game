@@ -37,6 +37,7 @@ class Window {
 
     static int width;
     static int height;
+    int MM_camHeight = 5000; // default value for map 1 = 1300
     static bool update;
     static SSParams getSSParams(int numPlayers);
     int nps = 0;

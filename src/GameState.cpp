@@ -105,7 +105,7 @@ void GameState::initGame(int numberOfPlayers)
         //    m->tile_UV_X(2);
     }
 #else
-    myTrack = new Track("assets/models/track/tracksurface.obj", "assets/textures/alum.png", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    myTrack = new Track("assets/models/track/track2surfacewuv.obj", "assets/textures/alum.png", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
 #endif
     entities.push_back(myTrack);
 
@@ -116,7 +116,7 @@ void GameState::initGame(int numberOfPlayers)
         m->tile_UV_XY(2, 2);
     }
     for (auto m : myTrack->getModels()) {
-        m->tile_UV_XY(3, 60);
+        m->tile_UV_XY(6000, 6000); // map 1 is 3,60
     }
 
     StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks2.obj", "assets/textures/trans_red.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST, false);
@@ -399,7 +399,8 @@ void GameState::initGame(int numberOfPlayers)
 //    bot2->setRot(0.0, -1.2, 0.0);
 
     for (int i = 0; i < cars.size(); i ++) {
-        cars[i]->setPos(-300 - (25*i), 10, -200 - (25 * i));
+  //      cars[i]->setPos(-300 - (25*i), 10, -200 - (25 * i)); these are map 1
+        cars[i]->setPos(-500 - (25 * i), 10, -500 - (25 * i));
         cars[i]->setRot(0.0, -0.5, 0.0);
     }
 

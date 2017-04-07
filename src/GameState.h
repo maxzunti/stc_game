@@ -16,7 +16,7 @@ public:
         MENU,
         PAUSED
     };
-    float trackScale = 50.0f;
+    float trackScale = 300.0f; // map 1 is 50
 
     Input * input;
     PhysicsManager * myPhysics;
