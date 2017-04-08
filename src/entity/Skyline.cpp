@@ -9,7 +9,7 @@ using namespace std;
 
 //}
 Skyline::Skyline(int mmSize, GLuint &mm_frameBuffer, float scale, std::vector<Renderable*>& ents, Input* cont) :
-    sl_parser("config/sl_config", &slParams)
+    sl_parser("config/sl_config2", &slParams)
     {
     controller = cont;
 

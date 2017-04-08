@@ -105,22 +105,29 @@ void GameState::initGame(int numberOfPlayers)
         //    m->tile_UV_X(2);
     }
 #else
-    myTrack = new Track("assets/models/track/track2surfacewuv.obj", "assets/textures/alum.png", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    myTrack = new Track("assets/models/track/track2surface2.obj", "assets/textures/alum.png", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
 #endif
     entities.push_back(myTrack);
 
-    Walls * myTrackWalls = new Walls("assets/models/track/trackwalls.obj", "assets/textures/tris.jpg", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
-    myTrackWalls->height = -10; // moving walls UP at the moment - depends on model
-    entities.push_back(myTrackWalls);
-    for (auto m : myTrackWalls->getModels()) {
-        m->tile_UV_XY(2, 2);
-    }
+    myTrack->setPos(myTrack->getPos().x, myTrack->getPos().y + 600, myTrack->getPos().z);
+
+    
     for (auto m : myTrack->getModels()) {
         m->tile_UV_XY(6000, 6000); // map 1 is 3,60
     }
 
-    StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks2.obj", "assets/textures/trans_red.png", glm::vec3(50.f, 50.f, 50.f), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST, false);
+    StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/track2hooks.obj", "assets/textures/trans_red.png", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST, false);
     entities.push_back(myHookables);
+    myHookables->setPos(myHookables->getPos().x, myHookables->getPos().y + 600, myHookables->getPos().z);
+
+
+    Walls * myTrackWalls = new Walls("assets/models/track/track2walls.obj", "assets/textures/tris.jpg", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+    //myTrackWalls->height = -10; // moving walls UP at the moment - depends on model
+    entities.push_back(myTrackWalls);
+    for (auto m : myTrackWalls->getModels()) {
+        m->tile_UV_XY(2, 2);
+    }
+    myTrackWalls->setPos(myTrackWalls->getPos().x, myTrackWalls->getPos().y + 600, myTrackWalls->getPos().z);
 
     myTrack->SIL_X_SCALE = 1.1;
     myTrack->SIL_Y_SCALE = 1.1;
@@ -400,7 +407,7 @@ void GameState::initGame(int numberOfPlayers)
 
     for (int i = 0; i < cars.size(); i ++) {
   //      cars[i]->setPos(-300 - (25*i), 10, -200 - (25 * i)); these are map 1
-        cars[i]->setPos(-500 - (25 * i), 10, -500 - (25 * i));
+        cars[i]->setPos(-500 - (25 * i), 610, -500 - (25 * i));
         cars[i]->setRot(0.0, -0.5, 0.0);
     }
 

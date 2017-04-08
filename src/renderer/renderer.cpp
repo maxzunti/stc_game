@@ -257,7 +257,7 @@ void Renderer::addToShadowMap(const Model& model, mat4 model_matrix, int startEl
 
     // Make sure depth testing is enabled and cull front faces
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
   //  glCullFace(GL_BACK);
 
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::SHADOW], "depthMVP"), 1, false, &Renderer::depthMVP[0][0]);
@@ -273,14 +273,14 @@ void Renderer::addToShadowMap(const Model& model, mat4 model_matrix, int startEl
     );
 
     //Switch back to the original frame buffer and reset face culling to back face culling
-    glCullFace(GL_BACK);
+   // glCullFace(GL_BACK);
     glBindVertexArray(0);
 }
 
 
 void Renderer::renderModel(const Model& model, mat4 &perspectiveMatrix, glm::mat4 scale, glm::mat4 rot, glm::mat4 trans)
 {
-    drawShade(model, perspectiveMatrix, scale, rot, trans);
+   drawShade(model, perspectiveMatrix, scale, rot, trans);
     if (model.shouldSil()) {
         const mat4 model_matrix = trans * rot * scale;
         mat4 sil_model;
@@ -735,7 +735,7 @@ void Renderer::drawScene(const std::vector<Renderable*>& ents, const std::vector
     drawSkyline(cubes);
 
     // draw track
-    if (trackFound) {
+   if (trackFound) {
         for (Model* model : track->getModels()) {
             mat4 scale = model->get_scaling();
             mat4 rot = glm::mat4_cast(track->getQRot());
@@ -854,7 +854,7 @@ void Renderer::drawCountDown(int time)
     glViewport(vpX, vpY, width, height);
     glUseProgram(shader[SHADER::TEXT]);
 
-    glDisable(GL_CULL_FACE);
+    //glDisable(GL_CULL_FACE);
     int xPlacement;
     int yPlacement;
     int ds_offset = 3;
@@ -881,7 +881,7 @@ void Renderer::drawScores(const std::vector<Car*>& cars, float screenWidth, floa
     glViewport(0, 0, screenWidth, screenHeight);
     glUseProgram(shader[SHADER::TEXT]);
 
-    glDisable(GL_CULL_FACE);
+    //glDisable(GL_CULL_FACE);
     float xPlacement;
     float yPlacement;
     int ds_offset = 3;
@@ -1020,7 +1020,7 @@ void Renderer::renderMiniMapBG(const std::vector<Renderable*>& ents, float heigh
             CheckGLErrors("drawSil");
 
            // screenshot("ss.tga", width, height);
-
+            glBindVertexArray(0);
             break;
         }
     }
@@ -1077,7 +1077,7 @@ void Renderer::renderMiniMapBG(const std::vector<Renderable*>& ents, float heigh
             CheckGLErrors("drawSil");
 
             // screenshot("ss.tga", width, height);
-
+            glBindVertexArray(0);
             break;
         }
     }
@@ -1157,7 +1157,7 @@ void Renderer::drawSkylineShadows(const std::vector<Renderable*>& cubes) {
 
         // Make sure depth testing is enabled and cull front faces
         glEnable(GL_DEPTH_TEST);
-        glEnable(GL_CULL_FACE);
+        //glEnable(GL_CULL_FACE);
         //  glCullFace(GL_BACK);
 
         glUseProgram(shader[SHADER::SHADOW]);
@@ -1184,7 +1184,7 @@ void Renderer::drawSkylineShadows(const std::vector<Renderable*>& cubes) {
         }
 
         //Switch back to the original frame buffer and reset face culling to back face culling
-        glCullFace(GL_BACK);
+        //glCullFace(GL_BACK);
         glBindVertexArray(0);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }

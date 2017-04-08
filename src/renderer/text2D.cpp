@@ -122,6 +122,7 @@ void Text2D::printText2D(const char * text, int x, int y, int size, int width, i
 
     glDisable(GL_BLEND);
 
+    glBindVertexArray(0);
     CheckGLErrors("text render");
 }
 
@@ -192,7 +193,7 @@ void Text2D::drawTexture(int x, int y, int width, int height, int sWidth, int sH
     );
 
     glDisable(GL_BLEND);
-
+    glBindVertexArray(0);
     CheckGLErrors("Text2D raw texture render");
 }
 
