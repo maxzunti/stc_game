@@ -113,7 +113,7 @@ void GameState::initGame(int numberOfPlayers)
 
     
     for (auto m : myTrack->getModels()) {
-        m->tile_UV_XY(6000, 6000); // map 1 is 3,60
+        m->tile_UV_XY(5000, 5000); // map 1 is 3,60
     }
 
     StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/track2hooks.obj", "assets/textures/trans_red.png", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST, false);
