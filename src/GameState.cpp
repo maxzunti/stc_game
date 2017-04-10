@@ -99,7 +99,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
             m->tile_UV_XY(3, 60); // map 1 is 3,60
         }
 
-        StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks.obj", "assets/textures/trans_red.png", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST, false);
+        StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/trackhooks2.obj", "assets/textures/trans_red.png", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST, false);
         entities.push_back(myHookables);
 
         myTrack->SIL_X_SCALE = 1.1;
@@ -363,6 +363,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         fallpoint->scaleModels();
 
 
+        jb->loadMusic("assets/sound/arene.mp3");
 
         break;
     }
@@ -907,6 +908,8 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
             cars[i]->setPos(45.1907, 413.264, -1112.6 - (25 * i));
             cars[i]->setRot(glm::quat(-0.691184, -0.000337045, 0.722679, 0.000411464));
         }
+
+        jb->loadMusic("assets/sound/dmw.mp3");
         break;
     }
 }
@@ -916,7 +919,6 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         }
     }
 
-    jb->loadMusic("assets/sound/arene.mp3");
     jb->play();
         
     ///////////////////////////////////////////////////////////////////////////////////////
