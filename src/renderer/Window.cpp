@@ -260,7 +260,7 @@ void Window::resizeCallback(GLFWwindow* window, int nWidth, int nHeight)
     menuRenderer->setDims(width, height);
 }
 
-void Window::setSplitScreen(int numPlayers, const std::vector<Car*>& cars) {
+void Window::setSplitScreen(int numPlayers, const std::vector<Car*>& cars, int trackSelection) {
     nps = numPlayers;
     assert(cars.size() == numPlayers); // this check implies that numPlayers doesn't necessarily need to exist at all:
     // however, it forces whoever's managing the window to make sure that "cars" has been managed appropriately
@@ -291,6 +291,12 @@ void Window::setSplitScreen(int numPlayers, const std::vector<Car*>& cars) {
             renderers.push_back(r);
         }
     }
+
+    for (auto r : renderers) {
+
+        r->setTrack(trackSelection);
+    }
+
     //else { // delete excess renderers from back
     //    for (int i = renderers.size() - 1; i >= numPlayers; i--) {
     //        renderers.pop_back();

@@ -108,7 +108,7 @@ int main(int argc, const char* argv[])
                 window->setMMSize(window->getMenuRenderer()->getTrackSelection());
                 gameState.initGame(numOfPlayers, window->getMenuRenderer()->getTrackSelection());
 
-                window->setSplitScreen(numOfPlayers, gameState.cars);
+                window->setSplitScreen(numOfPlayers, gameState.cars, window->getMenuRenderer()->getTrackSelection());
 
                 window->initSkyboxes(window->getMenuRenderer()->getTrackSelection());
                 for (int i = 0; i < numOfPlayers; i++) {
