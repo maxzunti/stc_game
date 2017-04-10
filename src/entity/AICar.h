@@ -22,7 +22,7 @@ protected:
 	const float ACCEL_FACTOR = 1.f;
     bool swinging = false;
     
-    const float reverseTime = 3.0f;
+    const float reverseTime = 2.0f;
     std::clock_t reverseClock;
 
 
