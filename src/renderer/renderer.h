@@ -29,7 +29,6 @@ class Renderer {
     int stencil_bit = 0;
     const int skyline_mm_size = 360; // off-magic
 
-    void initSkybox();
     void drawSkybox(glm::mat4 &perspectiveMatrix);
 
     // Control model-rendering flow
@@ -107,6 +106,7 @@ public:
 	Renderer(int);
 	~Renderer();
     void postGLInit(); // call init functions after Window's created the OpenGL env.
+    void initSkybox(int track);
     void initFrameBuffer();
 	void drawScene(const std::vector<Renderable*>& ents, const std::vector<Renderable*>& cubes);
     void renderMiniMap(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, float height, int size, int xPos, int yPos, float sWidth, float sHeight, float alpha = 0.8);

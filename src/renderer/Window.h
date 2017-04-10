@@ -58,4 +58,6 @@ public:
     MenuRenderer* getMenuRenderer();
     GLuint& getMiniMapBG();
     int getMMSize();
+    void setMMSize(int selection);
+    void initSkyboxes(int selectedTrack);
 };

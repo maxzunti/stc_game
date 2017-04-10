@@ -70,7 +70,7 @@ Renderer::~Renderer()
 }
 
 void Renderer::postGLInit() {
-    initSkybox();
+   // initSkybox();
     initText();
 
     if (index == 0) {
@@ -161,18 +161,36 @@ bool Renderer::initColorFrameBuffer(GLuint &frameBuffer, GLuint &colorTex, int w
     glBindFramebuffer(GL_FRAMEBUFFER, 0); // reset framebuffer
 }
 
-void Renderer::initSkybox() {
+void Renderer::initSkybox(int track) {
     // Maybe generalize this at some point, but hard-coding it should be okay for now
-    std::string skybox_dir = "assets\\skybox\\miramar\\";
-    std::string filenames[6] = {
-        skybox_dir + "Right.png",
-        skybox_dir + "Left.png",
-        skybox_dir + "Up.png",
-        skybox_dir + "Down.png",
-        skybox_dir + "Back.png",
-        skybox_dir + "Front.png",
-    };
-    skybox = new Skybox(filenames);
+
+    if (track == 1) {
+        std::string skybox_dir = "assets\\skybox\\miramar\\";
+        std::string filenames[6] = {
+            skybox_dir + "Right.png",
+            skybox_dir + "Left.png",
+            skybox_dir + "Up.png",
+            skybox_dir + "Down.png",
+            skybox_dir + "Back.png",
+            skybox_dir + "Front.png",
+        };
+
+        skybox = new Skybox(filenames);
+    }
+    else {
+        std::string skybox_dir = "assets\\skybox\\ie\\";
+        std::string filenames[6] = {
+            skybox_dir + "Right.tga",
+            skybox_dir + "Left.tga",
+            skybox_dir + "Up.tga",
+            skybox_dir + "Down.tga",
+            skybox_dir + "Back.tga",
+            skybox_dir + "Front.tga",
+        };
+
+        skybox = new Skybox(filenames);
+    }
+
 }
 
 void Renderer::drawSkybox(glm::mat4 &perspectiveMatrix)

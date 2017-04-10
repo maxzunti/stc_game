@@ -32,7 +32,7 @@ void MenuRenderer::initText() {
     backButton = new Text2D("assets/textures/backButton.png");
     selectButton = new Text2D("assets/textures/selectButton.png");
     map1MiniIcon = new Text2D("assets/textures/map1Purple.png");
-    map1MiniIcon2 = new Text2D("assets/textures/map1Black.png");
+    map1MiniIcon2 = new Text2D("assets/textures/map2Green.png");
     whitebar = new Text2D("assets/textures/whitebar.png");
 }
 
@@ -422,7 +422,7 @@ void MenuRenderer::drawTrackSelect()
 
   //Multi-player Option
     char mpText[512];
-    sprintf(mpText, "COMING SOON");
+    sprintf(mpText, "THE GRAND \n GRAPPLER");
 
     xPlacement = (this->width * (2.f/3.f)) - (size / 2.f) * ((strlen(mpText) + 1) / 2.f);
     yPlacement = (this->height / 4.f);
@@ -432,13 +432,14 @@ void MenuRenderer::drawTrackSelect()
     if (selection == 1) {
         whitebar->drawTexture(xPlacement - selectionOffset, yPlacement - selectionOffset, mapIconSize + 2 * selectionOffset, mapIconSize + 2 * selectionOffset, width, height);
         map1MiniIcon2->drawTexture(xPlacement, yPlacement, mapIconSize, mapIconSize, width, height);
+        yPlacement = (this->height / 4.f) + size;
         drawDropShadowText(mpText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
     else {
         map1MiniIcon2->drawTexture(xPlacement, yPlacement, mapIconSize, mapIconSize, width, height);
+        yPlacement = (this->height / 4.f) + size;
         drawDropShadowText(mpText, blueText, blackText, xPlacement, yPlacement, size, ds_offset);
     }
-
     size = 250 * (height / (720.f));
     // 3.24 is the aspect ratio of the image!
     icons->drawTexture(width - size, 0, size, size / 3.24, width, height);

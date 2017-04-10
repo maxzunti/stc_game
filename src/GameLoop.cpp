@@ -29,6 +29,7 @@
 #include "Jukebox.h"
 #include <ctime>
 #include "util/ConfigParser.h"
+#include "GameLoop.h"
 
 using namespace std;
 
@@ -104,10 +105,12 @@ int main(int argc, const char* argv[])
             if (window->getMenuRenderer()->getPlaying()) {
                 gameState.updateState(GameState::PLAYING);
                 int numOfPlayers = window->getMenuRenderer()->getNumOfPlayers();
-                gameState.initGame(numOfPlayers);
+                window->setMMSize(window->getMenuRenderer()->getTrackSelection());
+                gameState.initGame(numOfPlayers, window->getMenuRenderer()->getTrackSelection());
 
                 window->setSplitScreen(numOfPlayers, gameState.cars);
 
+                window->initSkyboxes(window->getMenuRenderer()->getTrackSelection());
                 for (int i = 0; i < numOfPlayers; i++) {
                     window->getRenderer(i)->getCam()->registerController(gameState.inputs[i]);
                     window->getRenderer(i)->getCam()->registerCar(gameState.cars[i]);
@@ -131,7 +134,7 @@ int main(int argc, const char* argv[])
 
                 jb->playEffect(Jukebox::soundEffects::menumove);
                 window->drawCountDown(gameState.renderables, gameState.cars, gameState.cubes, time, false);
-                gameState.skyline = new Skyline(window->getMMSize(), window->getMiniMapBG(), 50, gameState.cubes, input);
+                gameState.skyline = new Skyline(window->getMMSize(), window->getMiniMapBG(), 50, gameState.cubes, input, window->getMenuRenderer()->getTrackSelection());
                 while (time > 0) {
                     float currentTime = clock();
                     if ((currentTime - prevTime) > 1000) {
