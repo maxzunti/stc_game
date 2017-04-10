@@ -913,6 +913,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         break;
     }
 }
+
     for (auto& e : entities) {
         if (e->canRender() || dynamic_cast<HookChain*>(e)) {
             renderables.push_back(static_cast<Renderable*>(e));

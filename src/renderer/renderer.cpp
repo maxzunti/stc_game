@@ -235,10 +235,20 @@ void Renderer::renderShadowMap(const std::vector<Renderable*>& ents) {
     //Changing size can drastically affect the shadow map.
     // Smaller values capture less of the area but do allow for better shadows.
     // important area for tuning - especially in relation to mapsize 
-    float size = 860; // 900 860
+    float size =(track==1)?860:3000; // 900 map 1: 860
 
     // Compute the MVP matrix from the light's point of view 
-    glm::mat4 depthProjectionMatrix = glm::ortho<float>(-size, 690, -size, size, 1.f, 1700.f); // 1700.0f 1500.0f // 690 in second place
+
+    glm::mat4 depthProjectionMatrix;
+    if (track == 1) {
+        depthProjectionMatrix = glm::ortho<float>(-size, 690, -size, size, 1.f, 1700.f); // 1700.0f 1500.0f // map 1: 1700, 690 in second place
+        light->setPos(glm::vec3(200, 600, 350));
+    }
+    else {
+        depthProjectionMatrix = glm::ortho<float>(-size, size, -size, size, 1.f, 2700.f); // 1700.0f 1500.0f // map 1: 1700, 690 in second place
+        light->setPos(normalize(light->getPos()) * vec3(2000));
+    }
+
     glm::mat4 depthViewMatrix = glm::lookAt(light->getPos(), glm::vec3(0.f), glm::vec3(0, 1, 0));
     Renderer::depthMVP = depthProjectionMatrix * depthViewMatrix;
 
@@ -951,6 +961,11 @@ int Renderer::getWidth()
 int Renderer::getHeight()
 {
     return height;
+}
+
+void Renderer::setTrack(int selectedTrack)
+{
+    track = selectedTrack;
 }
 
 
