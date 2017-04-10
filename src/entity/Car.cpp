@@ -406,11 +406,11 @@ void Car::update() {
         std::cout << "x: " << this->getPos().x << ", y: " << this->getPos().y << ", z: " << this->getPos().z << std::endl;
         std::cout << "wrot: " << this->getQRot().w << ", xrot: " << this->getQRot().x << ", yrot: " << this->getQRot().y << ", zrot: " << this->getQRot().z << std::endl;
 
-        std::cout << this->getDir().x << " " << this->getDir().y << " " << this->getDir().z << std::endl;
-        car_parser.updateFromFile();
-        hook_parser.updateFromFile();
-        myHook->updateFromConfig();
-        make_physX_car();
+        
+        //car_parser.updateFromFile();
+        //hook_parser.updateFromFile();
+        //myHook->updateFromConfig();
+        //make_physX_car();
     }
 
     if (controller->GetButtonPressed(XButtonIDs::A)) {

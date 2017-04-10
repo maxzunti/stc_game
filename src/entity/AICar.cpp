@@ -54,14 +54,16 @@ void AICar::fireHook(glm::vec3 target) {
 
 void AICar::update()
 {
-	/*if (cooldownState == true)
+	if (cooldownState == true)
 	{
 		duration = COOLDOWN - (std::clock() - start) / (double)CLOCKS_PER_SEC;
 		if (duration <= 0)
 		{
 			cooldownState = false;
 		}
-	}*/
+	}
+
+    
 
     PxQuat tempquat = this->mActor->getGlobalPose().q;
 
@@ -106,7 +108,7 @@ void AICar::update()
 	
     if (devChange)
     {
-        DEVIATION = (rand() % 30) - 15.0f;
+        DEVIATION = (rand() % 20) - 10.0f;
         devChange = false;
     }
 
@@ -125,6 +127,11 @@ void AICar::update()
     goalDir = (goal - start);
 	vec3 desDir = glm::normalize(goalDir);
 	
+    if (cooldownState == false && !this->getHook()->getShot() && !this->reverseMode)
+    {
+        vec3 hookDir =  this->getPos() + goalDir;
+        fireHook(hookDir);
+    }
 	/*if (this->mActor->getLinearVelocity().magnitude() <= 1)
 	{
 		applyWheelTurn(TURN_FACTOR);
