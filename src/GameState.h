@@ -46,6 +46,6 @@ public:
 
     void GameState::updateState(State state);
     bool isRaceComplete();
-    void initGame(int numberOfPlayers);
+    void initGame(int numberOfPlayers, int selectedTrack);
     void endGame();
 };

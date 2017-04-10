@@ -12,8 +12,8 @@ class Skyline : public Entity {
     fp_vars slParams;
 
     int frameCounter = 0; // update once per frame
-    static const int NUM_X = 60; // number of buildings in the x-dir map 1 is 26
-    static const int NUM_Y = 60; // '' y-dir map 1 is 26
+    int NUM_X = 60; // number of buildings in the x-dir map 1 is 26
+    int NUM_Y = 60; // '' y-dir map 1 is 26
     // use even no's
 
     // pixel widths, used for sampling the minimap texture
@@ -49,8 +49,12 @@ class Skyline : public Entity {
     float CENTER_Z = 0;
 
     float CUBE_SPACING = 3.0f;
+    Renderable* cubes1[26][26];
 
-    Renderable* cubes[NUM_X][NUM_Y];
+    Renderable* cubes2[60][60];
+
+
+   // Renderable** cubes;
     std::vector<std::vector<int>> fillGrid(std::vector<std::vector<int>> inner);
     void makeBuildings(std::vector<std::vector<int>>, float scale, std::vector<Renderable*>& ents);
     void drawGrid(std::vector<std::vector<int>>& grid); // debug only
@@ -62,7 +66,9 @@ class Skyline : public Entity {
     int density_prob = 20; // map 1 is 30
 
 public:
-    Skyline(int mmSize, GLuint &mm_frameBuffer, float scale, std::vector<Renderable*>& ents, Input* cont = NULL);
+    int trackSelected;
+
+    Skyline(int mmSize, GLuint &mm_frameBuffer, float scale, std::vector<Renderable*>& ents, Input* cont = NULL, int mapSelection = 1);
     ~Skyline();
     void update();
 };

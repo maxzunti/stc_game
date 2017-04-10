@@ -179,6 +179,25 @@ int Window::getMMSize() {
     return renderers[0]->getMMSize();
 }
 
+void Window::setMMSize(int selection)
+{
+    switch (selection) {
+    case 1:
+        MM_camHeight = 1300;
+        break;
+    case 2:
+        MM_camHeight = 5000;
+        break;
+    }
+}
+
+void Window::initSkyboxes(int selectedTrack)
+{
+    for (auto r : renderers) {
+        r->initSkybox(selectedTrack);
+    }
+}
+
 void Window::drawFinalScores(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, const std::vector<Renderable*>& cubes, int time)
 {
     SSParams params = getSSParams(nps);
