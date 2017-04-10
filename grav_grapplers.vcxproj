@@ -130,7 +130,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='checked|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)middleware\PhysXSDK\Include;$(ProjectDir)middleware\assimp\include;$(ProjectDir)middleware\xinput\;$(ProjectDir)middleware\glfw\include;$(ProjectDir)middleware\sdl\include;$(ProjectDir)middleware\glad\include;$(ProjectDir)middleware\stb;$(ProjectDir)middleware;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
