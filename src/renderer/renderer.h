@@ -77,7 +77,7 @@ class Renderer {
     int width;
     int height;
     int track;
-    float SM_res = 8192*2;
+    float SM_res = 8192;
     void drawText();
     void drawBlackBarText(const char * string, Text2D * front, Text2D * back, int x, int y, int size, int offset, int sWifth, int sHeight);
     void drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset);

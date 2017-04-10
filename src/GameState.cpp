@@ -369,12 +369,12 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
     }
     case 2: {
         trackScale = 250.0f;
-        myTrack = new Track("assets/models/track/track2surface2.obj", "assets/textures/alum.png", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+        myTrack = new Track("assets/models/track/track2surface2.obj", "assets/textures/alum_black.png", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
         entities.push_back(myTrack);
 
         myTrack->setPos(myTrack->getPos().x, myTrack->getPos().y + 600, myTrack->getPos().z);
         for (auto m : myTrack->getModels()) {
-            m->tile_UV_XY(5000, 5000); // davids is 4000, 4000
+            m->tile_UV_XY(3000, 3000); // davids is 4000, 4000
         }
 
         StaticPhysicsObject * myHookables = new StaticPhysicsObject("assets/models/track/track2hooks.obj", "assets/textures/hex.png", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_HOOKABLE, COLLISION_FLAG_HOOKABLE_AGAINST, false);
