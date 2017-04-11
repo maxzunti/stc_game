@@ -9,13 +9,13 @@ using namespace glm;
 const char* CarRenderInfo::getTex(CarColor col) {
     switch (col) {
     case PURPLE:
-        return "assets/models/car/car_purp.png";
+        return "assets/models/car/car5_purp.png";
 	case RED:
-		return "assets/models/car/car_red.png";
+		return "assets/models/car/car5_red.png";
 	case LB:
-		return "assets/models/car/car_lb.png";
+		return "assets/models/car/car5_lb.png";
 	case ORANGE:
-		return "assets/models/car/car_orange.png";
+		return "assets/models/car/car5_orange.png";
 	default:
 		return "A";
     }
