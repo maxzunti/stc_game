@@ -282,6 +282,23 @@ void MenuRenderer::drawCredits() {
 
     drawDropShadowText(qText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
 
+    size = 30 * (height / (720.f));
+
+    char musText[512];
+    sprintf(musText, "MUSIC BY BAG RAIDERS AND GAROAD");
+
+    xPlacement = (this->width / 2.f) + (size / 2.f) * (strlen(qText) / 2.f);
+    yPlacement = (this->height / 2.f) - size * 10;
+
+    drawDropShadowText(musText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
+
+    char texText[512];
+    sprintf(texText, "SKYBOX TEXURES BY HIPSHOT");
+
+    xPlacement = (this->width / 2.f) + (size / 2.f) * (strlen(qText) / 2.f);
+    yPlacement = (this->height / 2.f) - size * 11;
+
+    drawDropShadowText(texText, whiteText, blackText, xPlacement, yPlacement, size, ds_offset);
 
     size = 100 * (height / (720.f));
     //2.06 is the aspect ratio of the image
