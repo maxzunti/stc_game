@@ -18,8 +18,9 @@
 class AICar : public Car {
 
 protected:
-	const float TURN_FACTOR = 2.0f;
+	const float TURN_FACTOR = 2.5f;
 	const float ACCEL_FACTOR = 1.f;
+    const int AI_COOLDOWN = 3.0;
     bool swinging = false;
     
     const float reverseTime = 2.0f;

@@ -56,7 +56,7 @@ void AICar::update()
 {
 	if (cooldownState == true)
 	{
-		duration = COOLDOWN - (std::clock() - start) / (double)CLOCKS_PER_SEC;
+		duration = AI_COOLDOWN - (std::clock() - start) / (double)CLOCKS_PER_SEC;
 		if (duration <= 0)
 		{
 			cooldownState = false;
@@ -88,6 +88,12 @@ void AICar::update()
     {
         this->reverseMode = true;
     }
+
+    if (this->reverseMode)
+    {
+        this->start = std::clock();
+        this->cooldownState = true;
+    }
     
     if (this->getPos().y < -200.0f)
     {
@@ -108,7 +114,7 @@ void AICar::update()
 	
     if (devChange)
     {
-        DEVIATION = (rand() % 20) - 10.0f;
+        DEVIATION = (rand() % 10) - 5.0f;
         devChange = false;
     }
 
@@ -162,7 +168,7 @@ void AICar::update()
     if (!this->reverseMode)
 	    applyWheelTorque(ACCEL_FACTOR);
     else
-        applyWheelTorque(-ACCEL_FACTOR);
+        applyWheelTorque(-2*ACCEL_FACTOR);
 	
 
 	//Cap the max velocity of the car to 80
