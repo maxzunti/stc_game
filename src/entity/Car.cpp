@@ -461,7 +461,7 @@ void Car::update() {
         PxVec3 speed = this->mActor->getLinearVelocity();
         this->mActor->setLinearVelocity(speed * SLOWDOWN);
     }
-    else if (this->mActor->getLinearVelocity().magnitude() > MAX_SPEED*1.5f && this->retracting)
+    else if (this->mActor->getLinearVelocity().magnitude() > MAX_HOOK_SPEED && this->retracting)
     {
         PxVec3 temp = this->mActor->getLinearVelocity();
         temp.normalize();
