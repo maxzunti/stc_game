@@ -381,7 +381,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         entities.push_back(myHookables);
         myHookables->setPos(myHookables->getPos().x, myHookables->getPos().y + 600, myHookables->getPos().z);
 
-        Walls * myTrackWalls = new Walls("assets/models/track/track2walls3.obj", "assets/textures/tris.jpg", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
+        Walls * myTrackWalls = new Walls("assets/models/track/track2walls2.obj", "assets/textures/tris.jpg", glm::vec3(trackScale, trackScale, trackScale), myPhysics, COLLISION_FLAG_GROUND, COLLISION_FLAG_GROUND_AGAINST);
         //myTrackWalls->height = -10; // moving walls UP at the moment - depends on model
         entities.push_back(myTrackWalls);
         for (auto m : myTrackWalls->getModels()) {
