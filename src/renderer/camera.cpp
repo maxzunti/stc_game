@@ -39,7 +39,7 @@ Camera::Camera(vec3 _dir, vec3 _pos, bool readVars)
 {
 	right = normalize(cross(_dir, vec3(0, 1, 0)));
 	up =  normalize(cross(right, _dir));
-	zoom = -4.0f;
+	zoom = 1.0f;
     
     // Initialize follow-cam delay buffers
     for (int i = 0; i < FOLLOW_DELAY_SIZE; i++) {
@@ -139,17 +139,20 @@ glm::mat4 Camera::calcPerspective() {
 void Camera::rotateAroundCenter(float x, float y, vec3 focus)
 {
     vec3 camFocus = pos - focus;
-    mat4 rotateAroundUp = rotateAbout(vec3(0, 1, 0), (zoom <= -1) ? x*abs(zoom) : x);
-    mat4 rotateAroundRight = rotateAbout(right, (zoom <= -1) ? y*abs(zoom) : y);
+  //  mat4 rotateAroundUp = rotateAbout(vec3(0, 1, 0), (zoom <= -1) ? x * abs(zoom) : x);
+  //  mat4 rotateAroundRight = rotateAbout(right, (zoom <= -1) ? y*abs(zoom) : y);
 
-    vec3 posRelOrigin = rotateAroundUp * rotateAroundRight * vec4(camFocus, 0);
-    posRelOrigin += camFocus;
+    mat4 rotateAroundUp = rotateAbout(vec3(0, 1, 0), x);
+    mat4 rotateAroundRight = rotateAbout(right, y);
+
+    vec3 posRelOrigin = rotateAroundUp /* rotateAroundRight */ * vec4(camFocus, 1);
+  //  posRelOrigin += camFocus;
 
     vec3 normalized = normalize(posRelOrigin);
     //	(normalized.y > 0.65)? normalized.y = 0.65:normalized.y;
     //	(normalized.y < -0.65)? normalized.y = -0.65:normalized.y;
 
-    pos = normalized + dir*zoom;
+    pos = posRelOrigin;// *zoom;
     dir = -1.f*normalize(camFocus);
     right = normalize(cross(dir, vec3(0, 1, 0)));
     up = normalize(cross(right, dir));
@@ -241,17 +244,20 @@ void Camera::update() {
             followLook();
         }
 
+        calcFollowSpeeds();
+
+        prev_rot[frame_counter % FOLLOW_DELAY_ROT] = car->getQRot();
+        prev_pos[frame_counter % FOLLOW_DELAY_POS] = car->getPos();
+
     }
-    calcFollowSpeeds();
 
-
-    prev_rot[frame_counter % FOLLOW_DELAY_ROT] = car->getQRot();
-    prev_pos[frame_counter % FOLLOW_DELAY_POS] = car->getPos();
 
 
   //  glm::inverse(car->getQRot));
   //  prev_x = (car->getQRot() * glm::rotate(car->getQRot(), 0.0f, up)).y;
-    p_rot = car->getQRot();
+    if (car) {
+        p_rot = car->getQRot();
+    }
     frame_counter++;
 }
 

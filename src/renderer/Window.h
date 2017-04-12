@@ -19,7 +19,7 @@ class Window {
     GLFWwindow* window = 0;
     // Renderer* renderer;
     std::vector<Renderer*> renderers;
-    static MenuRenderer* menuRenderer;
+    MenuRenderer* menuRenderer;
     static bool done_init;
 
     static glm::vec2 mousePos;

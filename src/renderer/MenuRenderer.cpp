@@ -10,14 +10,19 @@ bool aPressed = false;
 bool bPressed = false;
 
 MenuRenderer::MenuRenderer() {
+    bgRenderer = new Renderer(-1);
+    bgRenderer->initSkybox(0);
+    bgSkyline = new Skyline(cubes);
 }
 
 MenuRenderer::~MenuRenderer() {
-
+    delete bgSkyline;
+    delete bgRenderer;
 }
 
 void MenuRenderer::postGLInit() {
     initText();
+    bgRenderer->postGLInit();
 }
 
 void MenuRenderer::initText() {
@@ -46,10 +51,15 @@ void MenuRenderer::drawScene()
     glClearColor(0.1f, 0.1f, 0.1f, 0.1f);		//Color to clear the screen with (R, G, B, Alpha)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
 
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
     // Will need to move this to a different location
     updateMenu();
 
     // (Likely) use a new shader program
+
+    std::vector<Renderable*> ents; // empty ents
+    bgRenderer->drawScene(ents, cubes);
+    glClear(GL_STENCIL_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		//Clear color and depth buffers (Haven't covered yet)
 
     glUseProgram(shader[SHADER::TEXT]);
         
@@ -471,6 +481,8 @@ void MenuRenderer::drawDropShadowText(const char* string, Text2D* front, Text2D*
 void MenuRenderer::setDims(int width, int height) {
     this->width = width;
     this->height = height;
+    glViewport(0, 0, width, height); // Render on the whole framebuffer, complete from the lower left corner to the upper right
+    bgRenderer->setDims(width, height);
 }
 
 void MenuRenderer::registerController(Input * newCont)
@@ -486,6 +498,9 @@ void MenuRenderer::registerControllers(Input * newCont)
 
 void MenuRenderer::updateMenu()
 {
+    bgSkyline->update();
+    bgRenderer->getCam()->rotateAroundCenter(0.001, 0.0, glm::vec3(0.0, 0.0, 0.0));
+
     int numberOfItems = getNumberOfItems(page);
 
     for (int i = 0; i < controllers.size(); i++) {

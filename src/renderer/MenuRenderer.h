@@ -4,6 +4,8 @@
 #include "text2D.h"
 #include "../input/input.h"
 #include "../Jukebox.h"
+#include "renderer.h"
+#include "../entity/Skyline.h"
 
 class MenuRenderer {
     //Text rendering
@@ -21,6 +23,9 @@ class MenuRenderer {
     Text2D * map1MiniIcon;
     Text2D * map1MiniIcon2;
     Text2D * whitebar;
+
+    Skyline* bgSkyline;
+    std::vector<Renderable*> cubes;
 
     int width;
     int height;
@@ -40,6 +45,8 @@ class MenuRenderer {
     void drawDropShadowText(const char* string, Text2D* front, Text2D* back, int x, int y, int size, int offset);
 
 public:
+    Renderer* bgRenderer;
+
     enum page {
         MAIN = 0,
         SINGLE,

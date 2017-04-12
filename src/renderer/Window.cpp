@@ -3,7 +3,6 @@
 
 //Renderer* Window::renderer = new Renderer(0);
 
-MenuRenderer* Window::menuRenderer = new MenuRenderer();
 glm::vec2 Window::mousePos(0, 0);
 bool Window::mousePressed = false;
 bool Window::done_init = false;
@@ -25,6 +24,7 @@ Window::Window(int width, int height) {
             done_init = true;
         }
     }
+    menuRenderer = new MenuRenderer();
     Renderer * r = new Renderer(0);
     renderWindowData rwd;
     rwd.height = height;
@@ -39,6 +39,8 @@ Window::Window(int width, int height) {
     //renderer->postGLInit();
     menuRenderer->setDims(width, height);
     menuRenderer->postGLInit();
+    menuRenderer->bgRenderer->setDims(rwd);
+   // menuRenderer->bgRenderer->initFrameBuffer();
 }
 
 Window::~Window() {
@@ -80,6 +82,7 @@ int Window::initGLFW() {
 void Window::draw(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, const std::vector<Renderable*>& cubes) {
     SSParams params = getSSParams(nps);
     if (update) {
+        menuRenderer->setDims(width, height);
         for (int i = 0; i < renderers.size(); i++) {
             renderWindowData rwd;
             rwd.height = params.screenPos[i].height;
@@ -112,6 +115,7 @@ void Window::draw(const std::vector<Renderable*>& ents, const std::vector<Car*>&
 void Window::drawMMOnly(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars) {
     SSParams params = getSSParams(nps);
     if (update) {
+        menuRenderer->setDims(width, height);
         for (int i = 0; i < renderers.size(); i++) {
             renderWindowData rwd;
             rwd.height = params.screenPos[i].height;
@@ -128,6 +132,10 @@ void Window::drawMMOnly(const std::vector<Renderable*>& ents, const std::vector<
 void Window::drawMenu() {
     if (menuRenderer->getShouldClose()) {
         glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+    if (update) {
+        menuRenderer->setDims(width, height);
+        update = false;
     }
     menuRenderer->drawScene();
    
@@ -257,7 +265,6 @@ void Window::resizeCallback(GLFWwindow* window, int nWidth, int nHeight)
     width = nWidth;
     height = nHeight;
     update = true;
-    menuRenderer->setDims(width, height);
 }
 
 void Window::setSplitScreen(int numPlayers, const std::vector<Car*>& cars, int trackSelection) {
