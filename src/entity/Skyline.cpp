@@ -5,9 +5,27 @@
 
 using namespace std;
 
-//void Skyline::genCubes() {
 
-//}
+// Used for menu background
+Skyline::Skyline(std::vector<Renderable*>& ents) : sl_parser("config/sl_config3", &slParams)
+{
+    initParams();
+    updateFromConfig();
+
+    std::vector<std::vector<int>> full;
+    for (int i = 0; i < NUM_MENU_CUBES; i++) {
+        std::vector<int> newBack;
+        for (int j = 0; j < NUM_MENU_CUBES; j++) {
+            newBack.push_back(1);
+        }
+        full.push_back(newBack);
+    }
+    int menu_building_scale = 50;
+    makeBuildings(full, menu_building_scale, ents);
+
+    updateFromConfig();
+}
+
 Skyline::Skyline(int mmSize, GLuint &mm_frameBuffer, float scale, std::vector<Renderable*>& ents, Input* cont, int trackSelection) :
     sl_parser((trackSelection==1)?"config/sl_config":"config/sl_config2", &slParams)
     {
@@ -127,9 +145,14 @@ Skyline::~Skyline() {
                 if (cubes1[i][j] != NULL) {
                     delete cubes1[i][j];
                 }
-            }else if (trackSelected == 2) {
+            } else if (trackSelected == 2) {
                 if (cubes2[i][j] != NULL) {
                     delete cubes2[i][j];
+                }
+            }
+            else if (trackSelected == 0) {
+                if (cubes[i][j] != NULL) {
+                    delete cubes[i][j];
                 }
             }
         }
@@ -174,27 +197,37 @@ void Skyline::makeBuildings(std::vector<std::vector<int>> grid, float scale, std
                 (grid[i][j + 1] == 1) &&
                 (grid[i + 1][j + 1] == 1)) {
                 int dnum = rand() % 100;
-                if (dnum < density_prob) {
-
-                    int rnum = rand() % 100;
+                if (trackSelected == 0) {
                     Renderable* building;
-                    if (rnum < purp_prob) {
-                        building = new Renderable(init3->getModels());
-                    }
-                    else if (rnum < (dark_prob + purp_prob)) {
-                        building = new Renderable(init2->getModels());
-                    }
-                    else {
-                        building = new Renderable(init->getModels());
-                    }
+                    building = new Renderable(init->getModels());
                     glm::vec3 newPos = glm::vec3(i * 0.5, 0.0, j * 0.5) * scale * CUBE_SPACING;
                     building->setPos(newPos);
                     ents.push_back(building);
-                    if (trackSelected == 1) {
-                        cubes1[i][j] = building;
-                    }
-                    else {
-                        cubes2[i][j] = building;
+                    cubes[i][j] = building;
+                }
+                else {
+                    if (dnum < density_prob) {
+
+                        int rnum = rand() % 100;
+                        Renderable* building;
+                        if (rnum < purp_prob) {
+                            building = new Renderable(init3->getModels());
+                        }
+                        else if (rnum < (dark_prob + purp_prob)) {
+                            building = new Renderable(init2->getModels());
+                        }
+                        else {
+                            building = new Renderable(init->getModels());
+                        }
+                        glm::vec3 newPos = glm::vec3(i * 0.5, 0.0, j * 0.5) * scale * CUBE_SPACING;
+                        building->setPos(newPos);
+                        ents.push_back(building);
+                        if (trackSelected == 1) {
+                            cubes1[i][j] = building;
+                        }
+                        else if (trackSelected == 2) {
+                            cubes2[i][j] = building;
+                        }
                     }
                 }
             }
@@ -273,17 +306,24 @@ void Skyline::update() {
                     cubes1[i][j]->setPos(cubes1[i][j]->xPos(), Y_OFFSET + x_offset + y_offset, cubes1[i][j]->zPos());
                 }
             }
-            else {
+            else if (trackSelected == 2) {
                 if (cubes2[i][j]) {
                     float y_angle = Y_PHASE + ((2 * M_PI) * (j / y_blocks_per_spatial_period)) + (((2 * M_PI) / (60. * Y_FREQ)) * frameCounter);
                     float y_offset = Y_AMP * sin(y_angle);
                     cubes2[i][j]->setPos(cubes2[i][j]->xPos(), Y_OFFSET + x_offset + y_offset, cubes2[i][j]->zPos());
                 }
             }
+            else if (trackSelected == 0) {
+                if (cubes[i][j]) {
+                    float y_angle = Y_PHASE + ((2 * M_PI) * (j / y_blocks_per_spatial_period)) + (((2 * M_PI) / (60. * Y_FREQ)) * frameCounter);
+                    float y_offset = Y_AMP * sin(y_angle);
+                    cubes[i][j]->setPos(cubes[i][j]->xPos(), Y_OFFSET + x_offset + y_offset, cubes[i][j]->zPos());
+                }
+            }
         }
     }
 
-    if (controller->GetButtonPressed(XButtonIDs::X)) {
+    if (controller && controller->GetButtonPressed(XButtonIDs::X)) {
         updateFromConfig();
     }
 }
@@ -306,7 +346,7 @@ void Skyline::updateFromConfig() {
                     cubes1[i][j]->scale(X_SCL, Y_SCL, Z_SCL);
                 }
             }
-            else {
+            else if (trackSelected == 2) {
                 if (cubes2[i][j] != NULL) {
                     glm::vec3 newPos = glm::vec3(i * 0.5, 0.0, j * 0.5) * TOTAL_SCALE * CUBE_SPACING;
                     newPos.x += CENTER_X;
@@ -316,6 +356,17 @@ void Skyline::updateFromConfig() {
 
                     cubes2[i][j]->reset_scale();
                     cubes2[i][j]->scale(X_SCL, Y_SCL, Z_SCL);
+                }
+            } else if (trackSelected == 0) {
+                if (cubes[i][j] != NULL) {
+                    glm::vec3 newPos = glm::vec3(i * 0.5, 0.0, j * 0.5) * TOTAL_SCALE * CUBE_SPACING;
+                    newPos.x += CENTER_X;
+                    newPos.y += CENTER_Y;
+                    newPos.z += CENTER_Z;
+                    cubes[i][j]->setPos(newPos);
+
+                    cubes[i][j]->reset_scale();
+                    cubes[i][j]->scale(X_SCL, Y_SCL, Z_SCL);
                 }
             }
 

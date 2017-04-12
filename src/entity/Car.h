@@ -155,7 +155,7 @@ protected:
 
     // Used to position the origin of the hook when fired from the car
     const float HOOK_FORWARD_OFFSET = 1.5;
-    const float HOOK_UP_OFFSET = 0.8;
+    const float HOOK_UP_OFFSET = 0.0;
 
     // Config-modifiable parameters go here
     fp_vars carParams;

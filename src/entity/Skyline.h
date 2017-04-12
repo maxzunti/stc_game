@@ -16,6 +16,8 @@ class Skyline : public Entity {
     int NUM_Y = 60; // '' y-dir map 1 is 26
     // use even no's
 
+    int NUM_MENU_CUBES = 30;
+
     // pixel widths, used for sampling the minimap texture
     float X_PIXEL_SPACING = 6; // map 1 is 20
     float Y_PIXEL_SPACING = 6; // map 1 is 20
@@ -49,8 +51,9 @@ class Skyline : public Entity {
     float CENTER_Z = 0;
 
     float CUBE_SPACING = 3.0f;
-    Renderable* cubes1[26][26];
 
+    Renderable* cubes[30][30];
+    Renderable* cubes1[26][26];
     Renderable* cubes2[60][60];
 
 
@@ -66,8 +69,9 @@ class Skyline : public Entity {
     int density_prob = 20; // map 1 is 30
 
 public:
-    int trackSelected;
+    int trackSelected = 0;
 
+    Skyline::Skyline(std::vector<Renderable*>& ents);
     Skyline(int mmSize, GLuint &mm_frameBuffer, float scale, std::vector<Renderable*>& ents, Input* cont = NULL, int mapSelection = 1);
     ~Skyline();
     void update();

@@ -164,7 +164,7 @@ bool Renderer::initColorFrameBuffer(GLuint &frameBuffer, GLuint &colorTex, int w
 void Renderer::initSkybox(int track) {
     // Maybe generalize this at some point, but hard-coding it should be okay for now
 
-    if (track == 1) {
+    if (track == 1 || track == 0) {
         std::string skybox_dir = "assets\\skybox\\miramar\\";
         std::string filenames[6] = {
             skybox_dir + "Right.png",
@@ -177,7 +177,7 @@ void Renderer::initSkybox(int track) {
 
         skybox = new Skybox(filenames);
     }
-    else {
+    else if (track == 2) {
         std::string skybox_dir = "assets\\skybox\\ie\\";
         std::string filenames[6] = {
             skybox_dir + "Right.tga",
@@ -190,7 +190,6 @@ void Renderer::initSkybox(int track) {
 
         skybox = new Skybox(filenames);
     }
-
 }
 
 void Renderer::drawSkybox(glm::mat4 &perspectiveMatrix)
@@ -432,7 +431,8 @@ void Renderer::drawShade(const Model& model, mat4 &perspectiveMatrix, glm::mat4 
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, Renderer::SM_depthTex);
     glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "shadowMap"), 1);
-   
+    glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "drawShadows"), 1);
+
     glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "depthBiasMVP"), 1, GL_FALSE, glm::value_ptr(Renderer::depthMVP));
 
     glUniform3f(glGetUniformLocation(shader[SHADER::DEFAULT], "lightPos"), light->getPos().x, light->getPos().y, light->getPos().z);
@@ -714,6 +714,11 @@ void Renderer::drawScene(const std::vector<Renderable*>& ents, const std::vector
     //glUniformMatrix4fv(glGetUniformLocation(shader[SHADER::DEFAULT], "depthBiasMVP"), 1, GL_FALSE, &depthBiasMVP[0][0]);
     ///////////////////////////////////////
 
+    if (index < 0) { // menu only
+        glUseProgram(shader[SHADER::SKYBOX]);
+        drawSkybox(perspectiveMatrix);
+    }
+
     #pragma omp parallel for
     for (auto &it = ents.begin(); it < ents.end(); it++) {
         Renderable* r = *it;
@@ -771,7 +776,7 @@ void Renderer::drawScene(const std::vector<Renderable*>& ents, const std::vector
             drawTrack(*model, perspectiveMatrix, scale, rot, trans, 0.2);
         }
     } else {
-        std::cout << "Warning: not rendering track" << std::endl;
+    //    std::cout << "Warning: not rendering track" << std::endl;
     }
 }
 
@@ -973,6 +978,26 @@ void Renderer::setTrack(int selectedTrack)
 // This seems kinda dangerous
 Camera* Renderer::getCam() {
     return cam;
+}
+
+void Renderer::setDims(int width, int height) {
+    this->width = width;
+    this->height = height;
+    this->vpX = 0;
+    this->vpY = 0;
+
+    cam->setDims(width, height);
+    if (index == 0) {
+        mmSize = height / 2;
+        glDeleteFramebuffers(1, &mm_frameBuffer);
+        glDeleteTextures(1, &mm_tex);
+        glDeleteFramebuffers(1, &mm_pips_frameBuffer);
+        glDeleteTextures(1, &mm_pips_tex);
+        initColorFrameBuffer(mm_frameBuffer, mm_tex, mmSize, mmSize);
+        initColorFrameBuffer(mm_pips_frameBuffer, mm_pips_tex, mmSize, mmSize);
+        mm_bg_drawn = false;
+    }
+    UIScale = height / 1000.0f;
 }
 
 void Renderer::setDims(renderWindowData& rwd) {
@@ -1268,6 +1293,13 @@ void Renderer::drawSkyline(const std::vector<Renderable*>& cubes) {
         glUniform3fv(glGetUniformLocation(shader[SHADER::DEFAULT], "viewPos"), 1, &cam->pos[0]);
         glUniform1f(glGetUniformLocation(shader[SHADER::DEFAULT], "intensity_factor"), 1.0); // full alpha
         glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "alphaTest"), alphaTest); // full alpha
+
+        if (index < 0) { // menuRenderer only
+            glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "drawShadows"), 0);
+        }
+        else {
+            glUniform1i(glGetUniformLocation(shader[SHADER::DEFAULT], "drawShadows"), 1);
+        }
 
         glEnable(GL_STENCIL_TEST);
         stencil_bit = stencil_bit | Stencil::sil;

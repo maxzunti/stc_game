@@ -29,6 +29,7 @@ uniform vec3 viewPos;
 uniform float SkyR;
 uniform float intensity_factor;
 uniform bool alphaTest;
+uniform bool drawShadows;
 
 
 vec2 poissonDisk[16] = vec2[]( 
@@ -164,12 +165,17 @@ void main()
 
     color = newColor;
 
-    // Calculate shadow
-    float shadow = ShadowCalculation(ShadowCoord);                      
-    shadow = min(shadow, 0.75); // reduce shadow strength a little: allow some diffuse/specular light in shadowed regions
-    vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color.rgb;
+    if (drawShadows) {
+        // Calculate shadow
+        float shadow = ShadowCalculation(ShadowCoord);                      
+        shadow = min(shadow, 0.75); // reduce shadow strength a little: allow some diffuse/specular light in shadowed regions
+        vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color.rgb;
  
-	FragmentColour = vec4(lighting, color.a);
+	    FragmentColour = vec4(lighting, color.a);
+    } else {
+        vec3 lighting = (ambient + diffuse + specular) * color.rgb;
+	    FragmentColour = vec4(lighting, color.a);
+    }
   
 	// DEBUG sets the texture on each object to be the depth map
 	if (DEBUG){
