@@ -135,6 +135,14 @@ void Window::drawMenu() {
     }
     if (update) {
         menuRenderer->setDims(width, height);
+        SSParams params = getSSParams(nps);
+        for (int i = 0; i < renderers.size(); i++) {
+            renderWindowData rwd;
+            rwd.height = params.screenPos[i].height;
+            rwd.width = params.screenPos[i].width;
+            rwd.xPos = params.screenPos[i].xPos;
+            rwd.yPos = params.screenPos[i].yPos;
+        }
         update = false;
     }
     menuRenderer->drawScene();
@@ -149,6 +157,7 @@ void Window::drawMenu() {
 void Window::drawCountDown(const std::vector<Renderable*>& ents, const std::vector<Car*>& cars, const std::vector<Renderable*>& cubes, int time, bool swapBuffer) {
     SSParams params = getSSParams(nps);
     if (update) {
+        menuRenderer->setDims(width, height);
         for (int i = 0; i < renderers.size(); i ++) {
             renderWindowData rwd;
             rwd.height = params.screenPos[i].height;
@@ -210,6 +219,7 @@ void Window::drawFinalScores(const std::vector<Renderable*>& ents, const std::ve
 {
     SSParams params = getSSParams(nps);
     if (update) {
+        menuRenderer->setDims(width, height);
         for (int i = 0; i < renderers.size(); i++) {
             renderWindowData rwd;
             rwd.height = params.screenPos[i].height;
