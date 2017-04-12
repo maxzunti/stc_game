@@ -180,7 +180,6 @@ void Skyline::makeBuildings(std::vector<std::vector<int>> grid, float scale, std
     init2->getModels().at(0)->tile_UV_Y(Y_SCL / X_SCL);
     init2->SIL_Y_SCALE = 1.01;
     init2->scaleModels();
-    init3;
     if (trackSelected == 1) {
         init3 = new Renderable("assets/models/Crate/Crate1.obj", "assets/textures/purp.png");
     }
