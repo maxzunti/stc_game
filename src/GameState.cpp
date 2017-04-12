@@ -419,7 +419,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         finishflag->scaleModels();
         finishflag->setSil(false);
         // Create a finish-line trigger
-        RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 0, glm::vec3(0, 0, 0), false);
+        RectTrigger * finishLine = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 0, glm::vec3(0, 0, 0), false);
 
         entities.push_back(finishLine);
         finishLine->setPos(45.1907, 413.264, -1160);
@@ -428,7 +428,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         finishLine->setSil(false);
 
 
-        RectTrigger * checkpoint0 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 1, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint0 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 1, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint0);
         checkpoint0->setPos(851.942, 403.43, -1061.25);
         checkpoint0->setRot(glm::quat(-0.635535, -0.000828615, 0.772072, 0.000744174));
@@ -438,7 +438,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint0->scaleModels();
 
 
-        RectTrigger * checkpoint00 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 2, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint00 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 2, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint00);
         checkpoint00->setPos(1029.22, 403.418, -983.928);
         checkpoint00->setRot(glm::quat(-0.413679, -0.000952022, 0.910422, 0.000700592));
@@ -448,7 +448,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint00->scaleModels();
 
 
-        RectTrigger * checkpoint1 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 3, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint1 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 3, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint1);
         checkpoint1->setPos(1161.5, 403.419, -836.285);
         checkpoint1->setRot(glm::quat(-0.252179, -0.00117974, 0.96768, 0.000331034));
@@ -458,7 +458,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint1->scaleModels();
 
 
-        RectTrigger * checkpoint2 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 4, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint2 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 4, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint2);
         checkpoint2->setPos(1198.95, 403.426, -633.717);
         checkpoint2->setRot(glm::quat(0.0254999, -0.0012848, 0.999674, 1.99332e-05));
@@ -468,7 +468,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint2->scaleModels();
 
 
-        RectTrigger * checkpoint3 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 5, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint3 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 5, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint3);
         checkpoint3->setPos(935.397, 403.496, 170.639);
         checkpoint3->setRot(glm::quat(0.0841971, -0.00150501, 0.996448, -0.000146874));
@@ -477,7 +477,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint3->SIL_Z_SCALE = 1.02;
         checkpoint3->scaleModels();
 
-        RectTrigger * checkpoint03 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 6, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint03 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 6, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint03);
         checkpoint03->setPos(937.757, 403.534, 285.821);
         checkpoint03->setRot(glm::quat(-0.098353, -0.0015983, 0.99515, 0.000327442));
@@ -487,7 +487,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint03->scaleModels();
 
 
-        RectTrigger * checkpoint4 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 7, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint4 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 7, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint4);
         checkpoint4->setPos(1049.36, 403.588, 436.127);
         checkpoint4->setRot(glm::quat(-0.378116, -0.00166287, 0.925757, 0.000742357));
@@ -496,7 +496,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint4->SIL_Z_SCALE = 1.02;
         checkpoint4->scaleModels();
 
-        RectTrigger * checkpoint04 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 8, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint04 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 8, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint04);
         checkpoint04->setPos(1178.83, 403.603, 502.897);
         checkpoint04->setRot(glm::quat(-0.660583, -0.00153692, 0.750751, 0.0012668));
@@ -505,7 +505,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint04->SIL_Z_SCALE = 1.02;
         checkpoint04->scaleModels();
 
-        RectTrigger * checkpoint5 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 9, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint5 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 9, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint5);
         checkpoint5->setPos(1346.73, 404.291, 497.862);
         checkpoint5->setRot(glm::quat(-0.812116, -0.00696297, 0.583438, -0.0043467));
@@ -515,7 +515,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint5->scaleModels();
 
 
-        RectTrigger * checkpoint6 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 10, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint6 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 10, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint6);
         checkpoint6->setPos(1917.29, 470.585, -544.66);
         checkpoint6->setRot(glm::quat(-0.96893, -0.0289118, 0.244921, -0.0187887));
@@ -524,7 +524,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint6->SIL_Z_SCALE = 1.02;
         checkpoint6->scaleModels();
 
-        RectTrigger * checkpoint7 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 11, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint7 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 11, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint7);
         checkpoint7->setPos(2246.95, 497.827, -874.965);
         checkpoint7->setRot(glm::quat(-0.864169, -0.022436, 0.502652, -0.007069));
@@ -533,7 +533,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint7->SIL_Z_SCALE = 1.02;
         checkpoint7->scaleModels();
 
-        RectTrigger * checkpoint8 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 12, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint8 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 12, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint8);
         checkpoint8->setPos(2529.62, 509.353, -948.43);
         checkpoint8->setRot(glm::quat(-0.665854, -0.0227552, 0.745735, 0.000333642));
@@ -543,7 +543,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint8->scaleModels();
 
 
-        RectTrigger * checkpoint9 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 13, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint9 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 13, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint9);
         checkpoint9->setPos(2790.64, 517.64, -863.81);
         checkpoint9->setRot(glm::quat(-0.459552, -0.0276645, 0.88772, -0.000367128));
@@ -553,7 +553,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint9->scaleModels();
 
 
-        RectTrigger * checkpoint10 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 14, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint10 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 14, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint10);
         checkpoint10->setPos(2956.28, 524.273, -661.214);
         checkpoint10->setRot(glm::quat(0.224335, 0.0330071, -0.97394, 0.00499364));
@@ -562,7 +562,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint10->SIL_Z_SCALE = 1.02;
         checkpoint10->scaleModels();
 
-        RectTrigger * checkpoint11 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 15, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint11 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 80., 10., 15, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint11);
         checkpoint11->setPos(3317.82, 559.709, 434.708);
         checkpoint11->setRot(glm::quat(0.0487342, 0.0374407, -0.998024, 0.0131145));
@@ -571,7 +571,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint11->SIL_Z_SCALE = 1.02;
         checkpoint11->scaleModels();
 
-        RectTrigger * checkpoint12 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 16, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint12 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 16, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint12);
         checkpoint12->setPos(3295.49, 572.913, 770.407);
         checkpoint12->setRot(glm::quat(0.170264, -0.0415258, 0.983953, -0.0334893));
@@ -581,7 +581,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint12->scaleModels();
 
 
-        RectTrigger * checkpoint13 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 17, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint13 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 17, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint13);
         checkpoint13->setPos(3194.86, 583.315, 923.358);
         checkpoint13->setRot(glm::quat(0.390337, -0.0432375, 0.91817, -0.0522691));
@@ -591,7 +591,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint13->scaleModels();
 
 
-        RectTrigger * checkpoint14 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 18, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint14 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 18, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint14);
         checkpoint14->setPos(2614.93, 593.161, 1130.75);
         checkpoint14->setRot(glm::quat(-0.707193, 0.0508094, -0.703666, 0.0463685));
@@ -601,7 +601,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint14->scaleModels();
 
 
-        RectTrigger * checkpoint15 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 19, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint15 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 19, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint15);
         checkpoint15->setPos(2207.44, 594.781, 1057.85);
         checkpoint15->setRot(glm::quat(-0.804016, 0.0341375, -0.590355, 0.0622367));
@@ -611,7 +611,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint15->scaleModels();
 
 
-        RectTrigger * checkpoint16 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 20, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint16 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 20, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint16);
         checkpoint16->setPos(1794.46, 597.552, 796.104);
         checkpoint16->setRot(glm::quat(-0.909304, 0.0287123, -0.409878, 0.0658895));
@@ -620,7 +620,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint16->SIL_Z_SCALE = 1.02;
         checkpoint16->scaleModels();
 
-        RectTrigger * checkpoint17 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 21, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint17 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 21, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint17);
         checkpoint17->setPos(1677.58, 597.6, 655.458);
         checkpoint17->setRot(glm::quat(-0.97573, 0.0189267, -0.206816, 0.069431));
@@ -629,7 +629,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint17->SIL_Z_SCALE = 1.02;
         checkpoint17->scaleModels();
 
-        RectTrigger * checkpoint18 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 22, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint18 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 22, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint18);
         checkpoint18->setPos(1503.97, 595.131, 218.709);
         checkpoint18->setRot(glm::quat(-0.958984, 0.0128252, -0.274104, 0.071073));
@@ -639,7 +639,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint18->scaleModels();
 
 
-        RectTrigger * checkpoint19 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 23, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint19 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 23, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint19);
         checkpoint19->setPos(1305.87, 600.762, -15.7002);
         checkpoint19->setRot(glm::quat(-0.824581, 0.0208122, -0.561831, 0.0630867));
@@ -648,7 +648,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint19->SIL_Z_SCALE = 1.02;
         checkpoint19->scaleModels();
 
-        RectTrigger * checkpoint20 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 24, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint20 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 24, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint20);
         checkpoint20->setPos(1087.53, 613.554, 15.0379);
         checkpoint20->setRot(glm::quat(-0.514193, 0.0200037, -0.856109, 0.0477675));
@@ -657,7 +657,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint20->SIL_Z_SCALE = 1.02;
         checkpoint20->scaleModels();
 
-        RectTrigger * checkpoint21 = new RectTrigger(myPhysics, "assets/models/track/green.png", 110., 110., 10., 25, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint21 = new RectTrigger(myPhysics, "assets/models/track/green.png", 120., 120., 10., 25, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint21);
         checkpoint21->setPos(-329.379, 304.718, 939.671);
         checkpoint21->setRot(glm::quat(-0.510013, 0.0561306, -0.856977, -0.0482336));
@@ -667,7 +667,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint21->scaleModels();
 
 
-        RectTrigger * checkpoint22 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 26, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint22 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 26, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint22);
         checkpoint22->setPos(-1245.36, 240.488, 1404.74);
         checkpoint22->setRot(glm::quat(0.563764, -0.0208359, 0.825534, -0.0151465));
@@ -677,7 +677,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint22->scaleModels();
 
 
-        RectTrigger * checkpoint23 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 27, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint23 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 27, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint23);
         checkpoint23->setPos(-1504.38, 233.667, 1435.76);
         checkpoint23->setRot(glm::quat(0.740958, -0.0316373, 0.670804, 0.00177765));
@@ -686,7 +686,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint23->SIL_Z_SCALE = 1.02;
         checkpoint23->scaleModels();
 
-        RectTrigger * checkpoint24 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 28, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint24 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 28, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint24);
         checkpoint24->setPos(-1678.61, 221.743, 1385.18);
         checkpoint24->setRot(glm::quat(0.89246, -0.0358419, 0.449399, 0.0164721));
@@ -695,7 +695,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint24->SIL_Z_SCALE = 1.02;
         checkpoint24->scaleModels();
 
-        RectTrigger * checkpoint25 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 29, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint25 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 29, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint25);
         checkpoint25->setPos(-1927.61, 192.362, 1111.78);
         checkpoint25->setRot(glm::quat(0.977952, -0.027405, 0.20556, 0.0245538));
@@ -705,7 +705,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint25->scaleModels();
 
 
-        RectTrigger * checkpoint26 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 30, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint26 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 30, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint26);
         checkpoint26->setPos(-2065.04, 182.702, 540.081);
         checkpoint26->setRot(glm::quat(-0.997539, -0.029193, 0.0604112, -0.0203497));
@@ -714,7 +714,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint26->SIL_Z_SCALE = 1.02;
         checkpoint26->scaleModels();
 
-        RectTrigger * checkpoint27 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 31, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint27 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 31, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint27);
         checkpoint27->setPos(-1947.71, 300.154, -95.3527);
         checkpoint27->setRot(glm::quat(-0.973045, -0.151482, 0.173103, -0.0164714));
@@ -723,7 +723,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint27->SIL_Z_SCALE = 1.02;
         checkpoint27->scaleModels();
 
-        RectTrigger * checkpoint28 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 32, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint28 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 32, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint28);
         checkpoint28->setPos(-1769.83, 424.379, -384.326);
         checkpoint28->setRot(glm::quat(-0.939102, -0.172628, 0.297024, 0.00798817));
@@ -733,7 +733,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint28->scaleModels();
 
 
-        RectTrigger * checkpoint29 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 33, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint29 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 33, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint29);
         checkpoint29->setPos(-1574.75, 510.071, -593.52);
         checkpoint29->setRot(glm::quat(-0.860209, -0.163924, 0.481085, 0.0415615));
@@ -742,7 +742,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint29->SIL_Z_SCALE = 1.02;
         checkpoint29->scaleModels();
 
-        RectTrigger * checkpoint30 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 34, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint30 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 34, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint30);
         checkpoint30->setPos(-1160.61, 567.794, -726.67);
         checkpoint30->setRot(glm::quat(0.735707, 0.104639, -0.660131, -0.109606));
@@ -751,7 +751,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint30->SIL_Z_SCALE = 1.02;
         checkpoint30->scaleModels();
 
-        RectTrigger * checkpoint31 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 35, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint31 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 35, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint31);
         checkpoint31->setPos(-590.038, 548.648, -613.014);
         checkpoint31->setRot(glm::quat(0.395436, 0.0996589, -0.906834, -0.106541));
@@ -760,7 +760,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint31->SIL_Z_SCALE = 1.02;
         checkpoint31->scaleModels();
 
-        RectTrigger * checkpoint32 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 36, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint32 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 36, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint32);
         checkpoint32->setPos(-398.565, 525.1, -399.701);
         checkpoint32->setRot(glm::quat(0.222018, 0.11176, -0.966193, -0.0684792));
@@ -769,7 +769,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint32->SIL_Z_SCALE = 1.02;
         checkpoint32->scaleModels();
 
-        RectTrigger * checkpoint33 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 37, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint33 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 37, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint33);
         checkpoint33->setPos(-351.648, 500.086, -14.6378);
         checkpoint33->setRot(glm::quat(-0.149905, 0.100667, -0.983546, -0.00571119));
@@ -778,7 +778,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint33->SIL_Z_SCALE = 1.02;
         checkpoint33->scaleModels();
 
-        RectTrigger * checkpoint34 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 38, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint34 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 38, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint34);
         checkpoint34->setPos(-575, 487.986, 220.865);
         checkpoint34->setRot(glm::quat(-0.625581, 0.0875962, -0.775076, 0.0152323));
@@ -787,7 +787,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint34->SIL_Z_SCALE = 1.02;
         checkpoint34->scaleModels();
 
-        RectTrigger * checkpoint35 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 39, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint35 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 39, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint35);
         checkpoint35->setPos(-969.637, 449.633, 249.517);
         checkpoint35->setRot(glm::quat(-0.831631, 0.0795034, -0.549608, 0.000418507));
@@ -797,7 +797,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint35->scaleModels();
 
 
-        RectTrigger * checkpoint36 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 40, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint36 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 40, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint36);
         checkpoint36->setPos(-1224.66, 410.869, 27.1496);
         checkpoint36->setRot(glm::quat(-0.958508, 0.0381376, -0.282502, 0.000878059));
@@ -806,7 +806,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint36->SIL_Z_SCALE = 1.02;
         checkpoint36->scaleModels();
 
-        RectTrigger * checkpoint37 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 41, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint37 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 41, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint37);
         checkpoint37->setPos(-1294.84, 403.196, -453.665);
         checkpoint37->setRot(glm::quat(-0.999998, 8.27058e-05, -0.00199661, -0.000206469));
@@ -815,7 +815,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint37->SIL_Z_SCALE = 1.02;
         checkpoint37->scaleModels();
 
-        RectTrigger * checkpoint38 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 42, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint38 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 42, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint38);
         checkpoint38->setPos(-1150.55, 403.237, -967.154);
         checkpoint38->setRot(glm::quat(0.949936, -5.87319e-05, -0.312445, -9.68684e-05));
@@ -824,7 +824,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint38->SIL_Z_SCALE = 1.02;
         checkpoint38->scaleModels();
 
-        RectTrigger * checkpoint39 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 43, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint39 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 43, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint39);
         checkpoint39->setPos(-976.342, 403.252, -1104.27);
         checkpoint39->setRot(glm::quat(0.896768, 3.07238e-05, -0.4425, -0.000181271));
@@ -833,7 +833,7 @@ void GameState::initGame(int numberOfPlayers, int selectedTrack)
         checkpoint39->SIL_Z_SCALE = 1.02;
         checkpoint39->scaleModels();
 
-        RectTrigger * checkpoint40 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 20., 10., 44, glm::vec3(0, 0, 0), false);
+        RectTrigger * checkpoint40 = new RectTrigger(myPhysics, "assets/models/track/green.png", 90., 40., 10., 44, glm::vec3(0, 0, 0), false);
         entities.push_back(checkpoint40);
         checkpoint40->setPos(-594.831, 403.279, -1192.47);
         checkpoint40->setRot(glm::quat(0.70856, 0.000152292, -0.70565, -0.00031293));
