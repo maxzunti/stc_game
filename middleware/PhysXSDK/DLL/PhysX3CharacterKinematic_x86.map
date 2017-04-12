@@ -1,0 +1,1094 @@
+ PhysX3CharacterKinematic_x86
+
+ Timestamp is 58ed7615 (Tue Apr 11 18:34:29 2017)
+
+ Preferred load address is 10000000
+
+ Start         Length     Name                   Class
+ 0001:00000000 00000140H .text$di                CODE
+ 0001:00000140 0001a338H .text$mn                CODE
+ 0002:00000000 00000130H .idata$5                DATA
+ 0002:00000130 00000004H .00cfg                  DATA
+ 0002:00000134 00000004H .CRT$XCA                DATA
+ 0002:00000138 00000030H .CRT$XCU                DATA
+ 0002:00000168 00000004H .CRT$XCZ                DATA
+ 0002:0000016c 00000004H .CRT$XIA                DATA
+ 0002:00000170 00000004H .CRT$XIZ                DATA
+ 0002:00000174 00000004H .CRT$XPA                DATA
+ 0002:00000178 00000004H .CRT$XPZ                DATA
+ 0002:0000017c 00000004H .CRT$XTA                DATA
+ 0002:00000180 00000010H .CRT$XTZ                DATA
+ 0002:00000190 00000f94H .rdata                  DATA
+ 0002:00001124 0000004cH .rdata$r                DATA
+ 0002:00001170 00000004H .rdata$sxdata           DATA
+ 0002:00001174 00000314H .rdata$zzzdbg           DATA
+ 0002:00001488 00000004H .rtc$IAA                DATA
+ 0002:0000148c 00000004H .rtc$IZZ                DATA
+ 0002:00001490 00000004H .rtc$TAA                DATA
+ 0002:00001494 00000004H .rtc$TZZ                DATA
+ 0002:00001498 00000088H .xdata$x                DATA
+ 0002:00001520 000001e8H .edata                  DATA
+ 0002:00001708 00000078H .idata$2                DATA
+ 0002:00001780 00000014H .idata$3                DATA
+ 0002:00001794 00000130H .idata$4                DATA
+ 0002:000018c4 00000d6aH .idata$6                DATA
+ 0003:00000000 00000060H .data                   DATA
+ 0003:00000060 00000310H .data$r                 DATA
+ 0003:00000370 00000430H .bss                    DATA
+ 0004:00000000 00000020H .gfids$y                DATA
+ 0005:00000000 000000a0H .rsrc$01                DATA
+ 0005:000000a0 00000500H .rsrc$02                DATA
+
+  Address         Publics by Value              Rva+Base       Lib:Object
+
+ 0000:00000000       ___guard_longjmp_count     00000000     <absolute>
+ 0000:00000000       ___guard_iat_table         00000000     <absolute>
+ 0000:00000000       ___guard_fids_table        00000000     <absolute>
+ 0000:00000000       ___dynamic_value_reloc_table 00000000     <absolute>
+ 0000:00000000       ___guard_fids_count        00000000     <absolute>
+ 0000:00000000       ___guard_iat_count         00000000     <absolute>
+ 0000:00000000       ___guard_longjmp_table     00000000     <absolute>
+ 0000:00000001       ___safe_se_handler_count   00000001     <absolute>
+ 0000:00000100       ___guard_flags             00000100     <absolute>
+ 0000:00000000       ___ImageBase               10000000     <linker-defined>
+ 0001:00000140       ??0BoxController@Cct@physx@@QAE@ABVPxControllerDesc@2@AAVPxPhysics@2@PAVPxScene@2@@Z 10001140 f   CctBoxController.obj
+ 0001:000001f0       ??1BoxController@Cct@physx@@UAE@XZ 100011f0 f   CctBoxController.obj
+ 0001:00000210       ?getWorldBox@BoxController@Cct@physx@@UBE_NAAUPxExtendedBounds3@3@@Z 10001210 f   CctBoxController.obj
+ 0001:000002c0       ?setFootPosition@BoxController@Cct@physx@@UAE_NABUPxExtendedVec3@3@@Z 100012c0 f   CctBoxController.obj
+ 0001:00000330       ?getFootPosition@BoxController@Cct@physx@@UBE?AUPxExtendedVec3@3@XZ 10001330 f   CctBoxController.obj
+ 0001:000003b0       ?invalidateCache@BoxController@Cct@physx@@UAEXXZ 100013b0 f   CctBoxController.obj
+ 0001:000003f0       ?resize@BoxController@Cct@physx@@UAEXM@Z 100013f0 f   CctBoxController.obj
+ 0001:00000490       ?getHalfHeight@BoxController@Cct@physx@@UBEMXZ 10001490 f   CctBoxController.obj
+ 0001:000004a0       ?getHalfSideExtent@BoxController@Cct@physx@@UBEMXZ 100014a0 f   CctBoxController.obj
+ 0001:000004b0       ?getHalfForwardExtent@BoxController@Cct@physx@@UBEMXZ 100014b0 f   CctBoxController.obj
+ 0001:000004c0       ?setHalfHeight@BoxController@Cct@physx@@UAE_NM@Z 100014c0 f   CctBoxController.obj
+ 0001:000004f0       ?setHalfSideExtent@BoxController@Cct@physx@@UAE_NM@Z 100014f0 f   CctBoxController.obj
+ 0001:00000520       ?setHalfForwardExtent@BoxController@Cct@physx@@UAE_NM@Z 10001520 f   CctBoxController.obj
+ 0001:00000550       ?updateKinematicProxy@BoxController@Cct@physx@@QAE_NXZ 10001550 f   CctBoxController.obj
+ 0001:000005f0       ?getOBB@BoxController@Cct@physx@@QBEXAAVPxExtendedBox@3@@Z 100015f0 f   CctBoxController.obj
+ 0001:000006c0       ??0PxControllerManager@physx@@IAE@XZ 100016c0 f i CctBoxController.obj
+ 0001:000006d0       ??0PxControllerManager@physx@@QAE@ABV01@@Z 100016d0 f i CctBoxController.obj
+ 0001:000006e0       ??1PxBoxController@physx@@MAE@XZ 100016e0 f i CctBoxController.obj
+ 0001:000006f0       ??1PxController@physx@@MAE@XZ 100016f0 f i CctBoxController.obj
+ 0001:00000700       ??1PxControllerManager@physx@@MAE@XZ 10001700 f i CctBoxController.obj
+ 0001:00000710       ??4PxControllerManager@physx@@QAEAAV01@ABV01@@Z 10001710 f i CctBoxController.obj
+ 0001:00000715       ??_EBoxController@Cct@physx@@W7AEPAXI@Z 10001715 f i CctBoxController.obj
+ 0001:00000720       ??_EPxControllerManager@physx@@MAEPAXI@Z 10001720 f i CctBoxController.obj
+ 0001:00000790       ??_EBoxController@Cct@physx@@UAEPAXI@Z 10001790 f i CctBoxController.obj
+ 0001:00000790       ??_GBoxController@Cct@physx@@UAEPAXI@Z 10001790 f i CctBoxController.obj
+ 0001:000007f0       ??_GPxBoxController@physx@@MAEPAXI@Z 100017f0 f i CctBoxController.obj
+ 0001:000007f0       ??_EPxBoxController@physx@@MAEPAXI@Z 100017f0 f i CctBoxController.obj
+ 0001:00000820       ??_EPxController@physx@@MAEPAXI@Z 10001820 f i CctBoxController.obj
+ 0001:00000820       ??_GPxController@physx@@MAEPAXI@Z 10001820 f i CctBoxController.obj
+ 0001:00000850       ??_GPxControllerManager@physx@@MAEPAXI@Z 10001850 f i CctBoxController.obj
+ 0001:00000880       ??_H@YGXPAXIIP6EPAX0@Z@Z   10001880 f i CctBoxController.obj
+ 0001:000008b0       ??_I@YGXPAXIIP6EX0@Z@Z     100018b0 f i CctBoxController.obj
+ 0001:000008f0       ?__empty_global_delete@@YAXPAX@Z 100018f0 f i CctBoxController.obj
+ 0001:00000900       ?__global_delete@@YAXPAXI@Z 10001900 f i CctBoxController.obj
+ 0001:00000900       ?__empty_global_delete@@YAXPAXI@Z 10001900 f i CctBoxController.obj
+ 0001:00000910       ?createController@PxControllerManager@physx@@UAEPAVPxController@2@AAVPxPhysics@2@PAVPxScene@2@ABVPxControllerDesc@2@@Z 10001910 f i CctBoxController.obj
+ 0001:00000950       ?getActor@BoxController@Cct@physx@@UBEPAVPxRigidDynamic@3@XZ 10001950 f i CctBoxController.obj
+ 0001:00000960       ?getContactOffset@BoxController@Cct@physx@@UBEMXZ 10001960 f i CctBoxController.obj
+ 0001:00000970       ?getHalfHeightInternal@BoxController@Cct@physx@@UBEMXZ 10001970 f i CctBoxController.obj
+ 0001:00000980       ?getNonWalkableMode@BoxController@Cct@physx@@UBE?AW4Enum@PxControllerNonWalkableMode@3@XZ 10001980 f i CctBoxController.obj
+ 0001:00000990       ?getPosition@BoxController@Cct@physx@@UBEABUPxExtendedVec3@3@XZ 10001990 f i CctBoxController.obj
+ 0001:000009a0       ?getPxController@BoxController@Cct@physx@@UAEPAVPxController@3@XZ 100019a0 f i CctBoxController.obj
+ 0001:000009b0       ?getScene@BoxController@Cct@physx@@UAEPAVPxScene@3@XZ 100019b0 f i CctBoxController.obj
+ 0001:000009c0       ?getSlopeLimit@BoxController@Cct@physx@@UBEMXZ 100019c0 f i CctBoxController.obj
+ 0001:000009d0       ?getState@BoxController@Cct@physx@@UBEXAAUPxControllerState@3@@Z 100019d0 f i CctBoxController.obj
+ 0001:000009e0       ?getStats@BoxController@Cct@physx@@UBEXAAUPxControllerStats@3@@Z 100019e0 f i CctBoxController.obj
+ 0001:000009f0       ?getStepOffset@BoxController@Cct@physx@@UBEMXZ 100019f0 f i CctBoxController.obj
+ 0001:00000a00       ?getType@BoxController@Cct@physx@@UBE?AW4Enum@PxControllerShapeType@3@XZ 10001a00 f i CctBoxController.obj
+ 0001:00000a10       ?getUpDirection@BoxController@Cct@physx@@UBE?AVPxVec3@3@XZ 10001a10 f i CctBoxController.obj
+ 0001:00000a30       ?getUserData@BoxController@Cct@physx@@UBEPAXXZ 10001a30 f i CctBoxController.obj
+ 0001:00000a40       ?release@BoxController@Cct@physx@@UAEXXZ 10001a40 f i CctBoxController.obj
+ 0001:00000a50       ?setContactOffset@BoxController@Cct@physx@@UAEXM@Z 10001a50 f i CctBoxController.obj
+ 0001:00000a70       ?setNonWalkableMode@BoxController@Cct@physx@@UAEXW4Enum@PxControllerNonWalkableMode@3@@Z 10001a70 f i CctBoxController.obj
+ 0001:00000a80       ?setPosition@BoxController@Cct@physx@@UAE_NABUPxExtendedVec3@3@@Z 10001a80 f i CctBoxController.obj
+ 0001:00000a90       ?setSlopeLimit@BoxController@Cct@physx@@UAEXM@Z 10001a90 f i CctBoxController.obj
+ 0001:00000ab0       ?setStepOffset@BoxController@Cct@physx@@UAEXM@Z 10001ab0 f i CctBoxController.obj
+ 0001:00000ad0       ?setUpDirection@BoxController@Cct@physx@@UAEXABVPxVec3@3@@Z 10001ad0 f i CctBoxController.obj
+ 0001:00000ae0       ?setUserData@BoxController@Cct@physx@@UAEXPAX@Z 10001ae0 f i CctBoxController.obj
+ 0001:00000af0       ??0CapsuleController@Cct@physx@@QAE@ABVPxControllerDesc@2@AAVPxPhysics@2@PAVPxScene@2@@Z 10001af0 f   CctCapsuleController.obj
+ 0001:00000b90       ??1CapsuleController@Cct@physx@@UAE@XZ 10001b90 f   CctCapsuleController.obj
+ 0001:00000bb0       ?getWorldBox@CapsuleController@Cct@physx@@UBE_NAAUPxExtendedBounds3@3@@Z 10001bb0 f   CctCapsuleController.obj
+ 0001:00000c60       ?setFootPosition@CapsuleController@Cct@physx@@UAE_NABUPxExtendedVec3@3@@Z 10001c60 f   CctCapsuleController.obj
+ 0001:00000cf0       ?getFootPosition@CapsuleController@Cct@physx@@UBE?AUPxExtendedVec3@3@XZ 10001cf0 f   CctCapsuleController.obj
+ 0001:00000d80       ?invalidateCache@CapsuleController@Cct@physx@@UAEXXZ 10001d80 f   CctCapsuleController.obj
+ 0001:00000dc0       ?resize@CapsuleController@Cct@physx@@UAEXM@Z 10001dc0 f   CctCapsuleController.obj
+ 0001:00000e80       ?getClimbingMode@CapsuleController@Cct@physx@@UBE?AW4Enum@PxCapsuleClimbingMode@3@XZ 10001e80 f   CctCapsuleController.obj
+ 0001:00000e90       ?setRadius@CapsuleController@Cct@physx@@UAE_NM@Z 10001e90 f   CctCapsuleController.obj
+ 0001:00000f10       ?setHeight@CapsuleController@Cct@physx@@UAE_NM@Z 10001f10 f   CctCapsuleController.obj
+ 0001:00000f90       ?setClimbingMode@CapsuleController@Cct@physx@@UAE_NW4Enum@PxCapsuleClimbingMode@3@@Z 10001f90 f   CctCapsuleController.obj
+ 0001:00000fb0       ?getCapsule@CapsuleController@Cct@physx@@QBEXAAUPxExtendedCapsule@3@@Z 10001fb0 f   CctCapsuleController.obj
+ 0001:00001080       ??1PxCapsuleController@physx@@MAE@XZ 10002080 f i CctCapsuleController.obj
+ 0001:00001087       ??_ECapsuleController@Cct@physx@@W7AEPAXI@Z 10002087 f i CctCapsuleController.obj
+ 0001:00001090       ??_GCapsuleController@Cct@physx@@UAEPAXI@Z 10002090 f i CctCapsuleController.obj
+ 0001:00001090       ??_ECapsuleController@Cct@physx@@UAEPAXI@Z 10002090 f i CctCapsuleController.obj
+ 0001:000010f0       ??_EPxCapsuleController@physx@@MAEPAXI@Z 100020f0 f i CctCapsuleController.obj
+ 0001:000010f0       ??_GPxCapsuleController@physx@@MAEPAXI@Z 100020f0 f i CctCapsuleController.obj
+ 0001:00001120       ?getActor@CapsuleController@Cct@physx@@UBEPAVPxRigidDynamic@3@XZ 10002120 f i CctCapsuleController.obj
+ 0001:00001130       ?getContactOffset@CapsuleController@Cct@physx@@UBEMXZ 10002130 f i CctCapsuleController.obj
+ 0001:00001140       ?getHalfHeightInternal@CapsuleController@Cct@physx@@UBEMXZ 10002140 f i CctCapsuleController.obj
+ 0001:00001160       ?getHeight@CapsuleController@Cct@physx@@UBEMXZ 10002160 f i CctCapsuleController.obj
+ 0001:00001170       ?getNonWalkableMode@CapsuleController@Cct@physx@@UBE?AW4Enum@PxControllerNonWalkableMode@3@XZ 10002170 f i CctCapsuleController.obj
+ 0001:00001180       ?getPosition@CapsuleController@Cct@physx@@UBEABUPxExtendedVec3@3@XZ 10002180 f i CctCapsuleController.obj
+ 0001:00001190       ?getPxController@CapsuleController@Cct@physx@@UAEPAVPxController@3@XZ 10002190 f i CctCapsuleController.obj
+ 0001:000011a0       ?getRadius@CapsuleController@Cct@physx@@UBEMXZ 100021a0 f i CctCapsuleController.obj
+ 0001:000011b0       ?getScene@CapsuleController@Cct@physx@@UAEPAVPxScene@3@XZ 100021b0 f i CctCapsuleController.obj
+ 0001:000011c0       ?getSlopeLimit@CapsuleController@Cct@physx@@UBEMXZ 100021c0 f i CctCapsuleController.obj
+ 0001:000011d0       ?getState@CapsuleController@Cct@physx@@UBEXAAUPxControllerState@3@@Z 100021d0 f i CctCapsuleController.obj
+ 0001:000011e0       ?getStats@CapsuleController@Cct@physx@@UBEXAAUPxControllerStats@3@@Z 100021e0 f i CctCapsuleController.obj
+ 0001:000011f0       ?getStepOffset@CapsuleController@Cct@physx@@UBEMXZ 100021f0 f i CctCapsuleController.obj
+ 0001:00001200       ?getType@CapsuleController@Cct@physx@@UBE?AW4Enum@PxControllerShapeType@3@XZ 10002200 f i CctCapsuleController.obj
+ 0001:00001210       ?getUpDirection@CapsuleController@Cct@physx@@UBE?AVPxVec3@3@XZ 10002210 f i CctCapsuleController.obj
+ 0001:00001230       ?getUserData@CapsuleController@Cct@physx@@UBEPAXXZ 10002230 f i CctCapsuleController.obj
+ 0001:00001240       ?release@CapsuleController@Cct@physx@@UAEXXZ 10002240 f i CctCapsuleController.obj
+ 0001:00001250       ?setContactOffset@CapsuleController@Cct@physx@@UAEXM@Z 10002250 f i CctCapsuleController.obj
+ 0001:00001270       ?setNonWalkableMode@CapsuleController@Cct@physx@@UAEXW4Enum@PxControllerNonWalkableMode@3@@Z 10002270 f i CctCapsuleController.obj
+ 0001:00001280       ?setPosition@CapsuleController@Cct@physx@@UAE_NABUPxExtendedVec3@3@@Z 10002280 f i CctCapsuleController.obj
+ 0001:00001290       ?setSlopeLimit@CapsuleController@Cct@physx@@UAEXM@Z 10002290 f i CctCapsuleController.obj
+ 0001:000012b0       ?setStepOffset@CapsuleController@Cct@physx@@UAEXM@Z 100022b0 f i CctCapsuleController.obj
+ 0001:000012d0       ?setUpDirection@CapsuleController@Cct@physx@@UAEXABVPxVec3@3@@Z 100022d0 f i CctCapsuleController.obj
+ 0001:000012e0       ?setUserData@CapsuleController@Cct@physx@@UAEXPAX@Z 100022e0 f i CctCapsuleController.obj
+ 0001:000012f0       ??0CCTParams@Cct@physx@@QAE@XZ 100022f0 f   CctCharacterController.obj
+ 0001:00001360       ??0SweepTest@Cct@physx@@QAE@XZ 10002360 f   CctCharacterController.obj
+ 0001:000014c0       ??1SweepTest@Cct@physx@@QAE@XZ 100024c0 f   CctCharacterController.obj
+ 0001:00001530       ?moveCharacter@SweepTest@Cct@physx@@QAE?AV?$PxFlags@W4Enum@PxControllerCollisionFlag@physx@@E@3@PBUInternalCBData_FindTouchedGeom@23@PBUInternalCBData_OnHit@23@AAVSweptVolume@23@ABVPxVec3@3@ABUUserObstacles@23@MABVPxControllerFilters@3@_N6@Z 10002530 f   CctCharacterController.obj
+ 0001:00001e00       ?doSweepTest@SweepTest@Cct@physx@@QAE_NPBUInternalCBData_FindTouchedGeom@23@PBUInternalCBData_OnHit@23@ABUUserObstacles@23@AAVSweptVolume@23@ABVPxVec3@3@4IPAIMABVPxControllerFilters@3@W4SweepPass@23@@Z 10002e00 f   CctCharacterController.obj
+ 0001:00002ab0       ?findTouchedObstacles@SweepTest@Cct@physx@@QAEXABUUserObstacles@23@ABUPxExtendedBounds3@3@@Z 10003ab0 f   CctCharacterController.obj
+ 0001:000031b0       ?voidTestCache@SweepTest@Cct@physx@@QAEXXZ 100041b0 f   CctCharacterController.obj
+ 0001:000031f0       ?onRelease@SweepTest@Cct@physx@@QAEXABVPxBase@3@@Z 100041f0 f   CctCharacterController.obj
+ 0001:00003290       ?onObstacleRemoved@SweepTest@Cct@physx@@QAEXI@Z 10004290 f   CctCharacterController.obj
+ 0001:000032b0       ?onObstacleUpdated@SweepTest@Cct@physx@@QAEXIPBVPxObstacleContext@3@ABVPxVec3@3@1M@Z 100042b0 f   CctCharacterController.obj
+ 0001:000033b0       ?onObstacleAdded@SweepTest@Cct@physx@@QAEXIPBVPxObstacleContext@3@ABVPxVec3@3@1M@Z 100043b0 f   CctCharacterController.obj
+ 0001:00003500       ?onOriginShift@SweepTest@Cct@physx@@QAEXABVPxVec3@3@@Z 10004500 f   CctCharacterController.obj
+ 0001:000036a0       ?updateTouchedGeoms@SweepTest@Cct@physx@@AAEXPBUInternalCBData_FindTouchedGeom@23@ABUUserObstacles@23@ABUPxExtendedBounds3@3@ABVPxControllerFilters@3@ABVPxVec3@3@@Z 100046a0 f   CctCharacterController.obj
+ 0001:00003d50       ?findTouchedObject@Controller@Cct@physx@@IAEXABVPxControllerFilters@3@PBVPxObstacleContext@3@ABVPxVec3@3@@Z 10004d50 f   CctCharacterController.obj
+ 0001:00004210       ?rideOnTouchedObject@Controller@Cct@physx@@IAE_NAAVSweptVolume@23@ABVPxVec3@3@AAV53@PBVPxObstacleContext@3@@Z 10005210 f   CctCharacterController.obj
+ 0001:00004790       ?move@Controller@Cct@physx@@IAE?AV?$PxFlags@W4Enum@PxControllerCollisionFlag@physx@@E@3@AAVSweptVolume@23@ABVPxVec3@3@MMABVPxControllerFilters@3@PBVPxObstacleContext@3@_N@Z 10005790 f   CctCharacterController.obj
+ 0001:000054b0       ?filterTouchedShape@Controller@Cct@physx@@IAE_NABVPxControllerFilters@3@@Z 100064b0 f   CctCharacterController.obj
+ 0001:00006980       ?move@BoxController@Cct@physx@@UAE?AV?$PxFlags@W4Enum@PxControllerCollisionFlag@physx@@E@3@ABVPxVec3@3@MMABVPxControllerFilters@3@PBVPxObstacleContext@3@@Z 10007980 f   CctCharacterController.obj
+ 0001:00006a40       ?move@CapsuleController@Cct@physx@@UAE?AV?$PxFlags@W4Enum@PxControllerCollisionFlag@physx@@E@3@ABVPxVec3@3@MMABVPxControllerFilters@3@PBVPxObstacleContext@3@@Z 10007a40 f   CctCharacterController.obj
+ 0001:00006b10       ??0PxMat33@physx@@QAE@ABV01@@Z 10007b10 f i CctCharacterController.obj
+ 0001:00006b50       ??0PxVec3@physx@@QAE@XZ    10007b50 f i CctCharacterController.obj
+ 0001:00006b60       ??1?$PxHitBuffer@UPxRaycastHit@physx@@@physx@@UAE@XZ 10007b60 f i CctCharacterController.obj
+ 0001:00006b70       ??1?$PxHitCallback@UPxRaycastHit@physx@@@physx@@UAE@XZ 10007b70 f i CctCharacterController.obj
+ 0001:00006b80       ??1PxQueryFilterCallback@physx@@UAE@XZ 10007b80 f i CctCharacterController.obj
+ 0001:00006b90       ??4CCTParams@Cct@physx@@QAEAAU012@ABU012@@Z 10007b90 f i CctCharacterController.obj
+ 0001:00006c20       ??4PxRaycastHit@physx@@QAEAAU01@ABU01@@Z 10007c20 f i CctCharacterController.obj
+ 0001:00006c90       ??_E?$PxHitBuffer@UPxRaycastHit@physx@@@physx@@UAEPAXI@Z 10007c90 f i CctCharacterController.obj
+ 0001:00006c90       ??_G?$PxHitBuffer@UPxRaycastHit@physx@@@physx@@UAEPAXI@Z 10007c90 f i CctCharacterController.obj
+ 0001:00006cc0       ??_E?$PxHitCallback@UPxRaycastHit@physx@@@physx@@UAEPAXI@Z 10007cc0 f i CctCharacterController.obj
+ 0001:00006cc0       ??_G?$PxHitCallback@UPxRaycastHit@physx@@@physx@@UAEPAXI@Z 10007cc0 f i CctCharacterController.obj
+ 0001:00006cf0       ??_EControllerFilter@@UAEPAXI@Z 10007cf0 f i CctCharacterController.obj
+ 0001:00006cf0       ??_GControllerFilter@@UAEPAXI@Z 10007cf0 f i CctCharacterController.obj
+ 0001:00006d20       ??_EPxQueryFilterCallback@physx@@UAEPAXI@Z 10007d20 f i CctCharacterController.obj
+ 0001:00006d20       ??_GPxQueryFilterCallback@physx@@UAEPAXI@Z 10007d20 f i CctCharacterController.obj
+ 0001:00006ee0       ?allocate@?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@physx@@IAEPAII@Z 10007ee0 f i CctCharacterController.obj
+ 0001:00006f60       ?allocate@?$Array@PBXV?$ReflectionAllocator@PBX@shdfnd@physx@@@shdfnd@physx@@IAEPAPBXI@Z 10007f60 f i CctCharacterController.obj
+ 0001:00006ff0       ?allocate@?$Array@UPxExtendedCapsule@physx@@V?$ReflectionAllocator@UPxExtendedCapsule@physx@@@shdfnd@2@@shdfnd@physx@@IAEPAUPxExtendedCapsule@3@I@Z 10007ff0 f i CctCharacterController.obj
+ 0001:00007070       ?allocate@?$Array@VPxExtendedBox@physx@@V?$ReflectionAllocator@VPxExtendedBox@physx@@@shdfnd@2@@shdfnd@physx@@IAEPAVPxExtendedBox@3@I@Z 10008070 f i CctCharacterController.obj
+ 0001:000077e0       ?copy@?$Array@UPxExtendedCapsule@physx@@V?$ReflectionAllocator@UPxExtendedCapsule@physx@@@shdfnd@2@@shdfnd@physx@@KAXPAUPxExtendedCapsule@3@0PBU43@@Z 100087e0 f i CctCharacterController.obj
+ 0001:00007820       ?copy@?$Array@VPxExtendedBox@physx@@V?$ReflectionAllocator@VPxExtendedBox@physx@@@shdfnd@2@@shdfnd@physx@@KAXPAVPxExtendedBox@3@0PBV43@@Z 10008820 f i CctCharacterController.obj
+ 0001:000078a0       ?finalizeQuery@?$PxHitCallback@UPxRaycastHit@physx@@@physx@@UAEXXZ 100088a0 f i CctCharacterController.obj
+ 0001:000078b0       ?find@?$HashBase@PAVPxShape@physx@@PAV12@U?$Hash@PAVPxShape@physx@@@shdfnd@2@UGetKey@?$HashSetBase@PAVPxShape@physx@@U?$Hash@PAVPxShape@physx@@@shdfnd@2@VAllocator@42@$0A@@internal@42@VAllocator@42@$0A@@internal@shdfnd@physx@@QBEPBQAVPxShape@4@ABQAV54@@Z 100088b0 f i CctCharacterController.obj
+ 0001:00007940       ?getGlobalPose@PxShapeExt@physx@@SA?AVPxTransform@2@ABVPxShape@2@ABVPxRigidActor@2@@Z 10008940 f i CctCharacterController.obj
+ 0001:00007b70       ?growAndPushBack@?$Array@PBXV?$ReflectionAllocator@PBX@shdfnd@physx@@@shdfnd@physx@@IAEAAPBXABQBX@Z 10008b70 f i CctCharacterController.obj
+ 0001:00007c00       ?growAndPushBack@?$Array@UPxExtendedCapsule@physx@@V?$ReflectionAllocator@UPxExtendedCapsule@physx@@@shdfnd@2@@shdfnd@physx@@IAEAAUPxExtendedCapsule@3@ABU43@@Z 10008c00 f i CctCharacterController.obj
+ 0001:00007cc0       ?growAndPushBack@?$Array@VPxExtendedBox@physx@@V?$ReflectionAllocator@VPxExtendedBox@physx@@@shdfnd@2@@shdfnd@physx@@IAEAAVPxExtendedBox@3@ABV43@@Z 10008cc0 f i CctCharacterController.obj
+ 0001:00007d90       ?postFilter@ControllerFilter@@UAE?AW4Enum@PxQueryHitType@physx@@ABUPxFilterData@4@ABUPxQueryHit@4@@Z 10008d90 f i CctCharacterController.obj
+ 0001:00007db0       ?preFilter@ControllerFilter@@UAE?AW4Enum@PxQueryHitType@physx@@ABUPxFilterData@4@PBVPxShape@4@PBVPxRigidActor@4@AAV?$PxFlags@W4Enum@PxHitFlag@physx@@G@4@@Z 10008db0 f i CctCharacterController.obj
+ 0001:00007e10       ?processTouches@?$PxHitBuffer@UPxRaycastHit@physx@@@physx@@MAE_NPBUPxRaycastHit@2@I@Z 10008e10 f i CctCharacterController.obj
+ 0001:00007e20       ?recreate@?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@physx@@IAEXI@Z 10008e20 f i CctCharacterController.obj
+ 0001:00007f50       ?resizeUninitialized@?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@physx@@QAEXI@Z 10008f50 f i CctCharacterController.obj
+ 0001:000081f0       ?getSceneTimestamp@Cct@physx@@YAIPBUInternalCBData_FindTouchedGeom@12@@Z 100091f0 f   CctCharacterControllerCallbacks.obj
+ 0001:00008210       ?findTouchedGeometry@Cct@physx@@YAXPBUInternalCBData_FindTouchedGeom@12@ABUPxExtendedBounds3@2@AAV?$Array@VPxTriangle@physx@@V?$ReflectionAllocator@VPxTriangle@physx@@@shdfnd@2@@shdfnd@2@AAV?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@62@3ABVCCTFilter@12@ABUCCTParams@12@AAG@Z 10009210 f   CctCharacterControllerCallbacks.obj
+ 0001:00008650       ?shapeHitCallback@Cct@physx@@YAIPBUInternalCBData_OnHit@12@ABUSweptContact@12@ABVPxVec3@2@M@Z 10009650 f   CctCharacterControllerCallbacks.obj
+ 0001:00008710       ?userHitCallback@Cct@physx@@YAIPBUInternalCBData_OnHit@12@ABUSweptContact@12@ABVPxVec3@2@M@Z 10009710 f   CctCharacterControllerCallbacks.obj
+ 0001:000088d0       ??0PxOverlapHit@physx@@QAE@XZ 100098d0 f i CctCharacterControllerCallbacks.obj
+ 0001:000088f0       ??1?$PxHitBuffer@UPxOverlapHit@physx@@@physx@@UAE@XZ 100098f0 f i CctCharacterControllerCallbacks.obj
+ 0001:00008900       ??1?$PxHitCallback@UPxOverlapHit@physx@@@physx@@UAE@XZ 10009900 f i CctCharacterControllerCallbacks.obj
+ 0001:00008910       ??_G?$PxHitBuffer@UPxOverlapHit@physx@@@physx@@UAEPAXI@Z 10009910 f i CctCharacterControllerCallbacks.obj
+ 0001:00008910       ??_E?$PxHitBuffer@UPxOverlapHit@physx@@@physx@@UAEPAXI@Z 10009910 f i CctCharacterControllerCallbacks.obj
+ 0001:00008940       ??_E?$PxHitCallback@UPxOverlapHit@physx@@@physx@@UAEPAXI@Z 10009940 f i CctCharacterControllerCallbacks.obj
+ 0001:00008940       ??_G?$PxHitCallback@UPxOverlapHit@physx@@@physx@@UAEPAXI@Z 10009940 f i CctCharacterControllerCallbacks.obj
+ 0001:00008970       ?allocate@?$Array@VPxTriangle@physx@@V?$ReflectionAllocator@VPxTriangle@physx@@@shdfnd@2@@shdfnd@physx@@IAEPAVPxTriangle@3@I@Z 10009970 f i CctCharacterControllerCallbacks.obj
+ 0001:000089f0       ?copy@?$Array@VPxTriangle@physx@@V?$ReflectionAllocator@VPxTriangle@physx@@@shdfnd@2@@shdfnd@physx@@KAXPAVPxTriangle@3@0PBV43@@Z 100099f0 f i CctCharacterControllerCallbacks.obj
+ 0001:00009150       ?finalizeQuery@?$PxHitCallback@UPxOverlapHit@physx@@@physx@@UAEXXZ 1000a150 f i CctCharacterControllerCallbacks.obj
+ 0001:00009160       ?growAndPushBack@?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@physx@@IAEAAIABI@Z 1000a160 f i CctCharacterControllerCallbacks.obj
+ 0001:000091f0       ?growAndPushBack@?$Array@VPxTriangle@physx@@V?$ReflectionAllocator@VPxTriangle@physx@@@shdfnd@2@@shdfnd@physx@@IAEAAVPxTriangle@3@ABV43@@Z 1000a1f0 f i CctCharacterControllerCallbacks.obj
+ 0001:0000cd20       ?processTouches@?$PxHitBuffer@UPxOverlapHit@physx@@@physx@@MAE_NPBUPxOverlapHit@2@I@Z 1000dd20 f i CctCharacterControllerCallbacks.obj
+ 0001:0000cd30       ?recreate@?$Array@VPxTriangle@physx@@V?$ReflectionAllocator@VPxTriangle@physx@@@shdfnd@2@@shdfnd@physx@@IAEXI@Z 1000dd30 f i CctCharacterControllerCallbacks.obj
+ 0001:0000cd90       ?resizeUninitialized@?$Array@VPxTriangle@physx@@V?$ReflectionAllocator@VPxTriangle@physx@@@shdfnd@2@@shdfnd@physx@@QAEXI@Z 1000dd90 f i CctCharacterControllerCallbacks.obj
+ 0001:0000d480       _PxCreateControllerManager 1000e480 f   CctCharacterControllerManager.obj
+ 0001:0000d4f0       ??0CharacterControllerManager@Cct@physx@@QAE@AAVPxScene@2@_N@Z 1000e4f0 f   CctCharacterControllerManager.obj
+ 0001:0000d610       ??1CharacterControllerManager@Cct@physx@@UAE@XZ 1000e610 f   CctCharacterControllerManager.obj
+ 0001:0000d710       ?release@CharacterControllerManager@Cct@physx@@UAEXXZ 1000e710 f   CctCharacterControllerManager.obj
+ 0001:0000d7f0       ?getScene@CharacterControllerManager@Cct@physx@@UBEAAVPxScene@3@XZ 1000e7f0 f   CctCharacterControllerManager.obj
+ 0001:0000d800       ?getNbControllers@CharacterControllerManager@Cct@physx@@UBEIXZ 1000e800 f   CctCharacterControllerManager.obj
+ 0001:0000d810       ?getController@CharacterControllerManager@Cct@physx@@UAEPAVPxController@3@I@Z 1000e810 f   CctCharacterControllerManager.obj
+ 0001:0000d850       ?createController@CharacterControllerManager@Cct@physx@@UAEPAVPxController@3@ABVPxControllerDesc@3@@Z 1000e850 f   CctCharacterControllerManager.obj
+ 0001:0000d9f0       ?purgeControllers@CharacterControllerManager@Cct@physx@@UAEXXZ 1000e9f0 f   CctCharacterControllerManager.obj
+ 0001:0000daa0       ?getRenderBuffer@CharacterControllerManager@Cct@physx@@UAEAAVPxRenderBuffer@3@XZ 1000eaa0 f   CctCharacterControllerManager.obj
+ 0001:0000db10       ?setDebugRenderingFlags@CharacterControllerManager@Cct@physx@@UAEXV?$PxFlags@W4Enum@PxControllerDebugRenderFlag@physx@@I@3@@Z 1000eb10 f   CctCharacterControllerManager.obj
+ 0001:0000db40       ?getNbObstacleContexts@CharacterControllerManager@Cct@physx@@UBEIXZ 1000eb40 f   CctCharacterControllerManager.obj
+ 0001:0000db50       ?getObstacleContext@CharacterControllerManager@Cct@physx@@UAEPAVPxObstacleContext@3@I@Z 1000eb50 f   CctCharacterControllerManager.obj
+ 0001:0000db90       ?createObstacleContext@CharacterControllerManager@Cct@physx@@UAEPAVPxObstacleContext@3@XZ 1000eb90 f   CctCharacterControllerManager.obj
+ 0001:0000dc30       ?computeInteractions@CharacterControllerManager@Cct@physx@@UAEXMPAVPxControllerFilterCallback@3@@Z 1000ec30 f   CctCharacterControllerManager.obj
+ 0001:0000dde0       ?setTessellation@CharacterControllerManager@Cct@physx@@UAEX_NM@Z 1000ede0 f   CctCharacterControllerManager.obj
+ 0001:0000de00       ?setOverlapRecoveryModule@CharacterControllerManager@Cct@physx@@UAEX_N@Z 1000ee00 f   CctCharacterControllerManager.obj
+ 0001:0000de10       ?setPreciseSweeps@CharacterControllerManager@Cct@physx@@UAEX_N@Z 1000ee10 f   CctCharacterControllerManager.obj
+ 0001:0000de20       ?setPreventVerticalSlidingAgainstCeiling@CharacterControllerManager@Cct@physx@@UAEX_N@Z 1000ee20 f   CctCharacterControllerManager.obj
+ 0001:0000de30       ?shiftOrigin@CharacterControllerManager@Cct@physx@@UAEXABVPxVec3@3@@Z 1000ee30 f   CctCharacterControllerManager.obj
+ 0001:0000dec0       ?onObstacleRemoved@CharacterControllerManager@Cct@physx@@QBEXI@Z 1000eec0 f   CctCharacterControllerManager.obj
+ 0001:0000def0       ?onObstacleUpdated@CharacterControllerManager@Cct@physx@@QBEXIPBVPxObstacleContext@3@@Z 1000eef0 f   CctCharacterControllerManager.obj
+ 0001:0000dfc0       ?onObstacleAdded@CharacterControllerManager@Cct@physx@@QBEXIPBVPxObstacleContext@3@@Z 1000efc0 f   CctCharacterControllerManager.obj
+ 0001:0000e090       ?releaseController@CharacterControllerManager@Cct@physx@@QAEXAAVPxController@3@@Z 1000f090 f   CctCharacterControllerManager.obj
+ 0001:0000e120       ?getControllers@CharacterControllerManager@Cct@physx@@QAEPAPAVController@23@XZ 1000f120 f   CctCharacterControllerManager.obj
+ 0001:0000e130       ?releaseObstacleContext@CharacterControllerManager@Cct@physx@@QAEXAAVObstacleContext@23@@Z 1000f130 f   CctCharacterControllerManager.obj
+ 0001:0000e180       ?resetObstaclesBuffers@CharacterControllerManager@Cct@physx@@QAEXXZ 1000f180 f   CctCharacterControllerManager.obj
+ 0001:0000e280       ??$append@UPxDebugLine@physx@@@RenderBuffer@Cm@physx@@AAEXAAV?$Array@UPxDebugLine@physx@@V?$ReflectionAllocator@UPxDebugLine@physx@@@shdfnd@2@@shdfnd@2@PBUPxDebugLine@2@I@Z 1000f280 f i CctCharacterControllerManager.obj
+ 0001:0000e330       ??$append@UPxDebugPoint@physx@@@RenderBuffer@Cm@physx@@AAEXAAV?$Array@UPxDebugPoint@physx@@V?$ReflectionAllocator@UPxDebugPoint@physx@@@shdfnd@2@@shdfnd@2@PBUPxDebugPoint@2@I@Z 1000f330 f i CctCharacterControllerManager.obj
+ 0001:0000e3b0       ??$append@UPxDebugText@physx@@@RenderBuffer@Cm@physx@@AAEXAAV?$Array@UPxDebugText@physx@@V?$ReflectionAllocator@UPxDebugText@physx@@@shdfnd@2@@shdfnd@2@PBUPxDebugText@2@I@Z 1000f3b0 f i CctCharacterControllerManager.obj
+ 0001:0000e460       ??$append@UPxDebugTriangle@physx@@@RenderBuffer@Cm@physx@@AAEXAAV?$Array@UPxDebugTriangle@physx@@V?$ReflectionAllocator@UPxDebugTriangle@physx@@@shdfnd@2@@shdfnd@2@PBUPxDebugTriangle@2@I@Z 1000f460 f i CctCharacterControllerManager.obj
+ 0001:0000e530       ??$resetOrClear@V?$Array@PBXV?$ReflectionAllocator@PBX@shdfnd@physx@@@shdfnd@physx@@@@YAXAAV?$Array@PBXV?$ReflectionAllocator@PBX@shdfnd@physx@@@shdfnd@physx@@@Z 1000f530 f i CctCharacterControllerManager.obj
+ 0001:0000e580       ??$resetOrClear@V?$Array@UPxExtendedCapsule@physx@@V?$ReflectionAllocator@UPxExtendedCapsule@physx@@@shdfnd@2@@shdfnd@physx@@@@YAXAAV?$Array@UPxExtendedCapsule@physx@@V?$ReflectionAllocator@UPxExtendedCapsule@physx@@@shdfnd@2@@shdfnd@physx@@@Z 1000f580 f i CctCharacterControllerManager.obj
+ 0001:0000e5e0       ??$resetOrClear@V?$Array@VPxExtendedBox@physx@@V?$ReflectionAllocator@VPxExtendedBox@physx@@@shdfnd@2@@shdfnd@physx@@@@YAXAAV?$Array@VPxExtendedBox@physx@@V?$ReflectionAllocator@VPxExtendedBox@physx@@@shdfnd@2@@shdfnd@physx@@@Z 1000f5e0 f i CctCharacterControllerManager.obj
+ 0001:0000e630       ??0RenderBuffer@Cm@physx@@QAE@XZ 1000f630 f i CctCharacterControllerManager.obj
+ 0001:0000e6b0       ??1PxRenderBuffer@physx@@UAE@XZ 1000f6b0 f i CctCharacterControllerManager.obj
+ 0001:0000e6c0       ??1RenderBuffer@Cm@physx@@UAE@XZ 1000f6c0 f i CctCharacterControllerManager.obj
+ 0001:0000e770       ??_ECharacterControllerManager@Cct@physx@@UAEPAXI@Z 1000f770 f i CctCharacterControllerManager.obj
+ 0001:0000e770       ??_GCharacterControllerManager@Cct@physx@@UAEPAXI@Z 1000f770 f i CctCharacterControllerManager.obj
+ 0001:0000e7b0       ??_GPxRenderBuffer@physx@@UAEPAXI@Z 1000f7b0 f i CctCharacterControllerManager.obj
+ 0001:0000e7b0       ??_EPxRenderBuffer@physx@@UAEPAXI@Z 1000f7b0 f i CctCharacterControllerManager.obj
+ 0001:0000e7e0       ??_GRenderBuffer@Cm@physx@@UAEPAXI@Z 1000f7e0 f i CctCharacterControllerManager.obj
+ 0001:0000e7e0       ??_ERenderBuffer@Cm@physx@@UAEPAXI@Z 1000f7e0 f i CctCharacterControllerManager.obj
+ 0001:0000f2b0       ?allocate@?$Array@PAVController@Cct@physx@@V?$ReflectionAllocator@PAVController@Cct@physx@@@shdfnd@3@@shdfnd@physx@@IAEPAPAVController@Cct@3@I@Z 100102b0 f i CctCharacterControllerManager.obj
+ 0001:0000f330       ?allocate@?$Array@PAVObstacleContext@Cct@physx@@V?$ReflectionAllocator@PAVObstacleContext@Cct@physx@@@shdfnd@3@@shdfnd@physx@@IAEPAPAVObstacleContext@Cct@3@I@Z 10010330 f i CctCharacterControllerManager.obj
+ 0001:0000f3b0       ?allocate@?$Array@UPxDebugLine@physx@@V?$ReflectionAllocator@UPxDebugLine@physx@@@shdfnd@2@@shdfnd@physx@@IAEPAUPxDebugLine@3@I@Z 100103b0 f i CctCharacterControllerManager.obj
+ 0001:0000f420       ?allocate@?$Array@UPxDebugPoint@physx@@V?$ReflectionAllocator@UPxDebugPoint@physx@@@shdfnd@2@@shdfnd@physx@@IAEPAUPxDebugPoint@3@I@Z 10010420 f i CctCharacterControllerManager.obj
+ 0001:0000f490       ?allocate@?$Array@UPxDebugText@physx@@V?$ReflectionAllocator@UPxDebugText@physx@@@shdfnd@2@@shdfnd@physx@@IAEPAUPxDebugText@3@I@Z 10010490 f i CctCharacterControllerManager.obj
+ 0001:0000f510       ?allocate@?$Array@UPxDebugTriangle@physx@@V?$ReflectionAllocator@UPxDebugTriangle@physx@@@shdfnd@2@@shdfnd@physx@@IAEPAUPxDebugTriangle@3@I@Z 10010510 f i CctCharacterControllerManager.obj
+ 0001:0000f590       ?append@RenderBuffer@Cm@physx@@UAEXABVPxRenderBuffer@3@@Z 10010590 f i CctCharacterControllerManager.obj
+ 0001:0000f610       ?clear@RenderBuffer@Cm@physx@@UAEXXZ 10010610 f i CctCharacterControllerManager.obj
+ 0001:0000fb80       ?copy@?$Array@UPxDebugLine@physx@@V?$ReflectionAllocator@UPxDebugLine@physx@@@shdfnd@2@@shdfnd@physx@@KAXPAUPxDebugLine@3@0PBU43@@Z 10010b80 f i CctCharacterControllerManager.obj
+ 0001:0000fbf0       ?copy@?$Array@UPxDebugPoint@physx@@V?$ReflectionAllocator@UPxDebugPoint@physx@@@shdfnd@2@@shdfnd@physx@@KAXPAUPxDebugPoint@3@0PBU43@@Z 10010bf0 f i CctCharacterControllerManager.obj
+ 0001:0000fc40       ?copy@?$Array@UPxDebugText@physx@@V?$ReflectionAllocator@UPxDebugText@physx@@@shdfnd@2@@shdfnd@physx@@KAXPAUPxDebugText@3@0PBU43@@Z 10010c40 f i CctCharacterControllerManager.obj
+ 0001:0000fca0       ?copy@?$Array@UPxDebugTriangle@physx@@V?$ReflectionAllocator@UPxDebugTriangle@physx@@@shdfnd@2@@shdfnd@physx@@KAXPAUPxDebugTriangle@3@0PBU43@@Z 10010ca0 f i CctCharacterControllerManager.obj
+ 0001:0000fd20       ?create@?$Array@UPxExtendedCapsule@physx@@V?$ReflectionAllocator@UPxExtendedCapsule@physx@@@shdfnd@2@@shdfnd@physx@@KAXPAUPxExtendedCapsule@3@0ABU43@@Z 10010d20 f i CctCharacterControllerManager.obj
+ 0001:0000fd60       ?create@?$Array@VPxExtendedBox@physx@@V?$ReflectionAllocator@VPxExtendedBox@physx@@@shdfnd@2@@shdfnd@physx@@KAXPAVPxExtendedBox@3@0ABV43@@Z 10010d60 f i CctCharacterControllerManager.obj
+ 0001:0000fdd0       ?create@?$HashBase@PAVPxShape@physx@@PAV12@U?$Hash@PAVPxShape@physx@@@shdfnd@2@UGetKey@?$HashSetBase@PAVPxShape@physx@@U?$Hash@PAVPxShape@physx@@@shdfnd@2@VAllocator@42@$0A@@internal@42@VAllocator@42@$0A@@internal@shdfnd@physx@@QAEPAPAVPxShape@4@ABQAV54@AA_N@Z 10010dd0 f i CctCharacterControllerManager.obj
+ 0001:0000ff00       ?createController@CharacterControllerManager@Cct@physx@@UAEPAVPxController@3@AAVPxPhysics@3@PAVPxScene@3@ABVPxControllerDesc@3@@Z 10010f00 f i CctCharacterControllerManager.obj
+ 0001:0000ff40       ?erase@?$HashBase@PAVPxShape@physx@@PAV12@U?$Hash@PAVPxShape@physx@@@shdfnd@2@UGetKey@?$HashSetBase@PAVPxShape@physx@@U?$Hash@PAVPxShape@physx@@@shdfnd@2@VAllocator@42@$0A@@internal@42@VAllocator@42@$0A@@internal@shdfnd@physx@@QAE_NABQAVPxShape@4@@Z 10010f40 f i CctCharacterControllerManager.obj
+ 0001:000100e0       ?freeListAdd@?$HashBase@PAVPxShape@physx@@PAV12@U?$Hash@PAVPxShape@physx@@@shdfnd@2@UGetKey@?$HashSetBase@PAVPxShape@physx@@U?$Hash@PAVPxShape@physx@@@shdfnd@2@VAllocator@42@$0A@@internal@42@VAllocator@42@$0A@@internal@shdfnd@physx@@AAEXII@Z 100110e0 f i CctCharacterControllerManager.obj
+ 0001:000101b0       ?getLines@RenderBuffer@Cm@physx@@UBEPBUPxDebugLine@3@XZ 100111b0 f i CctCharacterControllerManager.obj
+ 0001:000101c0       ?getNbLines@RenderBuffer@Cm@physx@@UBEIXZ 100111c0 f i CctCharacterControllerManager.obj
+ 0001:000101d0       ?getNbPoints@RenderBuffer@Cm@physx@@UBEIXZ 100111d0 f i CctCharacterControllerManager.obj
+ 0001:000101e0       ?getNbTexts@RenderBuffer@Cm@physx@@UBEIXZ 100111e0 f i CctCharacterControllerManager.obj
+ 0001:000101f0       ?getNbTriangles@RenderBuffer@Cm@physx@@UBEIXZ 100111f0 f i CctCharacterControllerManager.obj
+ 0001:00010200       ?getPoints@RenderBuffer@Cm@physx@@UBEPBUPxDebugPoint@3@XZ 10011200 f i CctCharacterControllerManager.obj
+ 0001:00010210       ?getTexts@RenderBuffer@Cm@physx@@UBEPBUPxDebugText@3@XZ 10011210 f i CctCharacterControllerManager.obj
+ 0001:00010220       ?getTriangles@RenderBuffer@Cm@physx@@UBEPBUPxDebugTriangle@3@XZ 10011220 f i CctCharacterControllerManager.obj
+ 0001:00010230       ?growAndPushBack@?$Array@PAVController@Cct@physx@@V?$ReflectionAllocator@PAVController@Cct@physx@@@shdfnd@3@@shdfnd@physx@@IAEAAPAVController@Cct@3@ABQAV453@@Z 10011230 f i CctCharacterControllerManager.obj
+ 0001:000102c0       ?growAndPushBack@?$Array@PAVObstacleContext@Cct@physx@@V?$ReflectionAllocator@PAVObstacleContext@Cct@physx@@@shdfnd@3@@shdfnd@physx@@IAEAAPAVObstacleContext@Cct@3@ABQAV453@@Z 100112c0 f i CctCharacterControllerManager.obj
+ 0001:00010350       ?growAndPushBack@?$Array@UPxDebugLine@physx@@V?$ReflectionAllocator@UPxDebugLine@physx@@@shdfnd@2@@shdfnd@physx@@IAEAAUPxDebugLine@3@ABU43@@Z 10011350 f i CctCharacterControllerManager.obj
+ 0001:00010400       ?growAndPushBack@?$Array@UPxDebugPoint@physx@@V?$ReflectionAllocator@UPxDebugPoint@physx@@@shdfnd@2@@shdfnd@physx@@IAEAAUPxDebugPoint@3@ABU43@@Z 10011400 f i CctCharacterControllerManager.obj
+ 0001:000104a0       ?growAndPushBack@?$Array@UPxDebugText@physx@@V?$ReflectionAllocator@UPxDebugText@physx@@@shdfnd@2@@shdfnd@physx@@IAEAAUPxDebugText@3@ABU43@@Z 100114a0 f i CctCharacterControllerManager.obj
+ 0001:00010550       ?growAndPushBack@?$Array@UPxDebugTriangle@physx@@V?$ReflectionAllocator@UPxDebugTriangle@physx@@@shdfnd@2@@shdfnd@physx@@IAEAAUPxDebugTriangle@3@ABU43@@Z 10011550 f i CctCharacterControllerManager.obj
+ 0001:00010620       ?recreate@?$Array@PBXV?$ReflectionAllocator@PBX@shdfnd@physx@@@shdfnd@physx@@IAEXI@Z 10011620 f i CctCharacterControllerManager.obj
+ 0001:00010680       ?recreate@?$Array@UPxDebugLine@physx@@V?$ReflectionAllocator@UPxDebugLine@physx@@@shdfnd@2@@shdfnd@physx@@IAEXI@Z 10011680 f i CctCharacterControllerManager.obj
+ 0001:000106e0       ?recreate@?$Array@UPxDebugPoint@physx@@V?$ReflectionAllocator@UPxDebugPoint@physx@@@shdfnd@2@@shdfnd@physx@@IAEXI@Z 100116e0 f i CctCharacterControllerManager.obj
+ 0001:00010740       ?recreate@?$Array@UPxDebugText@physx@@V?$ReflectionAllocator@UPxDebugText@physx@@@shdfnd@2@@shdfnd@physx@@IAEXI@Z 10011740 f i CctCharacterControllerManager.obj
+ 0001:000107a0       ?recreate@?$Array@UPxDebugTriangle@physx@@V?$ReflectionAllocator@UPxDebugTriangle@physx@@@shdfnd@2@@shdfnd@physx@@IAEXI@Z 100117a0 f i CctCharacterControllerManager.obj
+ 0001:00010800       ?recreate@?$Array@UPxExtendedCapsule@physx@@V?$ReflectionAllocator@UPxExtendedCapsule@physx@@@shdfnd@2@@shdfnd@physx@@IAEXI@Z 10011800 f i CctCharacterControllerManager.obj
+ 0001:00010860       ?recreate@?$Array@VPxExtendedBox@physx@@V?$ReflectionAllocator@VPxExtendedBox@physx@@@shdfnd@2@@shdfnd@physx@@IAEXI@Z 10011860 f i CctCharacterControllerManager.obj
+ 0001:000108c0       ?reserveInternal@?$HashBase@PAVPxShape@physx@@PAV12@U?$Hash@PAVPxShape@physx@@@shdfnd@2@UGetKey@?$HashSetBase@PAVPxShape@physx@@U?$Hash@PAVPxShape@physx@@@shdfnd@2@VAllocator@42@$0A@@internal@42@VAllocator@42@$0A@@internal@shdfnd@physx@@AAEXI@Z 100118c0 f i CctCharacterControllerManager.obj
+ 0001:00010b00       ?resize@?$Array@PBXV?$ReflectionAllocator@PBX@shdfnd@physx@@@shdfnd@physx@@QAEXIABQBX@Z 10011b00 f i CctCharacterControllerManager.obj
+ 0001:00010b50       ?resize@?$Array@UPxExtendedCapsule@physx@@V?$ReflectionAllocator@UPxExtendedCapsule@physx@@@shdfnd@2@@shdfnd@physx@@QAEXIABUPxExtendedCapsule@3@@Z 10011b50 f i CctCharacterControllerManager.obj
+ 0001:00010ba0       ?resize@?$Array@VPxExtendedBox@physx@@V?$ReflectionAllocator@VPxExtendedBox@physx@@@shdfnd@2@@shdfnd@physx@@QAEXIABVPxExtendedBox@3@@Z 10011ba0 f i CctCharacterControllerManager.obj
+ 0001:00010bf0       ?shift@RenderBuffer@Cm@physx@@QAEXABVPxVec3@3@@Z 10011bf0 f i CctCharacterControllerManager.obj
+ 0001:00010dc0       ??0Controller@Cct@physx@@QAE@ABVPxControllerDesc@2@PAVPxScene@2@@Z 10011dc0 f   CctController.obj
+ 0001:00010f60       ??1Controller@Cct@physx@@UAE@XZ 10011f60 f   CctController.obj
+ 0001:00010fd0       ?releaseInternal@Controller@Cct@physx@@QAEXXZ 10011fd0 f   CctController.obj
+ 0001:00010ff0       ?getInternalState@Controller@Cct@physx@@QBEXAAUPxControllerState@3@@Z 10011ff0 f   CctController.obj
+ 0001:000110a0       ?getInternalStats@Controller@Cct@physx@@QBEXAAUPxControllerStats@3@@Z 100120a0 f   CctController.obj
+ 0001:000110e0       ?onRelease@Controller@Cct@physx@@UAEXPBVPxBase@3@PAXW4Enum@PxDeletionEventFlag@3@@Z 100120e0 f   CctController.obj
+ 0001:00011140       ?onOriginShift@Controller@Cct@physx@@QAEXABVPxVec3@3@@Z 10012140 f   CctController.obj
+ 0001:000111f0       ?setUpDirectionInternal@Controller@Cct@physx@@IAEXABVPxVec3@3@@Z 100121f0 f   CctController.obj
+ 0001:00011270       ?getKineShape@Controller@Cct@physx@@IBEPAVPxShape@3@XZ 10012270 f   CctController.obj
+ 0001:000112a0       ?createProxyActor@Controller@Cct@physx@@IAE_NAAVPxPhysics@3@ABVPxGeometry@3@ABVPxMaterial@3@@Z 100122a0 f   CctController.obj
+ 0001:00011370       ?setPos@Controller@Cct@physx@@IAE_NABUPxExtendedVec3@3@@Z 10012370 f   CctController.obj
+ 0001:00011400       ??0?$MutexT@V?$ReflectionAllocator@VMutexImpl@shdfnd@physx@@@shdfnd@physx@@@shdfnd@physx@@QAE@ABV?$ReflectionAllocator@VMutexImpl@shdfnd@physx@@@12@@Z 10012400 f i CctController.obj
+ 0001:00011470       ??1PxDeletionListener@physx@@MAE@XZ 10012470 f i CctController.obj
+ 0001:00011480       ??_EController@Cct@physx@@UAEPAXI@Z 10012480 f i CctController.obj
+ 0001:00011480       ??_GController@Cct@physx@@UAEPAXI@Z 10012480 f i CctController.obj
+ 0001:000114c0       ??_EPxDeletionListener@physx@@MAEPAXI@Z 100124c0 f i CctController.obj
+ 0001:000114c0       ??_GPxDeletionListener@physx@@MAEPAXI@Z 100124c0 f i CctController.obj
+ 0001:000114f0       ?rotationArc@shdfnd@physx@@YA?AVPxQuat@2@ABVPxVec3@2@0@Z 100124f0 f i CctController.obj
+ 0001:000116d0       ??0HandleManager@Cct@physx@@QAE@XZ 100126d0 f   CctObstacleContext.obj
+ 0001:00011780       ??1HandleManager@Cct@physx@@QAE@XZ 10012780 f   CctObstacleContext.obj
+ 0001:000117f0       ?Add@HandleManager@Cct@physx@@QAEIPAX@Z 100127f0 f   CctObstacleContext.obj
+ 0001:000119b0       ?Remove@HandleManager@Cct@physx@@QAEXI@Z 100129b0 f   CctObstacleContext.obj
+ 0001:00011a60       ?GetObject@HandleManager@Cct@physx@@QBEPAXI@Z 10012a60 f   CctObstacleContext.obj
+ 0001:00011ab0       ?UpdateObject@HandleManager@Cct@physx@@QAE_NIPAX@Z 10012ab0 f   CctObstacleContext.obj
+ 0001:00011b10       ?SetupLists@HandleManager@Cct@physx@@AAE_NPAPAXPAG11@Z 10012b10 f   CctObstacleContext.obj
+ 0001:00011b80       ??0ObstacleContext@Cct@physx@@QAE@AAVCharacterControllerManager@12@@Z 10012b80 f   CctObstacleContext.obj
+ 0001:00011bd0       ??1ObstacleContext@Cct@physx@@UAE@XZ 10012bd0 f   CctObstacleContext.obj
+ 0001:00011c90       ?release@ObstacleContext@Cct@physx@@UAEXXZ 10012c90 f   CctObstacleContext.obj
+ 0001:00011ca0       ?getControllerManager@ObstacleContext@Cct@physx@@UBEAAVPxControllerManager@3@XZ 10012ca0 f   CctObstacleContext.obj
+ 0001:00011cb0       ?addObstacle@ObstacleContext@Cct@physx@@UAEIABVPxObstacle@3@@Z 10012cb0 f   CctObstacleContext.obj
+ 0001:00011e90       ?removeObstacle@ObstacleContext@Cct@physx@@UAE_NI@Z 10012e90 f   CctObstacleContext.obj
+ 0001:00012030       ?updateObstacle@ObstacleContext@Cct@physx@@UAE_NIABVPxObstacle@3@@Z 10013030 f   CctObstacleContext.obj
+ 0001:00012100       ?getNbObstacles@ObstacleContext@Cct@physx@@UBEIXZ 10013100 f   CctObstacleContext.obj
+ 0001:00012110       ?getObstacle@ObstacleContext@Cct@physx@@UBEPBVPxObstacle@3@I@Z 10013110 f   CctObstacleContext.obj
+ 0001:00012150       ?getObstacleByHandle@ObstacleContext@Cct@physx@@UBEPBVPxObstacle@3@I@Z 10013150 f   CctObstacleContext.obj
+ 0001:000121e0       ?raycastSingle@ObstacleContext@Cct@physx@@QBEPBVPxObstacle@3@AAUPxRaycastHit@3@ABVPxVec3@3@1MAAI@Z 100131e0 f   CctObstacleContext.obj
+ 0001:000124e0       ?raycastSingle@ObstacleContext@Cct@physx@@QBEPBVPxObstacle@3@AAUPxRaycastHit@3@ABIABVPxVec3@3@2M@Z 100134e0 f   CctObstacleContext.obj
+ 0001:00012690       ?onOriginShift@ObstacleContext@Cct@physx@@QAEXABVPxVec3@3@@Z 10013690 f   CctObstacleContext.obj
+ 0001:00012760       ??0InternalBoxObstacle@ObstacleContext@Cct@physx@@QAE@ABU0123@@Z 10013760 f i CctObstacleContext.obj
+ 0001:000127c0       ??1PxObstacleContext@physx@@UAE@XZ 100137c0 f i CctObstacleContext.obj
+ 0001:000127d0       ??4PxBoxObstacle@physx@@QAEAAV01@ABV01@@Z 100137d0 f i CctObstacleContext.obj
+ 0001:00012830       ??4PxCapsuleObstacle@physx@@QAEAAV01@ABV01@@Z 10013830 f i CctObstacleContext.obj
+ 0001:00012880       ??_GObstacleContext@Cct@physx@@UAEPAXI@Z 10013880 f i CctObstacleContext.obj
+ 0001:00012880       ??_EObstacleContext@Cct@physx@@UAEPAXI@Z 10013880 f i CctObstacleContext.obj
+ 0001:000128c0       ??_EPxObstacleContext@physx@@UAEPAXI@Z 100138c0 f i CctObstacleContext.obj
+ 0001:000128c0       ??_GPxObstacleContext@physx@@UAEPAXI@Z 100138c0 f i CctObstacleContext.obj
+ 0001:000128f0       ?allocate@?$Array@UInternalBoxObstacle@ObstacleContext@Cct@physx@@V?$ReflectionAllocator@UInternalBoxObstacle@ObstacleContext@Cct@physx@@@shdfnd@4@@shdfnd@physx@@IAEPAUInternalBoxObstacle@ObstacleContext@Cct@3@I@Z 100138f0 f i CctObstacleContext.obj
+ 0001:00012970       ?allocate@?$Array@UInternalCapsuleObstacle@ObstacleContext@Cct@physx@@V?$ReflectionAllocator@UInternalCapsuleObstacle@ObstacleContext@Cct@physx@@@shdfnd@4@@shdfnd@physx@@IAEPAUInternalCapsuleObstacle@ObstacleContext@Cct@3@I@Z 10013970 f i CctObstacleContext.obj
+ 0001:000129e0       ?copy@?$Array@UInternalBoxObstacle@ObstacleContext@Cct@physx@@V?$ReflectionAllocator@UInternalBoxObstacle@ObstacleContext@Cct@physx@@@shdfnd@4@@shdfnd@physx@@KAXPAUInternalBoxObstacle@ObstacleContext@Cct@3@0PBU4563@@Z 100139e0 f i CctObstacleContext.obj
+ 0001:00012a70       ?copy@?$Array@UInternalCapsuleObstacle@ObstacleContext@Cct@physx@@V?$ReflectionAllocator@UInternalCapsuleObstacle@ObstacleContext@Cct@physx@@@shdfnd@4@@shdfnd@physx@@KAXPAUInternalCapsuleObstacle@ObstacleContext@Cct@3@0PBU4563@@Z 10013a70 f i CctObstacleContext.obj
+ 0001:00012af0       ?growAndPushBack@?$Array@UInternalBoxObstacle@ObstacleContext@Cct@physx@@V?$ReflectionAllocator@UInternalBoxObstacle@ObstacleContext@Cct@physx@@@shdfnd@4@@shdfnd@physx@@IAEAAUInternalBoxObstacle@ObstacleContext@Cct@3@ABU4563@@Z 10013af0 f i CctObstacleContext.obj
+ 0001:00012bc0       ?growAndPushBack@?$Array@UInternalCapsuleObstacle@ObstacleContext@Cct@physx@@V?$ReflectionAllocator@UInternalCapsuleObstacle@ObstacleContext@Cct@physx@@@shdfnd@4@@shdfnd@physx@@IAEAAUInternalCapsuleObstacle@ObstacleContext@Cct@3@ABU4563@@Z 10013bc0 f i CctObstacleContext.obj
+ 0001:00012c90       ?replaceWithLast@?$Array@UInternalBoxObstacle@ObstacleContext@Cct@physx@@V?$ReflectionAllocator@UInternalBoxObstacle@ObstacleContext@Cct@physx@@@shdfnd@4@@shdfnd@physx@@QAEXI@Z 10013c90 f i CctObstacleContext.obj
+ 0001:00012d10       ?replaceWithLast@?$Array@UInternalCapsuleObstacle@ObstacleContext@Cct@physx@@V?$ReflectionAllocator@UInternalCapsuleObstacle@ObstacleContext@Cct@physx@@@shdfnd@4@@shdfnd@physx@@QAEXI@Z 10013d10 f i CctObstacleContext.obj
+ 0001:00012d80       ??0SweptBox@Cct@physx@@QAE@XZ 10013d80 f   CctSweptBox.obj
+ 0001:00012da0       ??1SweptBox@Cct@physx@@UAE@XZ 10013da0 f   CctSweptBox.obj
+ 0001:00012db0       ?computeTemporalBox@SweptBox@Cct@physx@@UBEXABVSweepTest@23@AAUPxExtendedBounds3@3@ABUPxExtendedVec3@3@ABVPxVec3@3@@Z 10013db0 f   CctSweptBox.obj
+ 0001:00012e20       ??_ESweptBox@Cct@physx@@UAEPAXI@Z 10013e20 f i CctSweptBox.obj
+ 0001:00012e20       ??_GSweptBox@Cct@physx@@UAEPAXI@Z 10013e20 f i CctSweptBox.obj
+ 0001:00012e50       ??0SweptCapsule@Cct@physx@@QAE@XZ 10013e50 f   CctSweptCapsule.obj
+ 0001:00012e70       ??1SweptCapsule@Cct@physx@@UAE@XZ 10013e70 f   CctSweptCapsule.obj
+ 0001:00012e80       ?computeTemporalBox@SweptCapsule@Cct@physx@@UBEXABVSweepTest@23@AAUPxExtendedBounds3@3@ABUPxExtendedVec3@3@ABVPxVec3@3@@Z 10013e80 f   CctSweptCapsule.obj
+ 0001:00012ee0       ??_GSweptCapsule@Cct@physx@@UAEPAXI@Z 10013ee0 f i CctSweptCapsule.obj
+ 0001:00012ee0       ??_ESweptCapsule@Cct@physx@@UAEPAXI@Z 10013ee0 f i CctSweptCapsule.obj
+ 0001:00012f10       ??0SweptVolume@Cct@physx@@QAE@XZ 10013f10 f   CctSweptVolume.obj
+ 0001:00012f20       ??1SweptVolume@Cct@physx@@UAE@XZ 10013f20 f   CctSweptVolume.obj
+ 0001:00012f30       ?computeTemporalBox@Cct@physx@@YAXAAUPxExtendedBounds3@2@MMMMABVPxVec3@2@ABUPxExtendedVec3@2@1@Z 10013f30 f   CctSweptVolume.obj
+ 0001:000132a0       ??_GSweptVolume@Cct@physx@@UAEPAXI@Z 100142a0 f i CctSweptVolume.obj
+ 0001:000132a0       ??_ESweptVolume@Cct@physx@@UAEPAXI@Z 100142a0 f i CctSweptVolume.obj
+ 0001:000132c4       _PxGetFoundation           100142c4 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:000132ca       ?deallocate@Allocator@shdfnd@physx@@QAEXPAX@Z 100142ca f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:000132d0       ?lock@MutexImpl@shdfnd@physx@@QAEXXZ 100142d0 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:000132d6       ?unlock@MutexImpl@shdfnd@physx@@QAEXXZ 100142d6 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:000132dc       ?PxTransformFromSegment@physx@@YA?AVPxTransform@1@ABVPxVec3@1@0PAM@Z 100142dc f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:000132e2       ?sweep@PxGeometryQuery@physx@@SA_NABVPxVec3@2@MABVPxGeometry@2@ABVPxTransform@2@12AAUPxSweepHit@2@V?$PxFlags@W4Enum@PxHitFlag@physx@@G@2@M@Z 100142e2 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:000132e8       ?computePenetration@PxGeometryQuery@physx@@SA_NAAVPxVec3@2@AAMABVPxGeometry@2@ABVPxTransform@2@23@Z 100142e8 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:000132ee       ?getAllocator@shdfnd@physx@@YAAAVPxAllocatorCallback@2@XZ 100142ee f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:000132f4       ??0RenderOutput@Cm@physx@@QAE@AAVRenderBuffer@12@@Z 100142f4 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:000132fa       ??6RenderOutput@Cm@physx@@QAEAAV012@I@Z 100142fa f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013300       ??6RenderOutput@Cm@physx@@QAEAAV012@ABVPxTransform@2@@Z 10014300 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013306       ?outputCapsule@RenderOutput@Cm@physx@@QAEAAV123@MMABVMatrix34@23@@Z 10014306 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:0001330c       ??6Cm@physx@@YAAAVRenderOutput@01@AAV201@ABUDebugBox@01@@Z 1001430c f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013312       ?intersectOBBOBB@Gu@physx@@YA_NABVPxVec3@2@0ABVPxMat33@2@001_N@Z 10014312 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013318       ?distanceSegmentBoxSquared@Gu@physx@@YAMABVPxVec3@2@000ABVPxMat33@2@PAMPAV32@@Z 10014318 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:0001331e       ?sweep@PxMeshQuery@physx@@SA_NABVPxVec3@2@MABVPxGeometry@2@ABVPxTransform@2@IPBVPxTriangle@2@AAUPxSweepHit@2@V?$PxFlags@W4Enum@PxHitFlag@physx@@G@2@PBIM_N@Z 1001431e f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013324       ?getTriangle@PxMeshQuery@physx@@SAXABVPxTriangleMeshGeometry@2@ABVPxTransform@2@IAAVPxTriangle@2@PAI3@Z 10014324 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:0001332a       ?getTriangle@PxMeshQuery@physx@@SAXABVPxHeightFieldGeometry@2@ABVPxTransform@2@IAAVPxTriangle@2@PAI3@Z 1001432a f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013330       ??6RenderOutput@Cm@physx@@QAEAAV012@W4Primitive@012@@Z 10014330 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013336       ??6RenderOutput@Cm@physx@@QAEAAV012@VPxVec3@2@@Z 10014336 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:0001333c       ?intersectTriangleBox@Gu@physx@@YAHABVPxVec3@2@0000@Z 1001433c f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013342       ?allocate@Allocator@shdfnd@physx@@QAEPAXIPBDH@Z 10014342 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013348       ?getInstance@Foundation@shdfnd@physx@@SAAAV123@XZ 10014348 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:0001334e       ?incRefCount@Foundation@shdfnd@physx@@SAXXZ 1001434e f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013354       ?decRefCount@Foundation@shdfnd@physx@@SAXXZ 10014354 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:0001335a       ?error@Foundation@shdfnd@physx@@QAAXW4Enum@PxErrorCode@3@PBDH1ZZ 1001435a f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013360       ?CompleteBoxPruning@Gu@physx@@YA_NPBVPxBounds3@2@IAAV?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@2@ABVAxes@12@@Z 10014360 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013366       ?distanceSegmentSegmentSquaredOLD@Gu@physx@@YAMABVPxVec3@2@000PAM1@Z 10014366 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:0001336c       ??0MutexImpl@shdfnd@physx@@QAE@XZ 1001436c f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013372       ??1MutexImpl@shdfnd@physx@@QAE@XZ 10014372 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013378       ?getSize@MutexImpl@shdfnd@physx@@SAABIXZ 10014378 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:0001337e       ?GetRaycastFuncTable@Gu@physx@@YAAAY06P6AIABVPxGeometry@2@ABVPxTransform@2@ABVPxVec3@2@2MV?$PxFlags@W4Enum@PxHitFlag@physx@@G@2@IPIAUPxRaycastHit@2@_NP6A_NAAU72@PAX@Z7@ZXZ 1001437e f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:00013390       ??0PxMeshOverlapUtil@physx@@QAE@XZ 10014390 f   PhysX3Extensions:ExtTriangleMeshExt.obj
+ 0001:000133b0       ??1PxMeshOverlapUtil@physx@@QAE@XZ 100143b0 f   PhysX3Extensions:ExtTriangleMeshExt.obj
+ 0001:000133d0       ?findOverlap@PxMeshOverlapUtil@physx@@QAEIABVPxGeometry@2@ABVPxTransform@2@ABVPxTriangleMeshGeometry@2@1@Z 100143d0 f   PhysX3Extensions:ExtTriangleMeshExt.obj
+ 0001:00013490       ?findOverlap@PxMeshOverlapUtil@physx@@QAEIABVPxGeometry@2@ABVPxTransform@2@ABVPxHeightFieldGeometry@2@1@Z 10014490 f   PhysX3Extensions:ExtTriangleMeshExt.obj
+ 0001:00013520       ?PxComputeMeshPenetration@physx@@YA?AVPxVec3@1@IABVPxGeometry@1@ABVPxTransform@1@ABVPxTriangleMeshGeometry@1@1AAI@Z 10014520 f   PhysX3Extensions:ExtTriangleMeshExt.obj
+ 0001:00013600       ?PxComputeHeightFieldPenetration@physx@@YA?AVPxVec3@1@IABVPxGeometry@1@ABVPxTransform@1@ABVPxHeightFieldGeometry@1@1AAI@Z 10014600 f   PhysX3Extensions:ExtTriangleMeshExt.obj
+ 0001:000136e0       ?updateMassAndInertia@PxRigidBodyExt@physx@@SA_NAAVPxRigidBody@2@PBMIPBVPxVec3@2@_N@Z 100146e0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00013700       ?updateMassAndInertia@PxRigidBodyExt@physx@@SA_NAAVPxRigidBody@2@MPBVPxVec3@2@_N@Z 10014700 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00013720       ?setMassAndUpdateInertia@PxRigidBodyExt@physx@@SA_NAAVPxRigidBody@2@PBMIPBVPxVec3@2@_N@Z 10014720 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00013740       ?setMassAndUpdateInertia@PxRigidBodyExt@physx@@SA_NAAVPxRigidBody@2@MPBVPxVec3@2@_N@Z 10014740 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00013760       ?addForceAtPos@PxRigidBodyExt@physx@@SAXAAVPxRigidBody@2@ABVPxVec3@2@1W4Enum@PxForceMode@2@_N@Z 10014760 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00013770       ?addForceAtLocalPos@PxRigidBodyExt@physx@@SAXAAVPxRigidBody@2@ABVPxVec3@2@1W4Enum@PxForceMode@2@_N@Z 10014770 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000138c0       ?addLocalForceAtPos@PxRigidBodyExt@physx@@SAXAAVPxRigidBody@2@ABVPxVec3@2@1W4Enum@PxForceMode@2@_N@Z 100148c0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00013a00       ?addLocalForceAtLocalPos@PxRigidBodyExt@physx@@SAXAAVPxRigidBody@2@ABVPxVec3@2@1W4Enum@PxForceMode@2@_N@Z 10014a00 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00013c30       ?getVelocityAtPos@PxRigidBodyExt@physx@@SA?AVPxVec3@2@ABVPxRigidBody@2@ABV32@@Z 10014c30 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00013e20       ?getLocalVelocityAtLocalPos@PxRigidBodyExt@physx@@SA?AVPxVec3@2@ABVPxRigidBody@2@ABV32@@Z 10014e20 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00014120       ?getVelocityAtOffset@PxRigidBodyExt@physx@@SA?AVPxVec3@2@ABVPxRigidBody@2@ABV32@@Z 10015120 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000142f0       ?linearSweepSingle@PxRigidBodyExt@physx@@SA_NAAVPxRigidBody@2@AAVPxScene@2@ABVPxVec3@2@MV?$PxFlags@W4Enum@PxHitFlag@physx@@G@2@AAUPxSweepHit@2@AAIABUPxQueryFilterData@2@PAVPxQueryFilterCallback@2@PBUPxQueryCache@2@M@Z 100152f0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000146e0       ?linearSweepMultiple@PxRigidBodyExt@physx@@SAIAAVPxRigidBody@2@AAVPxScene@2@ABVPxVec3@2@MV?$PxFlags@W4Enum@PxHitFlag@physx@@G@2@PAUPxSweepHit@2@PAIIAAU72@AAHAA_NABUPxQueryFilterData@2@PAVPxQueryFilterCallback@2@PBUPxQueryCache@2@M@Z 100156e0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00014c50       ?computeVelocityDeltaFromImpulse@PxRigidBodyExt@physx@@SAXABVPxRigidBody@2@ABVPxVec3@2@1AAV42@2@Z 10015c50 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000150a0       ?computeVelocityDeltaFromImpulse@PxRigidBodyExt@physx@@SAXABVPxRigidBody@2@ABVPxTransform@2@ABVPxVec3@2@2MMAAV52@3@Z 100160a0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00015580       ?computeLinearAngularImpulse@PxRigidBodyExt@physx@@SAXABVPxRigidBody@2@ABVPxTransform@2@ABVPxVec3@2@2MMAAV52@3@Z 10016580 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00015750       ??0InertiaTensorComputer@Ext@physx@@QAE@_N@Z 10016750 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00015770       ??0InertiaTensorComputer@Ext@physx@@QAE@ABVPxMat33@2@ABVPxVec3@2@M@Z 10016770 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000157e0       ??1InertiaTensorComputer@Ext@physx@@QAE@XZ 100167e0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000157f0       ?translate@InertiaTensorComputer@Ext@physx@@QAEXABVPxVec3@3@@Z 100167f0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00015dc0       ?setBox@InertiaTensorComputer@Ext@physx@@QAEXABVPxVec3@3@@Z 10016dc0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00015ea0       ?setSphere@InertiaTensorComputer@Ext@physx@@QAEXM@Z 10016ea0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00015f30       ?setCylinder@InertiaTensorComputer@Ext@physx@@QAEXHMM@Z 10016f30 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016020       ?setCapsule@InertiaTensorComputer@Ext@physx@@QAEXHMM@Z 10017020 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016170       ?setEllipsoid@InertiaTensorComputer@Ext@physx@@QAEXMMM@Z 10017170 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016240       ?computeSphereMass@Ext@physx@@YAMMM@Z 10017240 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016270       ?computeSphereDensity@Ext@physx@@YAMMM@Z 10017270 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000162a0       ?computeBoxMass@Ext@physx@@YAMABVPxVec3@2@M@Z 100172a0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016310       ?computeBoxDensity@Ext@physx@@YAMABVPxVec3@2@M@Z 10017310 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016380       ?computeEllipsoidMass@Ext@physx@@YAMABVPxVec3@2@M@Z 10017380 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000163f0       ?computeEllipsoidDensity@Ext@physx@@YAMABVPxVec3@2@M@Z 100173f0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016460       ?computeCylinderMass@Ext@physx@@YAMMMM@Z 10017460 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000164a0       ?computeCylinderDensity@Ext@physx@@YAMMMM@Z 100174a0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000164e0       ?computeCapsuleMass@Ext@physx@@YAMMMM@Z 100174e0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016530       ?computeCapsuleDensity@Ext@physx@@YAMMMM@Z 10017530 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016580       ?computeConeMass@Ext@physx@@YAMMMM@Z 10017580 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000165c0       ?computeConeDensity@Ext@physx@@YAMMMM@Z 100175c0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016600       ?computeBoxInertiaTensor@Ext@physx@@YAXAAVPxVec3@2@MMMM@Z 10017600 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016660       ?computeSphereInertiaTensor@Ext@physx@@YAXAAVPxVec3@2@MM_N@Z 10017660 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000166c0       ??0PxConvexMeshGeometry@physx@@QAE@XZ 100176c0 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016710       ??1?$PxHitBuffer@UPxSweepHit@physx@@@physx@@UAE@XZ 10017710 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016720       ??1?$PxHitCallback@UPxSweepHit@physx@@@physx@@UAE@XZ 10017720 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016730       ??4InertiaTensorComputer@Ext@physx@@QAEAAV012@ABV012@@Z 10017730 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016790       ??_G?$PxHitBuffer@UPxSweepHit@physx@@@physx@@UAEPAXI@Z 10017790 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016790       ??_E?$PxHitBuffer@UPxSweepHit@physx@@@physx@@UAEPAXI@Z 10017790 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000167c0       ??_E?$PxHitCallback@UPxSweepHit@physx@@@physx@@UAEPAXI@Z 100177c0 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000167c0       ??_G?$PxHitCallback@UPxSweepHit@physx@@@physx@@UAEPAXI@Z 100177c0 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000167f0       ?addForceAtPosInternal@@YAXAAVPxRigidBody@physx@@ABVPxVec3@2@1W4Enum@PxForceMode@2@_N@Z 100177f0 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000169f0       ?allocate@?$InlineAllocator@$0EA@V?$ReflectionAllocator@PAVPxShape@physx@@@shdfnd@physx@@@shdfnd@physx@@QAEPAXIPBDH@Z 100179f0 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00017a10       ?finalizeQuery@?$PxHitCallback@UPxSweepHit@physx@@@physx@@UAEXXZ 10018a10 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00017a20       ?processTouches@?$PxHitBuffer@UPxSweepHit@physx@@@physx@@MAE_NPBUPxSweepHit@2@I@Z 10018a20 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00017a30       ?recreate@?$Array@PAVPxShape@physx@@V?$InlineAllocator@$0EA@V?$ReflectionAllocator@PAVPxShape@physx@@@shdfnd@physx@@@shdfnd@2@@shdfnd@physx@@IAEXI@Z 10018a30 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00017ad0       ?resize@?$Array@PAVPxShape@physx@@V?$InlineAllocator@$0EA@V?$ReflectionAllocator@PAVPxShape@physx@@@shdfnd@physx@@@shdfnd@2@@shdfnd@physx@@QAEXIABQAVPxShape@3@@Z 10018ad0 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00017b20       ?rotate@InertiaTensorComputer@Ext@physx@@QAEXABVPxMat33@3@@Z 10018b20 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00017f70       ?rotateInertia@MassProps@Ext@physx@@SA?AVPxMat33@3@ABV43@ABVPxQuat@3@@Z 10018f70 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00018430       ?scaleInertia@MassProps@Ext@physx@@SA?AVPxMat33@3@ABV43@ABVPxQuat@3@ABVPxVec3@3@@Z 10019430 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000187e0       ?setSphere@InertiaTensorComputer@Ext@physx@@QAEXMPBVPxTransform@3@@Z 100197e0 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00018880       ?transform@InertiaTensorComputer@Ext@physx@@QAEXABVPxTransform@3@@Z 10019880 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000189b0       ?transformFast@PxBounds3@physx@@SA?AV12@ABVPxTransform@2@ABV12@@Z 100199b0 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00018f20       ?zero@InertiaTensorComputer@Ext@physx@@QAEXXZ 10019f20 f i PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00018f7b       ??3@YAXPAXI@Z              10019f7b f   MSVCRT:delete_scalar_size.obj
+ 0001:00018f89       ??_V@YAXPAXI@Z             10019f89 f   MSVCRT:delete_array_size.obj
+ 0001:00018f97       ?__scrt_initialize_type_info@@YAXXZ 10019f97 f   MSVCRT:tncleanup.obj
+ 0001:00018fa3       ?__scrt_uninitialize_type_info@@YAXXZ 10019fa3 f   MSVCRT:tncleanup.obj
+ 0001:00018faf       ??1type_info@@UAE@XZ       10019faf f   MSVCRT:std_type_info_static.obj
+ 0001:00018fb6       ??_Gtype_info@@UAEPAXI@Z   10019fb6 f i MSVCRT:std_type_info_static.obj
+ 0001:00018fb6       ??_Etype_info@@UAEPAXI@Z   10019fb6 f i MSVCRT:std_type_info_static.obj
+ 0001:00018fe0       __alloca_probe_16          10019fe0 f   MSVCRT:alloca16.obj
+ 0001:00018ff6       __alloca_probe_8           10019ff6     MSVCRT:alloca16.obj
+ 0001:00019010       __ftoui3                   1001a010 f   MSVCRT:_ftol3_.obj
+ 0001:0001901f       __ftoul3                   1001a01f f   MSVCRT:_ftol3_.obj
+ 0001:0001902e       __ftol3                    1001a02e f   MSVCRT:_ftol3_.obj
+ 0001:0001903b       __ftol3_NaN                1001a03b f   MSVCRT:_ftol3_.obj
+ 0001:00019053       __ftol3_work               1001a053 f   MSVCRT:_ftol3_.obj
+ 0001:000190d9       __ftol3_common             1001a0d9 f   MSVCRT:_ftol3_.obj
+ 0001:0001919b       __ftol3_arg_error          1001a19b f   MSVCRT:_ftol3_.obj
+ 0001:000191ad       __ftol3_except             1001a1ad f   MSVCRT:_ftol3_.obj
+ 0001:000191f1       __dtoui3                   1001a1f1 f   MSVCRT:_ftol3_.obj
+ 0001:00019200       __dtoul3                   1001a200 f   MSVCRT:_ftol3_.obj
+ 0001:0001920f       __dtol3                    1001a20f f   MSVCRT:_ftol3_.obj
+ 0001:0001921c       __dtol3_NaN                1001a21c f   MSVCRT:_ftol3_.obj
+ 0001:00019239       __dtol3_work               1001a239 f   MSVCRT:_ftol3_.obj
+ 0001:00019320       __ultod3                   1001a320 f   MSVCRT:_ftol3_.obj
+ 0001:00019360       __ltod3                    1001a360 f   MSVCRT:_ftol3_.obj
+ 0001:0001968f       __CRT_INIT@12              1001a68f f   MSVCRT:dll_dllmain.obj
+ 0001:00019698       __DllMainCRTStartup@12     1001a698 f   MSVCRT:dll_dllmain.obj
+ 0001:000196bb       ??3@YAXPAX@Z               1001a6bb f   MSVCRT:delete_scalar.obj
+ 0001:000196c0       ??_V@YAXPAX@Z              1001a6c0 f   MSVCRT:delete_array.obj
+ 0001:000196d0       __chkstk                   1001a6d0 f   MSVCRT:chkstk.obj
+ 0001:000196d0       __alloca_probe             1001a6d0 f   MSVCRT:chkstk.obj
+ 0001:000196fd       ??$__crt_fast_decode_pointer@PAP6AXXZ@@YAPAP6AXXZQAP6AXXZ@Z 1001a6fd f i MSVCRT:utility.obj
+ 0001:00019711       ??$__crt_fast_encode_pointer@PAP6AXXZ@@YAPAP6AXXZQAP6AXXZ@Z 1001a711 f i MSVCRT:utility.obj
+ 0001:0001972e       ?__crt_rotate_pointer_value@@YAIIH@Z 1001a72e f i MSVCRT:utility.obj
+ 0001:0001973b       ?configure_argv@__scrt_narrow_argv_policy@@SAHXZ 1001a73b f i MSVCRT:utility.obj
+ 0001:000197bf       _NtCurrentTeb              1001a7bf f i MSVCRT:utility.obj
+ 0001:000197c6       ___scrt_acquire_startup_lock 1001a7c6 f   MSVCRT:utility.obj
+ 0001:000197fb       ___scrt_dllmain_after_initialize_c 1001a7fb f   MSVCRT:utility.obj
+ 0001:00019826       ___scrt_dllmain_before_initialize_c 1001a826 f   MSVCRT:utility.obj
+ 0001:00019834       ___scrt_dllmain_crt_thread_attach 1001a834 f   MSVCRT:utility.obj
+ 0001:00019853       ___scrt_dllmain_crt_thread_detach 1001a853 f   MSVCRT:utility.obj
+ 0001:00019860       ___scrt_dllmain_exception_filter 1001a860 f   MSVCRT:utility.obj
+ 0001:00019893       ___scrt_dllmain_uninitialize_c 1001a893 f   MSVCRT:utility.obj
+ 0001:000198b6       ___scrt_dllmain_uninitialize_critical 1001a8b6 f   MSVCRT:utility.obj
+ 0001:000198c3       ___scrt_initialize_crt     1001a8c3 f   MSVCRT:utility.obj
+ 0001:000198fc       ___scrt_initialize_onexit_tables 1001a8fc f   MSVCRT:utility.obj
+ 0001:00019993       ___scrt_is_nonwritable_in_current_image 1001a993 f   MSVCRT:utility.obj
+ 0001:00019a1d       ___scrt_release_startup_lock 1001aa1d f   MSVCRT:utility.obj
+ 0001:00019a3a       ___scrt_uninitialize_crt   1001aa3a f   MSVCRT:utility.obj
+ 0001:00019a62       __onexit                   1001aa62 f   MSVCRT:utility.obj
+ 0001:00019a9d       _at_quick_exit             1001aa9d f   MSVCRT:utility.obj
+ 0001:00019ace       _atexit                    1001aace f   MSVCRT:utility.obj
+ 0001:00019ae3       ___security_init_cookie    1001aae3 f   MSVCRT:gs_support.obj
+ 0001:00019b7f       _DllMain@12                1001ab7f f   MSVCRT:dll_dllmain_stub.obj
+ 0001:00019ba1       ___local_stdio_printf_options 1001aba1 f i MSVCRT:default_local_stdio_options.obj
+ 0001:00019ba7       ___local_stdio_scanf_options 1001aba7 f i MSVCRT:default_local_stdio_options.obj
+ 0001:00019bad       ___scrt_initialize_default_local_stdio_options 1001abad f   MSVCRT:default_local_stdio_options.obj
+ 0001:00019bca       ___scrt_get_dyn_tls_init_callback 1001abca f   MSVCRT:dyn_tls_init.obj
+ 0001:00019bd0       ___scrt_fastfail           1001abd0 f   MSVCRT:utility_desktop.obj
+ 0001:00019ceb       ___scrt_get_show_window_mode 1001aceb f   MSVCRT:utility_desktop.obj
+ 0001:00019d1e       ___scrt_initialize_winrt   1001ad1e f   MSVCRT:utility_desktop.obj
+ 0001:00019d21       ___scrt_is_managed_app     1001ad21 f   MSVCRT:utility_desktop.obj
+ 0001:00019d65       ___scrt_set_unhandled_exception_filter 1001ad65 f   MSVCRT:utility_desktop.obj
+ 0001:00019d71       ___scrt_unhandled_exception_filter@4 1001ad71 f   MSVCRT:utility_desktop.obj
+ 0001:00019db2       __crt_debugger_hook        1001adb2 f   MSVCRT:utility_desktop.obj
+ 0001:00019dba       __RTC_Initialize           1001adba f   MSVCRT:_initsect_.obj
+ 0001:00019de5       __RTC_Terminate            1001ade5 f   MSVCRT:_initsect_.obj
+ 0001:00019e10       @_guard_check_icall@4      1001ae10 f i MSVCRT:checkcfg.obj
+ 0001:00019e20       __SEH_prolog4              1001ae20 f   MSVCRT:_sehprolg4_.obj
+ 0001:00019e66       __SEH_epilog4              1001ae66 f   MSVCRT:_sehprolg4_.obj
+ 0001:00019e7b       __except_handler4          1001ae7b f   MSVCRT:_chandler4gs_.obj
+ 0001:00019e9e       ___isa_available_init      1001ae9e f   MSVCRT:_cpu_disp_.obj
+ 0001:0001a038       __get_startup_argv_mode    1001b038 f   MSVCRT:argv_mode.obj
+ 0001:0001a03c       ___scrt_is_ucrt_dll_in_use 1001b03c f   MSVCRT:ucrt_detection.obj
+ 0001:0001a048       @_guard_check_icall_nop@4  1001b048 f i MSVCRT:guard_support.obj
+ 0001:0001a049       __guard_icall_checks_enforced 1001b049 f i MSVCRT:guard_support.obj
+ 0001:0001a05b       @__security_check_cookie@4 1001b05b f   MSVCRT:_secchk_.obj
+ 0001:0001a06c       ___raise_securityfailure   1001b06c f   MSVCRT:gs_report.obj
+ 0001:0001a094       ___report_gsfailure        1001b094 f   MSVCRT:gs_report.obj
+ 0001:0001a18f       ___report_rangecheckfailure 1001b18f f   MSVCRT:gs_report.obj
+ 0001:0001a19b       ___report_securityfailure  1001b19b f   MSVCRT:gs_report.obj
+ 0001:0001a26b       ___report_securityfailureEx 1001b26b f   MSVCRT:gs_report.obj
+ 0001:0001a382       __purecall                 1001b382 f   vcruntime:VCRUNTIME140.dll
+ 0001:0001a388       ___std_type_info_name      1001b388 f   vcruntime:VCRUNTIME140.dll
+ 0001:0001a38e       _memcpy                    1001b38e f   vcruntime:VCRUNTIME140.dll
+ 0001:0001a394       _memset                    1001b394 f   vcruntime:VCRUNTIME140.dll
+ 0001:0001a39a       ___std_type_info_destroy_list 1001b39a f   vcruntime:VCRUNTIME140.dll
+ 0001:0001a3a0       __except_handler4_common   1001b3a0 f   vcruntime:VCRUNTIME140.dll
+ 0001:0001a3a6       __fpclass                  1001b3a6 f   ucrt:api-ms-win-crt-math-l1-1-0.dll
+ 0001:0001a3ac       __except1                  1001b3ac f   ucrt:api-ms-win-crt-math-l1-1-0.dll
+ 0001:0001a3b2       __initterm                 1001b3b2 f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0001:0001a3b8       __initterm_e               1001b3b8 f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0001:0001a3be       _free                      1001b3be f   ucrt:api-ms-win-crt-heap-l1-1-0.dll
+ 0001:0001a3c4       __seh_filter_dll           1001b3c4 f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0001:0001a3ca       __configure_narrow_argv    1001b3ca f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0001:0001a3d0       __initialize_narrow_environment 1001b3d0 f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0001:0001a3d6       __initialize_onexit_table  1001b3d6 f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0001:0001a3dc       __register_onexit_function 1001b3dc f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0001:0001a3e2       __execute_onexit_table     1001b3e2 f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0001:0001a3e8       __crt_atexit               1001b3e8 f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0001:0001a3ee       __crt_at_quick_exit        1001b3ee f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0001:0001a3f4       __cexit                    1001b3f4 f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0001:0001a3fa       _terminate                 1001b3fa f   ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0001:0001a400       _InitializeSListHead@4     1001b400 f   kernel32:KERNEL32.dll
+ 0001:0001a406       _QueryPerformanceCounter@4 1001b406 f   kernel32:KERNEL32.dll
+ 0001:0001a40c       _GetCurrentProcessId@0     1001b40c f   kernel32:KERNEL32.dll
+ 0001:0001a412       _GetCurrentThreadId@0      1001b412 f   kernel32:KERNEL32.dll
+ 0001:0001a418       _GetSystemTimeAsFileTime@4 1001b418 f   kernel32:KERNEL32.dll
+ 0001:0001a41e       _DisableThreadLibraryCalls@4 1001b41e f   kernel32:KERNEL32.dll
+ 0001:0001a424       _IsDebuggerPresent@0       1001b424 f   kernel32:KERNEL32.dll
+ 0001:0001a42a       _UnhandledExceptionFilter@4 1001b42a f   kernel32:KERNEL32.dll
+ 0001:0001a430       _SetUnhandledExceptionFilter@4 1001b430 f   kernel32:KERNEL32.dll
+ 0001:0001a436       _GetStartupInfoW@4         1001b436 f   kernel32:KERNEL32.dll
+ 0001:0001a43c       _IsProcessorFeaturePresent@4 1001b43c f   kernel32:KERNEL32.dll
+ 0001:0001a442       _GetModuleHandleW@4        1001b442 f   kernel32:KERNEL32.dll
+ 0001:0001a448       _GetCurrentProcess@0       1001b448 f   kernel32:KERNEL32.dll
+ 0001:0001a44e       _TerminateProcess@8        1001b44e f   kernel32:KERNEL32.dll
+ 0001:0001a454       ?findOverlapTriangleMesh@PxMeshQuery@physx@@SAIABVPxGeometry@2@ABVPxTransform@2@ABVPxTriangleMeshGeometry@2@1PAIIIAA_N@Z 1001b454 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:0001a45a       ?findOverlapHeightField@PxMeshQuery@physx@@SAIABVPxGeometry@2@ABVPxTransform@2@ABVPxHeightFieldGeometry@2@1PAIIIAA_N@Z 1001b45a f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:0001a460       ?PxDiagonalize@physx@@YA?AVPxVec3@1@ABVPxMat33@1@AAVPxQuat@1@@Z 1001b460 f   PhysX3Common_x86:PhysX3Common_x86.dll
+ 0001:0001a466       ___vcrt_initialize         1001b466 f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a466       ___acrt_initialize         1001b466 f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a466       ___scrt_stub_for_acrt_initialize 1001b466 f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a469       ___acrt_thread_attach      1001b469 f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a469       ___vcrt_thread_attach      1001b469 f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a469       ___scrt_stub_for_acrt_thread_attach 1001b469 f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a46c       ___acrt_thread_detach      1001b46c f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a46c       ___scrt_stub_for_acrt_thread_detach 1001b46c f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a46c       ___vcrt_thread_detach      1001b46c f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a46f       ___vcrt_uninitialize       1001b46f f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a46f       ___scrt_stub_for_acrt_uninitialize 1001b46f f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a46f       ___acrt_uninitialize       1001b46f f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a472       ___acrt_uninitialize_critical 1001b472 f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a472       ___vcrt_uninitialize_critical 1001b472 f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a472       ___scrt_stub_for_acrt_uninitialize_critical 1001b472 f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a475       ___scrt_stub_for_is_c_termination_complete 1001b475 f   MSVCRT:ucrt_stubs.obj
+ 0001:0001a475       __is_c_termination_complete 1001b475 f   MSVCRT:ucrt_stubs.obj
+ 0002:00000000       __imp__InitializeSListHead@4 1001c000     kernel32:KERNEL32.dll
+ 0002:00000004       __imp__GetCurrentProcessId@0 1001c004     kernel32:KERNEL32.dll
+ 0002:00000008       __imp__GetCurrentThreadId@0 1001c008     kernel32:KERNEL32.dll
+ 0002:0000000c       __imp__GetSystemTimeAsFileTime@4 1001c00c     kernel32:KERNEL32.dll
+ 0002:00000010       __imp__DisableThreadLibraryCalls@4 1001c010     kernel32:KERNEL32.dll
+ 0002:00000014       __imp__IsDebuggerPresent@0 1001c014     kernel32:KERNEL32.dll
+ 0002:00000018       __imp__UnhandledExceptionFilter@4 1001c018     kernel32:KERNEL32.dll
+ 0002:0000001c       __imp__SetUnhandledExceptionFilter@4 1001c01c     kernel32:KERNEL32.dll
+ 0002:00000020       __imp__GetStartupInfoW@4   1001c020     kernel32:KERNEL32.dll
+ 0002:00000024       __imp__IsProcessorFeaturePresent@4 1001c024     kernel32:KERNEL32.dll
+ 0002:00000028       __imp__GetModuleHandleW@4  1001c028     kernel32:KERNEL32.dll
+ 0002:0000002c       __imp__GetCurrentProcess@0 1001c02c     kernel32:KERNEL32.dll
+ 0002:00000030       __imp__TerminateProcess@8  1001c030     kernel32:KERNEL32.dll
+ 0002:00000034       __imp__QueryPerformanceCounter@4 1001c034     kernel32:KERNEL32.dll
+ 0002:00000038       \177KERNEL32_NULL_THUNK_DATA 1001c038     kernel32:KERNEL32.dll
+ 0002:0000003c       __imp_?sweep@PxMeshQuery@physx@@SA_NABVPxVec3@2@MABVPxGeometry@2@ABVPxTransform@2@IPBVPxTriangle@2@AAUPxSweepHit@2@V?$PxFlags@W4Enum@PxHitFlag@physx@@G@2@PBIM_N@Z 1001c03c     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000040       __imp_?getTriangle@PxMeshQuery@physx@@SAXABVPxTriangleMeshGeometry@2@ABVPxTransform@2@IAAVPxTriangle@2@PAI3@Z 1001c040     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000044       __imp_?getTriangle@PxMeshQuery@physx@@SAXABVPxHeightFieldGeometry@2@ABVPxTransform@2@IAAVPxTriangle@2@PAI3@Z 1001c044     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000048       __imp_??6RenderOutput@Cm@physx@@QAEAAV012@W4Primitive@012@@Z 1001c048     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:0000004c       __imp_??6RenderOutput@Cm@physx@@QAEAAV012@VPxVec3@2@@Z 1001c04c     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000050       __imp_?intersectTriangleBox@Gu@physx@@YAHABVPxVec3@2@0000@Z 1001c050     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000054       __imp_?allocate@Allocator@shdfnd@physx@@QAEPAXIPBDH@Z 1001c054     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000058       __imp_?getInstance@Foundation@shdfnd@physx@@SAAAV123@XZ 1001c058     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:0000005c       __imp_?incRefCount@Foundation@shdfnd@physx@@SAXXZ 1001c05c     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000060       __imp_?decRefCount@Foundation@shdfnd@physx@@SAXXZ 1001c060     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000064       __imp_?distanceSegmentBoxSquared@Gu@physx@@YAMABVPxVec3@2@000ABVPxMat33@2@PAMPAV32@@Z 1001c064     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000068       __imp_?CompleteBoxPruning@Gu@physx@@YA_NPBVPxBounds3@2@IAAV?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@2@ABVAxes@12@@Z 1001c068     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:0000006c       __imp_?distanceSegmentSegmentSquaredOLD@Gu@physx@@YAMABVPxVec3@2@000PAM1@Z 1001c06c     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000070       __imp_??0MutexImpl@shdfnd@physx@@QAE@XZ 1001c070     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000074       __imp_??1MutexImpl@shdfnd@physx@@QAE@XZ 1001c074     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000078       __imp_?getSize@MutexImpl@shdfnd@physx@@SAABIXZ 1001c078     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:0000007c       __imp_?GetRaycastFuncTable@Gu@physx@@YAAAY06P6AIABVPxGeometry@2@ABVPxTransform@2@ABVPxVec3@2@2MV?$PxFlags@W4Enum@PxHitFlag@physx@@G@2@IPIAUPxRaycastHit@2@_NP6A_NAAU72@PAX@Z7@ZXZ 1001c07c     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000080       __imp_?findOverlapHeightField@PxMeshQuery@physx@@SAIABVPxGeometry@2@ABVPxTransform@2@ABVPxHeightFieldGeometry@2@1PAIIIAA_N@Z 1001c080     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000084       __imp_?findOverlapTriangleMesh@PxMeshQuery@physx@@SAIABVPxGeometry@2@ABVPxTransform@2@ABVPxTriangleMeshGeometry@2@1PAIIIAA_N@Z 1001c084     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000088       __imp_?intersectOBBOBB@Gu@physx@@YA_NABVPxVec3@2@0ABVPxMat33@2@001_N@Z 1001c088     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:0000008c       __imp_??6Cm@physx@@YAAAVRenderOutput@01@AAV201@ABUDebugBox@01@@Z 1001c08c     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000090       __imp_?outputCapsule@RenderOutput@Cm@physx@@QAEAAV123@MMABVMatrix34@23@@Z 1001c090     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000094       __imp_?PxDiagonalize@physx@@YA?AVPxVec3@1@ABVPxMat33@1@AAVPxQuat@1@@Z 1001c094     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00000098       __imp_??6RenderOutput@Cm@physx@@QAEAAV012@ABVPxTransform@2@@Z 1001c098     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:0000009c       __imp_??6RenderOutput@Cm@physx@@QAEAAV012@I@Z 1001c09c     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:000000a0       __imp_??0RenderOutput@Cm@physx@@QAE@AAVRenderBuffer@12@@Z 1001c0a0     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:000000a4       __imp_?getAllocator@shdfnd@physx@@YAAAVPxAllocatorCallback@2@XZ 1001c0a4     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:000000a8       __imp_?computePenetration@PxGeometryQuery@physx@@SA_NAAVPxVec3@2@AAMABVPxGeometry@2@ABVPxTransform@2@23@Z 1001c0a8     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:000000ac       __imp_?sweep@PxGeometryQuery@physx@@SA_NABVPxVec3@2@MABVPxGeometry@2@ABVPxTransform@2@12AAUPxSweepHit@2@V?$PxFlags@W4Enum@PxHitFlag@physx@@G@2@M@Z 1001c0ac     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:000000b0       __imp_?PxTransformFromSegment@physx@@YA?AVPxTransform@1@ABVPxVec3@1@0PAM@Z 1001c0b0     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:000000b4       __imp_?unlock@MutexImpl@shdfnd@physx@@QAEXXZ 1001c0b4     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:000000b8       __imp_?lock@MutexImpl@shdfnd@physx@@QAEXXZ 1001c0b8     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:000000bc       __imp_?deallocate@Allocator@shdfnd@physx@@QAEXPAX@Z 1001c0bc     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:000000c0       __imp_?error@Foundation@shdfnd@physx@@QAAXW4Enum@PxErrorCode@3@PBDH1ZZ 1001c0c0     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:000000c4       __imp__PxGetFoundation     1001c0c4     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:000000c8       \177PhysX3Common_x86_NULL_THUNK_DATA 1001c0c8     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:000000cc       __imp___except_handler4_common 1001c0cc     vcruntime:VCRUNTIME140.dll
+ 0002:000000d0       __imp____std_type_info_name 1001c0d0     vcruntime:VCRUNTIME140.dll
+ 0002:000000d4       __imp__memcpy              1001c0d4     vcruntime:VCRUNTIME140.dll
+ 0002:000000d8       __imp__memset              1001c0d8     vcruntime:VCRUNTIME140.dll
+ 0002:000000dc       __imp____std_type_info_destroy_list 1001c0dc     vcruntime:VCRUNTIME140.dll
+ 0002:000000e0       __imp___purecall           1001c0e0     vcruntime:VCRUNTIME140.dll
+ 0002:000000e4       \177VCRUNTIME140_NULL_THUNK_DATA 1001c0e4     vcruntime:VCRUNTIME140.dll
+ 0002:000000e8       __imp__free                1001c0e8     ucrt:api-ms-win-crt-heap-l1-1-0.dll
+ 0002:000000ec       \177api-ms-win-crt-heap-l1-1-0_NULL_THUNK_DATA 1001c0ec     ucrt:api-ms-win-crt-heap-l1-1-0.dll
+ 0002:000000f0       __imp___except1            1001c0f0     ucrt:api-ms-win-crt-math-l1-1-0.dll
+ 0002:000000f4       __imp___fpclass            1001c0f4     ucrt:api-ms-win-crt-math-l1-1-0.dll
+ 0002:000000f8       \177api-ms-win-crt-math-l1-1-0_NULL_THUNK_DATA 1001c0f8     ucrt:api-ms-win-crt-math-l1-1-0.dll
+ 0002:000000fc       __imp___initialize_narrow_environment 1001c0fc     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:00000100       __imp___initterm_e         1001c100     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:00000104       __imp___initterm           1001c104     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:00000108       __imp___initialize_onexit_table 1001c108     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:0000010c       __imp___register_onexit_function 1001c10c     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:00000110       __imp___execute_onexit_table 1001c110     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:00000114       __imp___configure_narrow_argv 1001c114     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:00000118       __imp__terminate           1001c118     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:0000011c       __imp___cexit              1001c11c     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:00000120       __imp___crt_at_quick_exit  1001c120     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:00000124       __imp___seh_filter_dll     1001c124     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:00000128       __imp___crt_atexit         1001c128     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:0000012c       \177api-ms-win-crt-runtime-l1-1-0_NULL_THUNK_DATA 1001c12c     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:00000130       ___guard_check_icall_fptr  1001c130     MSVCRT:guard_support.obj
+ 0002:00000134       ___xc_a                    1001c134     MSVCRT:initializers.obj
+ 0002:00000168       ___xc_z                    1001c168     MSVCRT:initializers.obj
+ 0002:0000016c       ___xi_a                    1001c16c     MSVCRT:initializers.obj
+ 0002:00000170       ___xi_z                    1001c170     MSVCRT:initializers.obj
+ 0002:00000174       ___xp_a                    1001c174     MSVCRT:initializers.obj
+ 0002:00000178       ___xp_z                    1001c178     MSVCRT:initializers.obj
+ 0002:0000017c       ___xt_a                    1001c17c     MSVCRT:initializers.obj
+ 0002:00000180       ___xt_z                    1001c180     MSVCRT:initializers.obj
+ 0002:00000190       ??_7PxController@physx@@6B@ 1001c190     CctBoxController.obj
+ 0002:000001f8       ??_7PxBoxController@physx@@6B@ 1001c1f8     CctBoxController.obj
+ 0002:00000278       ??_7BoxController@Cct@physx@@6BPxBoxController@2@@ 1001c278     CctBoxController.obj
+ 0002:000002f8       ??_7BoxController@Cct@physx@@6BController@12@@ 1001c2f8     CctBoxController.obj
+ 0002:0000030c       ??_7PxControllerManager@physx@@6B@ 1001c30c     CctBoxController.obj
+ 0002:00000358       ??_C@_0FP@MLOPGDFA@C?3?2CPSC?2CPSC585?2PhysX3_3_4?2PhysX@ 1001c358     CctBoxController.obj
+ 0002:000003b8       ??_C@_0FJ@PJMJBLIO@The?5PxControllerManager?3?3createC@ 1001c3b8     CctBoxController.obj
+ 0002:00000414       __real@00000000            1001c414     CctBoxController.obj
+ 0002:00000418       __real@3f000000            1001c418     CctBoxController.obj
+ 0002:00000420       __xmm@3fe00000000000003fe0000000000000 1001c420     CctBoxController.obj
+ 0002:00000430       ??_7PxCapsuleController@physx@@6B@ 1001c430     CctCapsuleController.obj
+ 0002:000004b0       ??_7CapsuleController@Cct@physx@@6BPxCapsuleController@2@@ 1001c4b0     CctCapsuleController.obj
+ 0002:00000530       ??_7CapsuleController@Cct@physx@@6BController@12@@ 1001c530     CctCapsuleController.obj
+ 0002:00000550       ?g_PXSinCoefficients0@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c550     CctCharacterController.obj
+ 0002:00000560       ?g_PXSinCoefficients1@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c560     CctCharacterController.obj
+ 0002:00000570       ?g_PXSinCoefficients2@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c570     CctCharacterController.obj
+ 0002:00000580       ?g_PXCosCoefficients0@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c580     CctCharacterController.obj
+ 0002:00000590       ?g_PXCosCoefficients1@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c590     CctCharacterController.obj
+ 0002:000005a0       ?g_PXCosCoefficients2@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c5a0     CctCharacterController.obj
+ 0002:000005b0       ?g_PXTanCoefficients0@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c5b0     CctCharacterController.obj
+ 0002:000005c0       ?g_PXTanCoefficients1@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c5c0     CctCharacterController.obj
+ 0002:000005d0       ?g_PXTanCoefficients2@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c5d0     CctCharacterController.obj
+ 0002:000005e0       ?g_PXASinCoefficients0@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c5e0     CctCharacterController.obj
+ 0002:000005f0       ?g_PXASinCoefficients1@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c5f0     CctCharacterController.obj
+ 0002:00000600       ?g_PXASinCoefficients2@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c600     CctCharacterController.obj
+ 0002:00000610       ?g_PXATanCoefficients0@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c610     CctCharacterController.obj
+ 0002:00000620       ?g_PXATanCoefficients1@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c620     CctCharacterController.obj
+ 0002:00000630       ?g_PXATanCoefficients2@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c630     CctCharacterController.obj
+ 0002:00000640       ?g_PXSinEstCoefficients@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c640     CctCharacterController.obj
+ 0002:00000650       ?g_PXCosEstCoefficients@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c650     CctCharacterController.obj
+ 0002:00000660       ?g_PXTanEstCoefficients@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c660     CctCharacterController.obj
+ 0002:00000670       ?g_PXATanEstCoefficients@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c670     CctCharacterController.obj
+ 0002:00000680       ?g_PXASinEstCoefficients@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c680     CctCharacterController.obj
+ 0002:00000690       ?g_PXASinEstConstants@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c690     CctCharacterController.obj
+ 0002:000006a0       ?g_PXPiConstants0@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c6a0     CctCharacterController.obj
+ 0002:000006b0       ?g_PXReciprocalTwoPi@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c6b0     CctCharacterController.obj
+ 0002:000006c0       ?g_PXTwoPi@aos@shdfnd@physx@@3UPX_VECTORF32@123@B 1001c6c0     CctCharacterController.obj
+ 0002:000006f8       ??_7?$PxHitCallback@UPxRaycastHit@physx@@@physx@@6B@ 1001c6f8     CctCharacterController.obj
+ 0002:00000704       ??_7?$PxHitBuffer@UPxRaycastHit@physx@@@physx@@6B@ 1001c704     CctCharacterController.obj
+ 0002:00000710       ??_7PxQueryFilterCallback@physx@@6B@ 1001c710     CctCharacterController.obj
+ 0002:0000071c       ??_7ControllerFilter@@6B@  1001c71c     CctCharacterController.obj
+ 0002:00000728       ??_C@_0BM@OIFKLHDN@?$DMallocation?5names?5disabled?$DO?$AA@ 1001c728     CctCharacterController.obj
+ 0002:00000748       ??_C@_0FC@MHCNBNBN@C?3?2CPSC?2CPSC585?2PhysX3_3_4?2PhysX@ 1001c748     CctCharacterController.obj
+ 0002:0000079c       __real@3a83126f            1001c79c     CctCharacterController.obj
+ 0002:000007a0       __real@3eb0c6f7a0b5ed8d    1001c7a0     CctCharacterController.obj
+ 0002:000007a8       __real@3ee66666            1001c7a8     CctCharacterController.obj
+ 0002:000007ac       __real@3f800000            1001c7ac     CctCharacterController.obj
+ 0002:000007b0       __real@3fb999999999999a    1001c7b0     CctCharacterController.obj
+ 0002:000007b8       __real@3fe0000000000000    1001c7b8     CctCharacterController.obj
+ 0002:000007c0       __real@40000000            1001c7c0     CctCharacterController.obj
+ 0002:000007c4       __real@ba83126f            1001c7c4     CctCharacterController.obj
+ 0002:000007d0       __xmm@0000000000000000000000003f800000 1001c7d0     CctCharacterController.obj
+ 0002:000007e0       __xmm@000000003a83126f3a83126f3a83126f 1001c7e0     CctCharacterController.obj
+ 0002:000007f0       __xmm@000000007f7fffff0000000000000000 1001c7f0     CctCharacterController.obj
+ 0002:00000800       __xmm@00000000ba83126fba83126fba83126f 1001c800     CctCharacterController.obj
+ 0002:00000810       __xmm@3f800000000000000000000000000000 1001c810     CctCharacterController.obj
+ 0002:00000820       __xmm@7fefffffffffffff7fefffffffffffff 1001c820     CctCharacterController.obj
+ 0002:00000830       __xmm@7fffffff7fffffff7fffffff7fffffff 1001c830     CctCharacterController.obj
+ 0002:00000840       __xmm@80000000800000008000000080000000 1001c840     CctCharacterController.obj
+ 0002:00000850       __xmm@ffefffffffffffffffefffffffffffff 1001c850     CctCharacterController.obj
+ 0002:00000860       ??_7?$PxHitCallback@UPxOverlapHit@physx@@@physx@@6B@ 1001c860     CctCharacterControllerCallbacks.obj
+ 0002:0000086c       ??_7?$PxHitBuffer@UPxOverlapHit@physx@@@physx@@6B@ 1001c86c     CctCharacterControllerCallbacks.obj
+ 0002:00000878       __real@3c23d70a            1001c878     CctCharacterControllerCallbacks.obj
+ 0002:0000087c       __real@3f7ff972            1001c87c     CctCharacterControllerCallbacks.obj
+ 0002:00000880       __xmm@000000003f8000003f8000003f800000 1001c880     CctCharacterControllerCallbacks.obj
+ 0002:00000890       __xmm@80000000000000008000000000000000 1001c890     CctCharacterControllerCallbacks.obj
+ 0002:000008b0       ??_7PxRenderBuffer@physx@@6B@ 1001c8b0     CctCharacterControllerManager.obj
+ 0002:000008dc       ??_7RenderBuffer@Cm@physx@@6B@ 1001c8dc     CctCharacterControllerManager.obj
+ 0002:00000908       ??_7CharacterControllerManager@Cct@physx@@6B@ 1001c908     CctCharacterControllerManager.obj
+ 0002:00000958       ??_C@_0EE@IHHKBLHK@?4?4?2?4?4?2PhysXCharacterKinematic?2sr@ 1001c958     CctCharacterControllerManager.obj
+ 0002:0000099c       ??_C@_0DJ@FJGFFNLM@PxControllerManager?3?3getControll@ 1001c99c     CctCharacterControllerManager.obj
+ 0002:000009d8       ??_C@_0DO@NLBEEDJJ@PxControllerManager?3?3getObstacle@ 1001c9d8     CctCharacterControllerManager.obj
+ 0002:00000a18       ??_C@_0FK@PBOKIFG@c?3?2cpsc?2cpsc585?2physx3_3_4?2physx@ 1001ca18     CctCharacterControllerManager.obj
+ 0002:00000a74       __real@358637bd            1001ca74     CctCharacterControllerManager.obj
+ 0002:00000a78       __real@40800000            1001ca78     CctCharacterControllerManager.obj
+ 0002:00000a80       __xmm@00000001000000010000000100000001 1001ca80     CctCharacterControllerManager.obj
+ 0002:00000a90       __xmm@00000003000000020000000100000000 1001ca90     CctCharacterControllerManager.obj
+ 0002:00000aa0       __xmm@41f00000000000000000000000000000 1001caa0     CctCharacterControllerManager.obj
+ 0002:00000ab0       ??_7PxDeletionListener@physx@@6B@ 1001cab0     CctController.obj
+ 0002:00000ab8       ??_7Controller@Cct@physx@@6B@ 1001cab8     CctController.obj
+ 0002:00000ad0       ??_C@_0FC@OEDJAIHG@c?3?2cpsc?2cpsc585?2physx3_3_4?2physx@ 1001cad0     CctController.obj
+ 0002:00000b24       __real@3dcccccd            1001cb24     CctController.obj
+ 0002:00000b28       __real@bf7fff58            1001cb28     CctController.obj
+ 0002:00000b2c       ??_7PxObstacleContext@physx@@6B@ 1001cb2c     CctObstacleContext.obj
+ 0002:00000b50       ??_7ObstacleContext@Cct@physx@@6B@ 1001cb50     CctObstacleContext.obj
+ 0002:00000b74       ??_C@_0DJ@FPEJDNHL@?4?4?2?4?4?2PhysXCharacterKinematic?2sr@ 1001cb74     CctObstacleContext.obj
+ 0002:00000bb0       ??_C@_0FC@ONFEABAP@c?3?2cpsc?2cpsc585?2physx3_3_4?2physx@ 1001cbb0     CctObstacleContext.obj
+ 0002:00000c04       __real@7f7fffff            1001cc04     CctObstacleContext.obj
+ 0002:00000c08       ??_7SweptBox@Cct@physx@@6B@ 1001cc08     CctSweptBox.obj
+ 0002:00000c10       ??_7SweptCapsule@Cct@physx@@6B@ 1001cc10     CctSweptCapsule.obj
+ 0002:00000c18       ??_7SweptVolume@Cct@physx@@6B@ 1001cc18     CctSweptVolume.obj
+ 0002:00000c20       ??_C@_0DB@HFONPIBD@?4?4?2?4?4?2PhysXExtensions?2src?2ExtTri@ 1001cc20     PhysX3Extensions:ExtTriangleMeshExt.obj
+ 0002:00000c54       ??_7?$PxHitCallback@UPxSweepHit@physx@@@physx@@6B@ 1001cc54     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000c60       ??_7?$PxHitBuffer@UPxSweepHit@physx@@@physx@@6B@ 1001cc60     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000c70       ??_C@_0IE@PMLMABKM@?$CFs?3?5inertia?5tensor?5has?5negative?5@ 1001cc70     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000cf4       ??_C@_0CO@PEEEKJKP@?4?4?2?4?4?2PhysXExtensions?2src?2ExtRig@ 1001ccf4     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000d28       ??_C@_0ED@GFJAKEFC@computeMassAndInertia?3?5Provided?5@ 1001cd28     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000d70       ??_C@_0FL@MGPHIFPL@computeMassAndInertia?3?5Not?5enoug@ 1001cd70     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000dd0       ??_C@_0ED@IINBLCPB@computeMassAndInertia?3?5Dynamic?5a@ 1001cdd0     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000e14       ??_C@_0CF@NFENOJIA@PxRigidBodyExt?3?3updateMassAndIne@ 1001ce14     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000e40       ??_C@_0FC@JIKFFKAL@?$CFs?3?5Mass?5and?5inertia?5computation@ 1001ce40     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000e98       ??_C@_0ED@BHIJHOEP@?$CFs?3?5No?5density?5specified?0?5settin@ 1001ce98     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000edc       ??_C@_0CI@NNBNKKJG@PxRigidBodyExt?3?3setMassAndUpdate@ 1001cedc     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000f08       ??_C@_0EA@JNKKHEHF@?$CFs?3?5No?5mass?5specified?0?5setting?5m@ 1001cf08     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000f48       ??_C@_0FI@DKLFOMEB@PxRigidBodyExt?3?3addForce?5methods@ 1001cf48     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fa0       __real@3daaaaab            1001cfa0     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fa4       __real@3e747645            1001cfa4     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fa8       __real@3e800000            1001cfa8     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fac       __real@3eaaaaab            1001cfac     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fb0       __real@3ecccccd            1001cfb0     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fb4       __real@3f088889            1001cfb4     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fb8       __real@3f2aaaab            1001cfb8     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fbc       __real@3faaaaab            1001cfbc     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fc0       __real@3fc00000            1001cfc0     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fc4       __real@40400000            1001cfc4     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fc8       __real@40490fdb            1001cfc8     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fcc       __real@40860a92            1001cfcc     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fd0       __real@41000000            1001cfd0     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0002:00000fd8       ??_7type_info@@6B@         1001cfd8     MSVCRT:std_type_info_static.obj
+ 0002:00001064       __pDefaultRawDllMain       1001d064     MSVCRT:dll_dllmain.obj
+ 0002:00001064       __pRawDllMain              1001d064     MSVCRT:dll_dllmain.obj
+ 0002:000010c8       __load_config_used         1001d0c8     MSVCRT:loadcfg.obj
+ 0002:00001124       ??_R4type_info@@6B@        1001d124     MSVCRT:std_type_info_static.obj
+ 0002:00001138       ??_R3type_info@@8          1001d138     MSVCRT:std_type_info_static.obj
+ 0002:00001148       ??_R2type_info@@8          1001d148     MSVCRT:std_type_info_static.obj
+ 0002:00001150       ??_R1A@?0A@EA@type_info@@8 1001d150     MSVCRT:std_type_info_static.obj
+ 0002:00001170       ___safe_se_handler_table   1001d170     <linker-defined>
+ 0002:00001488       ___rtc_iaa                 1001d488     MSVCRT:_initsect_.obj
+ 0002:0000148c       ___rtc_izz                 1001d48c     MSVCRT:_initsect_.obj
+ 0002:00001490       ___rtc_taa                 1001d490     MSVCRT:_initsect_.obj
+ 0002:00001494       ___rtc_tzz                 1001d494     MSVCRT:_initsect_.obj
+ 0002:00001708       __IMPORT_DESCRIPTOR_PhysX3Common_x86 1001d708     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:0000171c       __IMPORT_DESCRIPTOR_VCRUNTIME140 1001d71c     vcruntime:VCRUNTIME140.dll
+ 0002:00001730       __IMPORT_DESCRIPTOR_api-ms-win-crt-math-l1-1-0 1001d730     ucrt:api-ms-win-crt-math-l1-1-0.dll
+ 0002:00001744       __IMPORT_DESCRIPTOR_api-ms-win-crt-runtime-l1-1-0 1001d744     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:00001758       __IMPORT_DESCRIPTOR_api-ms-win-crt-heap-l1-1-0 1001d758     ucrt:api-ms-win-crt-heap-l1-1-0.dll
+ 0002:0000176c       __IMPORT_DESCRIPTOR_KERNEL32 1001d76c     kernel32:KERNEL32.dll
+ 0002:00001780       __NULL_IMPORT_DESCRIPTOR   1001d780     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0003:00000030       __fltused                  1001f030     MSVCRT:fltused.obj
+ 0003:00000040       ___scrt_native_dllmain_reason 1001f040     MSVCRT:utility.obj
+ 0003:00000050       ___isa_enabled             1001f050     MSVCRT:_cpu_disp_.obj
+ 0003:00000054       ___security_cookie_complement 1001f054     MSVCRT:gs_cookie.obj
+ 0003:00000058       ___security_cookie         1001f058     MSVCRT:gs_cookie.obj
+ 0003:0000005c       ___scrt_ucrt_dll_is_in_use 1001f05c     MSVCRT:ucrt_stubs.obj
+ 0003:00000060       ??_R0?AUPxExtendedCapsule@physx@@@8 1001f060     CctCharacterController.obj
+ 0003:00000088       ??_R0?AVPxExtendedBox@physx@@@8 1001f088     CctCharacterController.obj
+ 0003:000000ac       ??_R0PBX@8                 1001f0ac     CctCharacterController.obj
+ 0003:000000bc       ??_R0I@8                   1001f0bc     CctCharacterController.obj
+ 0003:000000c8       ??_R0?AVPxTriangle@physx@@@8 1001f0c8     CctCharacterControllerCallbacks.obj
+ 0003:000000e8       ??_R0?AVCharacterControllerManager@Cct@physx@@@8 1001f0e8     CctCharacterControllerManager.obj
+ 0003:0000011c       ??_R0?AVObstacleContext@Cct@physx@@@8 1001f11c     CctCharacterControllerManager.obj
+ 0003:00000144       ??_R0?AVCapsuleController@Cct@physx@@@8 1001f144     CctCharacterControllerManager.obj
+ 0003:00000170       ??_R0?AVBoxController@Cct@physx@@@8 1001f170     CctCharacterControllerManager.obj
+ 0003:00000198       ??_R0?AVRenderBuffer@Cm@physx@@@8 1001f198     CctCharacterControllerManager.obj
+ 0003:000001bc       ??_R0PAVObstacleContext@Cct@physx@@@8 1001f1bc     CctCharacterControllerManager.obj
+ 0003:000001e4       ??_R0PAVController@Cct@physx@@@8 1001f1e4     CctCharacterControllerManager.obj
+ 0003:00000208       ??_R0?AUPxDebugLine@physx@@@8 1001f208     CctCharacterControllerManager.obj
+ 0003:00000228       ??_R0?AUPxDebugText@physx@@@8 1001f228     CctCharacterControllerManager.obj
+ 0003:00000248       ??_R0?AUPxDebugTriangle@physx@@@8 1001f248     CctCharacterControllerManager.obj
+ 0003:0000026c       ??_R0?AUPxDebugPoint@physx@@@8 1001f26c     CctCharacterControllerManager.obj
+ 0003:00000290       ??_R0?AVMutexImpl@shdfnd@physx@@@8 1001f290     CctController.obj
+ 0003:000002b8       ??_R0?AUInternalCapsuleObstacle@ObstacleContext@Cct@physx@@@8 1001f2b8     CctObstacleContext.obj
+ 0003:000002f8       ??_R0?AUInternalBoxObstacle@ObstacleContext@Cct@physx@@@8 1001f2f8     CctObstacleContext.obj
+ 0003:00000334       ??_R0PAVPxShape@physx@@@8  1001f334     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0003:00000350       ??_R0?AVtype_info@@@8      1001f350     MSVCRT:std_type_info_static.obj
+ 0003:00000430       ?__type_info_root_node@@3U__type_info_node@@A 1001f430     MSVCRT:tncleanup.obj
+ 0003:0000043c       ___scrt_current_native_startup_state 1001f43c     MSVCRT:utility.obj
+ 0003:00000440       ___scrt_native_startup_lock 1001f440     MSVCRT:utility.obj
+ 0003:00000460       ?_OptionsStorage@?1??__local_stdio_printf_options@@9@4_KA 1001f460     MSVCRT:default_local_stdio_options.obj
+ 0003:00000468       ?_OptionsStorage@?1??__local_stdio_scanf_options@@9@4_KA 1001f468     MSVCRT:default_local_stdio_options.obj
+ 0003:00000470       ___scrt_debugger_hook_flag 1001f470     MSVCRT:utility_desktop.obj
+ 0003:00000474       ___isa_available           1001f474     MSVCRT:_cpu_disp_.obj
+ 0003:00000478       ___favor                   1001f478     MSVCRT:_cpu_disp_.obj
+ 0003:0000079c       ___dyn_tls_init_callback   1001f79c     <common>
+
+ entry point at        0001:00019698
+
+ Static symbols
+
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-heap-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     vcruntime:VCRUNTIME140.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3CharacterKinematic_x86.exp
+ 0000:fffdd000       .debug$S                   10000000     vcruntime:VCRUNTIME140.dll
+ 0000:fffdd000       .debug$S                   10000000     vcruntime:VCRUNTIME140.dll
+ 0000:fffdd000       .debug$S                   10000000     vcruntime:VCRUNTIME140.dll
+ 0000:fffdd000       .debug$S                   10000000     vcruntime:VCRUNTIME140.dll
+ 0000:fffdd000       .debug$S                   10000000     vcruntime:VCRUNTIME140.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-math-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-math-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     kernel32:KERNEL32.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0000:fffdd000       .debug$S                   10000000     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0001:00000000       ??__EmaxFError@_VecMathTests@aos@shdfnd@physx@@YAXXZ 10001000 f   CctCharacterController.obj
+ 0001:00000020       ??__EmaxV3Error@_VecMathTests@aos@shdfnd@physx@@YAXXZ 10001020 f   CctCharacterController.obj
+ 0001:00000030       ??__EmaxV4Error@_VecMathTests@aos@shdfnd@physx@@YAXXZ 10001030 f   CctCharacterController.obj
+ 0001:00000050       ??__EminFError@_VecMathTests@aos@shdfnd@physx@@YAXXZ 10001050 f   CctCharacterController.obj
+ 0001:00000070       ??__EminV3Error@_VecMathTests@aos@shdfnd@physx@@YAXXZ 10001070 f   CctCharacterController.obj
+ 0001:00000080       ??__EminV4Error@_VecMathTests@aos@shdfnd@physx@@YAXXZ 10001080 f   CctCharacterController.obj
+ 0001:000000a0       ??__EmaxFError@_VecMathTests@aos@shdfnd@physx@@YAXXZ 100010a0 f   CctCharacterControllerManager.obj
+ 0001:000000c0       ??__EmaxV3Error@_VecMathTests@aos@shdfnd@physx@@YAXXZ 100010c0 f   CctCharacterControllerManager.obj
+ 0001:000000d0       ??__EmaxV4Error@_VecMathTests@aos@shdfnd@physx@@YAXXZ 100010d0 f   CctCharacterControllerManager.obj
+ 0001:000000f0       ??__EminFError@_VecMathTests@aos@shdfnd@physx@@YAXXZ 100010f0 f   CctCharacterControllerManager.obj
+ 0001:00000110       ??__EminV3Error@_VecMathTests@aos@shdfnd@physx@@YAXXZ 10001110 f   CctCharacterControllerManager.obj
+ 0001:00000120       ??__EminV4Error@_VecMathTests@aos@shdfnd@physx@@YAXXZ 10001120 f   CctCharacterControllerManager.obj
+ 0001:00005540       ?SweepBoxUserBox@@YA_NPBVSweepTest@Cct@physx@@PBVSweptVolume@23@PBUTouchedGeom@23@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@@Z 10006540 f   CctCharacterController.obj
+ 0001:00005730       ?SweepBoxUserCapsule@@YA_NPBVSweepTest@Cct@physx@@PBVSweptVolume@23@PBUTouchedGeom@23@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@@Z 10006730 f   CctCharacterController.obj
+ 0001:000058e0       ?SweepBoxMesh@@YA_NPBVSweepTest@Cct@physx@@PBVSweptVolume@23@PBUTouchedGeom@23@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@@Z 100068e0 f   CctCharacterController.obj
+ 0001:000059b0       ?SweepCapsuleMesh@@YA_NPBVSweepTest@Cct@physx@@PBVSweptVolume@23@PBUTouchedGeom@23@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@@Z 100069b0 f   CctCharacterController.obj
+ 0001:00005a80       ?SweepBoxBox@@YA_NPBVSweepTest@Cct@physx@@PBVSweptVolume@23@PBUTouchedGeom@23@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@@Z 10006a80 f   CctCharacterController.obj
+ 0001:00005c60       ?SweepBoxSphere@@YA_NPBVSweepTest@Cct@physx@@PBVSweptVolume@23@PBUTouchedGeom@23@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@@Z 10006c60 f   CctCharacterController.obj
+ 0001:00005e00       ?SweepBoxCapsule@@YA_NPBVSweepTest@Cct@physx@@PBVSweptVolume@23@PBUTouchedGeom@23@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@@Z 10006e00 f   CctCharacterController.obj
+ 0001:00006000       ?SweepCapsuleBox@@YA_NPBVSweepTest@Cct@physx@@PBVSweptVolume@23@PBUTouchedGeom@23@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@@Z 10007000 f   CctCharacterController.obj
+ 0001:000061e0       ?SweepCapsuleSphere@@YA_NPBVSweepTest@Cct@physx@@PBVSweptVolume@23@PBUTouchedGeom@23@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@@Z 100071e0 f   CctCharacterController.obj
+ 0001:000063e0       ?SweepCapsuleCapsule@@YA_NPBVSweepTest@Cct@physx@@PBVSweptVolume@23@PBUTouchedGeom@23@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@@Z 100073e0 f   CctCharacterController.obj
+ 0001:000065e0       ?SweepCapsuleUserCapsule@@YA_NPBVSweepTest@Cct@physx@@PBVSweptVolume@23@PBUTouchedGeom@23@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@@Z 100075e0 f   CctCharacterController.obj
+ 0001:00006790       ?SweepCapsuleUserBox@@YA_NPBVSweepTest@Cct@physx@@PBVSweptVolume@23@PBUTouchedGeom@23@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@@Z 10007790 f   CctCharacterController.obj
+ 0001:00006d50       ?CollideGeoms@@YAPAUTouchedGeom@Cct@physx@@PBVSweepTest@23@ABVSweptVolume@23@ABV?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@3@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@_N@Z 10007d50 f   CctCharacterController.obj
+ 0001:000070f0       ?collisionResponse@@YAXAAUPxExtendedVec3@physx@@ABU12@ABVPxVec3@2@2MM_N@Z 100080f0 f   CctCharacterController.obj
+ 0001:000073e0       ?computeMTD@@YA?AVPxVec3@physx@@PBVSweepTest@Cct@2@ABVSweptVolume@42@ABV?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@2@ABUPxExtendedVec3@2@M@Z 100083e0 f   CctCharacterController.obj
+ 0001:00007e80       ?relocateCapsule@@YAXAAVPxCapsuleGeometry@physx@@AAVPxTransform@2@ABUTouchedUserCapsule@Cct@2@@Z 10008e80 f   CctCharacterController.obj
+ 0001:00007f80       ?sweepVolumeVsMesh@@YA_NPBVSweepTest@Cct@physx@@PBUTouchedMesh@23@AAUSweptContact@23@ABVPxVec3@3@ABVPxGeometry@3@ABVPxTransform@3@IPBVPxTriangle@3@I@Z 10008f80 f   CctCharacterController.obj
+ 0001:000080b0       ?worldToLocal@@YA?AVPxVec3@physx@@ABVPxObstacle@2@ABUPxExtendedVec3@2@@Z 100090b0 f   CctCharacterController.obj
+ 0001:00008a60       ?createInvisibleWalls@@YAIABUCCTParams@Cct@physx@@ABVPxTriangle@3@AAV?$Array@VPxTriangle@physx@@V?$ReflectionAllocator@VPxTriangle@physx@@@shdfnd@2@@shdfnd@3@AAV?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@63@@Z 10009a60 f   CctCharacterControllerCallbacks.obj
+ 0001:000090f0       ?fillCCTHit@@YAXAAUPxControllerHit@physx@@ABUSweptContact@Cct@2@ABVPxVec3@2@MPAVController@42@@Z 1000a0f0 f   CctCharacterControllerCallbacks.obj
+ 0001:000092b0       ?outputBoxToStream@@YAXPAVPxShape@physx@@PBVPxRigidActor@2@ABVPxTransform@2@AAV?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@2@AAV?$Array@VPxTriangle@physx@@V?$ReflectionAllocator@VPxTriangle@physx@@@shdfnd@2@@62@3ABUPxExtendedVec3@2@ABVPxBounds3@2@ABUCCTParams@Cct@2@AAG@Z 1000a2b0 f   CctCharacterControllerCallbacks.obj
+ 0001:0000a1a0       ?outputCapsuleToStream@@YAXPAVPxShape@physx@@PBVPxRigidActor@2@ABVPxTransform@2@AAV?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@2@ABUPxExtendedVec3@2@@Z 1000b1a0 f   CctCharacterControllerCallbacks.obj
+ 0001:0000a380       ?outputConvexToStream@@YAXPAVPxShape@physx@@PBVPxRigidActor@2@ABVPxTransform@2@AAV?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@2@AAV?$Array@VPxTriangle@physx@@V?$ReflectionAllocator@VPxTriangle@physx@@@shdfnd@2@@62@3ABUPxExtendedVec3@2@ABVPxBounds3@2@ABUCCTParams@Cct@2@PAVRenderBuffer@Cm@2@AAG@Z 1000b380 f   CctCharacterControllerCallbacks.obj
+ 0001:0000b2c0       ?outputHeightFieldToStream@@YAXPAVPxShape@physx@@PBVPxRigidActor@2@ABVPxTransform@2@AAV?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@2@AAV?$Array@VPxTriangle@physx@@V?$ReflectionAllocator@VPxTriangle@physx@@@shdfnd@2@@62@3ABUPxExtendedVec3@2@ABVPxBounds3@2@ABUCCTParams@Cct@2@PAVRenderBuffer@Cm@2@AAG@Z 1000c2c0 f   CctCharacterControllerCallbacks.obj
+ 0001:0000bc60       ?outputMeshToStream@@YAXPAVPxShape@physx@@PBVPxRigidActor@2@ABVPxTransform@2@AAV?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@2@AAV?$Array@VPxTriangle@physx@@V?$ReflectionAllocator@VPxTriangle@physx@@@shdfnd@2@@62@3ABUPxExtendedVec3@2@ABVPxBounds3@2@ABUCCTParams@Cct@2@PAVRenderBuffer@Cm@2@AAG@Z 1000cc60 f   CctCharacterControllerCallbacks.obj
+ 0001:0000c610       ?outputPlaneToStream@@YAXPAVPxShape@physx@@PBVPxRigidActor@2@ABVPxTransform@2@AAV?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@2@AAV?$Array@VPxTriangle@physx@@V?$ReflectionAllocator@VPxTriangle@physx@@@shdfnd@2@@62@3ABUPxExtendedVec3@2@ABVPxBounds3@2@ABUCCTParams@Cct@2@PAVRenderBuffer@Cm@2@@Z 1000d610 f   CctCharacterControllerCallbacks.obj
+ 0001:0000cc40       ?outputSphereToStream@@YAXPAVPxShape@physx@@PBVPxRigidActor@2@ABVPxTransform@2@AAV?$Array@IV?$ReflectionAllocator@I@shdfnd@physx@@@shdfnd@2@ABUPxExtendedVec3@2@@Z 1000dc40 f   CctCharacterControllerCallbacks.obj
+ 0001:0000cdc0       ?tessellateTriangle@@YAXPAUTessParams@@ABVPxVec3@physx@@11@Z 1000ddc0 f   CctCharacterControllerCallbacks.obj
+ 0001:0000d238       $LN115                     1000e238     CctCharacterControllerCallbacks.obj
+ 0001:0000d260       ?visualizeTouchedTriangles@@YAXIIPBVPxTriangle@physx@@PAVRenderBuffer@Cm@2@ABVPxVec3@2@2@Z 1000e260 f   CctCharacterControllerCallbacks.obj
+ 0001:0000e820       ?InteractionCharacterCharacter@@YAXPAVController@Cct@physx@@0M@Z 1000f820 f   CctCharacterControllerManager.obj
+ 0001:0000f640       ?computeMTD@@YA_NAAVPxVec3@physx@@AAMABV12@2ABVPxMat33@2@223@Z 10010640 f   CctCharacterControllerManager.obj
+ 0001:0000fb60       $LN336                     10010b60     CctCharacterControllerManager.obj
+ 0001:0000fff0       ?fixDir@@YA?AVPxVec3@physx@@ABV12@0@Z 10010ff0 f   CctCharacterControllerManager.obj
+ 0001:00016a70       ?computeMassAndDiagInertia@@YA_NAAVInertiaTensorComputer@Ext@physx@@AAVPxVec3@3@AAVPxQuat@3@AAM1_NABVPxRigidBody@3@PBD@Z 10017a70 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00016e10       ?computeMassAndInertia@@YA_N_NAAVPxRigidBody@physx@@PBM2I0AAVInertiaTensorComputer@Ext@2@@Z 10017e10 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000179f8       $LN436                     100189f8     PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:000185c0       ?setMassAndUpdateInertia@@YA_N_NAAVPxRigidBody@physx@@PBMIPBVPxVec3@2@0@Z 100195c0 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00018d60       ?updateMassAndInertia@@YA_N_NAAVPxRigidBody@physx@@PBMIPBVPxVec3@2@0@Z 10019d60 f   PhysX3Extensions:ExtRigidBodyExt.obj
+ 0001:00018fe0       $$000000                   10019fe0     MSVCRT:alloca16.obj
+ 0001:00019010       $$000000                   1001a010     MSVCRT:_ftol3_.obj
+ 0001:00019387       ?dllmain_crt_dispatch@@YGHQAUHINSTANCE__@@KQAX@Z 1001a387 f   MSVCRT:dll_dllmain.obj
+ 0001:000193da       ?dllmain_crt_process_attach@@YAHQAUHINSTANCE__@@QAX@Z 1001a3da f   MSVCRT:dll_dllmain.obj
+ 0001:000194ec       ?dllmain_crt_process_detach@@YAH_N@Z 1001a4ec f   MSVCRT:dll_dllmain.obj
+ 0001:00019569       ?dllmain_dispatch@@YAHQAUHINSTANCE__@@KQAX@Z 1001a569 f   MSVCRT:dll_dllmain.obj
+ 0001:00019665       ?dllmain_raw@@YGHQAUHINSTANCE__@@KQAX@Z 1001a665 f   MSVCRT:dll_dllmain.obj
+ 0001:000196d0       $$000000                   1001a6d0     MSVCRT:chkstk.obj
+ 0001:00019748       ?find_pe_section@@YAPAU_IMAGE_SECTION_HEADER@@QAEI@Z 1001a748 f   MSVCRT:utility.obj
+ 0001:0001978c       ?is_potentially_valid_image_base@@YA_NQAX@Z 1001a78c f   MSVCRT:utility.obj
+ 0001:00019e20       $$000000                   1001ae20     MSVCRT:_sehprolg4_.obj
+ 0002:00000138       ?minFError$initializer$@_VecMathTests@aos@shdfnd@physx@@3P6AXXZA 1001c138     CctCharacterController.obj
+ 0002:0000013c       ?maxFError$initializer$@_VecMathTests@aos@shdfnd@physx@@3P6AXXZA 1001c13c     CctCharacterController.obj
+ 0002:00000140       ?minV3Error$initializer$@_VecMathTests@aos@shdfnd@physx@@3P6AXXZA 1001c140     CctCharacterController.obj
+ 0002:00000144       ?maxV3Error$initializer$@_VecMathTests@aos@shdfnd@physx@@3P6AXXZA 1001c144     CctCharacterController.obj
+ 0002:00000148       ?minV4Error$initializer$@_VecMathTests@aos@shdfnd@physx@@3P6AXXZA 1001c148     CctCharacterController.obj
+ 0002:0000014c       ?maxV4Error$initializer$@_VecMathTests@aos@shdfnd@physx@@3P6AXXZA 1001c14c     CctCharacterController.obj
+ 0002:00000150       ?minFError$initializer$@_VecMathTests@aos@shdfnd@physx@@3P6AXXZA 1001c150     CctCharacterControllerManager.obj
+ 0002:00000154       ?maxFError$initializer$@_VecMathTests@aos@shdfnd@physx@@3P6AXXZA 1001c154     CctCharacterControllerManager.obj
+ 0002:00000158       ?minV3Error$initializer$@_VecMathTests@aos@shdfnd@physx@@3P6AXXZA 1001c158     CctCharacterControllerManager.obj
+ 0002:0000015c       ?maxV3Error$initializer$@_VecMathTests@aos@shdfnd@physx@@3P6AXXZA 1001c15c     CctCharacterControllerManager.obj
+ 0002:00000160       ?minV4Error$initializer$@_VecMathTests@aos@shdfnd@physx@@3P6AXXZA 1001c160     CctCharacterControllerManager.obj
+ 0002:00000164       ?maxV4Error$initializer$@_VecMathTests@aos@shdfnd@physx@@3P6AXXZA 1001c164     CctCharacterControllerManager.obj
+ 0002:000006d0       ?gMaskXYZ@internalWindowsSimd@aos@shdfnd@physx@@3QBIB 1001c6d0     CctCharacterController.obj
+ 0002:000006e0       ?GeomSizes@@3QBIB          1001c6e0     CctCharacterController.obj
+ 0002:000008a0       ?gMaskXYZ@internalWindowsSimd@aos@shdfnd@physx@@3QBIB 1001c8a0     CctCharacterControllerManager.obj
+ 0002:00000fe0       _Int32ToUInt32             1001cfe0     MSVCRT:_ftol3_.obj
+ 0002:00000fe8       _DP2to32                   1001cfe8     MSVCRT:_ftol3_.obj
+ 0002:00000ff0       _MantissaMask              1001cff0     MSVCRT:_ftol3_.obj
+ 0002:00000ff8       _IntegerBit                1001cff8     MSVCRT:_ftol3_.obj
+ 0002:00001000       _SignBit64                 1001d000     MSVCRT:_ftol3_.obj
+ 0002:00001008       _MinFP64                   1001d008     MSVCRT:_ftol3_.obj
+ 0002:00001010       _MinInt64                  1001d010     MSVCRT:_ftol3_.obj
+ 0002:00001018       _MaxInt64                  1001d018     MSVCRT:_ftol3_.obj
+ 0002:00001020       _MaxUInt64                 1001d020     MSVCRT:_ftol3_.obj
+ 0002:00001028       _MaxFP32                   1001d028     MSVCRT:_ftol3_.obj
+ 0002:00001030       _MinFP32                   1001d030     MSVCRT:_ftol3_.obj
+ 0002:00001038       _MinSubInexact             1001d038     MSVCRT:_ftol3_.obj
+ 0002:00001040       _FpExcptTable              1001d040     MSVCRT:_ftol3_.obj
+ 0002:00001050       _i1075                     1001d050     MSVCRT:_ftol3_.obj
+ 0002:00001054       _i1087                     1001d054     MSVCRT:_ftol3_.obj
+ 0002:00001058       _x0800                     1001d058     MSVCRT:_ftol3_.obj
+ 0002:0000105c       _x17FF                     1001d05c     MSVCRT:_ftol3_.obj
+ 0002:00001060       _CWMask                    1001d060     MSVCRT:_ftol3_.obj
+ 0002:00001068       _GS_ExceptionPointers      1001d068     MSVCRT:gs_report.obj
+ 0002:00001498       __sehtable$?dllmain_crt_process_attach@@YAHQAUHINSTANCE__@@QAX@Z 1001d498     MSVCRT:dll_dllmain.obj
+ 0002:000014b8       __sehtable$?dllmain_crt_process_detach@@YAH_N@Z 1001d4b8     MSVCRT:dll_dllmain.obj
+ 0002:000014d8       __sehtable$?dllmain_dispatch@@YAHQAUHINSTANCE__@@KQAX@Z 1001d4d8     MSVCRT:dll_dllmain.obj
+ 0002:000014f8       __sehtable$___scrt_is_nonwritable_in_current_image 1001d4f8     MSVCRT:utility.obj
+ 0002:00001520       .edata                     1001d520     PhysX3CharacterKinematic_x86.exp
+ 0002:00001548       rgpv                       1001d548     PhysX3CharacterKinematic_x86.exp
+ 0002:00001564       rgszName                   1001d564     PhysX3CharacterKinematic_x86.exp
+ 0002:00001580       rgwOrd                     1001d580     PhysX3CharacterKinematic_x86.exp
+ 0002:0000158e       szName                     1001d58e     PhysX3CharacterKinematic_x86.exp
+ 0002:000015af       $N00001                    1001d5af     PhysX3CharacterKinematic_x86.exp
+ 0002:000015d4       $N00002                    1001d5d4     PhysX3CharacterKinematic_x86.exp
+ 0002:000015ff       $N00003                    1001d5ff     PhysX3CharacterKinematic_x86.exp
+ 0002:00001624       $N00004                    1001d624     PhysX3CharacterKinematic_x86.exp
+ 0002:00001654       $N00005                    1001d654     PhysX3CharacterKinematic_x86.exp
+ 0002:00001677       $N00006                    1001d677     PhysX3CharacterKinematic_x86.exp
+ 0002:000016ee       $N00007                    1001d6ee     PhysX3CharacterKinematic_x86.exp
+ 0002:00002190       .idata$6                   1001e190     PhysX3Common_x86:PhysX3Common_x86.dll
+ 0002:00002218       .idata$6                   1001e218     vcruntime:VCRUNTIME140.dll
+ 0002:0000233c       .idata$6                   1001e33c     ucrt:api-ms-win-crt-math-l1-1-0.dll
+ 0002:0000235c       .idata$6                   1001e35c     ucrt:api-ms-win-crt-runtime-l1-1-0.dll
+ 0002:0000237e       .idata$6                   1001e37e     ucrt:api-ms-win-crt-heap-l1-1-0.dll
+ 0002:000024e8       .idata$6                   1001e4e8     kernel32:KERNEL32.dll
+ 0003:00000000       ?gSweepMap@@3PAY05P6A_NPBVSweepTest@Cct@physx@@PBVSweptVolume@23@PBUTouchedGeom@23@ABUPxExtendedVec3@3@ABVPxVec3@3@AAUSweptContact@23@@ZA 1001f000     CctCharacterController.obj
+ 0003:00000370       ?maxV3Error@_VecMathTests@aos@shdfnd@physx@@3T__m128@@B 1001f370     CctCharacterController.obj
+ 0003:00000380       ?minFError@_VecMathTests@aos@shdfnd@physx@@3T__m128@@B 1001f380     CctCharacterController.obj
+ 0003:00000390       ?maxV4Error@_VecMathTests@aos@shdfnd@physx@@3T__m128@@B 1001f390     CctCharacterController.obj
+ 0003:000003a0       ?minV4Error@_VecMathTests@aos@shdfnd@physx@@3T__m128@@B 1001f3a0     CctCharacterController.obj
+ 0003:000003b0       ?minV3Error@_VecMathTests@aos@shdfnd@physx@@3T__m128@@B 1001f3b0     CctCharacterController.obj
+ 0003:000003c0       ?maxFError@_VecMathTests@aos@shdfnd@physx@@3T__m128@@B 1001f3c0     CctCharacterController.obj
+ 0003:000003d0       ?maxV3Error@_VecMathTests@aos@shdfnd@physx@@3T__m128@@B 1001f3d0     CctCharacterControllerManager.obj
+ 0003:000003e0       ?minFError@_VecMathTests@aos@shdfnd@physx@@3T__m128@@B 1001f3e0     CctCharacterControllerManager.obj
+ 0003:000003f0       ?maxV4Error@_VecMathTests@aos@shdfnd@physx@@3T__m128@@B 1001f3f0     CctCharacterControllerManager.obj
+ 0003:00000400       ?minV4Error@_VecMathTests@aos@shdfnd@physx@@3T__m128@@B 1001f400     CctCharacterControllerManager.obj
+ 0003:00000410       ?minV3Error@_VecMathTests@aos@shdfnd@physx@@3T__m128@@B 1001f410     CctCharacterControllerManager.obj
+ 0003:00000420       ?maxFError@_VecMathTests@aos@shdfnd@physx@@3T__m128@@B 1001f420     CctCharacterControllerManager.obj
+ 0003:00000438       ?__proc_attached@@3HA      1001f438     MSVCRT:dll_dllmain.obj
+ 0003:00000444       ?module_local_atexit_table@@3U_onexit_table_t@@A 1001f444     MSVCRT:utility.obj
+ 0003:00000450       ?module_local_at_quick_exit_table@@3U_onexit_table_t@@A 1001f450     MSVCRT:utility.obj
+ 0003:0000045c       ?is_initialized_as_dll@@3_NA 1001f45c     MSVCRT:utility.obj
+ 0003:00000480       _GS_ExceptionRecord        1001f480     MSVCRT:gs_report.obj
+ 0003:000004d0       _GS_ContextRecord          1001f4d0     MSVCRT:gs_report.obj
+ 0004:00000000       __guard_fids__             10020000     MSVCRT:std_type_info_static.obj
+ 0004:00000004       __guard_fids_?dllmain_crt_process_attach@@YAHQAUHINSTANCE__@@QAX@Z 10020004     MSVCRT:dll_dllmain.obj
+ 0004:0000000c       __guard_fids_?dllmain_dispatch@@YAHQAUHINSTANCE__@@KQAX@Z 1002000c     MSVCRT:dll_dllmain.obj
+ 0004:00000010       __guard_fids____scrt_set_unhandled_exception_filter 10020010     MSVCRT:utility_desktop.obj
+ 0004:00000014       __guard_fids___except_handler4 10020014     MSVCRT:_chandler4gs_.obj
+ 0004:00000018       __guard_fids__             10020018     MSVCRT:guard_support.obj
+ 0004:0000001c       __guard_fids___guard_icall_checks_enforced 1002001c     MSVCRT:guard_support.obj
+ 0005:000000a0       $R000000                   100210a0     PhysX3CharacterKinematic.res
+ 0005:00000420       $R000380                   10021420     PhysX3CharacterKinematic.res
