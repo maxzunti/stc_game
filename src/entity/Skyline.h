@@ -56,6 +56,10 @@ class Skyline : public Entity {
     Renderable* cubes1[26][26];
     Renderable* cubes2[60][60];
 
+    Renderable* init;
+    Renderable* init2;
+    Renderable* init3;
+
 
    // Renderable** cubes;
     std::vector<std::vector<int>> fillGrid(std::vector<std::vector<int>> inner);

@@ -157,6 +157,10 @@ Skyline::~Skyline() {
             }
         }
     }
+
+    delete init;
+    delete init2;
+    delete init3;
 }
 
 void Skyline::makeBuildings(std::vector<std::vector<int>> grid, float scale, std::vector<Renderable*>& ents) {
@@ -166,17 +170,17 @@ void Skyline::makeBuildings(std::vector<std::vector<int>> grid, float scale, std
     if (NUM_Y != grid.at(0).size()) {
         cout << "WARNING: expected grid-height of " << NUM_X << ", got " << grid.at(0).size();
     }
-    Renderable * init = new Renderable("assets/models/Crate/Crate1.obj", "assets/textures/lg.png");
+    init = new Renderable("assets/models/Crate/Crate1.obj", "assets/textures/lg.png");
     init->scale(X_SCL, Y_SCL, Z_SCL);
     init->getModels().at(0)->tile_UV_Y(Y_SCL / X_SCL);
     init->SIL_Y_SCALE = 1.01;
     init->scaleModels();
-    Renderable * init2 = new Renderable("assets/models/Crate/Crate1.obj", "assets/textures/dg.png");
+    init2 = new Renderable("assets/models/Crate/Crate1.obj", "assets/textures/dg.png");
     init2->scale(X_SCL, Y_SCL, Z_SCL);
     init2->getModels().at(0)->tile_UV_Y(Y_SCL / X_SCL);
     init2->SIL_Y_SCALE = 1.01;
     init2->scaleModels();
-    Renderable * init3;
+    init3;
     if (trackSelected == 1) {
         init3 = new Renderable("assets/models/Crate/Crate1.obj", "assets/textures/purp.png");
     }
