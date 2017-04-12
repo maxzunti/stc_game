@@ -325,10 +325,11 @@ void Skyline::update() {
             }
         }
     }
-
+    /* DEBUG 
     if (controller && controller->GetButtonPressed(XButtonIDs::X)) {
         updateFromConfig();
     }
+    */
 }
 
 void Skyline::updateFromConfig() {

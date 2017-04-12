@@ -232,11 +232,13 @@ void Camera::followLook() {
 void Camera::update() {
     // Update camera position
     if (controller) {
-        if (controller->GetButtonPressed(XButtonIDs::X)) {
-            fc_parser.updateFromFile();
-        }
 
-        setMode();
+        // if (controller->GetButtonPressed(XButtonIDs::X)) {
+        //    fc_parser.updateFromFile();
+        // }
+
+        // setMode();
+
         if (mode == camMode::FREE) {
             freeLook();
         }
